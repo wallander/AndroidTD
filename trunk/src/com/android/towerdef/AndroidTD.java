@@ -16,7 +16,7 @@ public class AndroidTD extends Activity {
         
         // GIT TEST
         TextView tv = new TextView(this);
-        tv.setText("git RULES!");
+        tv.setText("git RULES! Jonas What Here!");
         setContentView(tv);
         ////
     }
