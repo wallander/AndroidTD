@@ -3,10 +3,6 @@ package com.android.towerdef;
 import android.app.Activity;
 import android.os.Bundle;
 
-// GIT TEST
-import android.widget.TextView;
-////
-
 public class AndroidTD extends Activity {
     /** Called when the activity is first created. */
     @Override
@@ -14,10 +10,7 @@ public class AndroidTD extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        // GIT TEST
-        TextView tv = new TextView(this);
-        tv.setText("git RULES! Jonas What Here!");
-        setContentView(tv);
-        ////
+        // TODO Insert awesome here!
+       
     }
 }
