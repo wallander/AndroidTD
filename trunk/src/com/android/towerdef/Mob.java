@@ -3,154 +3,28 @@ package com.android.towerdef;
 import android.graphics.Bitmap;
 
 /**
- * Class which contains a object we want to draw on specific position.
+ * Class which represents a Mob on the game board.
  * 
  * @author martin
  */
-public class Mob {
+public class Mob extends Unit{
 
 	private String mName;	// Mob name
 	private int mHealth;	// Mob health
-	private int mSpeed;		// Mob movement speed
+	private int mSpeed;	// Mob movement speed
+	private int mArmor;		// Mob armor
+	// private Coordinates mCoordinates; finns i Unit
 	
 	
-	
-    /**
-     * Class which represent the speed the object has in both x and y direction.
-     * 
-     * @author martin
-     */
-    public class Speed {
-        private int _x = 1;
-        private int _y = 1;
 
-        /**
-         * @return The speed in x direction. Negative amount means, the speed is
-         *         backward.
-         */
-        public int getX() {
-            return _x;
-        }
-
-        /**
-         * @param speed Speed in x direction. Negative amount means, the speed
-         *            is backward.
-         */
-        public void setX(int speed) {
-            _x = speed;
-        }
-
-        /**
-         * @return The speed in y direction. Negative amount means, the speed is
-         *         backward.
-         */
-        public int getY() {
-            return _y;
-        }
-
-        /**
-         * @param speed Speed in y direction. Negative amount means, the speed
-         *            is backward.
-         */
-        public void setY(int speed) {
-            _y = speed;
-        }
-
-        /**
-         * Helper method. Useful for debugging.
-         */
-        public String toString() {
-            return "Speed: x: " + _x + " | y: " + _y;
-        }
-    }
-
-    /**
-     * Contains the coordinates of the instance.
-     * 
-     * @author martin
-     */
-    public class Coordinates {
-        private int _x = 0;
-        private int _y = 0;
-
-        /**
-         * @return The x coordinate of the upper left corner.
-         */
-        public int getX() {
-            return _x;
-        }
-
-        /**
-         * @return The x coordinate of the center.
-         */
-        public int getTouchedX() {
-            return _x + _bitmap.getWidth() / 2;
-        }
-
-        /**
-         * @param value The new x coordinate of the upper left corner.
-         */
-        public void setX(int value) {
-            _x = value;
-        }
-
-        /**
-         * @param value The new x coordinate of the center.
-         */
-        public void setTouchedX(int value) {
-            _x = value - _bitmap.getWidth() / 2;
-        }
-
-        /**
-         * @return The y coordinate of the upper left corner.
-         */
-        public int getY() {
-            return _y;
-        }
-
-        /**
-         * @return The y coordinate of the center.
-         */
-        public int getTouchedY() {
-            return _y + _bitmap.getHeight() / 2;
-        }
-
-        /**
-         * @param value The new y coordinate of the upper left corner.
-         */
-        public void setY(int value) {
-            _y = value;
-        }
-
-        /**
-         * @param value The new y coordinate of the center.
-         */
-        public void setTouchedY(int value) {
-            _y = value - _bitmap.getHeight() / 2;
-        }
-
-        /**
-         * Helper method for debugging.
-         */
-        public String toString() {
-            return "Coordinates: (" + _x + "/" + _y + ")";
-        }
-    }
-
+    
     /**
      * Bitmap which should be drawn.
      */
     private Bitmap _bitmap;
 
-    /**
-     * Coordinates on which the bitmap should be drawn.
-     */
-    private Coordinates _coordinates;
 
-    /**
-     * Speed of the object.
-     */
-    private Speed _speed;
+
 
     /**
      * Object type which could be rock, scissors, paper or explosion.
@@ -167,10 +41,10 @@ public class Mob {
      * 
      * @param bitmap Bitmap which should be drawn.
      */
-    public Graphic(Bitmap bitmap) {
+    public Mob(Bitmap bitmap) {
         _bitmap = bitmap;
-        _coordinates = new Coordinates();
-        _speed = new Speed();
+       // _coordinates = new Coordinates();
+       // mSpeed = new Speed();
     }
 
     /**
@@ -190,16 +64,11 @@ public class Mob {
     /**
      * @return The speed of the instance
      */
-    public Speed getSpeed() {
-        return _speed;
+    public int getSpeed() {
+        return mSpeed;
     }
 
-    /**
-     * @return The coordinates of the instance.
-     */
-    public Coordinates getCoordinates() {
-        return _coordinates;
-    }
+
 
     /**
      * @param type The new type of the instance.
