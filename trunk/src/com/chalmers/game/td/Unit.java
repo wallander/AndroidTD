@@ -7,13 +7,15 @@ package com.chalmers.game.td;
  */
 public class Unit 
 {
-	private Coordinates	coordinates;
-	
+	// INSTANCE VARIABLES
+	protected	Coordinates	mCoordinates;
+	protected		int		mWidth,
+							mHeight;
 	
 	/**
-	 * 	 
+	 * 	 COORDINATES
 	 */
-	private class Coordinates
+	protected class Coordinates
 	{
 		private int	mXPos,
 					mYPos;
