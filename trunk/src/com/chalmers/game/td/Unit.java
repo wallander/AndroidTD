@@ -7,6 +7,9 @@ package com.chalmers.game.td;
  */
 public class Unit 
 {
+	private Coordinates	coordinates;
+	
+	
 	/**
 	 * 	 
 	 */
