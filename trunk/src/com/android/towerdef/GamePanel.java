@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import java.util.Random;
 
-import com.android.towerdefence.R;
+import com.android.towerdef.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -110,7 +110,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * Called if you change the configuration like open the keypad.
      */
-    @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
@@ -118,7 +117,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Called on creation of the SurfaceView.
      * Which could be on first start or relaunch.
      */
-    @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (!_thread.isAlive()) {
             _thread = new GameThread(this);
@@ -131,7 +129,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Called if the SurfaceView should be destroyed.
      * We try to finish the game loop thread here.
      */
-    @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
         _thread.setRunning(false);
