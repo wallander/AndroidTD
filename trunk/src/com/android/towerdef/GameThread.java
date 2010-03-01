@@ -38,7 +38,6 @@ class GameThread extends Thread {
      * Perform the game loop.
      * Order of performing:
      * 1. update physics
-     * 2. check for winners
      * 3. draw everything
      */
     @Override
@@ -50,7 +49,6 @@ class GameThread extends Thread {
                 c = _panel.getHolder().lockCanvas(null);
                 synchronized (_panel.getHolder()) {
                     _panel.updatePhysics();
-                    _panel.checkForWinners();
                     _panel.onDraw(c);
                 }
             } finally {
