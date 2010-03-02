@@ -1,6 +1,7 @@
 package com.chalmers.game.td.units;
 
 import android.graphics.Bitmap;
+import com.chalmers.game.td.units.Unit.Coordinates;
 
 /**
  * Class which represents a Projectiles on the game board.
@@ -22,6 +23,9 @@ public class Projectile extends Unit{
 	
 	/** Projectile tower */
 	private Tower mTower;
+	
+	/** Projectile movement angle */
+	private double mAngle;
     
 	
 	/**
@@ -33,6 +37,36 @@ public class Projectile extends Unit{
         mTarget = pTarget;
         mTower = pTower;
     }
+    
+    public Tower getPrjectileTower(){
+    	return mTower;
+    }
+    
+    public Mob getTargetedMob(){
+    	return mTarget;
+    }
+    
+    /**
+     * @return The speed of the instance
+     */
+    public int getSpeed() {
+        return mSpeed;
+    }
+    
+	public double getAngle() {
+		return mAngle;
+	}
+	
+	public void setAngle(double mAngle) {
+		this.mAngle = mAngle;
+	}
+    
+	public void updatePosition() {
+		
+		mCoordinates.setX(  (int) (mCoordinates.getX() + getSpeed() * Math.cos(getAngle())));
+		mCoordinates.setY(  (int) (mCoordinates.getY() + getSpeed() * Math.sin(getAngle())));
+		
+	}
 	
   
     /**
