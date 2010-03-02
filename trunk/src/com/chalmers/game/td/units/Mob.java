@@ -24,8 +24,6 @@ public class Mob extends Unit{
 	/** Mob type (Ground, air or invisible) */
 	private MobType mType;	
 	
-	/** Bitmap for the mob */
-    private Bitmap mBitmap;
 	
 	/**
 	 * Enum for the mob type. One for each type of mob.
@@ -41,6 +39,10 @@ public class Mob extends Unit{
      */
     public Mob() {
         mCoordinates.setXY(25, 15);
+        mSpeed = 1;
+        mArmor = 200;
+        mHealth = 200;
+        
        
     }
 	
@@ -49,8 +51,8 @@ public class Mob extends Unit{
      * 
      * @param bitmap Bitmap which should be drawn.
      */
-    public Mob(Bitmap pBitmap, MobType pType) {
-        mBitmap = pBitmap;
+    public Mob(MobType pType) {
+       
         mType = pType;
     }
 	
@@ -64,21 +66,6 @@ public class Mob extends Unit{
     private int _explosionStep = 0;
 
     
-
-    /**
-     * @param bitmap New bitmap to draw.
-     */
-    public void setBitmap(Bitmap pBitmap) {
-        mBitmap = pBitmap;
-    }
-
-    /**
-     * @return The stored bitmap.
-     */
-    public Bitmap getBitmap() {
-        return mBitmap;
-    }
-
     /**
      * @return The speed of the instance
      */
