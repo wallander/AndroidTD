@@ -39,7 +39,7 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(TowerType pType, int pPosX, int pPosY){
-    	mType = pType;
+    	setType(pType);
     	mCoordinates.setX(pPosX);
     	mCoordinates.setY(pPosY);
     }
@@ -48,6 +48,7 @@ public class Tower extends Unit{
     int ty;
     int mx;
     int my;
+    
     public Projectile tryToShoot(List<Mob> mobs){
     	tx = mCoordinates.getX();
 		ty = mCoordinates.getY();
@@ -92,4 +93,18 @@ public class Tower extends Unit{
     public void update(){
     	
     }
+
+	/**
+	 * @param mType the mType to set
+	 */
+	public void setType(TowerType mType) {
+		this.mType = mType;
+	}
+
+	/**
+	 * @return the mType
+	 */
+	public TowerType getType() {
+		return mType;
+	}
     }
