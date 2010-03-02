@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.Random;
 
+import com.chalmers.game.td.units.Mob;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -81,7 +83,34 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Update the physics of each item already added to the panel.
      * Not including items which are currently exploding and moved by a touch event.
      */
-    public void updatePhysics() {
+    public void updateModel() {
+
+    	// Uppdatera koordinater för mobs och projectiles
+    	//_model.updateUnits();
+    	for (Mob m : _model.mobs) {
+    		//uppdatera position för mobs
+    	}
+    	
+    	for (Projectile p : _model.projectiles) {
+    		//uppdatera position för projectiles
+    	}
+    	
+    	
+    	// Kolla om någon projectile träffat sin target
+    	// Hantera träff, ta bort projectile, beräkna skada på mob osv osv osv osv.
+    	
+    	
+    	/*
+    	 * För alla torn:
+    	 * 	kolla vilka mobs man når
+    	 * 	Skjut på den närmsta (eller svagaste? ändra sen) om cooldown är nere
+    	 *  (lägg till ny Projectile i GameModel.
+    	 * 
+    	 */
+    	
+    	
+
+    	
     	
     }
     
