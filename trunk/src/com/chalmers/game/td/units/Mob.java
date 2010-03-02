@@ -50,8 +50,10 @@ public class Mob extends Unit{
      * 
      * @param 
      */
+
     public Mob(Path pPath) {
-    	mCoordinates = new Coordinates(25, 15);
+    	mCoordinates = new Coordinates(40, 15);
+
         mSpeed = 1;
         setAngle(Math.PI * 1.5);
         mArmor = 200;

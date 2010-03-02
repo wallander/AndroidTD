@@ -16,6 +16,16 @@ public class MobFactory {
 			case GROUND: m = new Mob(Mob.MobType.GROUND);
 			case FAST: m = new Mob();
 			default: ;
+	/*
+	public Mob CreateMob(int pType){
+		
+		Mob m;
+		switch (pType) {
+			case 1: m = new Mob(Mob.MobType.AIR);
+			case 2: ;
+			default: return -1;
+			
 		}
-	}
+		
+	} */
 }

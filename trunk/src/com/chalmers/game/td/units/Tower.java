@@ -1,6 +1,7 @@
 package com.chalmers.game.td.units;
 
 import android.graphics.Bitmap;
+import java.util.List;
 
 /**
  * Class which contains tower specific information
@@ -27,7 +28,7 @@ public class Tower extends Unit{
 	 */
     public Tower(){
     	mCoordinates = new Coordinates(60, 300);
-    	mRange = 40;
+    	mRange = 200;
     	mAttackSpeed = 5;
     	mDamage = 10;
     	mEnabled = true;
@@ -43,11 +44,36 @@ public class Tower extends Unit{
     	mCoordinates.setY(pPosY);
     }
     
+    
+    
+    public Projectile tryToShoot(List<Mob> mobs){
+    	int tx = mCoordinates.getX();
+		int ty = mCoordinates.getY();
+	
+		for (Mob m : mobs) {
+    		int mx = m.mCoordinates.getX();
+    		int my = m.mCoordinates.getY();
+    	
+    		int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+    		
+	    		if (sqrDistance < mRange * mRange ){
+	    			
+	    			return (new Projectile(m, this));
+	    		}
+    		
+		}
+		return null;
+    }
+    
     /**
      * Upgrade tower to next level
      */
     public void upgrade(){ //Could be boolean
     	
+    }
+    
+    public int getRange(){
+    	return mRange;
     }
     
     
