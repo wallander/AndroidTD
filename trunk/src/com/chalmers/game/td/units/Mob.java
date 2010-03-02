@@ -1,6 +1,8 @@
 package com.chalmers.game.td.units;
 
+import com.chalmers.game.td.Path;
 import com.chalmers.game.td.units.Unit.Coordinates;
+import com.chalmers.game.td.units.Unit;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -33,6 +35,7 @@ public class Mob extends Unit{
 	/** Mob target (To next crossroad */
 	private Coordinates mNextCrossRoad;
 	
+	private Path mPath;
 	
 	
 	/**
@@ -47,12 +50,13 @@ public class Mob extends Unit{
      * 
      * @param 
      */
-    public Mob() {
+    public Mob(Path pPath) {
     	mCoordinates = new Coordinates(25, 15);
         mSpeed = 1;
         setAngle(Math.PI * 1.5);
         mArmor = 200;
         setHealth(200);
+        mPath = pPath;
     }
 	
 	/**

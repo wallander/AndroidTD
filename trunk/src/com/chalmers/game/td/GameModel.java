@@ -22,6 +22,7 @@ public class GameModel {
 	protected List<Tower> towers;
 	protected List<Mob> mobs;
 	protected List<Projectile> projectiles;
+	protected Path path;
 	
 	/**
 	 * Constructor
@@ -34,6 +35,7 @@ public class GameModel {
 		 Log.v("", "Efter mobs");
 		projectiles = new ArrayList<Projectile>();
 		 Log.v("", "Efter PRO");
+		 path = new Path();
 		
 		
 		/*
@@ -42,7 +44,7 @@ public class GameModel {
 		 Log.v("", "Skapa tower");
 		towers.add(new Tower());
 		 Log.v("", "skapa mob");
-		mobs.add(new Mob());
+		mobs.add(new Mob(path));
 		
 	}
 

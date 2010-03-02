@@ -9,12 +9,13 @@ public class MobFactory {
 		
 	}
 	
-	public Mob CreateMob(int pType){
+	public Mob CreateMob(MobType pType){
 		Mob m;
-		switch (pType) {
-			case 1: m = new Mob(Mob.MobType.AIR);
-			case 2: ;
-			default: return -1;
+		switch (pType){
+			case HIHEALTH: m = new Mob(Mob.MobType.AIR);
+			case GROUND: m = new Mob(Mob.MobType.GROUND);
+			case FAST: m = new Mob();
+			default: ;
 		}
 	}
 }
