@@ -6,7 +6,9 @@ import java.util.Map;
 
 import java.util.Random;
 
+import com.chalmers.game.td.units.Unit;
 import com.chalmers.game.td.units.Mob;
+import com.chalmers.game.td.units.Projectile;
 
 
 
@@ -109,12 +111,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	// Uppdatera koordinater för mobs och projectiles
     	//_model.updateUnits();
     	for (Mob m : _model.mobs) {
-    		//uppdatera position för mobs
+    		int x = m.mCoordinates.getX();
+    		int y = m.mCoordinates.getY();
+
+    		
+    		m.mCoordinates.setXY(x, y+1);
     	}
     	
-    	for (Projectile p : _model.projectiles) {
+    	//for (Projectile p : _model.projectiles) {
     		//uppdatera position för projectiles
-    	}
+    	//}
     	
     	
     	// Kolla om någon projectile träffat sin target
@@ -145,11 +151,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      *  <li>Item moved by hand</li>
      * </ul>
      */
+    
     @Override
     public void onDraw(Canvas canvas) {
         // draw the background
-    	 canvas.drawBitmap(_bitmapCache.get(R.drawable.abstrakt), 0 , 0, null);
-        
+    
+    	canvas.drawBitmap(_bitmapCache.get(R.drawable.abstrakt), 0 , 0, null);
+     	for (Mob m : _model.mobs) {
+
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.man),  m.mCoordinates.getX() ,m.mCoordinates.getY() , null);
+    		
+    	}
+    	 
+    	 
     }
 
     /**

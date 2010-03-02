@@ -13,7 +13,7 @@ import com.chalmers.game.td.units.Tower;
 
 public class GameModel {
 
-	//
+
 
 	
 	/*
@@ -39,7 +39,6 @@ public class GameModel {
 		 */
 		
 		towers.add(new Tower());
-		
 		mobs.add(new Mob());
 		
 	}

@@ -8,14 +8,14 @@ package com.chalmers.game.td.units;
 public class Unit 
 {
 	// INSTANCE VARIABLES
-	protected	Coordinates	mCoordinates;
+	public	Coordinates	mCoordinates;
 	protected	int			mWidth,
 							mHeight;
 	
 	/**
 	 * 	 COORDINATES
 	 */
-	protected class Coordinates
+	public class Coordinates
 	{
 		private int	mXPos,
 					mYPos;
