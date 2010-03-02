@@ -119,13 +119,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	// Kolla om någon projectile träffat sin target
     	// Hantera träff, ta bort projectile, beräkna skada på mob osv osv osv osv.
-    	for (Projectile p : _model.projectiles) {
+    	for (int i = 0; i < _model.projectiles.size(); i++) {
+    		Projectile p = _model.projectiles.get(i);
+    			
     		//uppdatera position för projectiles
     		p.updatePosition();
 
     		if (p.hasCollided()) {
     			p.inflictDmg();
     			_model.projectiles.remove(p);
+
     			
     			
     		}
@@ -135,7 +138,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	// Uppdatera koordinater för mobs och projectiles
     	//_model.updateUnits();
-    	for (Mob m : _model.mobs) {
+    	for (int i = 0; i < _model.mobs.size(); i++) {
+    		Mob m = _model.mobs.get(i);
     		m.updatePosition();
     		
     		if (m.getHealth() <= 0) {

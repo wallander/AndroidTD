@@ -46,7 +46,7 @@ public class GameModel {
 		Mob a,b,c;
 		
 		a = new Mob();
-		/*
+		
 		b = new Mob();
 		c = new Mob();
 		
@@ -55,10 +55,10 @@ public class GameModel {
 		
 		c.mCoordinates.setXY(100, 50);
 		c.setAngle(1.5*Math.PI);
-		*/
+		
 		mobs.add(a);
-		//mobs.add(b);
-		//mobs.add(c);
+		mobs.add(b);
+		mobs.add(c);
 	}
 	
 	
