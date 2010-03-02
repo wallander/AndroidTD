@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 /**
  * Class which contains tower specific information
  */
-public class Tower {
+public class Tower extends Unit{
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
@@ -19,13 +19,24 @@ public class Tower {
 	private TowerType mType;	// Tower type
 	// private Coordinates mCoordinates; finns i Unit
 	
+	
+
+	/**
+     * Constructor called to create a tower
+     * @param 
+	 */
+    public Tower(){
+    	
+    }
+	
 	/**
      * Constructor called to create a tower
      * @param 
 	 */
     public Tower(TowerType pType, int pPosX, int pPosY){
     	mType = pType;
-    	
+    	mCoordinates.setX(pPosX);
+    	mCoordinates.setY(pPosY);
     }
     
     /**
