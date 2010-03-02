@@ -48,7 +48,7 @@ class GameThread extends Thread {
             try {
                 c = _panel.getHolder().lockCanvas(null);
                 synchronized (_panel.getHolder()) {
-                    _panel.updatePhysics();
+                    _panel.updateModel();
                     _panel.onDraw(c);
                 }
             } finally {
