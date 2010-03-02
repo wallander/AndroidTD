@@ -30,11 +30,15 @@ public class Mob extends Unit{
 	/** Mob type (Ground, air or invisible) */
 	private MobType mType;	
 	
+	/** Mob target (To next crossroad */
+	private Coordinates mNextCrossRoad;
+	
+	
 	
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	private enum MobType { AIR, GROUND, INVIS }
+	public enum MobType { HIHEALTH, GROUND, FAST }
     
 
 	
@@ -61,8 +65,12 @@ public class Mob extends Unit{
         mType = pType;
     }
 	
-    
-
+    public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
+    	mHealth = pHealth;
+    	mSpeed = pSpeed;
+    	mAngle = pAngle;
+    	mArmor = pArmor;
+    }
 
     
     /**

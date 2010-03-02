@@ -6,14 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MobTest {
+	private Mob m;
 
 	@Before
 	public void setUp(){
-		Mob m = new Mob();
+		m = new Mob();
 	}
 	
 	@Test
-	public final void testMob() {
+	public final void testUpdateDirection() {
 		fail("Not yet implemented"); // TODO
 	}
 
