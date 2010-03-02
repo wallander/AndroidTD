@@ -34,10 +34,6 @@ public class Projectile extends Unit{
         mTower = pTower;
     }
 	
-    
-
-
-
   
     /**
      * @return Damage done

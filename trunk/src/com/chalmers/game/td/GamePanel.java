@@ -1,10 +1,13 @@
 package com.chalmers.game.td;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.Random;
 
 import com.chalmers.game.td.units.Mob;
+
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,6 +37,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      */
     private GameModel _model;
     
+    /**
+     * Cache variable for all used images.
+     */
+    private Map<Integer, Bitmap> _bitmapCache = new HashMap<Integer, Bitmap>();
+    
     
     /**
      * Constructor called on instantiation.
@@ -41,6 +49,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GamePanel(Context context) {
         super(context);
+        fillBitmapCache();
         _model = new GameModel();
         
         getHolder().addCallback(this);
@@ -48,6 +57,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
     }
     
+    /**
+     * Fill the bitmap cache.
+     */
+    private void fillBitmapCache() {
+        _bitmapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+        _bitmapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
+        _bitmapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
+        _bitmapCache.put(R.drawable.scissors, BitmapFactory.decodeResource(getResources(), R.drawable.scissors));
+        _bitmapCache.put(R.drawable.paper, BitmapFactory.decodeResource(getResources(), R.drawable.paper));
+        _bitmapCache.put(R.drawable.rock, BitmapFactory.decodeResource(getResources(), R.drawable.rock));
+        _bitmapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
+        _bitmapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
+        _bitmapCache.put(R.drawable.big, BitmapFactory.decodeResource(getResources(), R.drawable.big));
+    }
 
     /**
      * Process the MotionEvent.
@@ -108,11 +131,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 *  (lägg till ny Projectile i GameModel.
     	 * 
     	 */
-    	
-    	
-
-    	
-
+   
     	
     }
     
