@@ -20,6 +20,9 @@ public class Mob extends Unit{
 	/** Mob movement speed */
 	private int mSpeed;
 	
+	/** Mob movement angle */
+	private double mAngle;
+	
 	/** Mob armor */
 	private int mArmor;
 	
@@ -35,13 +38,14 @@ public class Mob extends Unit{
 
 	
 	/**
-     * TestConstructor.
+     * TestConstructor. skapar en testmob, hårdkodad osv osv.
      * 
      * @param 
      */
     public Mob() {
     	mCoordinates = new Coordinates(25, 15);
         mSpeed = 1;
+        setAngle(270.0);
         mArmor = 200;
         setHealth(200);
     }
@@ -49,7 +53,7 @@ public class Mob extends Unit{
 	/**
      * Constructor.
      * 
-     * @param bitmap Bitmap which should be drawn.
+     * 
      */
     public Mob(MobType pType) {
        
@@ -58,12 +62,6 @@ public class Mob extends Unit{
 	
     
 
-
-
-    /**
-     * Step of explosion which will take 50 steps.
-     */
-    private int _explosionStep = 0;
 
     
     /**
@@ -101,6 +99,24 @@ public class Mob extends Unit{
 	 */
 	public int getHealth() {
 		return mHealth;
+	}
+
+	public void setAngle(double mAngle) {
+		this.mAngle = mAngle;
+	}
+
+	public double getAngle() {
+		return mAngle;
+	}
+
+	/**
+	 * Updates the mobs position according to speed and angle.
+	 */
+	public void updatePosition() {
+		
+		mCoordinates.setX(  (int) (mCoordinates.getX() + getSpeed() * Math.cos(getAngle())));
+		mCoordinates.setY(  (int) (mCoordinates.getY() + getSpeed() * Math.sin(getAngle())));
+		
 	}
 
    
