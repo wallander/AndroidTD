@@ -114,8 +114,8 @@ public class Mob extends Unit{
 	 */
 	public void updatePosition() {
 		
-		mCoordinates.setX(  (int) (mCoordinates.getX() + getSpeed() * Math.cos(getAngle())));
-		mCoordinates.setY(  (int) (mCoordinates.getY() + getSpeed() * Math.sin(getAngle())));
+		mCoordinates.setX(  (int) (mCoordinates.getX() + getSpeed() * Math.sin(getAngle())));
+		mCoordinates.setY(  (int) (mCoordinates.getY() + getSpeed() * Math.cos(getAngle())));
 		
 	}
 
