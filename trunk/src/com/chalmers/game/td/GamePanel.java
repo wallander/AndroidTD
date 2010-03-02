@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.chalmers.game.td.units.Mob;
-import com.droidnova.android.games.R;
+
 
 
 import android.content.Context;
@@ -128,8 +128,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 *  (lägg till ny Projectile i GameModel.
     	 * 
     	 */
-    	
-    
+   
     	
     }
     
