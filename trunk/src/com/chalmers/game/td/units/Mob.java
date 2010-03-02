@@ -44,8 +44,6 @@ public class Mob extends Unit{
         mSpeed = 1;
         mArmor = 200;
         setHealth(200);
-        
-       
     }
 	
 	/**
