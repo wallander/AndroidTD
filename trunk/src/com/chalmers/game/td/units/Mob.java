@@ -30,6 +30,10 @@ public class Mob extends Unit{
 	/** Mob type (Ground, air or invisible) */
 	private MobType mType;	
 	
+	/** Mob target (To next crossroad */
+	private Coordinates mNextCrossRoad;
+	
+	
 	
 	/**
 	 * Enum for the mob type. One for each type of mob.
