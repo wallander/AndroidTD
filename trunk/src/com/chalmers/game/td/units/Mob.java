@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 /**
  * Class which represents a Mob on the game board.
  * 
- * @author martin
+ * @author Tomten
  */
 public class Mob extends Unit{
 
@@ -32,6 +32,17 @@ public class Mob extends Unit{
 	 */
 	private enum MobType { AIR, GROUND, INVIS }
     
+
+	
+	/**
+     * TestConstructor.
+     * 
+     * @param 
+     */
+    public Mob() {
+        mCoordinates.setXY(25, 15);
+       
+    }
 	
 	/**
      * Constructor.
