@@ -14,8 +14,6 @@ import com.chalmers.game.td.units.*;
 public class GameModel {
 
 
-
-	
 	/*
 	 * Lista med alla torn
 	 * Lista med alla mobs
@@ -48,8 +46,5 @@ public class GameModel {
 		
 	}
 
-
-	
-	
 	
 }

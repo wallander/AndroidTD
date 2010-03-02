@@ -118,16 +118,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	// Uppdatera koordinater för mobs och projectiles
     	//_model.updateUnits();
     	for (Mob m : _model.mobs) {
-    		int x = m.mCoordinates.getX();
-    		int y = m.mCoordinates.getY();
-
+    		m.updatePosition();
     		
-    		m.mCoordinates.setXY(x, y+1);
+    		
+    		
     	}
     	
-    	//for (Projectile p : _model.projectiles) {
+    	for (Projectile p : _model.projectiles) {
     		//uppdatera position för projectiles
-    	//}
+    	}
     	
     	
     	// Kolla om någon projectile träffat sin target
