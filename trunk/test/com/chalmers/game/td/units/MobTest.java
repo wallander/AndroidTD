@@ -2,10 +2,16 @@ package com.chalmers.game.td.units;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class MobTest {
 
+	@Before
+	public void setUp(){
+		Mob m = new Mob();
+	}
+	
 	@Test
 	public final void testMob() {
 		fail("Not yet implemented"); // TODO
