@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.Random;
 
 import com.chalmers.game.td.units.Mob;
-import com.droidnova.android.rockscissorspaper.R;
+import com.droidnova.android.games.R;
+
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -102,14 +103,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     }
     
-    /**
-     * Update the physics of each item already added to the panel.
-     * Not including items which are currently exploding and moved by a touch event.
-     */
 
-    public void updatePhysics() {
-
-    }
     public void updateModel() {
 
     	// Uppdatera koordinater för mobs och projectiles
@@ -155,7 +149,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void onDraw(Canvas canvas) {
         // draw the background
-        
+    	 canvas.drawBitmap(_bitmapCache.get(R.drawable.abstrakt), 0 , 0, null);
         
     }
 
