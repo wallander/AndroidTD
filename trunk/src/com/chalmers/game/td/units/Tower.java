@@ -28,7 +28,7 @@ public class Tower extends Unit{
 	 */
     public Tower(){
     	mCoordinates = new Coordinates(60, 300);
-    	mRange = 40;
+    	mRange = 200;
     	mAttackSpeed = 5;
     	mDamage = 10;
     	mEnabled = true;
@@ -44,23 +44,23 @@ public class Tower extends Unit{
     	mCoordinates.setY(pPosY);
     }
     
-    int tx;
-    int ty;
-    int mx;
-    int my;
+    
     
     public Projectile tryToShoot(List<Mob> mobs){
-    	tx = mCoordinates.getX();
-		ty = mCoordinates.getY();
+    	int tx = mCoordinates.getX();
+		int ty = mCoordinates.getY();
 	
 		for (Mob m : mobs) {
-    		mx = m.mCoordinates.getX();
-    		my = m.mCoordinates.getY();
+    		int mx = m.mCoordinates.getX();
+    		int my = m.mCoordinates.getY();
     	
     		int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
-    		if (sqrDistance < mRange * mRange ){
-    			return (new Projectile(m, this));
-    		}
+    		
+	    		if (sqrDistance < mRange * mRange ){
+	    			
+	    			return (new Projectile(m, this));
+	    		}
+    		
 		}
 		return null;
     }

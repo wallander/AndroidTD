@@ -42,8 +42,23 @@ public class GameModel {
 		 Log.v("", "Skapa tower");
 		towers.add(new Tower());
 		 Log.v("", "skapa mob");
-		mobs.add(new Mob());
 		
+		Mob a,b,c;
+		
+		a = new Mob();
+		/*
+		b = new Mob();
+		c = new Mob();
+		
+		b.mCoordinates.setXY(100, 1);
+		b.setAngle(1.4*Math.PI);
+		
+		c.mCoordinates.setXY(100, 50);
+		c.setAngle(1.5*Math.PI);
+		*/
+		mobs.add(a);
+		//mobs.add(b);
+		//mobs.add(c);
 	}
 	
 	
