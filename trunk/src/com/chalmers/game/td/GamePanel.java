@@ -113,6 +113,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
     
 
+
     public void updateModel() {
 
     	// Uppdatera koordinater för mobs och projectiles
@@ -125,9 +126,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		m.mCoordinates.setXY(x, y+1);
     	}
     	
-    	//for (Projectile p : _model.projectiles) {
+    	for (Projectile p : _model.projectiles) {
     		//uppdatera position för projectiles
-    	//}
+    		int x = p.mCoordinates.getX();
+    		int y = p.mCoordinates.getY();
+
+    		
+    		p.mCoordinates.setXY(x, y+1);
+    	}
     	
     	
     	// Kolla om någon projectile träffat sin target
@@ -141,7 +147,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 *  (lägg till ny Projectile i GameModel.
     	 * 
     	 */
-   
+    	for (Tower t : _model.towers) {
+    		Projectile proj = t.tryToShoot(_model.mobs);
+    		
+    		if(proj != null){
+    			_model.projectiles.add(proj);
+    		}
+    		
+    	}
     	
     }
     
@@ -173,6 +186,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	for (Tower t : _model.towers) {
 
     		canvas.drawBitmap(_bitmapCache.get(R.drawable.rock),  t.mCoordinates.getX() , t.mCoordinates.getY() , null);
+    		
+    	}
+     	
+     	for (Projectile p : _model.projectiles) {
+
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.scissors),  p.mCoordinates.getX() , p.mCoordinates.getY() , null);
     		
     	}
      	

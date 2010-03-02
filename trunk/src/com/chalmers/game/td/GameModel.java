@@ -47,6 +47,8 @@ public class GameModel {
 		mobs.add(new Mob());
 		
 	}
+	
+	
 
 
 	
