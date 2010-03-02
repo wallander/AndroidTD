@@ -41,7 +41,7 @@ public class Mob extends Unit{
         mCoordinates.setXY(25, 15);
         mSpeed = 1;
         mArmor = 200;
-        mHealth = 200;
+        setHealth(200);
         
        
     }
@@ -88,6 +88,20 @@ public class Mob extends Unit{
     public MobType getType() {
         return mType;
     }
+
+	/**
+	 * @param mHealth the mHealth to set
+	 */
+	public void setHealth(int mHealth) {
+		this.mHealth = mHealth;
+	}
+
+	/**
+	 * @return the mHealth
+	 */
+	public int getHealth() {
+		return mHealth;
+	}
 
    
 }
