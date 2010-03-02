@@ -12,7 +12,7 @@ public class Tower extends Unit{
 	private int mDamage;		// Tower damage
 	private int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
-	private int mlevel;			// Tower level
+	private int mLevel;			// Tower level
 	private int mWait2SHoot;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
 	private boolean mEnabled;	// Tower SKIT I SÅLÄNGE
@@ -26,7 +26,11 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(){
-    	
+    	mCoordinates.setXY(40, 40);
+    	mRange = 40;
+    	mAttackSpeed = 5;
+    	mDamage = 10;
+    	mEnabled = true;
     }
 	
 	/**
