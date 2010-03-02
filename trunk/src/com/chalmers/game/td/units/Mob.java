@@ -3,6 +3,7 @@ package com.chalmers.game.td.units;
 import com.chalmers.game.td.units.Unit.Coordinates;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * Class which represents a Mob on the game board.
@@ -49,7 +50,7 @@ public class Mob extends Unit{
     public Mob() {
     	mCoordinates = new Coordinates(25, 15);
         mSpeed = 1;
-        setAngle(270.0);
+        setAngle(Math.PI * 1.5);
         mArmor = 200;
         setHealth(200);
     }
@@ -116,10 +117,21 @@ public class Mob extends Unit{
 	/**
 	 * Updates the mobs position according to speed and angle.
 	 */
+	
+	private double mXPos;
+	private double mYPos;
 	public void updatePosition() {
 		
-		mCoordinates.setX(  (int) (mCoordinates.getX() + getSpeed() * Math.cos(getAngle())));
-		mCoordinates.setY(  (int) (mCoordinates.getY() + getSpeed() * Math.sin(getAngle())));
+		if (mXPos == 0.0 || mYPos == 0.0) {
+			mXPos = mCoordinates.getX();
+			mYPos = mCoordinates.getY();
+		}
+		
+		mXPos += getSpeed() * Math.cos(getAngle());
+		mYPos -= getSpeed() * Math.sin(getAngle());
+		
+		mCoordinates.setX((int)mXPos);
+		mCoordinates.setY((int)mYPos);
 		
 	}
 
