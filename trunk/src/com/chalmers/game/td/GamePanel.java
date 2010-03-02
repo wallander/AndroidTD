@@ -131,6 +131,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		int x = p.mCoordinates.getX();
     		int y = p.mCoordinates.getY();
 
+    		p.getTargetedMob().mCoordinates.getX();
     		
     		p.mCoordinates.setXY(x, y+1);
 
