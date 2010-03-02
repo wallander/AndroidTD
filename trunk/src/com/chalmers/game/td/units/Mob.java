@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import com.chalmers.game.td.units.Unit.Coordinates;
+
 import android.graphics.Bitmap;
 
 /**
@@ -38,7 +40,7 @@ public class Mob extends Unit{
      * @param 
      */
     public Mob() {
-        mCoordinates.setXY(25, 15);
+    	mCoordinates = new Coordinates(25, 15);
         mSpeed = 1;
         mArmor = 200;
         setHealth(200);

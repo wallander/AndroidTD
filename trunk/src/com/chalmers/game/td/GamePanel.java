@@ -6,6 +6,7 @@ import java.util.Map;
 
 import java.util.Random;
 
+import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.units.Unit;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
@@ -51,12 +52,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * @param context Context of calling activity.
      */
     public GamePanel(Context context) {
+    	 
         super(context);
+        Log.v("", "innan cache");
         fillBitmapCache();
+        Log.v("", "Innan Model");
         _model = new GameModel();
-        
+        Log.v("", "Skapat Model");
         getHolder().addCallback(this);
         _thread = new GameThread(this);
+        Log.v("", "Thread skapad");
         setFocusable(true);
     }
     
@@ -73,7 +78,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         _bitmapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
         _bitmapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
         _bitmapCache.put(R.drawable.big, BitmapFactory.decodeResource(getResources(), R.drawable.big));
-    }
+        _bitmapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
+   
+}
 
     /**
      * Process the MotionEvent.
@@ -159,9 +166,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	canvas.drawBitmap(_bitmapCache.get(R.drawable.abstrakt), 0 , 0, null);
      	for (Mob m : _model.mobs) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.man),  m.mCoordinates.getX() ,m.mCoordinates.getY() , null);
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.man),  m.mCoordinates.getX() , m.mCoordinates.getY() , null);
     		
     	}
+     	
+     	for (Tower t : _model.towers) {
+
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.rock),  t.mCoordinates.getX() , t.mCoordinates.getY() , null);
+    		
+    	}
+     	
     	 
     	 
     }

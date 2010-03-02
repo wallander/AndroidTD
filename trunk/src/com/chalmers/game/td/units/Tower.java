@@ -26,7 +26,7 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(){
-    	mCoordinates.setXY(40, 40);
+    	mCoordinates = new Coordinates(60, 300);
     	mRange = 40;
     	mAttackSpeed = 5;
     	mDamage = 10;
