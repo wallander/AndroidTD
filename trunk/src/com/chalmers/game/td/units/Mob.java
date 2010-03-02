@@ -34,7 +34,7 @@ public class Mob extends Unit{
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	private enum MobType { AIR, GROUND, INVIS }
+	public enum MobType { HIHEALTH, GROUND, FAST }
     
 
 	
@@ -61,8 +61,12 @@ public class Mob extends Unit{
         mType = pType;
     }
 	
-    
-
+    public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
+    	mHealth = pHealth;
+    	mSpeed = pSpeed;
+    	mAngle = pAngle;
+    	mArmor = pArmor;
+    }
 
     
     /**
