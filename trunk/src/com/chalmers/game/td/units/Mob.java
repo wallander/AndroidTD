@@ -67,8 +67,17 @@ public class Mob extends Unit{
      * 
      */
     public Mob(MobType pType) {
-       
-        mType = pType;
+        setType(pType);
+        
+        
+        // HÅRDKODAT! Ta bort sen!
+        mCoordinates = new Coordinates(40,20);
+        mSpeed = 1;
+        setAngle(Math.PI * 1.5);
+        mArmor = 200;
+        setHealth(200);
+        
+        
     }
 	
     public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){

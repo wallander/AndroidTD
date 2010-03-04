@@ -14,7 +14,7 @@ public class Tower extends Unit{
 	private int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
 	private int mLevel;			// Tower level
-	private int mWait2SHoot;	// Tower shoot delay
+	private int mCooldownLeft;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
 	private boolean mEnabled;	// Tower SKIT I SÅLÄNGE
 	private TowerType mType;	// Tower type
@@ -29,7 +29,7 @@ public class Tower extends Unit{
     public Tower(){
     	mCoordinates = new Coordinates(60, 300);
     	mRange = 200;
-    	mAttackSpeed = 5;
+    	mAttackSpeed = 8;
     	mDamage = 10;
     	mEnabled = true;
     }
@@ -50,18 +50,28 @@ public class Tower extends Unit{
     	int tx = mCoordinates.getX();
 		int ty = mCoordinates.getY();
 	
-		for (Mob m : mobs) {
-    		int mx = m.mCoordinates.getX();
-    		int my = m.mCoordinates.getY();
+		if (mCooldownLeft == 0) { // Om tornet inte är på cooldown
+
+			for (Mob m : mobs) {
+				int mx = m.mCoordinates.getX();
+				int my = m.mCoordinates.getY();
     	
-    		int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+				int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
-	    		if (sqrDistance < mRange * mRange ){
-	    			
+				// Skjut på den första moben i listan som är inom range
+				if (sqrDistance < mRange * mRange ){
+					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));
 	    		}
     		
+			}
+		
+		} else { // Om tornet är på cooldown
+			mCooldownLeft--;
+			return null;
 		}
+		
+		// Om tornet är av cooldown, och inte hittar något att skjuta
 		return null;
     }
     

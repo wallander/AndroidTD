@@ -9,13 +9,20 @@ public class MobFactory {
 		
 	}
 	
-	public Mob CreateMob(MobType pType){
-		Mob m;
+	public static Mob CreateMob(MobType pType){
+		
 		switch (pType){
-			case HIHEALTH: m = new Mob(Mob.MobType.AIR);
-			case GROUND: m = new Mob(Mob.MobType.GROUND);
-			case FAST: m = new Mob();
-			default: ;
+			case HIHEALTH: 
+				return new Mob(Mob.MobType.HIHEALTH);
+			case GROUND: 
+				return new Mob(Mob.MobType.GROUND);
+			case FAST: 
+				return new Mob(Mob.MobType.FAST);
+			default: 
+				return null ;
+		}
+		
+	}
 	/*
 	public Mob CreateMob(int pType){
 		
@@ -26,6 +33,6 @@ public class MobFactory {
 			default: return -1;
 			
 		}
-		
-	} */
+		*/
+	
 }

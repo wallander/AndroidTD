@@ -71,43 +71,31 @@ public class Projectile extends Unit{
     
 	private double mXPos;
 	private double mYPos;
+	
 	public void updatePosition() {
-		int x2 = mTarget.mCoordinates.getX();
-		int y2 = mTarget.mCoordinates.getY();
+		int x2 = getTargetedMob().mCoordinates.getX();
+		int y2 = getTargetedMob().mCoordinates.getY();
 		
-		int x1 = mCoordinates.getX();
-		int y1 = mCoordinates.getY();
-		
-		
-		
-		/*double newAngle = Math.tan((targety - mCoordinates.getY()) / (targetx - mCoordinates.getX()));
-		if(targety > mCoordinates.getY()){
-			newAngle += Math.PI;
-		}
-		*/
+		double x1 = mXPos;
+		double y1 = mYPos;
 		
 		
-		double newAngle = 0;
 		if (  x1 < x2 && y1 > y2  ) { // första kvadranten
-			newAngle = Math.tan((y1-y2) / (x2-x1));
-			
+			setAngle( Math.tan((y1-y2) / (x2-x1)));
 			
 		} else if (  x1 > x2 && y1 > y2  ) { // andra kvadranten
-			newAngle = Math.tan( (x1-x2) / (y1-y2)  ) + 0.5*Math.PI;
-			
+			setAngle( Math.tan( (x1-x2) / (y1-y2)  ) + 0.5*Math.PI);
 			
 		} else if (  x1 > x2 && y1 < y2  ) { // tredje kvadranten
-			newAngle = Math.tan( (y2-y1) / (x1-x2) ) + Math.PI;
-			
+			setAngle( Math.tan( (y2-y1) / (x1-x2) ) + Math.PI);
 			
 		} else if (  x1 < x2 && y1 < y2  ) { // fjärde kvadranten
-			newAngle = Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI;
-			
-			
+			setAngle( Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI);
+
 		}
 		
 		
-		setAngle(newAngle);
+
 		
 		
 		

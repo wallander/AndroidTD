@@ -5,12 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.chalmers.game.td.MobFactory;
+
 public class MobTest {
 	private Mob m;
 
 	@Before
 	public void setUp(){
-		m = new Mob();
+		m = MobFactory.CreateMob(Mob.MobType.GROUND);
 	}
 	
 	@Test
