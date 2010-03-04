@@ -144,6 +144,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		
     		if (m.getHealth() <= 0) {
     			_model.mobs.remove(m);
+    			_model.mobs.add(MobFactory.CreateMob(Mob.MobType.GROUND));
     			
     		}
 
@@ -195,19 +196,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	canvas.drawBitmap(_bitmapCache.get(R.drawable.abstrakt), 0 , 0, null);
      	for (Mob m : _model.mobs) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.man),  m.mCoordinates.getX() , m.mCoordinates.getY() , null);
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.man), (int) m.mCoordinates.getX() , (int) m.mCoordinates.getY() , null);
     		
     	}
      	
      	for (Tower t : _model.towers) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.rock),  t.mCoordinates.getX() , t.mCoordinates.getY() , null);
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.rock), (int) t.mCoordinates.getX() , (int) t.mCoordinates.getY() , null);
     		
     	}
      	
      	for (Projectile p : _model.projectiles) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.scissors),  p.mCoordinates.getX() , p.mCoordinates.getY() , null);
+    		canvas.drawBitmap(_bitmapCache.get(R.drawable.scissors), (int) p.mCoordinates.getX() , (int) p.mCoordinates.getY() , null);
     		
     	}
      	

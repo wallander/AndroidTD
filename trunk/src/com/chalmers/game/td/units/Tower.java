@@ -27,9 +27,9 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(){
-    	mCoordinates = new Coordinates(60, 300);
+    	mCoordinates = new Coordinates(130, 150);
     	mRange = 200;
-    	mAttackSpeed = 8;
+    	mAttackSpeed = 20;
     	mDamage = 10;
     	mEnabled = true;
     }
@@ -47,16 +47,16 @@ public class Tower extends Unit{
     
     
     public Projectile tryToShoot(List<Mob> mobs){
-    	int tx = mCoordinates.getX();
-		int ty = mCoordinates.getY();
+    	double tx = mCoordinates.getX();
+		double ty = mCoordinates.getY();
 	
 		if (mCooldownLeft == 0) { // Om tornet inte är på cooldown
 
 			for (Mob m : mobs) {
-				int mx = m.mCoordinates.getX();
-				int my = m.mCoordinates.getY();
+				double mx = m.mCoordinates.getX();
+				double my = m.mCoordinates.getY();
     	
-				int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
 				// Skjut på den första moben i listan som är inom range
 				if (sqrDistance < mRange * mRange ){

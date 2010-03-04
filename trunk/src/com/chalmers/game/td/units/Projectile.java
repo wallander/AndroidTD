@@ -41,7 +41,7 @@ public class Projectile extends Unit{
         mTower = pTower;
         mSpeed = 2;
         mDamage = 50;
-        setAngle(0);
+        //setAngle(0);
         updatePosition();
         
     }
@@ -73,8 +73,8 @@ public class Projectile extends Unit{
 	private double mYPos;
 	
 	public void updatePosition() {
-		int x2 = getTargetedMob().mCoordinates.getX();
-		int y2 = getTargetedMob().mCoordinates.getY();
+		double x2 = getTargetedMob().mCoordinates.getX();
+		double y2 = getTargetedMob().mCoordinates.getY();
 		
 		double x1 = mXPos;
 		double y1 = mYPos;
@@ -123,14 +123,14 @@ public class Projectile extends Unit{
 	public boolean hasCollided() {
 		// TODO Auto-generated method stub
 		
-		int tx = mCoordinates.getX();
-		int ty = mCoordinates.getY();
+		double tx = mCoordinates.getX();
+		double ty = mCoordinates.getY();
 	
 		
-    	int mx = mTarget.mCoordinates.getX();
-    	int my = mTarget.mCoordinates.getY();
+    	double mx = mTarget.mCoordinates.getX();
+    	double my = mTarget.mCoordinates.getY();
 		
-		int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
 		if (sqrDistance < 10)
 			return true;

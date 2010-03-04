@@ -17,7 +17,7 @@ public class Unit
 	 */
 	public class Coordinates
 	{
-		private int	mXPos,
+		private double	mXPos,
 					mYPos;
 		
 		/**
@@ -26,7 +26,7 @@ public class Unit
 		 * @param pXPos
 		 * @param pYPos
 		 */
-		public Coordinates(int pXPos, int pYPos)
+		public Coordinates(double pXPos, double pYPos)
 		{
 			setXY(pXPos, pYPos);			
 		}
@@ -38,7 +38,7 @@ public class Unit
 		 * @param pXPos
 		 * @param pYPos
 		 */
-		public void setXY(int pXPos, int pYPos)
+		public void setXY(double pXPos, double pYPos)
 		{
 			setX(pXPos);
 			setY(pYPos);
@@ -48,7 +48,7 @@ public class Unit
 		 * 
 		 * @param pXPos
 		 */
-		public void setX(int pXPos)
+		public void setX(double pXPos)
 		{
 			mXPos = pXPos;
 		}
@@ -57,7 +57,7 @@ public class Unit
 		 * 
 		 * @param pYPos
 		 */
-		public void setY(int pYPos)
+		public void setY(double pYPos)
 		{
 			mYPos = pYPos;
 		}
@@ -65,27 +65,27 @@ public class Unit
 		// GET POSITIONS
 		
 		/**
-		 * @return new int[] {mXPos, mYPos}
+		 * @return new double[] {mXPos, mYPos}
 		 */
-		public int[] getXY()
+		public double[] getXY()
 		{
-			return new int[] {mXPos, mYPos};
+			return new double[] {mXPos, mYPos};
 		}
 		
 		/**
 		 * 
-		 * @return int mXPos
+		 * @return double mXPos
 		 */
-		public int getX()
+		public double getX()
 		{
 			return mXPos;
 		}
 		
 		/**
 		 * 
-		 * @return int mYPos
+		 * @return double mYPos
 		 */
-		public int getY()
+		public double getY()
 		{
 			return mYPos;
 		}
