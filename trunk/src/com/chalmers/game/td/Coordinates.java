@@ -36,19 +36,31 @@ public class Coordinates
 		 double x2 = to.getX();
 		 double y2 = to.getY();
 		 
+		 
 		 if (  x1 < x2 && y1 > y2  ) {
 			return ( Math.tan((y1-y2) / (x2-x1)));
-			
+		 
 		} else if (  x1 > x2 && y1 > y2  ) {
 			return ( Math.tan( (x1-x2) / (y1-y2)  ) + 0.5*Math.PI);
 			
 		} else if (  x1 > x2 && y1 < y2  ) { 
-			return ( Math.tan( (y2-y1) / (x1-x2) ) + Math.PI);
+			return ( Math.tan( (y2-y1) / (x1-x2) ) );
 			
 		} else if (  x1 < x2 && y1 < y2  ) { 
 			return ( Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI);
 
+		} else {
+			if (x1 == x2 && y1 < y2)
+				return 1.5*Math.PI;
+			if (x1 == x2 && y1 > y2)
+				return 0.5*Math.PI;
+			if (y1 == y2 && x1 < x2)
+				return 0;
+			if (y1 == y2 && x1 > x2)
+				return Math.PI;
 		}
+
+		 // if From and To are on the exact same spot, return 0 (i know, it's wrong but whatever)
 		 return 0;
 		 
 		 
