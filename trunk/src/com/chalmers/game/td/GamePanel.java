@@ -140,7 +140,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		
     		if (m.getHealth() <= 0) {
     			mGameModel.mMobs.remove(m);
-    			mGameModel.mMobs.add(MobFactory.CreateMob(Mob.MobType.GROUND));
+    			//mGameModel.mMobs.add(MobFactory.CreateMob(Mob.MobType.GROUND));
     			
     		}
 

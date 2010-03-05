@@ -3,6 +3,8 @@ package com.chalmers.game.td.units;
 import android.graphics.Bitmap;
 import java.util.List;
 
+import com.chalmers.game.td.Coordinates;
+
 /**
  * Class which contains tower specific information
  * 
