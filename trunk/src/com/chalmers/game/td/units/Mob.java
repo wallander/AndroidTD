@@ -81,8 +81,8 @@ public class Mob extends Unit{
         mCoordinates = new Coordinates(180,20);
         mSpeed = 1;
         setAngle(Math.PI * 1.5);
-        mArmor = 200;
-        setHealth(200);
+        mArmor = 1200;
+        setHealth(1200);
         
         
     }

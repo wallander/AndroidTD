@@ -37,13 +37,15 @@ public class GameModel {
 		// Temporary code to add a tower and a mob for testing purposes	
 
 		 Log.v("", "Skapa tower");
-		//mTowers.add(new Tower());
+		 mTowers.add(new Tower());
 		 Log.v("", "skapa mob");
 
 
 		mMobs.add(new Mob(mPath));
+		mMobs.add(new Mob(mPath));
+		mMobs.add(new Mob(mPath));
 		
-		Mob a,b,c;
+		//Mob a,b,c;
 		
 		//a = MobFactory.CreateMob(Mob.MobType.GROUND);
 		
@@ -57,7 +59,10 @@ public class GameModel {
 		//mobs.add(c);
 		/////////////////////////////////////////////////////////////////////////////
 	}
-	
+	public void addTower() {
+		
+		
+	}
 	
 
 	
