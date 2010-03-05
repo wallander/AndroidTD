@@ -1,43 +1,44 @@
 package com.chalmers.game.td;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.List;
+
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Mob.MobType;
 
 /**
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ * @authors Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  *
  */
 public class MobFactory {
 	
-	public MobFactory(){
+	// Instance variables	
+	private static final MobFactory	INSTANCE = new MobFactory();
+	private static final int		MOB_AMOUNT = 15;
+	private List<MobType>			mWaves;
+	
+	private MobFactory(){
 		
+		// TODO Implement import from .waves
+		try	{
+			
+			BufferedReader reader = new BufferedReader(new FileReader("/res/levelinfo/init.waves"));							
+			
+		} catch(FileNotFoundException fnf) {
+			System.err.println("Message: " + fnf.getMessage() + "\n CAUSE: " + fnf.getCause());
+		}
+	}
+		
+	public static MobFactory getInstance() {
+		return INSTANCE;
 	}
 	
-	public static Mob CreateMob(MobType pType){
+	public List<Mob> nextWave() {
 		
-		switch (pType){
-			case HIHEALTH: 
-				return new Mob(Mob.MobType.HIHEALTH);
-			case GROUND: 
-				return new Mob(Mob.MobType.GROUND);
-			case FAST: 
-				return new Mob(Mob.MobType.FAST);
-			default: 
-				return null ;
-		}
-		
+		return null;
 	}
-	/*
-	public Mob CreateMob(int pType){
-		
-		Mob m;
-		switch (pType) {
-			case 1: m = new Mob(Mob.MobType.AIR);
-			case 2: ;
-			default: return -1;
-			
-		}
-		*/
 	
 }

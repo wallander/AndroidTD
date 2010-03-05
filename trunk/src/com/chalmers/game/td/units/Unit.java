@@ -8,7 +8,7 @@ package com.chalmers.game.td.units;
 public class Unit 
 {
 	// INSTANCE VARIABLES
-	public	Coordinates	mCoordinates;
+	public	Coordinates		mCoordinates;
 	protected	int			mWidth,
 							mHeight;
 	
@@ -18,7 +18,7 @@ public class Unit
 	public class Coordinates
 	{
 		private double	mXPos,
-					mYPos;
+						mYPos;
 		
 		/**
 		 * Constructor

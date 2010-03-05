@@ -41,7 +41,7 @@ public class Mob extends Unit{
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	public enum MobType { HIHEALTH, GROUND, FAST }
+	public enum MobType { HEALTHY, ARMORED, FAST, NORMAL }
     
 
 	
