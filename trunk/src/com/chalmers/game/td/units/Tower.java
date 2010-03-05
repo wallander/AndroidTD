@@ -56,13 +56,14 @@ public class Tower extends Unit{
 	
 		if (mCooldownLeft == 0) { // Om tornet inte ï¿½r pï¿½ cooldown
 
-			for (Mob m : mobs) {
+			for (int i=0; i<mobs.size();i++) {
+				Mob m = mobs.get(i);
 				double mx = m.mCoordinates.getX();
 				double my = m.mCoordinates.getY();
     	
 				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
-				// Skjut pï¿½ den fï¿½rsta moben i listan som ï¿½r inom range
+				// Skjut på den första moben i listan som är inom range
 				if (sqrDistance < mRange * mRange ){
 					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));

@@ -116,24 +116,29 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void updateModel() {
     	
-    	// Check if any projectile has hit it's target
-    	// Handle hit, remove projectile, calculate damage on mob, etc. etc.
-    	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
-    		Projectile p = mGameModel.mProjectiles.get(i);
-    			    		
-    		// Update position for the projectiles
-    		p.updatePosition();
-
-    		if (p.hasCollided()) {
-    			p.inflictDmg();
-    			mGameModel.mProjectiles.remove(p);
+    	
+    	/*
+    	 * F�r alla torn:
+    	 * 	kolla vilka mobs man n�r
+    	 * 	Skjut p� den n�rmsta (eller svagaste? �ndra sen) om cooldown �r nere
+    	 *  (l�gg till ny Projectile i GameModel.
+    	 * 
+    	 */
+    	for (int i=0; i<mGameModel.mTowers.size(); i++) {
+    		Tower t = mGameModel.mTowers.get(i);
+    		Projectile proj = t.tryToShoot(mGameModel.mMobs);
+    		
+    		if(proj != null){
+    			mGameModel.mProjectiles.add(proj);
     		}
+    		
     	}
     	
     	
     	
     	// Uppdatera koordinater f�r mobs och projectiles
     	//_model.updateUnits();
+    	
     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
     		Mob m = mGameModel.mMobs.get(i);
     		m.updatePosition();
@@ -146,32 +151,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     	}
     	
-    
+    	// Check if any projectile has hit it's target
+    	// Handle hit, remove projectile, calculate damage on mob, etc. etc.
     	
-    	
-    	
-    	
-    	
-    	
-    	/*
-    	 * F�r alla torn:
-    	 * 	kolla vilka mobs man n�r
-    	 * 	Skjut p� den n�rmsta (eller svagaste? �ndra sen) om cooldown �r nere
-    	 *  (l�gg till ny Projectile i GameModel.
-    	 * 
-    	 */
-    	for (Tower t : mGameModel.mTowers) {
-    		Projectile proj = t.tryToShoot(mGameModel.mMobs);
-    		
-    		if(proj != null){
-    			mGameModel.mProjectiles.add(proj);
+    	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
+    		Projectile p = mGameModel.mProjectiles.get(i);
+
+    		// Update position for the projectiles
+    		p.updatePosition();
+
+    		if (p.hasCollided()) {
+    			p.inflictDmg();
+    			mGameModel.mProjectiles.remove(p);
     		}
-    		
     	}
     	
-    }
-    
+    	
+    	
 
+    	
+    }
 
     
     /**
@@ -190,20 +189,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // draw the background
     
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
-     	for (Mob m : mGameModel.mMobs) {
-
+     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+     		Mob m = mGameModel.mMobs.get(i);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.mCoordinates.getX() , (int) m.mCoordinates.getY() , null);
     		
     	}
      	
-     	for (Tower t : mGameModel.mTowers) {
-
+     	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
+     		Tower t = mGameModel.mTowers.get(i);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.mCoordinates.getX() , (int) t.mCoordinates.getY() , null);
     		
     	}
      	
-     	for (Projectile p : mGameModel.mProjectiles) {
-
+     	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
+     		Projectile p = mGameModel.mProjectiles.get(i);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.scissors), (int) p.mCoordinates.getX() , (int) p.mCoordinates.getY() , null);
     		
     	}

@@ -30,6 +30,8 @@ public class Projectile extends Unit{
 	/** Projectile movement angle */
 	private double mAngle;
     
+	double x2;
+	double y2;
 	
 	/**
      * Constructor.
@@ -42,8 +44,10 @@ public class Projectile extends Unit{
         mTower = pTower;
         mSpeed = 2;
         mDamage = 50;
+		x2 = getTargetedMob().mCoordinates.getX();
+		y2 = getTargetedMob().mCoordinates.getY();
         //setAngle(0);
-        updatePosition();
+        //updatePosition();
         
     }
     
@@ -74,16 +78,18 @@ public class Projectile extends Unit{
 	private double mYPos;
 	
 	public void updatePosition() {
-		double x2 = getTargetedMob().mCoordinates.getX();
-		double y2 = getTargetedMob().mCoordinates.getY();
+		if(getTargetedMob().getHealth() > 0){
+			x2 = getTargetedMob().mCoordinates.getX();
+			y2 = getTargetedMob().mCoordinates.getY();
+		} 
 		
 		double x1 = mXPos;
 		double y1 = mYPos;
 		
 		setAngle(Coordinates.getAngle(this.mCoordinates, getTargetedMob().mCoordinates));
 
-	
 
+		
 		
 		if (mXPos == 0.0 || mYPos == 0.0) {
 			mXPos = mCoordinates.getX();
@@ -93,8 +99,8 @@ public class Projectile extends Unit{
 		mXPos += getSpeed() * Math.cos(getAngle());
 		mYPos -= getSpeed() * Math.sin(getAngle());
 		
-		mCoordinates.setX((int)mXPos);
-		mCoordinates.setY((int)mYPos);
+		mCoordinates.setX(mXPos);
+		mCoordinates.setY(mYPos);
 	}
 	
   
@@ -113,8 +119,8 @@ public class Projectile extends Unit{
 		double ty = mCoordinates.getY();
 	
 		
-    	double mx = mTarget.mCoordinates.getX();
-    	double my = mTarget.mCoordinates.getY();
+    	double mx = x2;
+    	double my = y2;
 		
 		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
