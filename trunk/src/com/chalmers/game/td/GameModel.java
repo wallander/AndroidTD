@@ -28,20 +28,14 @@ public class GameModel {
 	 * Constructor
 	 */
 	public GameModel() {
-		 Log.v("", "Konstuktorn startar");
 		mTowers = new ArrayList<Tower>();
-		 Log.v("", "After towers");
 		mMobs = new ArrayList<Mob>();
-		 Log.v("", "After mobs");
 		mProjectiles = new ArrayList<Projectile>();
-		 Log.v("", "After PRO");
-		 mPath = new Path();
+		mPath = new Path();
 		
 		
 		// Temporary code to add a tower and a mob for testing purposes	
-		 Log.v("", "Skapa tower");
 		mTowers.add(new Tower());
-		 Log.v("", "skapa mob");
 
 		mMobs.add(new Mob(mPath));
 		

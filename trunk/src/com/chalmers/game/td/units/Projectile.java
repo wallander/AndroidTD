@@ -47,7 +47,7 @@ public class Projectile extends Unit{
 		x2 = getTargetedMob().mCoordinates.getX();
 		y2 = getTargetedMob().mCoordinates.getY();
         //setAngle(0);
-        updatePosition();
+        //updatePosition();
         
     }
     

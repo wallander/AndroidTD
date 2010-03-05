@@ -71,7 +71,7 @@ public class Mob extends Unit{
         
         
         // H�RDKODAT! Ta bort sen!
-        mCoordinates = new Coordinates(40,20);
+        mCoordinates = new Coordinates(180,20);
         mSpeed = 1;
         setAngle(Math.PI * 1.5);
         mArmor = 200;
