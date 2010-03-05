@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Class which contains tower specific information
+ * 
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class Tower extends Unit{
 
@@ -16,7 +18,7 @@ public class Tower extends Unit{
 	private int mLevel;			// Tower level
 	private int mCooldownLeft;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
-	private boolean mEnabled;	// Tower SKIT I SÅLÄNGE
+	private boolean mEnabled;	// Tower SKIT I Sï¿½Lï¿½NGE
 	private TowerType mType;	// Tower type
 	// private Coordinates mCoordinates; finns i Unit
 	
@@ -50,7 +52,7 @@ public class Tower extends Unit{
     	double tx = mCoordinates.getX();
 		double ty = mCoordinates.getY();
 	
-		if (mCooldownLeft == 0) { // Om tornet inte är på cooldown
+		if (mCooldownLeft == 0) { // Om tornet inte ï¿½r pï¿½ cooldown
 
 			for (Mob m : mobs) {
 				double mx = m.mCoordinates.getX();
@@ -58,7 +60,7 @@ public class Tower extends Unit{
     	
 				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
-				// Skjut på den första moben i listan som är inom range
+				// Skjut pï¿½ den fï¿½rsta moben i listan som ï¿½r inom range
 				if (sqrDistance < mRange * mRange ){
 					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));
@@ -66,12 +68,12 @@ public class Tower extends Unit{
     		
 			}
 		
-		} else { // Om tornet är på cooldown
+		} else { // Om tornet ï¿½r pï¿½ cooldown
 			mCooldownLeft--;
 			return null;
 		}
 		
-		// Om tornet är av cooldown, och inte hittar något att skjuta
+		// Om tornet ï¿½r av cooldown, och inte hittar nï¿½got att skjuta
 		return null;
     }
     

@@ -6,8 +6,9 @@ import android.util.Log;
 import com.chalmers.game.td.units.Unit.Coordinates;
 
 /**
- * Class which represents a Projectiles on the game board.
+ * Class which represents a projectile on the game board.
  * 
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class Projectile extends Unit{
 
@@ -80,7 +81,7 @@ public class Projectile extends Unit{
 		double y1 = mYPos;
 		
 		
-		if (  x1 < x2 && y1 > y2  ) { // första kvadranten
+		if (  x1 < x2 && y1 > y2  ) { // fï¿½rsta kvadranten
 			setAngle( Math.tan((y1-y2) / (x2-x1)));
 			
 		} else if (  x1 > x2 && y1 > y2  ) { // andra kvadranten
@@ -89,7 +90,7 @@ public class Projectile extends Unit{
 		} else if (  x1 > x2 && y1 < y2  ) { // tredje kvadranten
 			setAngle( Math.tan( (y2-y1) / (x1-x2) ) + Math.PI);
 			
-		} else if (  x1 < x2 && y1 < y2  ) { // fjärde kvadranten
+		} else if (  x1 < x2 && y1 < y2  ) { // fjï¿½rde kvadranten
 			setAngle( Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI);
 
 		}

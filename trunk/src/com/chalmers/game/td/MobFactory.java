@@ -3,6 +3,11 @@ package com.chalmers.game.td;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Mob.MobType;
 
+/**
+ * 
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ *
+ */
 public class MobFactory {
 	
 	public MobFactory(){

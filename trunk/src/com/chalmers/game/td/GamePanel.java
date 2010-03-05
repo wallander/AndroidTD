@@ -27,24 +27,24 @@ import android.view.SurfaceView;
 /**
  * Custom SurfaceView to handle everything we need from physics to drawings.
  * 
- * @author martin
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     /**
      * Thread which contains our game loop.
      */
-    private GameThread _thread;
+    private GameThread mGameThread;
     
     /**
      * Model which contains the game model
      */
-    private GameModel _model;
+    private GameModel mGameModel;
     
     /**
      * Cache variable for all used images.
      */
-    private Map<Integer, Bitmap> _bitmapCache = new HashMap<Integer, Bitmap>();
+    private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
     
     
     /**
@@ -54,14 +54,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public GamePanel(Context context) {
     	 
         super(context);
-        Log.v("", "innan cache");
+        Log.v("", "Before cache");
         fillBitmapCache();
-        Log.v("", "Innan Model");
-        _model = new GameModel();
-        Log.v("", "Skapat Model");
+        Log.v("", "Before Model");
+        mGameModel = new GameModel();
+        Log.v("", "Created Model");
         getHolder().addCallback(this);
-        _thread = new GameThread(this);
-        Log.v("", "Thread skapad");
+        mGameThread = new GameThread(this);
+        Log.v("", "Thread created");
         setFocusable(true);
     }
     
@@ -69,16 +69,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Fill the bitmap cache.
      */
     private void fillBitmapCache() {
-        _bitmapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
-        _bitmapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
-        _bitmapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
-        _bitmapCache.put(R.drawable.scissors, BitmapFactory.decodeResource(getResources(), R.drawable.scissors));
-        _bitmapCache.put(R.drawable.paper, BitmapFactory.decodeResource(getResources(), R.drawable.paper));
-        _bitmapCache.put(R.drawable.rock, BitmapFactory.decodeResource(getResources(), R.drawable.rock));
-        _bitmapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
-        _bitmapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
-        _bitmapCache.put(R.drawable.big, BitmapFactory.decodeResource(getResources(), R.drawable.big));
-        _bitmapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
+        mBitMapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+        mBitMapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
+        mBitMapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
+        mBitMapCache.put(R.drawable.scissors, BitmapFactory.decodeResource(getResources(), R.drawable.scissors));
+        mBitMapCache.put(R.drawable.paper, BitmapFactory.decodeResource(getResources(), R.drawable.paper));
+        mBitMapCache.put(R.drawable.rock, BitmapFactory.decodeResource(getResources(), R.drawable.rock));
+        mBitMapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
+        mBitMapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
+        mBitMapCache.put(R.drawable.big, BitmapFactory.decodeResource(getResources(), R.drawable.big));
+        mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
    
 }
 
@@ -115,36 +115,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void updateModel() {
-
     	
-    	// Kolla om någon projectile träffat sin target
-    	// Hantera träff, ta bort projectile, beräkna skada på mob osv osv osv osv.
-    	for (int i = 0; i < _model.projectiles.size(); i++) {
-    		Projectile p = _model.projectiles.get(i);
-    			
-    		//uppdatera position för projectiles
+    	// Check if any projectile has hit it's target
+    	// Handle hit, remove projectile, calculate damage on mob, etc. etc.
+    	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
+    		Projectile p = mGameModel.mProjectiles.get(i);
+    			    		
+    		// Update position for the projectiles
     		p.updatePosition();
 
     		if (p.hasCollided()) {
     			p.inflictDmg();
-    			_model.projectiles.remove(p);
-
-    			
-    			
+    			mGameModel.mProjectiles.remove(p);
     		}
     	}
     	
     	
     	
-    	// Uppdatera koordinater för mobs och projectiles
+    	// Uppdatera koordinater fï¿½r mobs och projectiles
     	//_model.updateUnits();
-    	for (int i = 0; i < _model.mobs.size(); i++) {
-    		Mob m = _model.mobs.get(i);
+    	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+    		Mob m = mGameModel.mMobs.get(i);
     		m.updatePosition();
     		
     		if (m.getHealth() <= 0) {
-    			_model.mobs.remove(m);
-    			_model.mobs.add(MobFactory.CreateMob(Mob.MobType.GROUND));
+    			mGameModel.mMobs.remove(m);
+    			mGameModel.mMobs.add(MobFactory.CreateMob(Mob.MobType.GROUND));
     			
     		}
 
@@ -158,17 +154,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	
     	/*
-    	 * För alla torn:
-    	 * 	kolla vilka mobs man når
-    	 * 	Skjut på den närmsta (eller svagaste? ändra sen) om cooldown är nere
-    	 *  (lägg till ny Projectile i GameModel.
+    	 * Fï¿½r alla torn:
+    	 * 	kolla vilka mobs man nï¿½r
+    	 * 	Skjut pï¿½ den nï¿½rmsta (eller svagaste? ï¿½ndra sen) om cooldown ï¿½r nere
+    	 *  (lï¿½gg till ny Projectile i GameModel.
     	 * 
     	 */
-    	for (Tower t : _model.towers) {
-    		Projectile proj = t.tryToShoot(_model.mobs);
+    	for (Tower t : mGameModel.mTowers) {
+    		Projectile proj = t.tryToShoot(mGameModel.mMobs);
     		
     		if(proj != null){
-    			_model.projectiles.add(proj);
+    			mGameModel.mProjectiles.add(proj);
     		}
     		
     	}
@@ -193,22 +189,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void onDraw(Canvas canvas) {
         // draw the background
     
-    	canvas.drawBitmap(_bitmapCache.get(R.drawable.abstrakt), 0 , 0, null);
-     	for (Mob m : _model.mobs) {
+    	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
+     	for (Mob m : mGameModel.mMobs) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.man), (int) m.mCoordinates.getX() , (int) m.mCoordinates.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.mCoordinates.getX() , (int) m.mCoordinates.getY() , null);
     		
     	}
      	
-     	for (Tower t : _model.towers) {
+     	for (Tower t : mGameModel.mTowers) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.rock), (int) t.mCoordinates.getX() , (int) t.mCoordinates.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.mCoordinates.getX() , (int) t.mCoordinates.getY() , null);
     		
     	}
      	
-     	for (Projectile p : _model.projectiles) {
+     	for (Projectile p : mGameModel.mProjectiles) {
 
-    		canvas.drawBitmap(_bitmapCache.get(R.drawable.scissors), (int) p.mCoordinates.getX() , (int) p.mCoordinates.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.scissors), (int) p.mCoordinates.getX() , (int) p.mCoordinates.getY() , null);
     		
     	}
      	
@@ -227,11 +223,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Which could be on first start or relaunch.
      */
     public void surfaceCreated(SurfaceHolder holder) {
-        if (!_thread.isAlive()) {
-            _thread = new GameThread(this);
+        if (!mGameThread.isAlive()) {
+            mGameThread = new GameThread(this);
         }
-        _thread.setRunning(true);
-        _thread.start();
+        mGameThread.setRunning(true);
+        mGameThread.start();
     }
 
     /**
@@ -240,10 +236,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        _thread.setRunning(false);
+        mGameThread.setRunning(false);
         while (retry) {
             try {
-                _thread.join();
+                mGameThread.join();
                 retry = false;
             } catch (InterruptedException e) {
                 // we will try it again and again...

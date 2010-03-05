@@ -2,6 +2,11 @@ package com.chalmers.game.td;
 
 import java.util.List;
 
+/**
+ * 
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ *
+ */
 public class Path {
 	private List<Coordinates> mPath;
 	private List<Double> mAngles;

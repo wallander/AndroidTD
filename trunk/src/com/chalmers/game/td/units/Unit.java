@@ -2,7 +2,7 @@ package com.chalmers.game.td.units;
 
 /**
  * 
- * @author Jonas Wallander
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  *
  */
 public class Unit 

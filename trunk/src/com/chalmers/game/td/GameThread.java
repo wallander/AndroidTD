@@ -5,11 +5,11 @@ import android.graphics.Canvas;
 /**
  * Thread class to perform the so called "game loop".
  * 
- * @author martin
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 class GameThread extends Thread {
-    private GamePanel _panel;
-    private boolean _run = false;
+    private GamePanel mGamePanel;
+    private boolean mRunThread = false;
     
     /**
      * Constructor.
@@ -17,21 +17,21 @@ class GameThread extends Thread {
      * @param panel View class on which we trigger the drawing.
      */
     public GameThread(GamePanel panel) {
-        _panel = panel;
+        mGamePanel = panel;
     }
     
     /**
      * @param run Should the game loop keep running? 
      */
     public void setRunning(boolean run) {
-        _run = run;
+        mRunThread = run;
     }
     
     /**
      * @return If the game loop is running or not.
      */
     public boolean isRunning() {
-        return _run;
+        return mRunThread;
     }
     
     /**
@@ -43,20 +43,20 @@ class GameThread extends Thread {
     @Override
     public void run() {
         Canvas c;
-        while (_run) {
+        while (mRunThread) {
             c = null;
             try {
-                c = _panel.getHolder().lockCanvas(null);
-                synchronized (_panel.getHolder()) {
-                    _panel.updateModel();
-                    _panel.onDraw(c);
+                c = mGamePanel.getHolder().lockCanvas(null);
+                synchronized (mGamePanel.getHolder()) {
+                    mGamePanel.updateModel();
+                    mGamePanel.onDraw(c);
                 }
             } finally {
                 // do this in a finally so that if an exception is thrown
                 // during the above, we don't leave the Surface in an
                 // inconsistent state
                 if (c != null) {
-                    _panel.getHolder().unlockCanvasAndPost(c);
+                    mGamePanel.getHolder().unlockCanvasAndPost(c);
                 }
             }
         }
