@@ -4,9 +4,14 @@ import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Mob.MobType;
 
 /**
+ * Factory class that is used to create mobs of different kinds.
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
- *
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 public class MobFactory {
 	
@@ -14,8 +19,7 @@ public class MobFactory {
 		
 	}
 	
-	public static Mob CreateMob(MobType pType){
-		
+	public static Mob createMob(MobType pType){
 		switch (pType){
 			case HIHEALTH: 
 				return new Mob(Mob.MobType.HIHEALTH);
@@ -29,7 +33,7 @@ public class MobFactory {
 		
 	}
 	/*
-	public Mob CreateMob(int pType){
+	public Mob createMob(int pType){
 		
 		Mob m;
 		switch (pType) {

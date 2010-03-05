@@ -10,15 +10,17 @@ import android.util.Log;
 /**
  * Class which represents a Mob on the game board.
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 public class Mob extends Unit{
 
 	/** Mob name */
 	private String mName;
-	
-
-	
 	
 	/** Mob health */
 	private int mHealth;
@@ -50,53 +52,87 @@ public class Mob extends Unit{
 
 	
 	/**
-     * TestConstructor. skapar en testmob, hï¿½rdkodad osv osv.
+     * TestConstructor. hard coded lol-mob for testing purposes. TODO
      * 
      * @param 
      */
 
     public Mob(Path pPath) {
         mPath = pPath;
-    	mCoordinates = mPath.getCoordinate(0);
-    	mCheckpoint = 1;
+    	setCoordinates(mPath.getCoordinate(0));
+    	setCheckpoint(1);
     	updateAngle();
     	
     	
-        mSpeed = 1;        
-        mArmor = 200;
-        setHealth(200);
+        setSpeed(1);        
+       
+        setHealth(1200);
+        setArmor(1200);
 
     }
 	
+    /**
+     * Setter for mob movement speed
+     * @param i
+     */
+	private void setSpeed(int i) {
+		mSpeed = i;
+	}
 	/**
-     * Constructor.
+	 * Setter for mob armor
+	 * @param i
+	 */
+	private void setArmor(int i) {
+		mArmor = i;
+		
+	}
+
+	/**
+     * Constructor. even more hard code lolmobs.
      * 
      * 
      */
     public Mob(MobType pType) {
         setType(pType);
         
-        
-        // Hï¿½RDKODAT! Ta bort sen!
-        mCoordinates = new Coordinates(180,20);
-        mSpeed = 1;
+        setCoordinates(new Coordinates(180,20));
+        setSpeed(1);
         setAngle(Math.PI * 1.5);
-        mArmor = 1200;
+
+        
         setHealth(1200);
+        setArmor(1200);
+
         
         
     }
 	
+    /**
+     * Constructor
+     * 
+     * @param pHealth Mob health
+     * @param pSpeed Mob movement speed
+     * @param pAngle Mob movement angle
+     * @param pArmor Mob armor
+     */
     public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
-    	mHealth = pHealth;
-    	mSpeed = pSpeed;
-    	mAngle = pAngle;
-    	mArmor = pArmor;
+    	setHealth(pHealth);
+    	setSpeed(pSpeed);
+    	setAngle(pAngle);
+    	setArmor(pArmor);
     }
 
+    /**
+     * Setter for which checkpoint the mob is walking to.
+     * 
+     * @param pCheckpoint
+     */
+    public void setCheckpoint(int pCheckpoint) {
+    	mCheckpoint = pCheckpoint;
+    }
     
     /**
-     * @return The speed of the instance
+     * @return
      */
     public int getSpeed() {
         return mSpeed;
@@ -105,7 +141,7 @@ public class Mob extends Unit{
 
 
     /**
-     * @param type The new type of the instance.
+     * @param
      */
     public void setType(MobType pType) {
         mType = pType;
@@ -131,11 +167,19 @@ public class Mob extends Unit{
 	public int getHealth() {
 		return mHealth;
 	}
-
+	
+	/**
+	 * Settes for mob movement angle
+	 * @param mAngle
+	 */
 	public void setAngle(double mAngle) {
 		this.mAngle = mAngle;
 	}
 
+	/**
+	 * Getter for mob movement angle
+	 * @return
+	 */
 	public double getAngle() {
 		return mAngle;
 	}
@@ -143,42 +187,40 @@ public class Mob extends Unit{
 	/**
 	 * Updates the mobs position according to speed and angle.
 	 */
-	
-	private double mXPos;
-	private double mYPos;
 	public void updatePosition() {
 		
-		if (mXPos == 0.0 || mYPos == 0.0) {
-			mXPos = mCoordinates.getX();
-			mYPos = mCoordinates.getY();
-		}
-		
-		// kolla om moben är framme vid sin checkpoint
-		// om den är det, hitta nästa checkpoint och sätt angle
-		
+		// if the mob reached his current checkpoint, change direction for the next checkpoint
 		if (reachedCheckpoint()) {
-			mCheckpoint++;
+			setCheckpoint(getCheckpoint()+1);
 			updateAngle();
 		}
 		
-		
-		
-		mXPos += getSpeed() * Math.cos(getAngle());
-		mYPos -= getSpeed() * Math.sin(getAngle());
-		
-		mCoordinates.setX(mXPos);
-		mCoordinates.setY(mYPos);
+		setX(getX() + (getSpeed() * Math.cos(getAngle())));
+		setY(getY() - (getSpeed() * Math.sin(getAngle())));
 		
 	}
 
+	/**
+	 * Getter for the current checkpoint number
+	 * @return
+	 */
+	private int getCheckpoint() {
+		return mCheckpoint;
+	}
+
+	/**
+	 * Method that checks whether the mob has reached its current checkpoint
+	 * Slightly bugged. TODO
+	 * @return
+	 */
 	public boolean reachedCheckpoint() {
 		
-		double tx = mCoordinates.getX();
-		double ty = mCoordinates.getY();
+		double tx = getX();
+		double ty = getY();
 	
 		try {
-    	 mPath.getCoordinate(mCheckpoint).getX();
-    	mPath.getCoordinate(mCheckpoint).getY();
+			mPath.getCoordinate(mCheckpoint).getX();
+			mPath.getCoordinate(mCheckpoint).getY();
 		} catch (Exception e) {
 			return false;
 		}
@@ -191,15 +233,18 @@ public class Mob extends Unit{
     	
 		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
-		if (sqrDistance < mSpeed)
+		if (sqrDistance < getSpeed())
 			return true;
 		
 		return false;
 		
 	}
 	
+	/**
+	 * Update the mobs movement angle according to its current checkpoint.
+	 */
 	public void updateAngle() {
-		setAngle(Coordinates.getAngle(this.mCoordinates, mPath.getCoordinate(mCheckpoint)));
+		setAngle(Coordinates.getAngle(this.getCoordinates(), mPath.getCoordinate(mCheckpoint)));
 		
 	}
    

@@ -5,7 +5,12 @@ import android.graphics.Canvas;
 /**
  * Thread class to perform the so called "game loop".
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 class GameThread extends Thread {
     private GamePanel mGamePanel;
@@ -37,8 +42,8 @@ class GameThread extends Thread {
     /**
      * Perform the game loop.
      * Order of performing:
-     * 1. update physics
-     * 3. draw everything
+     * 1. update game model
+     * 2. draw everything
      */
     @Override
     public void run() {
