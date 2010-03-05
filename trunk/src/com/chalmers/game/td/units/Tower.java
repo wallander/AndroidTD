@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Class which contains tower specific information
+ * 
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class Tower extends Unit{
 
@@ -14,9 +16,9 @@ public class Tower extends Unit{
 	private int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
 	private int mLevel;			// Tower level
-	private int mWait2SHoot;	// Tower shoot delay
+	private int mCooldownLeft;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
-	private boolean mEnabled;	// Tower SKIT I SÅLÄNGE
+	private boolean mEnabled;	// Tower SKIT I Sï¿½Lï¿½NGE
 	private TowerType mType;	// Tower type
 	// private Coordinates mCoordinates; finns i Unit
 	
@@ -27,9 +29,9 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(){
-    	mCoordinates = new Coordinates(60, 300);
+    	mCoordinates = new Coordinates(130, 150);
     	mRange = 200;
-    	mAttackSpeed = 5;
+    	mAttackSpeed = 20;
     	mDamage = 10;
     	mEnabled = true;
     }
@@ -47,21 +49,32 @@ public class Tower extends Unit{
     
     
     public Projectile tryToShoot(List<Mob> mobs){
-    	int tx = mCoordinates.getX();
-		int ty = mCoordinates.getY();
+    	double tx = mCoordinates.getX();
+		double ty = mCoordinates.getY();
 	
-		for (Mob m : mobs) {
-    		int mx = m.mCoordinates.getX();
-    		int my = m.mCoordinates.getY();
+		if (mCooldownLeft == 0) { // Om tornet inte ï¿½r pï¿½ cooldown
+
+			for (int i=0; i<mobs.size();i++) {
+				Mob m = mobs.get(i);
+				double mx = m.mCoordinates.getX();
+				double my = m.mCoordinates.getY();
     	
-    		int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
-	    		if (sqrDistance < mRange * mRange ){
-	    			
+				// Skjut på den första moben i listan som är inom range
+				if (sqrDistance < mRange * mRange ){
+					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));
 	    		}
     		
+			}
+		
+		} else { // Om tornet ï¿½r pï¿½ cooldown
+			mCooldownLeft--;
+			return null;
 		}
+		
+		// Om tornet ï¿½r av cooldown, och inte hittar nï¿½got att skjuta
 		return null;
     }
     

@@ -6,8 +6,9 @@ import android.util.Log;
 import com.chalmers.game.td.units.Unit.Coordinates;
 
 /**
- * Class which represents a Projectiles on the game board.
+ * Class which represents a projectile on the game board.
  * 
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class Projectile extends Unit{
 
@@ -29,6 +30,8 @@ public class Projectile extends Unit{
 	/** Projectile movement angle */
 	private double mAngle;
     
+	double x2;
+	double y2;
 	
 	/**
      * Constructor.
@@ -41,7 +44,9 @@ public class Projectile extends Unit{
         mTower = pTower;
         mSpeed = 2;
         mDamage = 50;
-        setAngle(0);
+		x2 = getTargetedMob().mCoordinates.getX();
+		y2 = getTargetedMob().mCoordinates.getY();
+        //setAngle(0);
         updatePosition();
         
     }
@@ -71,44 +76,30 @@ public class Projectile extends Unit{
     
 	private double mXPos;
 	private double mYPos;
+	
 	public void updatePosition() {
-		int x2 = mTarget.mCoordinates.getX();
-		int y2 = mTarget.mCoordinates.getY();
+		if(getTargetedMob().getHealth() > 0){
+			x2 = getTargetedMob().mCoordinates.getX();
+			y2 = getTargetedMob().mCoordinates.getY();
+		} 
 		
-		int x1 = mCoordinates.getX();
-		int y1 = mCoordinates.getY();
-		
-		
-		
-		/*double newAngle = Math.tan((targety - mCoordinates.getY()) / (targetx - mCoordinates.getX()));
-		if(targety > mCoordinates.getY()){
-			newAngle += Math.PI;
-		}
-		*/
+		double x1 = mXPos;
+		double y1 = mYPos;
 		
 		
-		double newAngle = 0;
-		if (  x1 < x2 && y1 > y2  ) { // första kvadranten
-			newAngle = Math.tan((y1-y2) / (x2-x1));
-			
+		if (  x1 < x2 && y1 > y2  ) { // fï¿½rsta kvadranten
+			setAngle( Math.tan((y1-y2) / (x2-x1)));
 			
 		} else if (  x1 > x2 && y1 > y2  ) { // andra kvadranten
-			newAngle = Math.tan( (x1-x2) / (y1-y2)  ) + 0.5*Math.PI;
-			
+			setAngle( Math.tan( (x1-x2) / (y1-y2)  ) + 0.5*Math.PI);
 			
 		} else if (  x1 > x2 && y1 < y2  ) { // tredje kvadranten
-			newAngle = Math.tan( (y2-y1) / (x1-x2) ) + Math.PI;
+			setAngle( Math.tan( (y2-y1) / (x1-x2) ) + Math.PI);
 			
-			
-		} else if (  x1 < x2 && y1 < y2  ) { // fjärde kvadranten
-			newAngle = Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI;
-			
-			
+		} else if (  x1 < x2 && y1 < y2  ) { // fjï¿½rde kvadranten
+			setAngle( Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI);
+
 		}
-		
-		
-		setAngle(newAngle);
-		
 		
 		
 		if (mXPos == 0.0 || mYPos == 0.0) {
@@ -119,8 +110,8 @@ public class Projectile extends Unit{
 		mXPos += getSpeed() * Math.cos(getAngle());
 		mYPos -= getSpeed() * Math.sin(getAngle());
 		
-		mCoordinates.setX((int)mXPos);
-		mCoordinates.setY((int)mYPos);
+		mCoordinates.setX(mXPos);
+		mCoordinates.setY(mYPos);
 	}
 	
   
@@ -135,14 +126,14 @@ public class Projectile extends Unit{
 	public boolean hasCollided() {
 		// TODO Auto-generated method stub
 		
-		int tx = mCoordinates.getX();
-		int ty = mCoordinates.getY();
+		double tx = mCoordinates.getX();
+		double ty = mCoordinates.getY();
 	
 		
-    	int mx = mTarget.mCoordinates.getX();
-    	int my = mTarget.mCoordinates.getY();
+    	double mx = x2;
+    	double my = y2;
 		
-		int sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
 		if (sqrDistance < 10)
 			return true;

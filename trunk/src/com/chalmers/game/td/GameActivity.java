@@ -7,7 +7,7 @@ import android.view.Window;
 /**
  * Activity which will be used as main entry point for the application.
  * 
- * @author martin
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class GameActivity extends Activity {
     
