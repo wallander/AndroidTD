@@ -3,7 +3,7 @@ package com.chalmers.game.td.units;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.chalmers.game.td.units.Unit.Coordinates;
+import com.chalmers.game.td.Coordinates;
 
 /**
  * Class which represents a projectile on the game board.
@@ -47,7 +47,7 @@ public class Projectile extends Unit{
 		x2 = getTargetedMob().mCoordinates.getX();
 		y2 = getTargetedMob().mCoordinates.getY();
         //setAngle(0);
-        updatePosition();
+        //updatePosition();
         
     }
     
@@ -86,20 +86,9 @@ public class Projectile extends Unit{
 		double x1 = mXPos;
 		double y1 = mYPos;
 		
-		
-		if (  x1 < x2 && y1 > y2  ) { // f�rsta kvadranten
-			setAngle( Math.tan((y1-y2) / (x2-x1)));
-			
-		} else if (  x1 > x2 && y1 > y2  ) { // andra kvadranten
-			setAngle( Math.tan( (x1-x2) / (y1-y2)  ) + 0.5*Math.PI);
-			
-		} else if (  x1 > x2 && y1 < y2  ) { // tredje kvadranten
-			setAngle( Math.tan( (y2-y1) / (x1-x2) ) + Math.PI);
-			
-		} else if (  x1 < x2 && y1 < y2  ) { // fj�rde kvadranten
-			setAngle( Math.tan( (x2-x1) / (y2-y1)  ) + 1.5*Math.PI);
+		setAngle(Coordinates.getAngle(this.mCoordinates, getTargetedMob().mCoordinates));
 
-		}
+
 		
 		
 		if (mXPos == 0.0 || mYPos == 0.0) {

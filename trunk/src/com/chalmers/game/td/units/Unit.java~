@@ -14,6 +14,7 @@ public class Unit
 	protected	int			mWidth,
 							mHeight;
 	
+<<<<<<< HEAD:trunk/src/com/chalmers/game/td/units/Unit.java
 	/**
 	 * 	 COORDINATES
 	 */
@@ -92,4 +93,8 @@ public class Unit
 			return mYPos;
 		}
 	}
+=======
+	
+	
+>>>>>>> 2fe83e9077397f3dc38b4a4cd1f08151efd54111:trunk/src/com/chalmers/game/td/units/Unit.java
 }

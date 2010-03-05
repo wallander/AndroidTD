@@ -1,7 +1,7 @@
 package com.chalmers.game.td.units;
 
 import com.chalmers.game.td.Path;
-import com.chalmers.game.td.units.Unit.Coordinates;
+import com.chalmers.game.td.Coordinates;
 import com.chalmers.game.td.units.Unit;
 
 import android.graphics.Bitmap;
@@ -16,6 +16,9 @@ public class Mob extends Unit{
 
 	/** Mob name */
 	private String mName;
+	
+
+	
 	
 	/** Mob health */
 	private int mHealth;
@@ -32,9 +35,10 @@ public class Mob extends Unit{
 	/** Mob type (Ground, air or invisible) */
 	private MobType mType;	
 	
-	/** Mob target (To next crossroad */
-	private Coordinates mNextCrossRoad;
+	/** Path Checkpoint */
+	private int mCheckpoint;
 	
+	/** Path */
 	private Path mPath;
 	
 	
@@ -52,13 +56,16 @@ public class Mob extends Unit{
      */
 
     public Mob(Path pPath) {
-    	mCoordinates = new Coordinates(40, 15);
-
-        mSpeed = 1;
-        setAngle(Math.PI * 1.5);
+        mPath = pPath;
+    	mCoordinates = mPath.getCoordinate(0);
+    	mCheckpoint = 1;
+    	updateAngle();
+    	
+    	
+        mSpeed = 1;        
         mArmor = 200;
         setHealth(200);
-        mPath = pPath;
+
     }
 	
 	/**
@@ -71,7 +78,7 @@ public class Mob extends Unit{
         
         
         // Hï¿½RDKODAT! Ta bort sen!
-        mCoordinates = new Coordinates(40,20);
+        mCoordinates = new Coordinates(180,20);
         mSpeed = 1;
         setAngle(Math.PI * 1.5);
         mArmor = 200;
@@ -146,6 +153,16 @@ public class Mob extends Unit{
 			mYPos = mCoordinates.getY();
 		}
 		
+		// kolla om moben är framme vid sin checkpoint
+		// om den är det, hitta nästa checkpoint och sätt angle
+		
+		if (reachedCheckpoint()) {
+			mCheckpoint++;
+			updateAngle();
+		}
+		
+		
+		
 		mXPos += getSpeed() * Math.cos(getAngle());
 		mYPos -= getSpeed() * Math.sin(getAngle());
 		
@@ -154,5 +171,36 @@ public class Mob extends Unit{
 		
 	}
 
+	public boolean reachedCheckpoint() {
+		
+		double tx = mCoordinates.getX();
+		double ty = mCoordinates.getY();
+	
+		try {
+    	 mPath.getCoordinate(mCheckpoint).getX();
+    	mPath.getCoordinate(mCheckpoint).getY();
+		} catch (Exception e) {
+			return false;
+		}
+    	
+		double mx = mPath.getCoordinate(mCheckpoint).getX();
+    	double my = mPath.getCoordinate(mCheckpoint).getY();
+		
+		if (mx == 0 && my == 0)
+			return false;
+    	
+		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+		
+		if (sqrDistance < mSpeed)
+			return true;
+		
+		return false;
+		
+	}
+	
+	public void updateAngle() {
+		setAngle(Coordinates.getAngle(this.mCoordinates, mPath.getCoordinate(mCheckpoint)));
+		
+	}
    
 }
