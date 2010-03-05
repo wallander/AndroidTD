@@ -50,7 +50,7 @@ public class Mob extends Unit{
 
 	
 	/**
-     * TestConstructor. skapar en testmob, hï¿½rdkodad osv osv.
+     * TestConstructor. skapar en testmob, hardkodad osv osv. DONOT USE SWEDISH CHARACTERS PLEASE!!!!
      * 
      * @param 
      */
@@ -153,8 +153,8 @@ public class Mob extends Unit{
 			mYPos = mCoordinates.getY();
 		}
 		
-		// kolla om moben är framme vid sin checkpoint
-		// om den är det, hitta nästa checkpoint och sätt angle
+		// kolla om moben ï¿½r framme vid sin checkpoint
+		// om den ï¿½r det, hitta nï¿½sta checkpoint och sï¿½tt angle
 		
 		if (reachedCheckpoint()) {
 			mCheckpoint++;
