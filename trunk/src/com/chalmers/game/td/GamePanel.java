@@ -118,9 +118,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	// Check if any projectile has hit it's target
     	// Handle hit, remove projectile, calculate damage on mob, etc. etc.
+    	
     	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
     		Projectile p = mGameModel.mProjectiles.get(i);
-    			    		
+
     		// Update position for the projectiles
     		p.updatePosition();
 
@@ -134,6 +135,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	// Uppdatera koordinater f�r mobs och projectiles
     	//_model.updateUnits();
+    	
     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
     		Mob m = mGameModel.mMobs.get(i);
     		m.updatePosition();
@@ -166,8 +168,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	}
     	
     }
-    
-
 
     
     /**
