@@ -186,25 +186,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     @Override
     public void onDraw(Canvas canvas) {
+    	
         // draw the background
-    
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
+    	
+    	// draw all mobs
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
      		Mob m = mGameModel.mMobs.get(i);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.mCoordinates.getX() , (int) m.mCoordinates.getY() , null);
+     		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() , (int) m.getY() , null);
+    	/*
+    	 * Here we should draw a healthbar for each mob aswell
+    	 */
     		
-    	}
+     	}
      	
+     	// draw all towers
      	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
      		Tower t = mGameModel.mTowers.get(i);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.mCoordinates.getX() , (int) t.mCoordinates.getY() , null);
-    		
+     		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
     	}
      	
+     	// draw all projectiles
      	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
      		Projectile p = mGameModel.mProjectiles.get(i);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.scissors), (int) p.mCoordinates.getX() , (int) p.mCoordinates.getY() , null);
-    		
+     		////canvas.drawBitmap(mBitMapCache.get(p.getBitmap()), (int) p.getX() , (int) p.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.scissors), (int) p.getX() , (int) p.getY() , null);
     	}
      	
     	 

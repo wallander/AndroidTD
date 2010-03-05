@@ -31,7 +31,7 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(){
-    	mCoordinates = new Coordinates(130, 150);
+    	setCoordinates(new Coordinates(130, 150));
     	mRange = 200;
     	mAttackSpeed = 20;
     	mDamage = 10;
@@ -44,22 +44,22 @@ public class Tower extends Unit{
 	 */
     public Tower(TowerType pType, int pPosX, int pPosY){
     	setType(pType);
-    	mCoordinates.setX(pPosX);
-    	mCoordinates.setY(pPosY);
+    	setX(pPosX);
+    	setY(pPosY);
     }
     
     
     
     public Projectile tryToShoot(List<Mob> mobs){
-    	double tx = mCoordinates.getX();
-		double ty = mCoordinates.getY();
+    	double tx = this.getX();
+		double ty = this.getY();
 	
 		if (mCooldownLeft == 0) { // Om tornet inte �r p� cooldown
 
 			for (int i=0; i<mobs.size();i++) {
 				Mob m = mobs.get(i);
-				double mx = m.mCoordinates.getX();
-				double my = m.mCoordinates.getY();
+				double mx = m.getX();
+				double my = m.getY();
     	
 				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
