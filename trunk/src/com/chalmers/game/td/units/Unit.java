@@ -3,6 +3,9 @@ package com.chalmers.game.td.units;
 import com.chalmers.game.td.Coordinates;
 
 /**
+ * Abstract class that represents a unit on the game field.
+ * 
+ * Right now this handles the coordinates of the unit.
  * 
  * @author Fredrik Persson
  * @author Jonas Andersson

@@ -22,11 +22,11 @@ public class GameActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	
-    	
         super.onCreate(savedInstanceState);
         
+        // Set the screen orientation to Portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new GamePanel(this));
     }

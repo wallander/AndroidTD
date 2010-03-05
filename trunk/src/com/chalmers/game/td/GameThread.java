@@ -42,8 +42,8 @@ class GameThread extends Thread {
     /**
      * Perform the game loop.
      * Order of performing:
-     * 1. update physics
-     * 3. draw everything
+     * 1. update game model
+     * 2. draw everything
      */
     @Override
     public void run() {

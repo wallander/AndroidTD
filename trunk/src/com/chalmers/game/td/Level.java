@@ -5,6 +5,7 @@ import java.util.List;
 import com.chalmers.game.td.units.Mob;
 
 /**
+ * Class that represents a level of the game.
  * 
  * @author Fredrik Persson
  * @author Jonas Andersson
@@ -20,6 +21,11 @@ public class Level {
 	private List<Mob>	mWaves;
 	private int			mLevel;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param pLevel The level number
+	 */
 	public Level(int pLevel){
 		setLevel(pLevel);
 	}
@@ -27,21 +33,25 @@ public class Level {
 	// SET METHODS
 	
 	/**
-	 * @param pLevel
+	 * Setter for Level number
+	 * 
+	 * @param pLevel Level number
 	 */
 	public void setLevel(int pLevel){
 		mLevel = pLevel;	
 	}
 	
 	/**
+	 * Setter for the game map Bitmap
 	 * 
-	 * @param pMap
+	 * @param pMap Game map
 	 */
 	public void setMap(Bitmap pMap){
 		mMap = pMap;
 	}
 	
 	/**
+	 * Setter for the paths the mobs should take
 	 * 
 	 * @param pPath
 	 */
@@ -49,6 +59,11 @@ public class Level {
 		mPath = pPath;
 	}
 	
+	/**
+	 * Setter for the mob waves on the level. Should probably be an add-method instead. TODO
+	 * 
+	 * @param pWaves
+	 */
 	public void setWaves(List<Mob> pWaves)
 	{
 		mWaves = pWaves;
@@ -57,21 +72,25 @@ public class Level {
 	// GET METHODS
 	
 	/**
-	 * @return mLevel
+	 * Getter for the level number
+	 * 
+	 * @return mLevel Level number
 	 */
 	public int getLevel(){
 		return mLevel;
 	}
 	
 	/**
+	 * Getter for the game map Bitmap
 	 * 
-	 * @return mMap
+	 * @return mMap Game map
 	 */
 	public Bitmap getMap() {
 		return mMap;
 	}
 	
 	/**
+	 * Getter for the paths
 	 * 
 	 * @return mPath
 	 */
@@ -80,6 +99,7 @@ public class Level {
 	}
 	
 	/**
+	 * Getter for the mob waves
 	 * 
 	 * @return mWaves
 	 */
