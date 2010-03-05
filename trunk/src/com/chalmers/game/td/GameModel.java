@@ -45,14 +45,14 @@ public class GameModel {
 		
 		Mob a,b,c;
 		
-		a = MobFactory.CreateMob(Mob.MobType.GROUND);
+		//a = MobFactory.CreateMob(Mob.MobType.GROUND);
 		
 		//b = MobFactory.CreateMob(Mob.MobType.GROUND);
 		//c = MobFactory.CreateMob(Mob.MobType.GROUND);
 		
 		
 		
-		mMobs.add(a);
+		//mMobs.add(a);
 		//mobs.add(b);
 		//mobs.add(c);
 		/////////////////////////////////////////////////////////////////////////////
