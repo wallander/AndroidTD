@@ -1,6 +1,8 @@
 package com.chalmers.game.td.units;
 
+import com.chalmers.game.td.Path;
 import com.chalmers.game.td.units.Unit.Coordinates;
+import com.chalmers.game.td.units.Unit;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -8,7 +10,7 @@ import android.util.Log;
 /**
  * Class which represents a Mob on the game board.
  * 
- * @author Tomten
+ * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
  */
 public class Mob extends Unit{
 
@@ -33,26 +35,30 @@ public class Mob extends Unit{
 	/** Mob target (To next crossroad */
 	private Coordinates mNextCrossRoad;
 	
+	private Path mPath;
 	
 	
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	private enum MobType { AIR, GROUND, INVIS }
+	public enum MobType { HIHEALTH, GROUND, FAST }
     
 
 	
 	/**
-     * TestConstructor. skapar en testmob, hårdkodad osv osv.
+     * TestConstructor. skapar en testmob, hï¿½rdkodad osv osv.
      * 
      * @param 
      */
-    public Mob() {
-    	mCoordinates = new Coordinates(25, 15);
+
+    public Mob(Path pPath) {
+    	mCoordinates = new Coordinates(40, 15);
+
         mSpeed = 1;
         setAngle(Math.PI * 1.5);
         mArmor = 200;
         setHealth(200);
+        mPath = pPath;
     }
 	
 	/**
@@ -61,12 +67,25 @@ public class Mob extends Unit{
      * 
      */
     public Mob(MobType pType) {
-       
-        mType = pType;
+        setType(pType);
+        
+        
+        // Hï¿½RDKODAT! Ta bort sen!
+        mCoordinates = new Coordinates(40,20);
+        mSpeed = 1;
+        setAngle(Math.PI * 1.5);
+        mArmor = 200;
+        setHealth(200);
+        
+        
     }
 	
-    
-
+    public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
+    	mHealth = pHealth;
+    	mSpeed = pSpeed;
+    	mAngle = pAngle;
+    	mArmor = pArmor;
+    }
 
     
     /**

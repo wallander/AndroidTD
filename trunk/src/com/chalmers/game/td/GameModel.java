@@ -10,41 +10,57 @@ import android.media.SoundPool;
 import android.util.Log;
 
 import com.chalmers.game.td.units.*;
+import com.chalmers.game.td.Path;
 
+/**
+ * 
+ * @author @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ *
+ */
 public class GameModel {
-
-
-	/*
-	 * Lista med alla torn
-	 * Lista med alla mobs
-	 */
 	
-	protected List<Tower> towers;
-	protected List<Mob> mobs;
-	protected List<Projectile> projectiles;
+	protected List<Tower> mTowers;
+	protected List<Mob> mMobs;
+	protected List<Projectile> mProjectiles;
+	protected Path mPath;
 	
 	/**
 	 * Constructor
 	 */
 	public GameModel() {
 		 Log.v("", "Konstuktorn startar");
-		towers = new ArrayList<Tower>();
-		 Log.v("", "Efter towers");
-		mobs = new ArrayList<Mob>();
-		 Log.v("", "Efter mobs");
-		projectiles = new ArrayList<Projectile>();
-		 Log.v("", "Efter PRO");
+		mTowers = new ArrayList<Tower>();
+		 Log.v("", "After towers");
+		mMobs = new ArrayList<Mob>();
+		 Log.v("", "After mobs");
+		mProjectiles = new ArrayList<Projectile>();
+		 Log.v("", "After PRO");
+		 mPath = new Path();
 		
 		
-		/*
-		 * Hårdkodar in ett torn och en mob
-		 */
+		// Temporary code to add a tower and a mob for testing purposes	
 		 Log.v("", "Skapa tower");
-		towers.add(new Tower());
+		mTowers.add(new Tower());
 		 Log.v("", "skapa mob");
-		mobs.add(new Mob());
+
+		mMobs.add(new Mob(mPath));
 		
+		Mob a,b,c;
+		
+		a = MobFactory.CreateMob(Mob.MobType.GROUND);
+		
+		//b = MobFactory.CreateMob(Mob.MobType.GROUND);
+		//c = MobFactory.CreateMob(Mob.MobType.GROUND);
+		
+		
+		
+		mMobs.add(a);
+		//mobs.add(b);
+		//mobs.add(c);
+		/////////////////////////////////////////////////////////////////////////////
 	}
+	
+	
 
 	
 }

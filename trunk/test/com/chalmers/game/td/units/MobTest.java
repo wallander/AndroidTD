@@ -5,15 +5,18 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.chalmers.game.td.MobFactory;
+
 public class MobTest {
+	private Mob m;
 
 	@Before
 	public void setUp(){
-		Mob m = new Mob();
+		m = MobFactory.CreateMob(Mob.MobType.GROUND);
 	}
 	
 	@Test
-	public final void testMob() {
+	public final void testUpdateDirection() {
 		fail("Not yet implemented"); // TODO
 	}
 
