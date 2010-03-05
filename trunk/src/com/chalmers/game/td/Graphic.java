@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 /**
  * Class which contains a object we want to draw on specific position.
  * 
- * @author martin
+ * @author 
  */
 public class Graphic {
 
