@@ -50,19 +50,20 @@ public class Coordinates
 		 double y2 = to.getY();
 		 
 		 
-		 if (x1 < x2 && y1 > y2) {
+		 if (x1 < x2 && y1 >= y2) {
 			 // if "to" is in the first quadrant of "from"
-			return Math.tan((y1-y2) / (x2-x1));
-		} else if (x1 > x2 && y1 > y2) {
+			return Math.atan((y1-y2) / (x2-x1));
+		} else if (x1 >= x2 && y1 > y2) {
 			// if "to" is in the second quadrant of "from"
-			return Math.tan((x1-x2) / (y1-y2)) + 0.5*Math.PI;
-		} else if (x1 > x2 && y1 < y2) { 
+			return Math.atan((x1-x2) / (y1-y2)) + 0.5*Math.PI;
+		} else if (x1 > x2 && y1 <= y2) { 
 			// if "to" is in the third quadrant of "from"
-			return Math.tan((y2-y1) / (x1-x2)) + Math.PI;
-		} else if (x1 < x2 && y1 < y2) { 
+			return Math.atan((y2-y1) / (x1-x2)) + Math.PI;
+		} else if (x1 <= x2 && y1 < y2) { 
 			// if "to" is in the fourth quadrant of "from"
-			return Math.tan((x2-x1) / (y2-y1)) + 1.5*Math.PI;
+			return Math.atan((x2-x1) / (y2-y1)) + 1.5*Math.PI;
 		} else {
+			/*
 			// if "to" and "from" are on the same place on the X-axis
 			if (x1 == x2 && y1 < y2)
 				return 1.5*Math.PI;
@@ -74,6 +75,7 @@ public class Coordinates
 				return 0;
 			if (y1 == y2 && x1 > x2)
 				return Math.PI;
+				*/
 		}
 
 		 // if "to" and "from" are on the exact same spot
