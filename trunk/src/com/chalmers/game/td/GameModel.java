@@ -43,7 +43,7 @@ public class GameModel {
 
 		mMobs.add(new Mob(mPath));
 		
-		Mob a,b,c;
+		
 		
 		//a = MobFactory.CreateMob(Mob.MobType.GROUND);
 		

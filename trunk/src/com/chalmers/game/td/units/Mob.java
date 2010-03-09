@@ -17,9 +17,6 @@ public class Mob extends Unit{
 	/** Mob name */
 	private String mName;
 	
-
-	
-	
 	/** Mob health */
 	private int mHealth;
 	
@@ -57,17 +54,28 @@ public class Mob extends Unit{
 
     public Mob(Path pPath) {
         mPath = pPath;
-    	mCoordinates = mPath.getCoordinate(0);
-    	mCheckpoint = 1;
+    	setCoordinates(mPath.getCoordinate(0));
+    	setCheckpoint(1);
     	updateAngle();
     	
     	
-        mSpeed = 1;        
-        mArmor = 200;
+        setSpeed(1);        
+       
         setHealth(200);
+        setArmor(200);
 
     }
 	
+	private void setSpeed(int i) {
+		// TODO Auto-generated method stub
+		mSpeed = i;
+	}
+
+	private void setArmor(int i) {
+		mArmor = i;
+		
+	}
+
 	/**
      * Constructor.
      * 
@@ -78,22 +86,26 @@ public class Mob extends Unit{
         
         
         // H�RDKODAT! Ta bort sen!
-        mCoordinates = new Coordinates(180,20);
-        mSpeed = 1;
+        setCoordinates(new Coordinates(180,20));
+        setSpeed(1);
         setAngle(Math.PI * 1.5);
-        mArmor = 200;
+        setArmor(200);
         setHealth(200);
         
         
     }
 	
     public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
-    	mHealth = pHealth;
-    	mSpeed = pSpeed;
-    	mAngle = pAngle;
-    	mArmor = pArmor;
+    	setHealth(pHealth);
+    	setSpeed(pSpeed);
+    	setAngle(pAngle);
+    	setArmor(pArmor);
     }
 
+    
+    public void setCheckpoint(int pCheckpoint) {
+    	mCheckpoint = pCheckpoint;
+    }
     
     /**
      * @return The speed of the instance
@@ -144,14 +156,10 @@ public class Mob extends Unit{
 	 * Updates the mobs position according to speed and angle.
 	 */
 	
-	private double mXPos;
-	private double mYPos;
+
 	public void updatePosition() {
 		
-		if (mXPos == 0.0 || mYPos == 0.0) {
-			mXPos = mCoordinates.getX();
-			mYPos = mCoordinates.getY();
-		}
+		
 		
 		// kolla om moben �r framme vid sin checkpoint
 		// om den �r det, hitta n�sta checkpoint och s�tt angle
@@ -163,22 +171,21 @@ public class Mob extends Unit{
 		
 		
 		
-		mXPos += getSpeed() * Math.cos(getAngle());
-		mYPos -= getSpeed() * Math.sin(getAngle());
+
 		
-		mCoordinates.setX(mXPos);
-		mCoordinates.setY(mYPos);
+		setX(getX() + (getSpeed() * Math.cos(getAngle())));
+		setY(getY() - (getSpeed() * Math.sin(getAngle())));
 		
 	}
 
 	public boolean reachedCheckpoint() {
 		
-		double tx = mCoordinates.getX();
-		double ty = mCoordinates.getY();
+		double tx = getX();
+		double ty = getY();
 	
 		try {
-    	 mPath.getCoordinate(mCheckpoint).getX();
-    	mPath.getCoordinate(mCheckpoint).getY();
+			mPath.getCoordinate(mCheckpoint).getX();
+			mPath.getCoordinate(mCheckpoint).getY();
 		} catch (Exception e) {
 			return false;
 		}
@@ -191,7 +198,7 @@ public class Mob extends Unit{
     	
 		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
-		if (sqrDistance < mSpeed)
+		if (sqrDistance < getSpeed())
 			return true;
 		
 		return false;
@@ -199,7 +206,7 @@ public class Mob extends Unit{
 	}
 	
 	public void updateAngle() {
-		setAngle(Coordinates.getAngle(this.mCoordinates, mPath.getCoordinate(mCheckpoint)));
+		setAngle(Coordinates.getAngle(this.getCoordinates(), mPath.getCoordinate(mCheckpoint)));
 		
 	}
    

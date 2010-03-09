@@ -39,19 +39,41 @@ public class Projectile extends Unit{
      * @param bitmap Bitmap which should be drawn.
      */
     public Projectile(Mob pTarget, Tower pTower) {
-    	mCoordinates = new Coordinates(pTower.mCoordinates.getX(), pTower.mCoordinates.getY());
-        mTarget = pTarget;
-        mTower = pTower;
-        mSpeed = 2;
-        mDamage = 50;
-		x2 = getTargetedMob().mCoordinates.getX();
-		y2 = getTargetedMob().mCoordinates.getY();
+    	setCoordinates(new Coordinates(pTower.getX(), pTower.getY()));
+
+        setTarget(pTarget);
+        setTower(pTower);
+        setSpeed(2);
+        setDamage(50);
+        
+		x2 = getTargetedMob().getX();
+		y2 = getTargetedMob().getY();
         //setAngle(0);
         //updatePosition();
         
     }
     
-    public Tower getProjectileTower(){
+    private void setDamage(int i) {
+		// TODO Auto-generated method stub
+		mDamage = i;
+	}
+
+	private void setSpeed(int i) {
+		// TODO Auto-generated method stub
+		mSpeed = i;
+	}
+
+	private void setTower(Tower pTower) {
+		// TODO Auto-generated method stub
+		mTower = pTower;
+	}
+
+	private void setTarget(Mob pTarget) {
+		// TODO Auto-generated method stub
+		mTarget = pTarget;
+	}
+
+	public Tower getProjectileTower(){
     	return mTower;
     }
     
@@ -74,33 +96,23 @@ public class Projectile extends Unit{
 		this.mAngle = mAngle;
 	}
     
-	private double mXPos;
-	private double mYPos;
+
 	
 	public void updatePosition() {
 		if(getTargetedMob().getHealth() > 0){
-			x2 = getTargetedMob().mCoordinates.getX();
-			y2 = getTargetedMob().mCoordinates.getY();
+			x2 = getTargetedMob().getX();
+			y2 = getTargetedMob().getY();
 		} 
 		
-		double x1 = mXPos;
-		double y1 = mYPos;
+		double x1 = getX();
+		double y1 = getY();
 		
-		setAngle(Coordinates.getAngle(this.mCoordinates, getTargetedMob().mCoordinates));
+		setAngle(Coordinates.getAngle(this.getCoordinates(), getTargetedMob().getCoordinates()));
 
 
 		
-		
-		if (mXPos == 0.0 || mYPos == 0.0) {
-			mXPos = mCoordinates.getX();
-			mYPos = mCoordinates.getY();
-		}
-		
-		mXPos += getSpeed() * Math.cos(getAngle());
-		mYPos -= getSpeed() * Math.sin(getAngle());
-		
-		mCoordinates.setX(mXPos);
-		mCoordinates.setY(mYPos);
+		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
+		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
 	}
 	
   
@@ -115,8 +127,8 @@ public class Projectile extends Unit{
 	public boolean hasCollided() {
 		// TODO Auto-generated method stub
 		
-		double tx = mCoordinates.getX();
-		double ty = mCoordinates.getY();
+		double tx = getX();
+		double ty = getY();
 	
 		
     	double mx = x2;
