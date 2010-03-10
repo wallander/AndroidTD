@@ -63,6 +63,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int tx;
     private int ty;
     
+    /** Keeps track of the delay between creation of Mobs in waves */
+    private int mMobDelayMax = 30;
+    private int mMobDelayI = 0;
+    
     /**
      * Constructor called on instantiation.
      * @param context Context of calling activity.
@@ -148,7 +152,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Called from updateModel
      */
     public void createMobs() {
-    	
+    	if()
     	
     }
 
@@ -159,6 +163,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void updateModel() {
 
+    	createMobs();
     	/*
     	 * for every tower:
     	 * 	create a new Projectile set to a Mob that the Tower can reach
