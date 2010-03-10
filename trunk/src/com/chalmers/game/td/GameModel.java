@@ -33,9 +33,12 @@ public class GameModel {
 	protected List<Projectile> mProjectiles;
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;
+	protected int mWaveNr;
 	
 	
-	  /** Size of "game tiles" */
+
+
+	/** Size of "game tiles" */
     public static final int GAME_TILE_SIZE = 32;
 	
 	/**
@@ -97,6 +100,14 @@ public class GameModel {
 		if (!mOccupiedTilePositions.contains(new Point(x,y))) {
 			mTowers.add(new Tower(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE));
 		}
+	}
+	
+	 public int getWaveNr() {
+		return mWaveNr;
+	}
+
+	public void setWaveNr(int mWaveNr) {
+		this.mWaveNr = mWaveNr;
 	}
 }
 

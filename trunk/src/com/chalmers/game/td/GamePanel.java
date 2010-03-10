@@ -157,7 +157,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Called from updateModel
      */
     public void createMobs() {
-    	
+    	// if it shall create a new mob
+    	if(mMobDelayI >= mMobDelayMax) {
+    		mMobDelayI=0;
+    		//Mob nextMob = mGameModel.getMobFactory().getNextMob();
+    		//if (nextMob != null)
+    	}
+    	mMobDelayI++;
     	
     }
 
