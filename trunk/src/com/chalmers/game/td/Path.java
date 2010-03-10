@@ -8,16 +8,26 @@ import com.chalmers.game.td.units.Unit;
 
 
 /**
+ * Class that represents the path a mob takes on the game field.
+ * It is basically a list of Coordinates, with some fancy methods added.
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
- *
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 public class Path {
 	private List<Coordinates> mPath;
 	private List<Double> mAngles;
 	
+	/**
+	 * Constructor.
+	 * 
+	 * Currently the path is hard coded here, will be fixed. later. TODO
+	 */
 	public Path() {
-		
 		mPath = new ArrayList<Coordinates>();
 		
 		mPath.add(new Coordinates(160, 0));
@@ -27,16 +37,17 @@ public class Path {
 		mPath.add(new Coordinates(350, 300));
 		mPath.add(new Coordinates(350, 500));
 		
-		/*mAngles.add(Math.PI * 1.5);
-		mAngles.add(Math.PI);
-		mAngles.add(Math.PI * 1.5);
-		mAngles.add(0.0);
-		mAngles.add(Math.PI * 1.5);
-		*/
-		
 		
 	}
 	
+	/**
+	 * Getter for a certain coordinate of the Path.
+	 * The first Coordinate is always where the mob starts.
+	 * The last Coordinate is where it should stop.
+	 * 
+	 * @param index
+	 * @return
+	 */
 	public Coordinates getCoordinate(int index) {
 		try {
 			return mPath.get(index);

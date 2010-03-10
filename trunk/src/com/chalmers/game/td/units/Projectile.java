@@ -8,7 +8,12 @@ import com.chalmers.game.td.Coordinates;
 /**
  * Class which represents a projectile on the game board.
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 public class Projectile extends Unit{
 
@@ -30,8 +35,7 @@ public class Projectile extends Unit{
 	/** Projectile movement angle */
 	private double mAngle;
     
-	double x2;
-	double y2;
+
 	
 	/**
      * Constructor.
@@ -44,13 +48,7 @@ public class Projectile extends Unit{
         setTarget(pTarget);
         setTower(pTower);
         setSpeed(2);
-        setDamage(50);
-        
-		x2 = getTargetedMob().getX();
-		y2 = getTargetedMob().getY();
-        //setAngle(0);
-        //updatePosition();
-        
+        setDamage(pTower.getDamage());
     }
     
     private void setDamage(int i) {
@@ -81,9 +79,7 @@ public class Projectile extends Unit{
     	return mTarget;
     }
     
-    /**
-     * @return The speed of the instance
-     */
+
     public int getSpeed() {
         return mSpeed;
     }
@@ -97,20 +93,17 @@ public class Projectile extends Unit{
 	}
     
 
-	
+	/**
+	 * Update the position of the projectile. Currently this makes the projectile 
+	 * act like a homing missile.
+	 * 
+	 * To create other types of projectiles, create subclasses of this class 
+	 * and override this method.
+	 */
 	public void updatePosition() {
-		if(getTargetedMob().getHealth() > 0){
-			x2 = getTargetedMob().getX();
-			y2 = getTargetedMob().getY();
-		} 
-		
-		double x1 = getX();
-		double y1 = getY();
 		
 		setAngle(Coordinates.getAngle(this.getCoordinates(), getTargetedMob().getCoordinates()));
 
-
-		
 		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
 		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
 	}
@@ -124,15 +117,18 @@ public class Projectile extends Unit{
 
     }
 
+    /**
+     * Method used for collision detection
+     * @return
+     */
 	public boolean hasCollided() {
-		// TODO Auto-generated method stub
 		
 		double tx = getX();
 		double ty = getY();
 	
 		
-    	double mx = x2;
-    	double my = y2;
+    	double mx = getTargetedMob().getX();
+    	double my = getTargetedMob().getY();
 		
 		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
@@ -142,7 +138,4 @@ public class Projectile extends Unit{
 		return false;
 	}
 
-
-
-   
 }

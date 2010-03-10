@@ -8,7 +8,12 @@ import com.chalmers.game.td.Coordinates;
 /**
  * Class which contains tower specific information
  * 
- * @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 public class Tower extends Unit{
 
@@ -20,21 +25,24 @@ public class Tower extends Unit{
 	private int mLevel;			// Tower level
 	private int mCooldownLeft;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
-	private boolean mEnabled;	// Tower SKIT I Sï¿½Lï¿½NGE
+	private boolean mEnabled;	// wat
 	private TowerType mType;	// Tower type
-	// private Coordinates mCoordinates; finns i Unit
+
 	
 	
 
 	/**
      * Constructor called to create a tower
+     * 
+     * Currently hardcoded. TODO
+     * 
      * @param 
 	 */
     public Tower(){
     	setCoordinates(new Coordinates(130, 150));
     	mRange = 200;
     	mAttackSpeed = 20;
-    	mDamage = 10;
+    	setDamage(50);
     	mEnabled = true;
     }
 	
@@ -49,13 +57,21 @@ public class Tower extends Unit{
     }
     
     
-    
+    /**
+     * Method that returns a Projectile set to target the first mob
+     * in the given list of mobs that the tower can reach.
+     * 
+     * @param mobs List of mobs for the tower to target
+     * @return Projectile set to target the first mob the tower can reach.
+     */
     public Projectile tryToShoot(List<Mob> mobs){
     	double tx = this.getX();
 		double ty = this.getY();
 	
-		if (mCooldownLeft == 0) { // Om tornet inte ï¿½r pï¿½ cooldown
+		// if the tower is not on cooldown
+		if (mCooldownLeft == 0) {
 
+			// loop through the list of mobs
 			for (int i=0; i<mobs.size();i++) {
 				Mob m = mobs.get(i);
 				double mx = m.getX();
@@ -63,25 +79,24 @@ public class Tower extends Unit{
     	
 				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
     		
-				// Skjut på den första moben i listan som är inom range
+				// return a new Projectile on the first mob that the tower can reach
 				if (sqrDistance < mRange * mRange ){
 					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));
 	    		}
-    		
 			}
 		
-		} else { // Om tornet ï¿½r pï¿½ cooldown
+		} else { // if the tower is on cooldown
 			mCooldownLeft--;
 			return null;
 		}
 		
-		// Om tornet ï¿½r av cooldown, och inte hittar nï¿½got att skjuta
+		// if the tower is off cooldown, but has no target in range
 		return null;
     }
     
     /**
-     * Upgrade tower to next level
+     * Upgrade tower to next level (NYI)
      */
     public void upgrade(){ //Could be boolean
     	
@@ -102,12 +117,6 @@ public class Tower extends Unit{
     	return 0;
     }
     
-    /**
-     * DONT KNOW!
-     */
-    public void update(){
-    	
-    }
 
 	/**
 	 * @param mType the mType to set
@@ -122,4 +131,12 @@ public class Tower extends Unit{
 	public TowerType getType() {
 		return mType;
 	}
-    }
+
+	public void setDamage(int mDamage) {
+		this.mDamage = mDamage;
+	}
+
+	public int getDamage() {
+		return mDamage;
+	}
+}
