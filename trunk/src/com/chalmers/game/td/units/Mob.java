@@ -49,14 +49,8 @@ public class Mob extends Unit{
 	 */
 	public enum MobType { HEALTHY, ARMORED, FAST, NORMAL }
     
-
-	
-	/**
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/units/Mob.java
-     * TestConstructor. skapar en testmob, hardkodad osv osv. DONOT USE SWEDISH CHARACTERS PLEASE!!!!
-=======
+	/*
      * TestConstructor. hard coded lol-mob for testing purposes. TODO
->>>>>>> 310cfe8cc581b6807526b786f1824c939849ce76:trunk/src/com/chalmers/game/td/units/Mob.java
      * 
      * @param 
      */
@@ -193,15 +187,7 @@ public class Mob extends Unit{
 	 */
 	public void updatePosition() {
 		
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/units/Mob.java
-		
-		
-		// kolla om moben �r framme vid sin checkpoint
-		// om den �r det, hitta n�sta checkpoint och s�tt angle
-		
-=======
 		// if the mob reached his current checkpoint, change direction for the next checkpoint
->>>>>>> 310cfe8cc581b6807526b786f1824c939849ce76:trunk/src/com/chalmers/game/td/units/Mob.java
 		if (reachedCheckpoint()) {
 			setCheckpoint(getCheckpoint()+1);
 			updateAngle();

@@ -26,7 +26,6 @@ public class MobFactory {
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
 	private static final int		MOB_AMOUNT = 15;
-	private int						mLevel;
 	private List<List<Mob>>			mAllWaves;
 	private Loader					loader;
 	
@@ -36,6 +35,7 @@ public class MobFactory {
 	private MobFactory(){
 		mAllWaves = new ArrayList<List<Mob>>();
 		loader = new Loader();
+		mAllWaves = loader.initWaves();
 	}
 		
 	/**
@@ -46,9 +46,6 @@ public class MobFactory {
 		return INSTANCE;
 	}
 	
-	public void initWaves() {
-		mAllWaves = loader.initWaves();
-	}
 	
 	private class Loader {
 		
