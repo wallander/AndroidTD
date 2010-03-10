@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.chalmers.game.td.initializers.Loader;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Mob.MobType;
 
@@ -47,57 +48,5 @@ public class MobFactory {
 	}
 	
 	
-	private class Loader {
-		
-		// Instance variables
-		private BufferedReader	mReader;
-		private List<List<Mob>>	mAllWaves;
-		private List<Mob>		mWave;
-		
-		public Loader() {
-			
-			mAllWaves = new ArrayList<List<Mob>>();
-			mWave = new ArrayList<Mob>();
-			
-			try { // Try to read the file init.waves which contains the different MobTypes the wave should contain
-				mReader = new BufferedReader(new FileReader("resources/init.waves"));
-			} catch(FileNotFoundException fnfe) {
-				System.err.println("File not found exception when trying to initialize the waves \n Location: MobFactory.java row: 50 \n Cause: " + fnfe.getCause());
-			}
-		}
-		
-		public List<List<Mob>> initWaves() {
-			
-			String mLine = "";
-			
-			try {
-				
-				while((mLine = mReader.readLine()) != null) {
-					
-					if(Character.isDigit(mLine.toCharArray()[0])) {
-						
-						mAllWaves.add(mWave);
-						mWave = new ArrayList<Mob>();
-						
-					} else {
-						
-						if(mLine.equals("NORMAL")) {
-							mWave.add(new Mob(MobType.NORMAL));
-						} else if(mLine.equals("ARMORED")) {
-							mWave.add(new Mob(MobType.ARMORED));
-						} else if(mLine.equals("HEALTHY")) {
-							mWave.add(new Mob(MobType.HEALTHY));
-						} else if(mLine.equals("FAST")) {
-							mWave.add(new Mob(MobType.FAST));
-						}						
-					}
-				}
-				
-			} catch(IOException ioe) {
-				
-			}
-			
-			return mAllWaves;
-		}
-	}
+	
 }
