@@ -56,6 +56,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     /**Build tower after touching in the menu     */
     private boolean touched = false;
+    private boolean draging = false;
+    
+    /**Current x and y cord. for the touched tower     */
+    private int tx;
+    private int ty;
     
     /**
      * Constructor called on instantiation.
@@ -112,7 +117,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 	touched = true;
                 }
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                
+                if(touched){
+                	tx = (int) event.getX();
+                	ty = (int) event.getY();
+                }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
             	Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
             	if(touched){
@@ -237,6 +245,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
     	}
+     	
+     	// draw the tower you are draging out to playfield
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), tx , ty , null);
+
      	
      	// draw all projectiles
      	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
