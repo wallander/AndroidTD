@@ -197,6 +197,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     @Override
     public void onDraw(Canvas canvas) {
+    	// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
     	
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
@@ -222,26 +223,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	// draw all projectiles
      	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
      		Projectile p = mGameModel.mProjectiles.get(i);
-     		////canvas.drawBitmap(mBitMapCache.get(p.getBitmap()), (int) p.getX() , (int) p.getY() , null);
-   		  Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
+     		Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
      		Matrix matrix = new Matrix(); 
-            // resize the bit map 
-            
-            
+
             // rotate the Bitmap 
             matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
-            Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, 
-                    12, 4, matrix, true); 
-
-
-            // make a Drawable from Bitmap to allow to set the BitMap 
-            // to the ImageView, ImageButton or what ever 
-           // BitmapDrawable bmd = new BitmapDrawable(resizedBitmap); 
+            Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, 12, 4, matrix, true); 
   
      		canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
-     		
-     		
-     		
     		
     	}
      	

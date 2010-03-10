@@ -105,10 +105,9 @@ public class Projectile extends Unit{
 		setAngle(Coordinates.getAngle(this.getCoordinates(), getTargetedMob().getCoordinates()));
 
 		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
-		
 		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
 		
-		//Log.v("TOWERDEF","getAngle()="+getAngle());
+		
 	}
 	
   
