@@ -1,16 +1,10 @@
 package com.chalmers.game.td;
 
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.chalmers.game.td.initializers.Loader;
+import com.chalmers.game.td.initializers.WaveLoader;
 import com.chalmers.game.td.units.Mob;
-import com.chalmers.game.td.units.Mob.MobType;
+
 
 /**
  * Factory class that is used to create mobs of different kinds.
@@ -26,20 +20,18 @@ public class MobFactory {
 	
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	private static final int		MOB_AMOUNT = 15;
-	private List<List<Mob>>			mAllWaves;
-	private Loader					loader;
+	private WaveLoader				waveLoader;
+	private List<List<Mob>>			mWaves;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
 	 */
-	private MobFactory(){
-		//mAllWaves = new ArrayList<List<Mob>>();
-
-	//	loader = new Loader();
-	//	mAllWaves = loader.initWaves();
-		//loader = new Loader();
-		//mAllWaves = loader.initWaves();
+	private MobFactory() {
+		
+		// Default is to load the first levels waves
+		// TDOO Change this if we want the opportunity to start at last played level
+		waveLoader = new WaveLoader("init/waves/level1");
+		mWaves = waveLoader.getWaves();
 	}
 		
 	/**
