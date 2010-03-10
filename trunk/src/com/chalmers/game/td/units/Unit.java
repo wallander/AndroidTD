@@ -44,4 +44,20 @@ public abstract class Unit
 	public void setY(double pYPos) {
 		mCoordinates.setY(pYPos);
 	}
+	public void setHeight(int pHeight) {
+		mHeight = pHeight;
+	}
+	public void setWidth(int pWidth) {
+		mWidth = pWidth;
+	}
+	public int getHeight() {
+		return mHeight;
+	}
+	public int getWidth() {
+		return mWidth;
+	}
+	public void setSize(int pSize) {
+		mHeight = pSize;
+		mWidth = pSize;
+	}
 }

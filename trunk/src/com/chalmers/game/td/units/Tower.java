@@ -38,12 +38,13 @@ public class Tower extends Unit{
      * 
      * @param 
 	 */
-    public Tower(){
-    	setCoordinates(new Coordinates(130, 150));
-    	mRange = 200;
+    public Tower(int mX, int mY){
+    	setCoordinates(new Coordinates(mX, mY));
+    	mRange = 100;
     	mAttackSpeed = 20;
     	setDamage(50);
     	mEnabled = true;
+    	setSize(32);
     }
 	
 	/**

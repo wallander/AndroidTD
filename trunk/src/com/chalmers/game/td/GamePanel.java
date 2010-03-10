@@ -17,6 +17,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -221,7 +223,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
      		Projectile p = mGameModel.mProjectiles.get(i);
      		////canvas.drawBitmap(mBitMapCache.get(p.getBitmap()), (int) p.getX() , (int) p.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.scissors), (int) p.getX() , (int) p.getY() , null);
+   		  Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
+     		Matrix matrix = new Matrix(); 
+            // resize the bit map 
+            
+            
+            // rotate the Bitmap 
+            matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
+            Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, 
+                    12, 4, matrix, true); 
+
+
+            // make a Drawable from Bitmap to allow to set the BitMap 
+            // to the ImageView, ImageButton or what ever 
+           // BitmapDrawable bmd = new BitmapDrawable(resizedBitmap); 
+  
+     		canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
+     		
+     		
+     		
+    		
     	}
      	
     	 // here we will draw the tower that the user is about to put on the map
