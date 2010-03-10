@@ -1,2 +1,5 @@
 *~
 *.class
+*.dex
+*.apk
+trunk/bin/**/*
