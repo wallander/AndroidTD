@@ -19,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -246,8 +247,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
     	}
      	
-     	// draw the tower you are draging out to playfield
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), tx , ty , null);
+     	
 
      	
      	// draw all projectiles
@@ -264,9 +264,34 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		
     	}
      	
-    	 // here we will draw the tower that the user is about to put on the map
-    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 285 , 445, null);
-
+     	
+     	Paint paint = new Paint();
+		paint.setARGB(100,255,0,0);
+		paint.setStyle(Paint.Style.FILL);
+		float left, top, right, bottom;
+		
+	
+		if(!touched) {
+			
+			// correct button... fix later TODO
+	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 285 , 445, null);
+			
+	    	// draw 4 placeholder buttons in the lower part of the screen
+			for (int i = 0; i < 4; i++) {
+				left = 10 + 80*i;
+				top = 410;
+				right = 70 + 80*i;
+				bottom = 470;
+				RectF rect = new RectF(left, top, right, bottom);
+		     	canvas.drawRoundRect(rect, 5, 5, paint);
+			}
+		} else {
+			// draw the chosen tower
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), tx , ty , null);
+		}
+		
+		
+    	
     	 
     }
 
