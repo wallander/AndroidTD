@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 /**
  * This is a view that displays the entire game board. The onDraw method draws
@@ -102,12 +103,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         synchronized (getHolder()) {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                
+                Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
                 
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                
+            	Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
             }
             
         }
@@ -206,7 +207,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
      		Mob m = mGameModel.mMobs.get(i);
      		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
     	/*
     	 * Here we should draw a healthbar for each mob aswell
     	 */
