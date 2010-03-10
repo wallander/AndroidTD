@@ -13,9 +13,15 @@ import com.chalmers.game.td.units.*;
 import com.chalmers.game.td.Path;
 
 /**
+ * Class that represents the Game Model. All towers, mobs, projectiles 
+ * and information about the current level is stored here.
  * 
- * @author @author Jonas Andersson, Daniel Arvidsson, Ahmed Chaban, Disa Faith, Fredrik Persson, Jonas Wallander
- *
+ * @author Fredrik Persson
+ * @author Jonas Andersson
+ * @author Ahmed Chaban
+ * @author Jonas Wallander
+ * @author Disa Faith
+ * @author Daniel Arvidsson
  */
 public class GameModel {
 	
@@ -37,28 +43,23 @@ public class GameModel {
 		// Temporary code to add a tower and a mob for testing purposes	
 
 		 Log.v("", "Skapa tower");
-		//mTowers.add(new Tower());
+		 mTowers.add(new Tower(140, 160));
+		 mTowers.add(new Tower(200, 100));
 		 Log.v("", "skapa mob");
 
-
+		 // adds a new mob to the gamefield with a predefined path
 		mMobs.add(new Mob(mPath));
-		
-		Mob a,b,c;
+
+
+		//Mob a,b,c;
 		
 		//a = MobFactory.CreateMob(Mob.MobType.GROUND);
 		
 		//b = MobFactory.CreateMob(Mob.MobType.GROUND);
 		//c = MobFactory.CreateMob(Mob.MobType.GROUND);
 		
-		
-		
-		//mMobs.add(a);
-		//mobs.add(b);
-		//mobs.add(c);
-		/////////////////////////////////////////////////////////////////////////////
-	}
-	
-	
 
 	
+	}
 }
+

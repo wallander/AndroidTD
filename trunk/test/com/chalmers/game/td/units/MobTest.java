@@ -12,7 +12,7 @@ public class MobTest {
 
 	@Before
 	public void setUp(){
-		m = MobFactory.CreateMob(Mob.MobType.GROUND);
+	//	m = MobFactory.createMob(Mob.MobType.NORMAL);
 	}
 	
 	@Test
