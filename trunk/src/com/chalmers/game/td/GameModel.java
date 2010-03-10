@@ -2,10 +2,13 @@ package com.chalmers.game.td;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
+import java.util.Set;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.media.SoundPool;
 import android.util.Log;
 
@@ -29,6 +32,11 @@ public class GameModel {
 	protected List<Mob> mMobs;
 	protected List<Projectile> mProjectiles;
 	protected Path mPath;
+	protected HashSet<Point> mOccupiedTilePositions;
+	
+	
+	  /** Size of "game tiles" */
+    public static final int GAME_TILE_SIZE = 32;
 	
 	/**
 	 * Constructor
@@ -38,32 +46,57 @@ public class GameModel {
 		mMobs = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
 		mPath = new Path();
+		mOccupiedTilePositions = new HashSet<Point>();
+		
+		// calculate where towers can be placed.
+		for (int i = 0; i < mPath.getSize()-1; i++) {
+			Coordinates c1 = mPath.getCoordinate(i);
+			Coordinates c2 = mPath.getCoordinate(i+1);
+			
+			double angle = Coordinates.getAngle(c1, c2);
+			Coordinates temp = new Coordinates(c1.getX(), c1.getY());
+			
+			while (Coordinates.getSqrDistance(temp, c2) > 2 ) {
+				
+				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
+				
+				temp.setXY(temp.getX() + Math.cos(angle), temp.getY() - Math.sin(angle));
+			
+			}
+		}
 		
 		
 		// Temporary code to add a tower and a mob for testing purposes	
 
 		 Log.v("", "Skapa tower");
-		 mTowers.add(new Tower(140, 160));
-		 mTowers.add(new Tower(200, 100));
+
+		 buildTower(4,5);
+		 buildTower(6,3);
+		 
 		 Log.v("", "skapa mob");
 
 		 // adds a new mob to the gamefield with a predefined path
 		mMobs.add(new Mob(mPath));
 
 
-		//Mob a,b,c;
-		
-		//a = MobFactory.CreateMob(Mob.MobType.GROUND);
-		
-		//b = MobFactory.CreateMob(Mob.MobType.GROUND);
-		//c = MobFactory.CreateMob(Mob.MobType.GROUND);
 		
 
 	
 	}
 	
+	/**
+	 * Adds a tower to a specific place on the game field.
+	 * The added tower is placed on a grid, consisting of tiles with the size
+	 * GAME_TILE_SIZExGAME_TILE_SIZE
+	 * 
+	 * @param x Tile position on the X-axis
+	 * @param y Tile position on the Y-axis
+	 */
 	public void buildTower(int x, int y){
-		mTowers.add(new Tower(x, y));
+		
+		if (!mOccupiedTilePositions.contains(new Point(x,y))) {
+			mTowers.add(new Tower(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE));
+		}
 	}
 }
 

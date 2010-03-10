@@ -19,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
@@ -55,17 +56,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Cache variable for all used images. */
     private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
     
-    /**Build tower after touching in the menu     */
+    /** Build tower after touching in the menu     */
     private boolean touched = false;
     private boolean draging = false;
     
-    /**Current x and y cord. for the touched tower     */
+    /** Current x and y cord. for the touched tower     */
     private int tx;
     private int ty;
     
+
     /** Keeps track of the delay between creation of Mobs in waves */
     private int mMobDelayMax = 30;
     private int mMobDelayI = 0;
+
     
     /**
      * Constructor called on instantiation.
@@ -96,7 +99,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.big, BitmapFactory.decodeResource(getResources(), R.drawable.big));
         mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
         mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
-
+        
         /* TODO:
         for(every unit with a bitmap in the gamemodel) {
         add the bitmap to the cache;
@@ -120,6 +123,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
                 if(event.getX() > 285 && event.getX() < 320 && event.getY() > 445 && event.getY() < 475){
                 	touched = true;
+                	tx = (int) event.getX();
+                	ty = (int) event.getY();
                 }
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 if(touched){
@@ -129,7 +134,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
             	Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
             	if(touched){
-            		mGameModel.buildTower((int)event.getX(), (int)event.getY());
+            		mGameModel.buildTower((int)event.getX() / mGameModel.GAME_TILE_SIZE, (int)event.getY() / mGameModel.GAME_TILE_SIZE);
             		touched = false;
             	}
             }
@@ -152,7 +157,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Called from updateModel
      */
     public void createMobs() {
-    	if()
+    	
     	
     }
 
@@ -300,13 +305,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		     	canvas.drawRoundRect(rect, 5, 5, paint);
 			}
 		} else {
+			// draw grid to show where the new mob can be placed
+			
+			Paint gridpaint = new Paint();
+			gridpaint.setARGB(50,255,0,0);
+			gridpaint.setStyle(Paint.Style.FILL);
+			
+			// draw a red transparent on every occupied tile
+			for (Point p : mGameModel.mOccupiedTilePositions) {
+				canvas.drawRect(p.x*mGameModel.GAME_TILE_SIZE, p.y*mGameModel.GAME_TILE_SIZE, (1+p.x)*mGameModel.GAME_TILE_SIZE, (1+p.y)*mGameModel.GAME_TILE_SIZE, gridpaint);
+			}
+			
+			
 			// draw the chosen tower
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), tx , ty , null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
+			
+			// draw a circle that shows the tower's range
 		}
 		
-		
-    	
-    	 
     }
 
     /**

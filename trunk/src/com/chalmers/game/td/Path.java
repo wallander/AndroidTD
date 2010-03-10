@@ -41,6 +41,13 @@ public class Path {
 	}
 	
 	/**
+	 * Returns the amount of coordinates stored in the Path
+	 */
+	public int getSize() {
+		return mPath.size();
+	}
+	
+	/**
 	 * Getter for a certain coordinate of the Path.
 	 * The first Coordinate is always where the mob starts.
 	 * The last Coordinate is where it should stop.

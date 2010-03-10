@@ -82,7 +82,27 @@ public class Coordinates
 		 return 0;
 		 
 		 
-		}
+	}
+	
+	/**
+	 * Returns the square distance between two coordinates.
+	 * 
+	 * @param c1
+	 * @param c2
+	 * @return
+	 */
+	public static double getSqrDistance(Coordinates c1, Coordinates c2) {
+		
+		double tx = c1.getX();
+		double ty = c1.getY();
+		
+		double mx = c2.getX();
+    	double my = c2.getY();
+		
+		return Math.sqrt((tx - mx)*(tx - mx) + (ty - my)*(ty - my));
+	}
+	
+	
 	
 	// SET POSITIONS
 	
