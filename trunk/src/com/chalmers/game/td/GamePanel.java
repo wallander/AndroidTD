@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -53,6 +54,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Cache variable for all used images. */
     private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
     
+    /**Build tower after touching in the menu     */
+    private boolean touched = false;
     
     /**
      * Constructor called on instantiation.
@@ -100,18 +103,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
     	
-   	
+    	
         synchronized (getHolder()) {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
                 if(event.getX() > 285 && event.getX() < 320 && event.getY() > 445 && event.getY() < 475){
-                	
+                	touched = true;
                 }
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
             	Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+            	if(touched){
+            		mGameModel.buildTower((int)event.getX(), (int)event.getY());
+            		touched = false;
+            	}
             }
             
         }
@@ -211,9 +218,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      		Mob m = mGameModel.mMobs.get(i);
      		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
-    	/*
-    	 * Here we should draw a healthbar for each mob aswell
-    	 */
+    	
+    		// drawing health bars for each mob
+    		Paint paint = new Paint();
+    		paint.setARGB(255,255,0,0);
+    		paint.setStyle(Paint.Style.FILL);
+    		float left = (float)m.getX() - 2;
+    		float top = (float) m.getY() - 5;
+    		float right = (float) (m.getX() + (28 * ( (float)m.getHealth() / (float)m.getMaxHealth() )));
+    		float bottom = (float) m.getY() - 2;
+    		canvas.drawRect(left, top, right, bottom, paint);
     		
      	}
      	

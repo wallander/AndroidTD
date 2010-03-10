@@ -34,9 +34,12 @@ public class MobFactory {
 	 * Should not be used, call getInstance() instead.
 	 */
 	private MobFactory(){
-		mAllWaves = new ArrayList<List<Mob>>();
+		//mAllWaves = new ArrayList<List<Mob>>();
+
 	//	loader = new Loader();
 	//	mAllWaves = loader.initWaves();
+		//loader = new Loader();
+		//mAllWaves = loader.initWaves();
 	}
 		
 	/**

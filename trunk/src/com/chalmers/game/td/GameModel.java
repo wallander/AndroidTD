@@ -61,5 +61,9 @@ public class GameModel {
 
 	
 	}
+	
+	public void buildTower(int x, int y){
+		mTowers.add(new Tower(x, y));
+	}
 }
 
