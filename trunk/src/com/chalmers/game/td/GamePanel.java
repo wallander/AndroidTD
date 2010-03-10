@@ -17,6 +17,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -195,6 +197,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     @Override
     public void onDraw(Canvas canvas) {
+    	// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
     	
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
@@ -220,8 +223,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	// draw all projectiles
      	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
      		Projectile p = mGameModel.mProjectiles.get(i);
-     		////canvas.drawBitmap(mBitMapCache.get(p.getBitmap()), (int) p.getX() , (int) p.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.scissors), (int) p.getX() , (int) p.getY() , null);
+     		Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
+     		Matrix matrix = new Matrix(); 
+
+            // rotate the Bitmap 
+            matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
+            Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, 12, 4, matrix, true); 
+  
+     		canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
+    		
     	}
      	
     	 // here we will draw the tower that the user is about to put on the map

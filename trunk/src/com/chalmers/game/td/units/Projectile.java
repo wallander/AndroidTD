@@ -43,11 +43,11 @@ public class Projectile extends Unit{
      * @param bitmap Bitmap which should be drawn.
      */
     public Projectile(Mob pTarget, Tower pTower) {
-    	setCoordinates(new Coordinates(pTower.getX(), pTower.getY()));
+    	setCoordinates(new Coordinates(pTower.getX()+pTower.getWidth()/2, pTower.getY()+pTower.getHeight()/2));
 
         setTarget(pTarget);
         setTower(pTower);
-        setSpeed(2);
+        setSpeed(6);
         setDamage(pTower.getDamage());
     }
     
@@ -106,6 +106,8 @@ public class Projectile extends Unit{
 
 		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
 		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
+		
+		
 	}
 	
   

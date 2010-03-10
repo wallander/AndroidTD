@@ -43,7 +43,8 @@ public class GameModel {
 		// Temporary code to add a tower and a mob for testing purposes	
 
 		 Log.v("", "Skapa tower");
-		 mTowers.add(new Tower());
+		 mTowers.add(new Tower(140, 160));
+		 mTowers.add(new Tower(200, 100));
 		 Log.v("", "skapa mob");
 
 		 // adds a new mob to the gamefield with a predefined path
