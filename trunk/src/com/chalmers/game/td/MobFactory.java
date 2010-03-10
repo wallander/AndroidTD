@@ -35,8 +35,8 @@ public class MobFactory {
 	 */
 	private MobFactory(){
 		mAllWaves = new ArrayList<List<Mob>>();
-		loader = new Loader();
-		mAllWaves = loader.initWaves();
+		//loader = new Loader();
+		//mAllWaves = loader.initWaves();
 	}
 		
 	/**

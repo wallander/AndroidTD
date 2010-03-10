@@ -22,6 +22,9 @@ public class Mob extends Unit{
 	/** Mob name */
 	private String mName;
 	
+	/** Mob max health */
+	private int mMaxHealth;
+	
 	/** Mob health */
 	private int mHealth;
 	
@@ -65,6 +68,7 @@ public class Mob extends Unit{
         setSpeed(1);        
        
         setHealth(1200);
+        setMaxHealth(1200);
         setArmor(1200);
 
     }
@@ -99,6 +103,7 @@ public class Mob extends Unit{
 
         
         setHealth(1200);
+        setMaxHealth(1200);
         setArmor(1200);
 
         
@@ -114,6 +119,7 @@ public class Mob extends Unit{
      * @param pArmor Mob armor
      */
     public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
+    	setMaxHealth(pHealth);
     	setHealth(pHealth);
     	setSpeed(pSpeed);
     	setAngle(pAngle);
@@ -244,6 +250,14 @@ public class Mob extends Unit{
 	public void updateAngle() {
 		setAngle(Coordinates.getAngle(this.getCoordinates(), mPath.getCoordinate(mCheckpoint)));
 		
+	}
+
+	public void setMaxHealth(int mMaxHealth) {
+		this.mMaxHealth = mMaxHealth;
+	}
+
+	public int getMaxHealth() {
+		return mMaxHealth;
 	}
    
 }

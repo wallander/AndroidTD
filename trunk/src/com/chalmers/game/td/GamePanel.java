@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -208,9 +209,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      		Mob m = mGameModel.mMobs.get(i);
      		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
-    	/*
-    	 * Here we should draw a healthbar for each mob aswell
-    	 */
+    	
+    		// drawing health bars for each mob
+    		Paint paint = new Paint();
+    		paint.setARGB(255,255,0,0);
+    		paint.setStyle(Paint.Style.FILL);
+    		float left = (float)m.getX() - 2;
+    		float top = (float) m.getY() - 5;
+    		float right = (float) (m.getX() + (28 * ( (float)m.getHealth() / (float)m.getMaxHealth() )));
+    		float bottom = (float) m.getY() - 2;
+    		canvas.drawRect(left, top, right, bottom, paint);
     		
      	}
      	
