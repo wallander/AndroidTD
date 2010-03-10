@@ -20,7 +20,7 @@ public class MobFactory {
 	
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	private WaveLoader				waveLoader;
+	private WaveLoader				mWaveLoader;
 	private List<List<Mob>>			mWaves;
 	
 	/**
@@ -28,10 +28,19 @@ public class MobFactory {
 	 */
 	private MobFactory() {
 		
-		// Default is to load the first levels waves
-		// TDOO Change this if we want the opportunity to start at last played level
-		waveLoader = new WaveLoader("init/waves/level1");
-		mWaves = waveLoader.getWaves();
+	}
+	
+	/**
+	 * Returns a list containing the different waves of mobs, represented by a List<Mob>.
+	 * 
+	 * @param pLevel
+	 * @return
+	 */
+	public List<List<Mob>> getWaves(int pLevel) {
+		
+		mWaveLoader = new WaveLoader("init/waves/level" + pLevel);
+		mWaves = mWaveLoader.getWaves();
+		return mWaves;
 	}
 		
 	/**
