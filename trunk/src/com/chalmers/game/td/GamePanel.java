@@ -120,7 +120,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         synchronized (getHolder()) {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
                 if(event.getX() > 285 && event.getX() < 320 && event.getY() > 445 && event.getY() < 475){
                 	touched = true;
                 	tx = (int) event.getX();
@@ -132,7 +132,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 	ty = (int) event.getY();
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+            	//Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
             	if(touched){
             		mGameModel.buildTower((int)event.getX() / mGameModel.GAME_TILE_SIZE, (int)event.getY() / mGameModel.GAME_TILE_SIZE);
             		touched = false;
@@ -222,8 +222,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		Mob m = mGameModel.mMobs.get(i);
     		m.updatePosition();
     		
+    		// handle mob death
     		if (m.getHealth() <= 0) {
     			mGameModel.mMobs.remove(m);
+    			
+    			
+    			////// FULKOD TODO //////
+    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			
     		}
     	}
     }
@@ -317,14 +324,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			gridpaint.setARGB(50,255,0,0);
 			gridpaint.setStyle(Paint.Style.FILL);
 			
+			// draw the chosen tower
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
+			
+			
 			// draw a red transparent on every occupied tile
 			for (Point p : mGameModel.mOccupiedTilePositions) {
 				canvas.drawRect(p.x*mGameModel.GAME_TILE_SIZE, p.y*mGameModel.GAME_TILE_SIZE, (1+p.x)*mGameModel.GAME_TILE_SIZE, (1+p.y)*mGameModel.GAME_TILE_SIZE, gridpaint);
 			}
 			
 			
-			// draw the chosen tower
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
 			
 			// draw a circle that shows the tower's range
 		}
