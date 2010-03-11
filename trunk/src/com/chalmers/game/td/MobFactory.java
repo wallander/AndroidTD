@@ -3,7 +3,7 @@ package com.chalmers.game.td;
 import java.util.List;
 
 import com.chalmers.game.td.exceptions.EndOfGameException;
-import com.chalmers.game.td.exceptions.EndOfLevelException;
+import com.chalmers.game.td.exceptions.EndOfTrackException;
 import com.chalmers.game.td.exceptions.EndOfWaveException;
 import com.chalmers.game.td.exceptions.WaveException;
 import com.chalmers.game.td.initializers.WaveLoader;
@@ -24,11 +24,9 @@ public class MobFactory {
 	
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	private static final int		NR_OF_LEVELS = 3;
 	private WaveLoader				mWaveLoader;
 	private List<List<Mob>>			mWaves;
 	private List<Mob>				mMobs;
-	private int						mLevel;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
@@ -37,8 +35,6 @@ public class MobFactory {
 		mWaveLoader = null;
 		mWaves = null;		
 		mMobs = null;
-		mLevel = 1;
-		initWaves(mLevel);
 	}
 	
 	/**
@@ -58,17 +54,8 @@ public class MobFactory {
 				mMobs = mWaves.remove(0);			// Get the next wave and...						
 				throw new EndOfWaveException();		// ...throw end of wave exception
 			
-			} else {								// If it's the end of the level	
-				
-				++mLevel;							// Change level
-				
-				if(mLevel <= NR_OF_LEVELS) {			// If last level still not reached
-				
-					initWaves(mLevel);					// Initialize next level and...
-					throw new EndOfLevelException();	// ...throw end of level exception
-				} else {								// Otherwize
-					throw new EndOfGameException();		// Game Over, gz, thanks fur playin' :)
-				}
+			} else {								// If it's the end of the level
+				throw new EndOfTrackException();	// ...throw end of level exception
 			}
 		}
 			
@@ -81,7 +68,7 @@ public class MobFactory {
 	 */
 	public void initWaves(int pLevel) {
 		
-		mWaveLoader = new WaveLoader("init/waves/level" + pLevel);
+		mWaveLoader = new WaveLoader("init/waves/level" + String.valueOf(pLevel));
 		mWaves = mWaveLoader.getWaves();
 		mMobs = mWaves.remove(0);
 	}
