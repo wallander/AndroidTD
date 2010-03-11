@@ -2,5 +2,5 @@
 *.class
 *.dex
 *.apk
-trunk/bin/resources.ap_
-trunk/bin/**/*
+*.ap_
+trunk/bin
