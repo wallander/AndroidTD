@@ -1,6 +1,6 @@
-trunk/bin/*
 *~
 *.class
 *.dex
 *.apk
 *.ap_
+trunk/bin
