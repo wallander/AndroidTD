@@ -228,8 +228,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     			
     			
     			////// FULKOD TODO //////
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			// just nu läggs två nya mobs till varje gång en mob dör
+    			// STRESSTEST ftw
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			
     			
     		}
     	}
