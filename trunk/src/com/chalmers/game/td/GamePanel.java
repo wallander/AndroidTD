@@ -121,7 +121,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 //Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
-                if(event.getX() > 285 && event.getX() < 320 && event.getY() > 445 && event.getY() < 475){
+                if(event.getY() > 285 && event.getY() < 320 && event.getX() > 445 && event.getX() < 475){
                 	touched = true;
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
@@ -309,9 +309,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if(!touched) {
 			
 			// correct button... fix later TODO
-	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 285 , 445, null);
+	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
 			
+	    	
 	    	// draw 4 placeholder buttons in the lower part of the screen
+	    	/*
 			for (int i = 0; i < 4; i++) {
 				left = 10 + 80*i;
 				top = 410;
@@ -320,6 +322,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				RectF rect = new RectF(left, top, right, bottom);
 		     	canvas.drawRoundRect(rect, 5, 5, paint);
 			}
+			*/
 		} else {
 			// draw grid to show where the new mob can be placed
 			
