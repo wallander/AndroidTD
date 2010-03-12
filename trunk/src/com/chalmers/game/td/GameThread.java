@@ -53,6 +53,7 @@ class GameThread extends Thread {
             try {
                 c = mGamePanel.getHolder().lockCanvas(null);
                 synchronized (mGamePanel.getHolder()) {
+                	
                     mGamePanel.updateModel();
                     mGamePanel.onDraw(c);
                 }
