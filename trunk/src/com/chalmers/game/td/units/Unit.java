@@ -34,7 +34,7 @@ public abstract class Unit
 	}
 	
 	public void setCoordinates(Coordinates pCoordinates) {
-		mCoordinates = pCoordinates;
+		mCoordinates = new Coordinates(pCoordinates.getX(), pCoordinates.getY());
 	}
 	
 	public void setX(double pXPos) {

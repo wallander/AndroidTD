@@ -30,12 +30,12 @@ public class Path {
 	public Path() {
 		mPath = new ArrayList<Coordinates>();
 		
-		mPath.add(new Coordinates(140, 0));
-		mPath.add(new Coordinates(140, 120));
-		mPath.add(new Coordinates(60, 120));
-		mPath.add(new Coordinates(60, 300));
-		mPath.add(new Coordinates(250, 300));
-		mPath.add(new Coordinates(250, 480));
+		mPath.add(new Coordinates(0,140));
+		mPath.add(new Coordinates(120, 140));
+		mPath.add(new Coordinates(120, 60));
+		mPath.add(new Coordinates(300, 60));
+		mPath.add(new Coordinates(300, 250));
+		mPath.add(new Coordinates(480, 250));
 		
 		
 	}

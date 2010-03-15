@@ -121,8 +121,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         synchronized (getHolder()) {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
-                if(event.getX() > 285 && event.getX() < 320 && event.getY() > 445 && event.getY() < 475){
+                //Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+                if(event.getY() > 285 && event.getY() < 320 && event.getX() > 445 && event.getX() < 475){
                 	touched = true;
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
@@ -133,7 +133,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 	ty = (int) event.getY();
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+            	//Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
             	if(touched){
             		mGameModel.buildTower((int)event.getX() / mGameModel.GAME_TILE_SIZE, (int)event.getY() / mGameModel.GAME_TILE_SIZE);
             		touched = false;
@@ -158,7 +158,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * Called from updateModel
      */
     public void createMobs() {
-    	
+    	// if it shall create a new mob
+    	if(mMobDelayI >= mMobDelayMax) {
+    		mMobDelayI=0;
+    		//Mob nextMob = mGameModel.getMobFactory().getNextMob();
+    		//if (nextMob != null)
+    	}
+    	mMobDelayI++;
     	
     }
 
@@ -217,8 +223,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		Mob m = mGameModel.mMobs.get(i);
     		m.updatePosition();
     		
+    		// handle mob death
     		if (m.getHealth() <= 0) {
     			mGameModel.mMobs.remove(m);
+    			
+    			
+    			////// FULKOD TODO //////
+    			// just nu läggs två nya mobs till varje gång en mob dör
+    			// STRESSTEST ftw
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			
+    			
     		}
     	}
     }
@@ -294,9 +310,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if(!touched) {
 			
 			// correct button... fix later TODO
-	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 285 , 445, null);
+	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
 			
+	    	
 	    	// draw 4 placeholder buttons in the lower part of the screen
+	    	/*
 			for (int i = 0; i < 4; i++) {
 				left = 10 + 80*i;
 				top = 410;
@@ -305,6 +323,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				RectF rect = new RectF(left, top, right, bottom);
 		     	canvas.drawRoundRect(rect, 5, 5, paint);
 			}
+			*/
 		} else {
 			// draw grid to show where the new mob can be placed
 			
@@ -312,14 +331,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			gridpaint.setARGB(50,255,0,0);
 			gridpaint.setStyle(Paint.Style.FILL);
 			
+			// draw the chosen tower
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
+			
+			
 			// draw a red transparent on every occupied tile
 			for (Point p : mGameModel.mOccupiedTilePositions) {
 				canvas.drawRect(p.x*mGameModel.GAME_TILE_SIZE, p.y*mGameModel.GAME_TILE_SIZE, (1+p.x)*mGameModel.GAME_TILE_SIZE, (1+p.y)*mGameModel.GAME_TILE_SIZE, gridpaint);
 			}
 			
 			
-			// draw the chosen tower
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
 			
 			// draw a circle that shows the tower's range
 		}
