@@ -1,6 +1,6 @@
 package com.chalmers.game.td.units;
 
-import com.chalmers.game.td.Coordinates;
+import com.chalmers.game.td.Coordinate;
 
 /**
  * Abstract class that represents a unit on the game field.
@@ -17,11 +17,11 @@ import com.chalmers.game.td.Coordinates;
 public abstract class Unit 
 {
 	// INSTANCE VARIABLES
-	private	Coordinates	mCoordinates;
+	private	Coordinate	mCoordinates;
 	protected	int			mWidth,
 							mHeight;
 	
-	public Coordinates getCoordinates() {
+	public Coordinate getCoordinates() {
 		return mCoordinates;
 	}
 	
@@ -33,8 +33,8 @@ public abstract class Unit
 		return mCoordinates.getY();
 	}
 	
-	public void setCoordinates(Coordinates pCoordinates) {
-		mCoordinates = new Coordinates(pCoordinates.getX(), pCoordinates.getY());
+	public void setCoordinates(Coordinate pCoordinates) {
+		mCoordinates = new Coordinate(pCoordinates.getX(), pCoordinates.getY());
 	}
 	
 	public void setX(double pXPos) {
