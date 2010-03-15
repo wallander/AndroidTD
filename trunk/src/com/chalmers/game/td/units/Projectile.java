@@ -47,7 +47,7 @@ public class Projectile extends Unit{
 
         setTarget(pTarget);
         setTower(pTower);
-        setSpeed(6);
+        setSpeed(10);
         setDamage(pTower.getDamage());
     }
     
