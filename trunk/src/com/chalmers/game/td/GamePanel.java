@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.chalmers.game.td.units.Tower;
+import com.chalmers.game.td.R;
 import com.chalmers.game.td.units.Unit;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
@@ -69,6 +70,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int mMobDelayMax = 30;
     private int mMobDelayI = 0;
 
+    /** Debug */
+    TDDebug debug;
     
     /**
      * Constructor called on instantiation.
@@ -77,6 +80,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public GamePanel(Context context) {
     	 
         super(context);
+        
+        debug = new TDDebug();
+        debug.InitGameTime();
+        
+        
         mGameModel = new GameModel();
         fillBitmapCache();
         getHolder().addCallback(this);
@@ -173,7 +181,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * It also handles projectile collisions with mobs dying and such.
      */
     public void updateModel() {
-
+    	
+    	debug.UpdateFPS();
+    	//Log.v("FPS",Float.toString(debug.getFPS()));
     	createMobs();
     	/*
     	 * for every tower:
@@ -230,8 +240,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     			////// FULKOD TODO //////
     			// just nu läggs två nya mobs till varje gång en mob dör
     			// STRESSTEST ftw
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			
     			
     		}
@@ -257,6 +267,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
     	
+    	Paint paint2 = new Paint();
+    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, paint2);
     	// draw all mobs
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
      		Mob m = mGameModel.mMobs.get(i);
