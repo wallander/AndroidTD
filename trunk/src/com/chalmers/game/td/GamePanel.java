@@ -160,7 +160,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
     
     /**
-     * This class is called from the GameThread. 
+     * This class is called each frame. 
      * It keeps track of the creation of the mobs from the waves of the current map
      * Called from updateModel
      */

@@ -132,9 +132,9 @@ public class Projectile extends Unit{
     	double mx = getTargetedMob().getX();
     	double my = getTargetedMob().getY();
 		
-		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
 		
-		if (sqrDistance < 10)
+		
+		if ((tx - mx)*(tx - mx) + (ty - my)*(ty - my) < getSpeed()*getSpeed())
 			return true;
 		
 		return false;
