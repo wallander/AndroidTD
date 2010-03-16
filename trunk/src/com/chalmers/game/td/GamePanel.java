@@ -241,7 +241,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		}
     		
     		// if the projectile's target is dead, remove the projectile
-    		if (p.getTargetedMob().getHealth() <= 0) {
+    		if (p.getMob().getHealth() <= 0) {
     			mGameModel.mProjectiles.remove(p);
     		}
     	}

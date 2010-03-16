@@ -48,75 +48,23 @@ public class Projectile extends Unit{
         setDamage(pTower.getDamage());
     }
     
-    private void setDamage(int i) {
-		// TODO Auto-generated method stub
-		mDamage = i;
-	}
-
-	private void setSpeed(int i) {
-		// TODO Auto-generated method stub
-		mSpeed = i;
-	}
-
-	private void setTower(Tower pTower) {
-		// TODO Auto-generated method stub
-		mTower = pTower;
-	}
-
-	private void setTarget(Mob pTarget) {
-		// TODO Auto-generated method stub
-		mTarget = pTarget;
-	}
-
-	public Tower getProjectileTower(){
-    	return mTower;
-    }
-    
-    public Mob getTargetedMob(){
-    	return mTarget;
-    }
-    
-
-    public int getSpeed() {
-        return mSpeed;
-    }
-    
-	public double getAngle() {
+    public double getAngle() {
 		return mAngle;
 	}
-	
-	public void setAngle(double mAngle) {
-		this.mAngle = mAngle;
-	}
-    
 
-	/**
-	 * Update the position of the projectile. Currently this makes the projectile 
-	 * act like a homing missile.
-	 * 
-	 * To create other types of projectiles, create subclasses of this class 
-	 * and override this method.
-	 */
-	public void updatePosition() {
-		
-		setAngle(Coordinate.getAngle(this.getCoordinates(), getTargetedMob().getCoordinates()));
-
-		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
-		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
-		
-		
-	}
-	
-  
-    /**
-     * @return Damage done
-     */
-    public void inflictDmg() {
-       mTarget.setHealth(mTarget.getHealth() - mDamage);
-
+	public Mob getMob(){
+    	return mTarget;
     }
 
-    /**
+	public int getSpeed() {
+        return mSpeed;
+    }
+
+	public Tower getTower(){
+    	return mTower;
+    }
+
+	/**
      * Method used for collision detection
      * @return
      */
@@ -126,8 +74,8 @@ public class Projectile extends Unit{
 		double ty = getY();
 	
 		
-    	double mx = getTargetedMob().getX();
-    	double my = getTargetedMob().getY();
+    	double mx = getMob().getX();
+    	double my = getMob().getY();
 		
 		
 		
@@ -135,6 +83,56 @@ public class Projectile extends Unit{
 			return true;
 		
 		return false;
+	}
+    
+    /**
+     * @return Damage done
+     */
+    public void inflictDmg() {
+       mTarget.setHealth(mTarget.getHealth() - mDamage);
+
+    }
+    
+
+    public void setAngle(double mAngle) {
+		this.mAngle = mAngle;
+	}
+    
+	private void setDamage(int i) {
+		// TODO Auto-generated method stub
+		mDamage = i;
+	}
+	
+	private void setSpeed(int i) {
+		// TODO Auto-generated method stub
+		mSpeed = i;
+	}
+    
+
+	private void setTarget(Mob pTarget) {
+		// TODO Auto-generated method stub
+		mTarget = pTarget;
+	}
+	
+  
+    private void setTower(Tower pTower) {
+		// TODO Auto-generated method stub
+		mTower = pTower;
+	}
+    
+    /**
+	 * Update the position of the projectile. Currently this makes the projectile 
+	 * act like a homing missile.
+	 * 
+	 * To create other types of projectiles, create subclasses of this class 
+	 * and override this method.
+	 */
+	public void updatePosition() {
+		
+		setAngle(Coordinate.getAngle(this.getCoordinates(), getMob().getCoordinates()));
+
+		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
+		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
 	}
 
 }
