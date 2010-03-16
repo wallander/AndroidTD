@@ -3,7 +3,7 @@ package com.chalmers.game.td;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.chalmers.game.td.Coordinates;
+import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.units.Unit;
 
 
@@ -19,8 +19,8 @@ import com.chalmers.game.td.units.Unit;
  * @author Daniel Arvidsson
  */
 public class Path {
-	private List<Coordinates> mPath;
-	private List<Double> mAngles;
+	private List<Coordinate> mPath;
+	/*private List<Double> mAngles;*/
 	
 	/**
 	 * Constructor.
@@ -28,16 +28,14 @@ public class Path {
 	 * Currently the path is hard coded here, will be fixed. later. TODO
 	 */
 	public Path() {
-		mPath = new ArrayList<Coordinates>();
+		mPath = new ArrayList<Coordinate>();
 		
-		mPath.add(new Coordinates(0,140));
-		mPath.add(new Coordinates(120, 140));
-		mPath.add(new Coordinates(120, 60));
-		mPath.add(new Coordinates(300, 60));
-		mPath.add(new Coordinates(300, 250));
-		mPath.add(new Coordinates(480, 250));
-		
-		
+		mPath.add(new Coordinate(0,140));
+		mPath.add(new Coordinate(120, 140));
+		mPath.add(new Coordinate(120, 60));
+		mPath.add(new Coordinate(300, 60));
+		mPath.add(new Coordinate(300, 250));
+		mPath.add(new Coordinate(480, 250));		
 	}
 	
 	/**
@@ -55,11 +53,11 @@ public class Path {
 	 * @param index
 	 * @return
 	 */
-	public Coordinates getCoordinate(int index) {
+	public Coordinate getCoordinate(int index) {
 		try {
 			return mPath.get(index);
 		} catch (Exception e) {
-			return new Coordinates(0,0);
+			return new Coordinate(0,0);
 		} 
 		
 	}

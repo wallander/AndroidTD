@@ -1,7 +1,7 @@
 package com.chalmers.game.td.units;
 
 import com.chalmers.game.td.Path;
-import com.chalmers.game.td.Coordinates;
+import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.units.Unit;
 
 import android.graphics.Bitmap;
@@ -19,8 +19,6 @@ import android.util.Log;
  */
 public class Mob extends Unit{
 
-	/** Mob name */
-	private String mName;
 	
 	/** Mob max health */
 	private int mMaxHealth;
@@ -97,16 +95,14 @@ public class Mob extends Unit{
     public Mob(MobType pType) {
         setType(pType);
         
-        setCoordinates(new Coordinates(180,20));
+        setCoordinates(new Coordinate(180,20));
         setSpeed(1);
         setAngle(Math.PI * 1.5);
 
         
         setHealth(1200);
         setMaxHealth(1200);
-        setArmor(1200);
-
-        
+        setArmor(1200);  
         
     }
 	
@@ -248,7 +244,7 @@ public class Mob extends Unit{
 	 * Update the mobs movement angle according to its current checkpoint.
 	 */
 	public void updateAngle() {
-		setAngle(Coordinates.getAngle(this.getCoordinates(), mPath.getCoordinate(mCheckpoint)));
+		setAngle(Coordinate.getAngle(this.getCoordinates(), mPath.getCoordinate(mCheckpoint)));
 		
 	}
 

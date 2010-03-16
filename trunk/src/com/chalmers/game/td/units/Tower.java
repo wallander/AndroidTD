@@ -3,7 +3,7 @@ package com.chalmers.game.td.units;
 import android.graphics.Bitmap;
 import java.util.List;
 
-import com.chalmers.game.td.Coordinates;
+import com.chalmers.game.td.Coordinate;
 
 /**
  * Class which contains tower specific information
@@ -39,7 +39,7 @@ public class Tower extends Unit{
      * @param 
 	 */
     public Tower(int mX, int mY){
-    	setCoordinates(new Coordinates(mX, mY));
+    	setCoordinates(new Coordinate(mX, mY));
     	mRange = 100;
     	mAttackSpeed = 20;
     	setDamage(50);

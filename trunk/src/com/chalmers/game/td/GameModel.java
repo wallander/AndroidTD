@@ -53,13 +53,13 @@ public class GameModel {
 		
 		// calculate where towers can be placed.
 		for (int i = 0; i < mPath.getSize()-1; i++) {
-			Coordinates c1 = mPath.getCoordinate(i);
-			Coordinates c2 = mPath.getCoordinate(i+1);
+			Coordinate c1 = mPath.getCoordinate(i);
+			Coordinate c2 = mPath.getCoordinate(i+1);
 			
-			double angle = Coordinates.getAngle(c1, c2);
-			Coordinates temp = new Coordinates(c1.getX(), c1.getY());
+			double angle = Coordinate.getAngle(c1, c2);
+			Coordinate temp = new Coordinate(c1.getX(), c1.getY());
 			
-			while (Coordinates.getSqrDistance(temp, c2) > 2 ) {
+			while (Coordinate.getSqrDistance(temp, c2) > 2 ) {
 				
 				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
 				

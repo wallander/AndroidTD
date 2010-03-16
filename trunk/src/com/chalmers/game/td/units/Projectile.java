@@ -3,7 +3,7 @@ package com.chalmers.game.td.units;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.chalmers.game.td.Coordinates;
+import com.chalmers.game.td.Coordinate;
 
 /**
  * Class which represents a projectile on the game board.
@@ -22,9 +22,6 @@ public class Projectile extends Unit{
 	
 	/** Projectile damage */
 	private int mDamage;
-	
-	/** Projectile direction */
-	private int mDriection;
 
 	/** Projectile target */
 	private Mob mTarget;
@@ -43,7 +40,7 @@ public class Projectile extends Unit{
      * @param bitmap Bitmap which should be drawn.
      */
     public Projectile(Mob pTarget, Tower pTower) {
-    	setCoordinates(new Coordinates(pTower.getX()+pTower.getWidth()/2, pTower.getY()+pTower.getHeight()/2));
+    	setCoordinates(new Coordinate(pTower.getX()+pTower.getWidth()/2, pTower.getY()+pTower.getHeight()/2));
 
         setTarget(pTarget);
         setTower(pTower);
@@ -102,7 +99,7 @@ public class Projectile extends Unit{
 	 */
 	public void updatePosition() {
 		
-		setAngle(Coordinates.getAngle(this.getCoordinates(), getTargetedMob().getCoordinates()));
+		setAngle(Coordinate.getAngle(this.getCoordinates(), getTargetedMob().getCoordinates()));
 
 		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
 		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
