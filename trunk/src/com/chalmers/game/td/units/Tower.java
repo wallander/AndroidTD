@@ -41,7 +41,7 @@ public class Tower extends Unit{
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
     	mRange = 100;
-    	mAttackSpeed = 20;
+    	mAttackSpeed = 5;
     	setDamage(50);
     	mEnabled = true;
     	setSize(32);
@@ -78,10 +78,10 @@ public class Tower extends Unit{
 				double mx = m.getX();
 				double my = m.getY();
     	
-				double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+				
     		
 				// return a new Projectile on the first mob that the tower can reach
-				if (sqrDistance < mRange * mRange ){
+				if ((tx - mx)*(tx - mx) + (ty - my)*(ty - my) < mRange * mRange ){
 					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));
 	    		}
