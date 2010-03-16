@@ -67,6 +67,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Keeps track of the delay between creation of Mobs in waves */
     private int mMobDelayMax = 30;
     private int mMobDelayI = 0;
+    
+    private Tower currentTower;
 
     /** Debug */
     TDDebug debug;
@@ -132,6 +134,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 	touched = true;
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
+                	currentTower = new Tower(tx,ty);
+            		currentTower.setSize(2);
                 }
                 
                 // button 2
@@ -161,11 +165,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 if(touched){
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
+                	currentTower.setX(tx);
+                	currentTower.setY(ty);
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
             	
             	if(touched){
-            		mGameModel.buildTower((int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
+            		
+            		mGameModel.buildTower(currentTower,(int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
             		touched = false;
             	}
             	
@@ -384,7 +391,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) , GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE) , null);
 			
 			
-			// draw a red transparent on every occupied tile
+			// draw a red transparent rectangle on every occupied tile
 			for (Point p : mGameModel.mOccupiedTilePositions) {
 				canvas.drawRect(p.x*GameModel.GAME_TILE_SIZE, p.y*GameModel.GAME_TILE_SIZE, (1+p.x)*GameModel.GAME_TILE_SIZE, (1+p.y)*GameModel.GAME_TILE_SIZE, gridpaint);
 			}
@@ -393,12 +400,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			// draw a circle that shows the tower's range
 			// TODO: get radius from "chosen mob"
-			if (!mGameModel.mOccupiedTilePositions.contains(new Point(tx / GameModel.GAME_TILE_SIZE, ty / GameModel.GAME_TILE_SIZE)))
+			if (mGameModel.canAddTower(currentTower))
 				gridpaint.setARGB(40, 255, 255, 255);
 			else
 				gridpaint.setARGB(40, 255, 0, 0);
 			
-			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE +1), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE +1), 100, gridpaint);
+			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)), 100, gridpaint);
 			
 		}
 		

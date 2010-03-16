@@ -76,8 +76,14 @@ public class GameModel {
 
 		 Log.v("", "Skapa tower");
 
-		 buildTower(8,10);
-		 buildTower(12,6);
+		 Tower a = new Tower(0,0),
+		 b = new Tower(0,0);
+		 
+		 a.setSize(2);
+		 b.setSize(2);
+		 
+		 buildTower(a,8,10);
+		 buildTower(b,12,6);
 		 
 		 Log.v("", "skapa mob");
 
@@ -93,23 +99,27 @@ public class GameModel {
 	 * @param x Tile position on the X-axis
 	 * @param y Tile position on the Y-axis
 	 */
-	public void buildTower(int x, int y){
+	public void buildTower(Tower tower, int x, int y){
 		
 		// mycket fulkod blire TODO
-		if (!mOccupiedTilePositions.contains(new Point(x,y)) &&
-				!mOccupiedTilePositions.contains(new Point(x+1,y)) &&
-				!mOccupiedTilePositions.contains(new Point(x+1,y+1)) &&
-				!mOccupiedTilePositions.contains(new Point(x,y+1))) {
-			Tower t = new Tower(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE);
-			t.setSize(2);
-			mTowers.add(t);
+		
+		
+		tower.setCoordinates(new Coordinate(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE));
+		
+		if (!canAddTower(tower))
+			return;
+		
+		
+		
+		mTowers.add(tower);
+		
+		for (int i = 0; i < tower.getWidth(); i++) {
 			
-			// fulkod TODO
-			mOccupiedTilePositions.add(new Point(x,y));
-			mOccupiedTilePositions.add(new Point(x+1,y));
-			mOccupiedTilePositions.add(new Point(x+1,y+1));
-			mOccupiedTilePositions.add(new Point(x,y+1));
+			for (int j = 0; j < tower.getHeight(); j++) {
+				mOccupiedTilePositions.add(new Point(x+i,y+j));
+			}
 		}
+		
 	}
 	
 	 public int getWaveNr() {
@@ -118,6 +128,23 @@ public class GameModel {
 
 	public void setWaveNr(int mWaveNr) {
 		this.mWaveNr = mWaveNr;
+	}
+
+	public boolean canAddTower(Tower tower) {
+		
+		int tx = (int) (tower.getX() / GAME_TILE_SIZE);
+		int ty = (int) (tower.getY() / GAME_TILE_SIZE);
+		
+		
+		for (int i = 0; i < tower.getWidth(); i++) {
+			
+			for (int j = 0; j < tower.getHeight(); j++) {
+				if (mOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
+					return false;
+			}
+		}
+		return true;
+		
 	}
 }
 
