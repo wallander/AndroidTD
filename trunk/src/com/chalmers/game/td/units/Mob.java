@@ -187,17 +187,25 @@ public class Mob extends Unit{
 	/**
 	 * Updates the mobs position according to speed and angle.
 	 */
-	public void updatePosition() {
+	public boolean updatePosition() {
 		
-		// if the mob reached his current checkpoint, change direction for the next checkpoint
+		
+		
+		// if the mob reached his current checkpoint, change direction		
 		if (reachedCheckpoint()) {
 			setCheckpoint(getCheckpoint()+1);
+			
+			if (mPath.getCoordinate(getCheckpoint()) == null) {
+				return false;
+			}
+			
 			updateAngle();
 		}
 		
 		setX(getX() + (getSpeed() * Math.cos(getAngle())));
 		setY(getY() - (getSpeed() * Math.sin(getAngle())));
 		
+		return true;
 	}
 
 	/**
@@ -215,23 +223,8 @@ public class Mob extends Unit{
 	 */
 	public boolean reachedCheckpoint() {
 		
-		double tx = getX();
-		double ty = getY();
-	
-		try {
-			mPath.getCoordinate(mCheckpoint).getX();
-			mPath.getCoordinate(mCheckpoint).getY();
-		} catch (Exception e) {
-			return false;
-		}
-    	
-		double mx = mPath.getCoordinate(mCheckpoint).getX();
-    	double my = mPath.getCoordinate(mCheckpoint).getY();
-		
-		if (mx == 0 && my == 0)
-			return false;
-    	
-		double sqrDistance = (tx - mx)*(tx - mx) + (ty - my)*(ty - my);
+
+		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
 		
 		if (sqrDistance < getSpeed())
 			return true;

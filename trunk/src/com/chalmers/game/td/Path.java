@@ -31,7 +31,7 @@ public class Path {
 		mPath = new ArrayList<Coordinate>();
 		
 		mPath.add(new Coordinate(0,140));
-		mPath.add(new Coordinate(120, 140));
+		//mPath.add(new Coordinate(120, 140));
 		mPath.add(new Coordinate(120, 60));
 		mPath.add(new Coordinate(300, 60));
 		mPath.add(new Coordinate(300, 250));
@@ -57,7 +57,7 @@ public class Path {
 		try {
 			return mPath.get(index);
 		} catch (Exception e) {
-			return new Coordinate(0,0);
+			return null;
 		} 
 		
 	}

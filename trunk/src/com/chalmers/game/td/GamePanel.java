@@ -1,14 +1,12 @@
 package com.chalmers.game.td;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.Random;
 
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
-import com.chalmers.game.td.units.Unit;
+
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
 
@@ -59,7 +57,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     /** Build tower after touching in the menu     */
     private boolean touched = false;
-    private boolean draging = false;
+
     
     /** Current x and y cord. for the touched tower     */
     private int tx;
@@ -69,6 +67,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Keeps track of the delay between creation of Mobs in waves */
     private int mMobDelayMax = 30;
     private int mMobDelayI = 0;
+    
+    private Tower currentTower;
 
     /** Debug */
     TDDebug debug;
@@ -108,16 +108,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
         mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
         
-        /* TODO:
-        for(every unit with a bitmap in the gamemodel) {
-        add the bitmap to the cache;
-        }
-        */
         
 }
 
     /**
-     * TODO
+     * TODO fixa knappevents
      * 
      * Process the MotionEvent.
      */
@@ -128,23 +123,54 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         synchronized (getHolder()) {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                //Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
-                if(event.getY() > 285 && event.getY() < 320 && event.getX() > 445 && event.getX() < 475){
+                
+            	// button 1,
+                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410 && event.getX() < 470){
                 	touched = true;
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
+                	currentTower = new Tower(tx,ty);
+            		currentTower.setSize(2);
                 }
+                
+                // button 2
+                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 2", Toast.LENGTH_SHORT).show();
+                }
+                
+                // button 3
+                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 3", Toast.LENGTH_SHORT).show();
+                }
+                
+                // button 4
+                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 4", Toast.LENGTH_SHORT).show();
+                }
+                
+                // button 5
+                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 5", Toast.LENGTH_SHORT).show();
+                }
+                
+                
+                
+                
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 if(touched){
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
+                	currentTower.setX(tx);
+                	currentTower.setY(ty);
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	//Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+            	
             	if(touched){
-            		mGameModel.buildTower((int)event.getX() / mGameModel.GAME_TILE_SIZE, (int)event.getY() / mGameModel.GAME_TILE_SIZE);
+            		
+            		mGameModel.buildTower(currentTower,(int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
             		touched = false;
             	}
+            	
             }
             
         }
@@ -217,7 +243,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		}
     		
     		// if the projectile's target is dead, remove the projectile
-    		if (p.getTargetedMob().getHealth() <= 0) {
+    		if (p.getMob().getHealth() <= 0) {
     			mGameModel.mProjectiles.remove(p);
     		}
     	}
@@ -230,7 +256,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 */
     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
     		Mob m = mGameModel.mMobs.get(i);
-    		m.updatePosition();
+    		
+    		// update position, if the mob reached the last checkpoint, handle it
+    		if (!m.updatePosition()){
+    			mGameModel.mMobs.remove(m);
+    		}
     		
     		// handle mob death
     		if (m.getHealth() <= 0) {
@@ -269,30 +299,44 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	Paint paint2 = new Paint();
     	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, paint2);
-    	// draw all mobs
-     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
-     		Mob m = mGameModel.mMobs.get(i);
-     		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
     	
-    		// drawing health bars for each mob
-    		Paint paint = new Paint();
-    		paint.setARGB(255,255,0,0);
-    		paint.setStyle(Paint.Style.FILL);
-    		float left = (float)m.getX() - 2;
-    		float top = (float) m.getY() - 5;
-    		float right = (float) (m.getX() + (28 * ( (float)m.getHealth() / (float)m.getMaxHealth() )));
-    		float bottom = (float) m.getY() - 2;
-    		canvas.drawRect(left, top, right, bottom, paint);
-    		
-     	}
-     	
-     	// draw all towers
+    	// draw all towers
      	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
      		Tower t = mGameModel.mTowers.get(i);
      		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
     	}
+    	
+    	// draw all mobs
+     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+     		Mob m = mGameModel.mMobs.get(i);
+     		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
+    		int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+    		
+    		// drawing health bars for each mob
+    		Paint paint = new Paint();
+    		paint.setARGB(255,/*Rött*/ 0,/*Grönt*/ 0,/*Blått*/ 0);
+    		paint.setStyle(Paint.Style.FILL);
+    		float left = (float)m.getX() - 2;
+    		float top = (float) m.getY() - 5;
+    		float right = (float) (m.getX() + 24);
+    		float bottom = (float) m.getY() - 2;
+    		canvas.drawRect(left, top, right, bottom, paint);
+    		
+
+    		paint.setARGB(255,/*Rött*/ 255 - hpRatio,/*Grönt*/ hpRatio,/*Blått*/ 0);
+    		paint.setStyle(Paint.Style.FILL);
+    		left = (float)m.getX() - 2;
+    		top = (float) m.getY() - 5;
+    		right = (float) (m.getX() + (24 * hpRatio/255));
+    		bottom = (float) m.getY() - 2;
+    		canvas.drawRect(left, top, right, bottom, paint);
+    		
+    		
+     	}
+     	
+     	
      	
      	
 
@@ -321,20 +365,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if(!touched) {
 			
 			// correct button... fix later TODO
-	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
+	    	//canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
 			
 	    	
 	    	// draw 4 placeholder buttons in the lower part of the screen
-	    	/*
-			for (int i = 0; i < 4; i++) {
-				left = 10 + 80*i;
-				top = 410;
-				right = 70 + 80*i;
-				bottom = 470;
+	    	
+			for (int i = 0; i < 5; i++) {
+				top = 15 + 60*i;
+				left = 410;
+				bottom = 65 + 60*i;
+				right = 470;
 				RectF rect = new RectF(left, top, right, bottom);
 		     	canvas.drawRoundRect(rect, 5, 5, paint);
 			}
-			*/
+			
 		} else {
 			// draw grid to show where the new mob can be placed
 			
@@ -343,17 +387,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			gridpaint.setStyle(Paint.Style.FILL);
 			
 			// draw the chosen tower
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) , GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE) , null);
 			
 			
-			// draw a red transparent on every occupied tile
+			// draw a red transparent rectangle on every occupied tile
 			for (Point p : mGameModel.mOccupiedTilePositions) {
-				canvas.drawRect(p.x*mGameModel.GAME_TILE_SIZE, p.y*mGameModel.GAME_TILE_SIZE, (1+p.x)*mGameModel.GAME_TILE_SIZE, (1+p.y)*mGameModel.GAME_TILE_SIZE, gridpaint);
+				canvas.drawRect(p.x*GameModel.GAME_TILE_SIZE, p.y*GameModel.GAME_TILE_SIZE, (1+p.x)*GameModel.GAME_TILE_SIZE, (1+p.y)*GameModel.GAME_TILE_SIZE, gridpaint);
 			}
 			
 			
 			
 			// draw a circle that shows the tower's range
+			// TODO: get radius from "chosen mob"
+			if (mGameModel.canAddTower(currentTower))
+				gridpaint.setARGB(40, 255, 255, 255);
+			else
+				gridpaint.setARGB(40, 255, 0, 0);
+			
+			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)), 100, gridpaint);
+			
 		}
 		
     }
