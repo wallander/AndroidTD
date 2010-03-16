@@ -1,14 +1,12 @@
 package com.chalmers.game.td;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.Random;
 
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
-import com.chalmers.game.td.units.Unit;
+
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
 
@@ -128,23 +126,49 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         synchronized (getHolder()) {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                //Toast.makeText(this.getContext(), "touch at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
-                if(event.getY() > 285 && event.getY() < 320 && event.getX() > 445 && event.getX() < 475){
+                
+            	// button 1,
+                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410 && event.getX() < 470){
                 	touched = true;
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
                 }
+                
+                // button 2
+                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 2", Toast.LENGTH_SHORT).show();
+                }
+                
+                // button 3
+                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 3", Toast.LENGTH_SHORT).show();
+                }
+                
+                // button 4
+                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 4", Toast.LENGTH_SHORT).show();
+                }
+                
+                // button 5
+                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410 && event.getX() < 470){
+                	Toast.makeText(getContext(), "knapp 5", Toast.LENGTH_SHORT).show();
+                }
+                
+                
+                
+                
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 if(touched){
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	//Toast.makeText(this.getContext(), "touch released at " + event.getX() + "," + event.getY(), Toast.LENGTH_SHORT).show();
+            	
             	if(touched){
-            		mGameModel.buildTower((int)event.getX() / mGameModel.GAME_TILE_SIZE, (int)event.getY() / mGameModel.GAME_TILE_SIZE);
+            		mGameModel.buildTower((int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
             		touched = false;
             	}
+            	
             }
             
         }
@@ -321,20 +345,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if(!touched) {
 			
 			// correct button... fix later TODO
-	    	canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
+	    	//canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
 			
 	    	
 	    	// draw 4 placeholder buttons in the lower part of the screen
-	    	/*
-			for (int i = 0; i < 4; i++) {
-				left = 10 + 80*i;
-				top = 410;
-				right = 70 + 80*i;
-				bottom = 470;
+	    	
+			for (int i = 0; i < 5; i++) {
+				top = 15 + 60*i;
+				left = 410;
+				bottom = 65 + 60*i;
+				right = 470;
 				RectF rect = new RectF(left, top, right, bottom);
 		     	canvas.drawRoundRect(rect, 5, 5, paint);
 			}
-			*/
+			
 		} else {
 			// draw grid to show where the new mob can be placed
 			
