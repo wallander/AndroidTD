@@ -393,8 +393,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			// draw a circle that shows the tower's range
 			// TODO: get radius from "chosen mob"
-			gridpaint.setARGB(40, 255, 255, 255);
-			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE), 100, gridpaint);
+			if (!mGameModel.mOccupiedTilePositions.contains(new Point(tx / GameModel.GAME_TILE_SIZE, ty / GameModel.GAME_TILE_SIZE)))
+				gridpaint.setARGB(40, 255, 255, 255);
+			else
+				gridpaint.setARGB(40, 255, 0, 0);
+			
+			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE +1), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE +1), 100, gridpaint);
 			
 		}
 		
