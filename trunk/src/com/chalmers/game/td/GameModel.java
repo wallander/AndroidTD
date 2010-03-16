@@ -35,8 +35,6 @@ public class GameModel {
 	protected HashSet<Point> mOccupiedTilePositions;
 	protected int mWaveNr;
 	
-	
-
 
 	/** Size of "game tiles" */
     public static final int GAME_TILE_SIZE = 16;
@@ -74,7 +72,6 @@ public class GameModel {
 			}
 		}
 		
-		
 		// Temporary code to add a tower and a mob for testing purposes	
 
 		 Log.v("", "Skapa tower");
@@ -84,13 +81,8 @@ public class GameModel {
 		 
 		 Log.v("", "skapa mob");
 
-		 // adds a new mob to the gamefield with a predefined path
+		 // adds a new mob to the game field with a predefined path
 		mMobs.add(new Mob(mPath));
-
-
-		
-
-	
 	}
 	
 	/**
