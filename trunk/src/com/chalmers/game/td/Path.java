@@ -57,7 +57,7 @@ public class Path {
 		try {
 			return mPath.get(index);
 		} catch (Exception e) {
-			return new Coordinate(0,0);
+			return null;
 		} 
 		
 	}

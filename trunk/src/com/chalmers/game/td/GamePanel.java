@@ -57,7 +57,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     /** Build tower after touching in the menu     */
     private boolean touched = false;
-    private boolean draging = false;
+
     
     /** Current x and y cord. for the touched tower     */
     private int tx;
@@ -108,16 +108,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
         mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
         
-        /* TODO:
-        for(every unit with a bitmap in the gamemodel) {
-        add the bitmap to the cache;
-        }
-        */
         
 }
 
     /**
-     * TODO
+     * TODO fixa knappevents
      * 
      * Process the MotionEvent.
      */
@@ -261,7 +256,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 */
     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
     		Mob m = mGameModel.mMobs.get(i);
-    		m.updatePosition();
+    		
+    		// update position, if the mob reached the last checkpoint, handle it
+    		if (!m.updatePosition()){
+    			mGameModel.mMobs.remove(m);
+    		}
     		
     		// handle mob death
     		if (m.getHealth() <= 0) {

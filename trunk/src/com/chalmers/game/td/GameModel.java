@@ -101,20 +101,14 @@ public class GameModel {
 	 */
 	public void buildTower(Tower tower, int x, int y){
 		
-		// mycket fulkod blire TODO
-		
-		
 		tower.setCoordinates(new Coordinate(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE));
 		
 		if (!canAddTower(tower))
 			return;
-		
-		
-		
+
 		mTowers.add(tower);
 		
 		for (int i = 0; i < tower.getWidth(); i++) {
-			
 			for (int j = 0; j < tower.getHeight(); j++) {
 				mOccupiedTilePositions.add(new Point(x+i,y+j));
 			}
