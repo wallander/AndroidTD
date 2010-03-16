@@ -63,6 +63,7 @@ public class GameModel {
 				
 				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
 				
+				
 				temp.setXY(temp.getX() + Math.cos(angle), temp.getY() - Math.sin(angle));
 			
 			}

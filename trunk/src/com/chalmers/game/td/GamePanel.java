@@ -293,30 +293,44 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	Paint paint2 = new Paint();
     	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, paint2);
-    	// draw all mobs
-     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
-     		Mob m = mGameModel.mMobs.get(i);
-     		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
     	
-    		// drawing health bars for each mob
-    		Paint paint = new Paint();
-    		paint.setARGB(255,255,0,0);
-    		paint.setStyle(Paint.Style.FILL);
-    		float left = (float)m.getX() - 2;
-    		float top = (float) m.getY() - 5;
-    		float right = (float) (m.getX() + (28 * ( (float)m.getHealth() / (float)m.getMaxHealth() )));
-    		float bottom = (float) m.getY() - 2;
-    		canvas.drawRect(left, top, right, bottom, paint);
-    		
-     	}
-     	
-     	// draw all towers
+    	// draw all towers
      	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
      		Tower t = mGameModel.mTowers.get(i);
      		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
     		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
     	}
+    	
+    	// draw all mobs
+     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+     		Mob m = mGameModel.mMobs.get(i);
+     		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
+    		int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+    		
+    		// drawing health bars for each mob
+    		Paint paint = new Paint();
+    		paint.setARGB(255,/*Rött*/ 0,/*Grönt*/ 0,/*Blått*/ 0);
+    		paint.setStyle(Paint.Style.FILL);
+    		float left = (float)m.getX() - 2;
+    		float top = (float) m.getY() - 5;
+    		float right = (float) (m.getX() + 24);
+    		float bottom = (float) m.getY() - 2;
+    		canvas.drawRect(left, top, right, bottom, paint);
+    		
+
+    		paint.setARGB(255,/*Rött*/ 255 - hpRatio,/*Grönt*/ hpRatio,/*Blått*/ 0);
+    		paint.setStyle(Paint.Style.FILL);
+    		left = (float)m.getX() - 2;
+    		top = (float) m.getY() - 5;
+    		right = (float) (m.getX() + (24 * hpRatio/255));
+    		bottom = (float) m.getY() - 2;
+    		canvas.drawRect(left, top, right, bottom, paint);
+    		
+    		
+     	}
+     	
+     	
      	
      	
 
@@ -367,17 +381,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			gridpaint.setStyle(Paint.Style.FILL);
 			
 			// draw the chosen tower
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), mGameModel.GAME_TILE_SIZE*(tx / mGameModel.GAME_TILE_SIZE) , mGameModel.GAME_TILE_SIZE*(ty / mGameModel.GAME_TILE_SIZE) , null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) , GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE) , null);
 			
 			
 			// draw a red transparent on every occupied tile
 			for (Point p : mGameModel.mOccupiedTilePositions) {
-				canvas.drawRect(p.x*mGameModel.GAME_TILE_SIZE, p.y*mGameModel.GAME_TILE_SIZE, (1+p.x)*mGameModel.GAME_TILE_SIZE, (1+p.y)*mGameModel.GAME_TILE_SIZE, gridpaint);
+				canvas.drawRect(p.x*GameModel.GAME_TILE_SIZE, p.y*GameModel.GAME_TILE_SIZE, (1+p.x)*GameModel.GAME_TILE_SIZE, (1+p.y)*GameModel.GAME_TILE_SIZE, gridpaint);
 			}
 			
 			
 			
 			// draw a circle that shows the tower's range
+			// TODO: get radius from "chosen mob"
+			gridpaint.setARGB(40, 255, 255, 255);
+			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE), 100, gridpaint);
+			
 		}
 		
     }
