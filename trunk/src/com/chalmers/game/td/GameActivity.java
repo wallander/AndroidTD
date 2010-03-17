@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 
 public class GameActivity extends Activity {
     protected boolean _active = true;
-    protected int _splashTime = 10000;
+    protected int _splashTime = 5000;
     
     /** Called when the activity is first created. */
     @Override
@@ -35,9 +35,10 @@ public class GameActivity extends Activity {
                 } catch(InterruptedException e) {
                     // do nothing
                 } finally {
-                    finish();
-                    startActivity(new Intent("com.dotted.games.Start"));
-                    stop();
+             		if (_active) {
+             			startActivity(new Intent(GameActivity.this, MenuStart.class));
+             			finish();
+             		}
                 }
             }
         };
@@ -47,7 +48,12 @@ public class GameActivity extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            _active = false;
+        	if (_active == true) {
+        		_active = false;
+        		startActivity(new Intent(GameActivity.this, MenuStart.class));
+          		finish();
+          		
+        	}
         }
         return true;
     }

@@ -246,7 +246,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		Projectile proj = t.tryToShoot(mGameModel.mMobs);
     		
     		if(proj != null){
-    			mGameModel.mProjectiles.add(proj);
+    			//mGameModel.mProjectiles.add(proj);
     		}
     	}
     	
@@ -283,6 +283,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// update position, if the mob reached the last checkpoint, handle it
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
+    		////// FULKOD TODO //////
+    			// just nu l�ggs tv� nya mobs till varje g�ng en mob d�r
+    			// STRESSTEST ftw
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     		}
     		
     		// handle mob death
@@ -321,6 +326,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
     	
     	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, new Paint());
+    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, new Paint());
+    	
     	
     	// draw all towers
      	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
