@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.chalmers.game.td.Coordinate;
+import com.chalmers.game.td.GameModel;
 
 /**
  * Class which represents a projectile on the game board.
@@ -40,7 +41,9 @@ public class Projectile extends Unit{
      * @param bitmap Bitmap which should be drawn.
      */
     public Projectile(Mob pTarget, Tower pTower) {
-    	setCoordinates(new Coordinate(pTower.getX()+pTower.getWidth()/2, pTower.getY()+pTower.getHeight()/2));
+    	setCoordinates(new Coordinate(
+    			pTower.getX() + (pTower.getWidth() * GameModel.GAME_TILE_SIZE / 2),
+    			pTower.getY() + (pTower.getHeight() *GameModel.GAME_TILE_SIZE / 2)));
 
         setTarget(pTarget);
         setTower(pTower);
@@ -70,16 +73,12 @@ public class Projectile extends Unit{
      */
 	public boolean hasCollided() {
 		
-		double tx = getX();
-		double ty = getY();
-	
-		
-    	double mx = getMob().getX();
-    	double my = getMob().getY();
+		Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
 		
 		
+		double sqrDist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
 		
-		if ((tx - mx)*(tx - mx) + (ty - my)*(ty - my) < getSpeed()*getSpeed())
+		if (sqrDist < getSpeed())
 			return true;
 		
 		return false;
@@ -129,7 +128,10 @@ public class Projectile extends Unit{
 	 */
 	public void updatePosition() {
 		
-		setAngle(Coordinate.getAngle(this.getCoordinates(), getMob().getCoordinates()));
+		
+		Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
+		
+		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 
 		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
 		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
