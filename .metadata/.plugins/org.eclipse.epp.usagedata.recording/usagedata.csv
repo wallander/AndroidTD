@@ -1,0 +1,9 @@
+what,kind,bundleId,bundleVersion,description,time
+stopped,bundle,org.eclipse.jst.j2ee.ui,1.1.301.v200909020100,"org.eclipse.jst.j2ee.ui",1268818625898
+stopped,bundle,org.eclipse.wst.web.ui,1.1.300.v200905242131,"org.eclipse.wst.web.ui",1268818625898
+stopped,bundle,org.eclipse.wst.html.ui,1.0.401.v200908111935,"org.eclipse.wst.html.ui",1268818625898
+stopped,bundle,org.eclipse.wst.css.ui,1.0.401.v200907171457,"org.eclipse.wst.css.ui",1268818625913
+stopped,bundle,org.eclipse.wst.jsdt.web.core,1.0.200.v200905120445,"org.eclipse.wst.jsdt.web.core",1268818625913
+stopped,bundle,org.eclipse.wst.html.core,1.1.300.v200903120608,"org.eclipse.wst.html.core",1268818625913
+stopped,bundle,org.eclipse.wst.css.core,1.1.300.v200904131653,"org.eclipse.wst.css.core",1268818625929
+stopped,bundle,org.eclipse.jpt.eclipselink.core,1.2.0.v200905310000,"org.eclipse.jpt.eclipselink.core",1268818625929

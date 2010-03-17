@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+os,sysinfo,,,"win32",1268818404330
+arch,sysinfo,,,"x86",1268818404330
+ws,sysinfo,,,"win32",1268818404330
+locale,sysinfo,,,"sv_SE",1268818404330
+processors,sysinfo,,,"1",1268818404330
+java.runtime.name,sysinfo,,,"Java(TM) SE Runtime Environment",1268818404330
+java.runtime.version,sysinfo,,,"1.6.0_18-b07",1268818404330
+java.specification.name,sysinfo,,,"Java Platform API Specification",1268818404330
+java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1268818404330
+java.specification.version,sysinfo,,,"1.6",1268818404330
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1268818404330
+java.version,sysinfo,,,"1.6.0_18",1268818404330
+java.vm.info,sysinfo,,,"mixed mode",1268818404330
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1268818404330
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1268818404330
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1268818404330
+java.vm.specification.version,sysinfo,,,"1.0",1268818404330
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1268818404330
+java.vm.version,sysinfo,,,"16.0-b13",1268818404330
+started,bundle,org.eclipse.mylyn.bugzilla.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.bugzilla.ui",1268818404455
+started,bundle,org.eclipse.mylyn.context.core,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.context.core",1268818404580
+started,bundle,org.eclipse.mylyn.context.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.context.ui",1268818404596
+started,bundle,org.eclipse.mylyn.tasks.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.tasks.ui",1268818404845
+started,bundle,org.eclipse.mylyn.team.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.team.ui",1268818404845
+started,bundle,org.eclipse.jsch.core,1.1.100.I20090430-0408,"org.eclipse.jsch.core",1268818405235
