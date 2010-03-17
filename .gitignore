@@ -3,4 +3,4 @@
 *.dex
 *.apk
 *.ap_
-trunk/bin
+trunk/bin/**/*

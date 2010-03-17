@@ -1,0 +1,16 @@
+what,kind,bundleId,bundleVersion,description,time
+started,bundle,org.eclipse.team.cvs.core,3.3.200.I20090430-0408,"org.eclipse.team.cvs.core",1268776232553
+started,bundle,org.eclipse.team.ui,3.5.0.I20090430-0408,"org.eclipse.team.ui",1268776232569
+started,bundle,org.eclipse.ui.console,3.4.0.v20090513,"org.eclipse.ui.console",1268776232600
+started,bundle,org.eclipse.team.cvs.ui,3.3.201.R35x_v20090826-0905,"org.eclipse.team.cvs.ui",1268776232740
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1268776264533
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1268776271475
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1268776274361
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1268776274361
+closed,view,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.internal.introview",1268776274408
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1268776279821
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1268776308182
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.import",1268776308229
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.refresh",1268776311848
+closed,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1268776327308
+stopped,bundle,org.eclipse.jst.ws.axis.creation.ui,1.0.406.v200903031852,"org.eclipse.jst.ws.axis.creation.ui",1268776328041
