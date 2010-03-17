@@ -194,7 +194,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * It keeps track of the creation of the mobs from the waves of the current map
      * Called from updateModel
      */
-    public void createMobs() {  	
+    public Mob createMobs() {  	
     	
     	// if it shall create a new mob
     	if(mMobDelayI >= mMobDelayMax) {
@@ -205,13 +205,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     			
     			Mob nextMob = mobFactory.getMob();
     			
+    			return nextMob;
+    			
     		} catch(WaveException we) {
     			// TODO FIX BETTER SOLUTION THAN EXCEPTIONS!!!!!
-    		} 
+    		}     		    	
     		
     		//if (nextMob != null)
     	}
     	mMobDelayI++;
+    	
+    	return null;
     	
     }
 
@@ -224,7 +228,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	debug.UpdateFPS();
     	//Log.v("FPS",Float.toString(debug.getFPS()));
-    	createMobs();
+    	
+    	// TODO TEMP TESTING fix this later
+    	Mob newMob = createMobs();
+    	
+    	if(newMob != null)
+    		mGameModel.mMobs.add(newMob);
     	/*
     	 * for every tower:
     	 * 	create a new Projectile set to a Mob that the Tower can reach

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Mob.MobType;
 
@@ -37,32 +40,43 @@ public class WaveLoader extends Loader {
 				// Create a new list of mobs for each wave
 				mMobs = new ArrayList<Mob>();
 				
-				// Split the string into an array
-				// The first element contains the MobType
-				// The second element contains the amount of mobs
-				mWaveInfo = mLine.split(" ");
-								
-				for(int i = 0; i < Integer.parseInt(mWaveInfo[1]); ++i) {
+				if(mLine.startsWith("[")) {
 					
-					if(mWaveInfo[0].equals("NORMAL")) {
+					// TODO read the coordinates and create a path object
+					
+				} else {
+					
+					// Split the string into an array
+					// The first element contains the MobType
+					// The second element contains the amount of mobs
+					mWaveInfo = mLine.split(" ");
+									
+					for(int i = 0; i < Integer.parseInt(mWaveInfo[1]); ++i) {
 						
-						mMobs.add(new Mob(MobType.NORMAL));
-						
-					} else if(mWaveInfo[0].equals("ARMORED")) {
-						
-						mMobs.add(new Mob(MobType.ARMORED));
-						
-					} else if(mWaveInfo[0].equals("FAST")) {
-						
-						mMobs.add(new Mob(MobType.FAST));
-						
-					} else if(mWaveInfo[0].equals("HEALTHY")) {
-						
-						mMobs.add(new Mob(MobType.HEALTHY));
-					}					
+						if(mWaveInfo[0].equals("NORMAL")) {
+							
+							mMobs.add(new Mob(MobType.NORMAL));
+							Log.v("CreateMob", "NORMAL MOB CREATED");
+							
+						} else if(mWaveInfo[0].equals("ARMORED")) {
+							
+							mMobs.add(new Mob(MobType.ARMORED));
+							Log.v("CreateMob", "ARMORED MOB CREATED");
+							
+						} else if(mWaveInfo[0].equals("FAST")) {
+							
+							mMobs.add(new Mob(MobType.FAST));
+							Log.v("CreateMob", "FAST MOB CREATED");
+							
+						} else if(mWaveInfo[0].equals("HEALTHY")) {
+							
+							mMobs.add(new Mob(MobType.HEALTHY));
+							Log.v("CreateMob", "HEALTHY MOB CREATED");
+						}					
+					}
+					
+					mWaves.add(mMobs);
 				}
-				
-				mWaves.add(mMobs);
 			}
 			
 		} catch(IOException ioe) {

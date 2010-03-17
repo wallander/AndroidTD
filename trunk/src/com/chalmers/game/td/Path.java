@@ -38,6 +38,8 @@ public class Path {
 		mPath.add(new Coordinate(480, 250));		
 	}
 	
+	// TODO Add method "addCoordinates"
+	
 	/**
 	 * Returns the amount of coordinates stored in the Path
 	 */

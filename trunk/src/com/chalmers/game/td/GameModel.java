@@ -88,7 +88,9 @@ public class GameModel {
 		 Log.v("", "skapa mob");
 
 		 // adds a new mob to the game field with a predefined path
-		mMobs.add(new Mob(mPath));
+		// TODO TEST TO ADD THROUGH GAME FACTORY
+		 //mMobs.add(new Mob(mPath));
+		
 	}
 	
 	/**
