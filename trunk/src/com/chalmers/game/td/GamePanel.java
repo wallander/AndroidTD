@@ -311,12 +311,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
      		Mob m = mGameModel.mMobs.get(i);
      		//canvas.drawBitmap(mBitMapCache.get(m.getBitmap()), (int) m.getX() , (int) m.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() - m.getWidth(), (int) m.getY() - m.getHeight(), null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() , (int) m.getY() , null);
     		int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
     		
     		// drawing health bars for each mob
     		Paint paint = new Paint();
-    		paint.setARGB(255,/*Rött*/ 0,/*Grönt*/ 0,/*Blått*/ 0);
+    		paint.setARGB(255, 0, 0, 0);
     		paint.setStyle(Paint.Style.FILL);
     		float left = (float)m.getX() - 2;
     		float top = (float) m.getY() - 5;
@@ -325,7 +325,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		canvas.drawRect(left, top, right, bottom, paint);
     		
 
-    		paint.setARGB(255,/*Rött*/ 255 - hpRatio,/*Grönt*/ hpRatio,/*Blått*/ 0);
+    		paint.setARGB(255, 255 - hpRatio, hpRatio, 0);
     		paint.setStyle(Paint.Style.FILL);
     		left = (float)m.getX() - 2;
     		top = (float) m.getY() - 5;
@@ -336,10 +336,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		
      	}
      	
-     	
-     	
-     	
-
      	
      	// draw all projectiles
      	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
@@ -363,12 +359,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 	
 		if(!touched) {
-			
-			// correct button... fix later TODO
-	    	//canvas.drawBitmap(mBitMapCache.get(R.drawable.b), 445 , 285, null);
-			
-	    	
-	    	// draw 4 placeholder buttons in the lower part of the screen
+
+	    	// draw 5 placeholder buttons in the lower part of the screen
 	    	
 			for (int i = 0; i < 5; i++) {
 				top = 15 + 60*i;
@@ -398,13 +390,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			
 			// draw a circle that shows the tower's range
-			// TODO: get radius from "chosen mob"
 			if (mGameModel.canAddTower(currentTower))
 				gridpaint.setARGB(40, 255, 255, 255);
 			else
 				gridpaint.setARGB(40, 255, 0, 0);
 			
-			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)), 100, gridpaint);
+			canvas.drawCircle(GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)), GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)), currentTower.getRange(), gridpaint);
 			
 		}
 		

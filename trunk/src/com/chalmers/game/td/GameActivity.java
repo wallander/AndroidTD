@@ -1,33 +1,54 @@
 package com.chalmers.game.td;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.Window;
+import android.view.MotionEvent;
 
-/**
- * Activity which will be used as main entry point for the application.
- * 
- * @author Fredrik Persson
- * @author Jonas Andersson
- * @author Ahmed Chaban
- * @author Jonas Wallander
- * @author Disa Faith
- * @author Daniel Arvidsson
- */
+
 public class GameActivity extends Activity {
+    protected boolean _active = true;
+    protected int _splashTime = 10000;
     
-    /**
-     * Method called on application start.
-     */
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        setContentView(R.layout.splash);
+
         // Set the screen orientation to Portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new GamePanel(this));
+        // thread for displaying the SplashScreen
+        Thread splashTread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    int waited = 0;
+                    while(_active && (waited < _splashTime)) {
+                        sleep(100);
+                        if(_active) {
+                            waited += 100;
+                        }
+                    }
+                } catch(InterruptedException e) {
+                    // do nothing
+                } finally {
+                    finish();
+                    startActivity(new Intent("com.dotted.games.Start"));
+                    stop();
+                }
+            }
+        };
+        splashTread.start();
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            _active = false;
+        }
+        return true;
     }
 }

@@ -61,13 +61,13 @@ public class Mob extends Unit{
     	setCoordinates(mPath.getCoordinate(0));
     	setCheckpoint(1);
     	updateAngle();
-    	
-    	
         setSpeed(1);        
-       
         setHealth(1200);
         setMaxHealth(1200);
         setArmor(1200);
+        
+        // TODO: fix dynamic size
+        setSize(24);
 
     }
 	

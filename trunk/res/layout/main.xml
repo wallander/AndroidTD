@@ -1,8 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/linearLayout"
-    >
-</LinearLayout>
+<RelativeLayout
+android:id="@+id/widget32"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="@drawable/background"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<TableLayout
+android:id="@+id/widget28"
+android:layout_width="295px"
+android:layout_height="300px"
+android:orientation="vertical"
+android:layout_centerVertical="true"
+android:layout_centerHorizontal="true"
+>
+<Button
+android:id="@+id/StartGame"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/startgame_button"
+>
+</Button>
+<TextView
+android:id="@+id/widget34"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+
+>
+</TextView>
+<Button
+android:id="@+id/Help"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/help_button" 
+>
+</Button>
+<TextView
+android:id="@+id/widget35"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+
+>
+</TextView>
+<Button
+android:id="@+id/Options"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/options_button" 
+>
+</Button>
+<TextView
+android:id="@+id/widget38"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+
+>
+</TextView>
+<Button
+android:id="@+id/Credits"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/credits_button"
+>
+</Button>
+</TableLayout>
+</RelativeLayout>
