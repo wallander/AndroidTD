@@ -223,7 +223,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		Projectile proj = t.tryToShoot(mGameModel.mMobs);
     		
     		if(proj != null){
-    			//mGameModel.mProjectiles.add(proj);
+    			mGameModel.mProjectiles.add(proj);
     		}
     	}
     	
@@ -302,8 +302,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
     	
-    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, new Paint());
-    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, new Paint());
+    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ mGameModel.mMobs.size()+ " Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 10, new Paint());
+    	
     	
     	
     	// draw all towers
