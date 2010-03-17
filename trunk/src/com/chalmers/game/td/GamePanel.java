@@ -297,8 +297,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
     	
-    	Paint paint2 = new Paint();
-    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, paint2);
+    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()), 10, 10, new Paint());
     	
     	// draw all towers
      	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
@@ -342,10 +341,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      		Projectile p = mGameModel.mProjectiles.get(i);
      		Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
      		Matrix matrix = new Matrix(); 
+     		
+     		
 
             // rotate the Bitmap 
             matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
-            Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, 12, 4, matrix, true); 
+            Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true); 
   
      		canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
     		
