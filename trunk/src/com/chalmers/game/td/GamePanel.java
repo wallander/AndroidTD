@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import com.chalmers.game.td.exceptions.EndOfTrackException;
+import com.chalmers.game.td.exceptions.EndOfWaveException;
+import com.chalmers.game.td.exceptions.WaveException;
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
 
@@ -69,6 +72,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int mMobDelayI = 0;
     
     private Tower currentTower;
+    private MobFactory	mobFactory = MobFactory.getInstance();
 
     /** Debug */
     TDDebug debug;
@@ -190,11 +194,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * It keeps track of the creation of the mobs from the waves of the current map
      * Called from updateModel
      */
-    public void createMobs() {
+    public void createMobs() {  	
+    	
     	// if it shall create a new mob
     	if(mMobDelayI >= mMobDelayMax) {
     		mMobDelayI=0;
     		//Mob nextMob = mGameModel.getMobFactory().getNextMob();
+    		
+    		try {
+    			
+    			Mob nextMob = mobFactory.getMob();
+    			
+    		} catch(WaveException we) {
+    			// TODO FIX BETTER SOLUTION THAN EXCEPTIONS!!!!!
+    		} 
+    		
     		//if (nextMob != null)
     	}
     	mMobDelayI++;
@@ -268,7 +282,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     			
     			
     			////// FULKOD TODO //////
-    			// just nu läggs två nya mobs till varje gång en mob dör
+    			// just nu lï¿½ggs tvï¿½ nya mobs till varje gï¿½ng en mob dï¿½r
     			// STRESSTEST ftw
     			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
