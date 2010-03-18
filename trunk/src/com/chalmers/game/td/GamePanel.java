@@ -83,7 +83,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     // TODO Might be unnecessary with Loader.java...
     private List<Mob> mWave;
 
-    
+
     /**
      * Constructor called on instantiation.
      * @param context Context of calling activity.
@@ -97,7 +97,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
       //  Context cx = Context.enter();
 
+
         
+
         debug = new TDDebug();
         debug.InitGameTime();
         
@@ -337,14 +339,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// handle mob death
     		if (m.getHealth() <= 0) {
 
+
+    			mGameModel.mMobs.remove(m);    			
     			mGameModel.mMobs.remove(m);
     			
     			
     			// TODO
     			// just nu läggs två nya mobs till varje gång en mob dör
+
+    		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			
+
     			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			
+
 
     			
     		}
@@ -374,12 +384,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	
     	
-    	// draw all towers
-     	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
-     		Tower t = mGameModel.mTowers.get(i);
-     		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
-    	}
+
     	
     	// draw all mobs
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
@@ -409,6 +414,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		
     		
      	}
+     	
+    	// draw all towers
+     	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
+     		Tower t = mGameModel.mTowers.get(i);
+     		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
+    	}
      	
      	
      	// draw all projectiles
