@@ -71,6 +71,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Debug */
     TDDebug debug;
     
+    /** touched */
+    boolean touched = false;
+    
     /**
      * Constructor called on instantiation.
      * @param context Context of calling activity.
@@ -138,10 +141,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
             	
             	// button 1,
+
+                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410 && event.getX() < 470){
+                	touched = true;
+                	tx = (int) event.getX() - 60;
+
                 if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410){
                 	tx = (int) event.getX();
+
                 	ty = (int) event.getY();
-                	currentTower = new Tower(tx,ty);
+                	currentTower = new Tower(tx ,ty);
             		currentTower.setSize(2);
                 }
                 
@@ -169,9 +178,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 
                 
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                if(touched){
+                	tx = (int) event.getX() - 60;
+
             	
                 if(currentTower != null){
                 	tx = (int) event.getX();
+
                 	ty = (int) event.getY();
                 	currentTower.setX(tx);
                 	currentTower.setY(ty);
@@ -179,6 +192,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
             	
+            	if(touched){
+            		
+            		mGameModel.buildTower(currentTower,((int)event.getX() -60) / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
+            		touched = false;
+
             	if(currentTower != null){
             		mGameModel.buildTower(currentTower,(int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
             		currentTower = null;
@@ -193,10 +211,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         	Log.v("App: ", "Error 2");
         }
      
-        return true;
+        //return true;
         
-    
+            
     }
+            
     
     /**
      * This class is called each frame. 

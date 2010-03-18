@@ -2,7 +2,6 @@ package com.chalmers.game.td;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
@@ -16,9 +15,6 @@ public class MenuStart extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
-        
-        // Set the screen orientation to Portrait
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         
         // thread for displaying the SplashScreen
