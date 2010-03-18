@@ -71,8 +71,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Debug */
     TDDebug debug;
     
-    /** touched */
-    boolean touched = false;
+    
     
     /**
      * Constructor called on instantiation.
@@ -124,9 +123,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
         synchronized (getHolder()) {
             
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                
-            	// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
+        	
+        	switch (event.getAction()) {
+        	case MotionEvent.ACTION_DOWN:
+        		
+        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
             	if (event.getX() < 410) {
             		
             		for (int i = 0; i < mGameModel.mTowers.size(); i++){
@@ -143,13 +144,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             	
             	// button 1,
 
+
                 if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410 && event.getX() < 470){
-                	touched = true;
+                	
                 	tx = (int) event.getX() - 60;
                 }
 
+
                 if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410){
-                	tx = (int) event.getX();
+                	tx = (int) event.getX() - 60;
 
                 	ty = (int) event.getY();
                 	currentTower = new Tower(tx ,ty);
@@ -175,36 +178,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410){
                 	Toast.makeText(getContext(), "knapp 5", Toast.LENGTH_SHORT).show();
                 }
-                
-                
-                
-                
-            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                if(touched){
-                	tx = (int) event.getX() - 60;
-                }
-            	
-                if(currentTower != null){
-                	tx = (int) event.getX();
 
-                	ty = (int) event.getY();
-                	currentTower.setX(tx);
-                	currentTower.setY(ty);
-                }
                 
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	
-            	if(touched){
-            		
-            		mGameModel.buildTower(currentTower,((int)event.getX() -60) / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
-            		touched = false;
-            	}
-            	if(currentTower != null){
-            		mGameModel.buildTower(currentTower,(int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
+                
+    
+        		
+        	case MotionEvent.ACTION_MOVE:
+        		
+        		 if(currentTower != null){
+                 	
+                 	tx = (int) event.getX() - 60;
+                 	ty = (int) event.getY();
+                 	currentTower.setX(tx);
+                 	currentTower.setY(ty);
+                 }
+        		
+        		break;
+        		
+        	case MotionEvent.ACTION_UP:
+        		
+        		if(currentTower != null){
+            		mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
             		currentTower = null;
             	}
-            	
-            }
+        		
+        		break;
+        	}
+        	
             
         }
         try {
@@ -214,8 +214,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
      
         return true;
+
         
-        
+
             
     }
             
@@ -278,6 +279,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		}
     		
     		// if the projectile's target is dead, remove the projectile
+    		// TODO: solve it in a better way, this is fugly
     		if (p.getMob().getHealth() <= 0) {
     			mGameModel.mProjectiles.remove(p);
     		}
@@ -295,11 +297,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// update position, if the mob reached the last checkpoint, handle it
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
-    		////// FULKOD TODO //////
-    			// just nu läggs två nya mobs till varje gång en mob dör
-    			// STRESSTEST ftw
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     		}
     		
     		// handle mob death
@@ -307,9 +304,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     			mGameModel.mMobs.remove(m);
     			
     			
-    			////// FULKOD TODO //////
+    			// TODO
     			// just nu läggs två nya mobs till varje gång en mob dör
-    			// STRESSTEST ftw
     			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			

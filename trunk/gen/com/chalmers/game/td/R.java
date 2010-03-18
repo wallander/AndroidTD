@@ -43,7 +43,8 @@ public final class R {
         public static final int startgame_button=0x7f02001d;
         public static final int startgame_highlighted=0x7f02001e;
         public static final int startgame_pressed=0x7f02001f;
-        public static final int wallpaper=0x7f020020;
+        public static final int track1=0x7f020020;
+        public static final int wallpaper=0x7f020021;
     }
     public static final class id {
         public static final int Credits=0x7f060009;
