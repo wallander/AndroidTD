@@ -76,8 +76,8 @@ public class GameModel {
 
 		 Log.v("", "Skapa tower");
 
-		 Tower a = new Tower(0,0),
-		 b = new Tower(0,0);
+		 Tower 	a = new Tower(0,0),
+		 		b = new Tower(0,0);
 		 
 		 a.setSize(2);
 		 b.setSize(2);
