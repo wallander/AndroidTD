@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
+import com.chalmers.game.td.GameModel;
 
 /**
  * Class which contains tower specific information
@@ -95,6 +96,24 @@ public class Tower extends Unit{
 		// if the tower is off cooldown, but has no target in range
 		return null;
     }
+    
+    
+    /**
+     * Returns whether this tower is located at the given position (x,y)
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean selectTower(double pXpos, double pYpos) {
+
+    	return (getX() <= pXpos && pXpos < getX()+(getWidth()*GameModel.GAME_TILE_SIZE) &&
+        		getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE) );
+    	
+    }
+    
+    
+    
     
     /**
      * Upgrade tower to next level (NYI)

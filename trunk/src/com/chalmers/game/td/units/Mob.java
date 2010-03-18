@@ -44,6 +44,10 @@ public class Mob extends Unit{
 	/** Path */
 	private Path mPath;
 	
+	/** Speed */
+	double speedX;
+	double speedY;
+	
 	
 	/**
 	 * Enum for the mob type. One for each type of mob.
@@ -68,6 +72,10 @@ public class Mob extends Unit{
         
         // TODO: fix dynamic size
         setSize(24);
+        
+        // TODO: Fredrik får fixa...
+        speedX = getSpeed() * Math.cos(getAngle());
+		speedY = getSpeed() * Math.sin(getAngle());
 
     }
 	
@@ -187,6 +195,7 @@ public class Mob extends Unit{
 	/**
 	 * Updates the mobs position according to speed and angle.
 	 */
+	
 	public boolean updatePosition() {
 		
 		
@@ -195,16 +204,22 @@ public class Mob extends Unit{
 		if (reachedCheckpoint()) {
 			setCheckpoint(getCheckpoint()+1);
 			
+		
 			if (mPath.getCoordinate(getCheckpoint()) == null) {
+				Log.v("JONAS","NULL");
 				return false;
 			}
-			
 			updateAngle();
+			
+			speedX = getSpeed() * Math.cos(getAngle());
+			speedY = getSpeed() * Math.sin(getAngle());
+			
+			setX(getX() + speedX);
+			setY(getY() - speedY);
+		} else {
+			setX(getX() + speedX);
+			setY(getY() - speedY);
 		}
-		
-		setX(getX() + (getSpeed() * Math.cos(getAngle())));
-		setY(getY() - (getSpeed() * Math.sin(getAngle())));
-		
 		return true;
 	}
 
@@ -222,11 +237,9 @@ public class Mob extends Unit{
 	 * @return
 	 */
 	public boolean reachedCheckpoint() {
-		
-
-		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
-		
-		if (sqrDistance < getSpeed())
+	
+		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));	
+		if (sqrDistance < getSpeed()*getSpeed())
 			return true;
 		
 		return false;

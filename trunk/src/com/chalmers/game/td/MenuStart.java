@@ -32,9 +32,10 @@ public class MenuStart extends Activity {
                 } catch(InterruptedException e) {
                     // do nothing
                 } finally {
-                    finish();
-                    startActivity(new Intent("com.dotted.games.Menu"));
-                    stop();
+                    if (_active == true) {
+                    	startActivity(new Intent(MenuStart.this, Menu.class));
+                    	finish();
+                    }
                 }
             }
         };
@@ -44,7 +45,12 @@ public class MenuStart extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            _active = false;
+        	if (_active == true) {
+        		_active = false;
+        		startActivity(new Intent(MenuStart.this, Menu.class));
+          		finish();
+          		
+        	}
         }
         return true;
     }
