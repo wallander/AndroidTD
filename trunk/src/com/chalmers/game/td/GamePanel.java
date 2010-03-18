@@ -256,6 +256,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		}
     		
     		// if the projectile's target is dead, remove the projectile
+    		// TODO: solve it in a better way, this is fugly
     		if (p.getMob().getHealth() <= 0) {
     			mGameModel.mProjectiles.remove(p);
     		}
@@ -273,11 +274,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// update position, if the mob reached the last checkpoint, handle it
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
-    		////// FULKOD TODO //////
-    			// just nu läggs två nya mobs till varje gång en mob dör
-    			// STRESSTEST ftw
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     		}
     		
     		// handle mob death
