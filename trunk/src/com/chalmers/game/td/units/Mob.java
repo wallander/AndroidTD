@@ -56,8 +56,9 @@ public class Mob extends Unit{
      * @param 
      */
 
-    public Mob(Path pPath) {
+    public Mob(Path pPath, MobType pType) {
         mPath = pPath;
+        mType = pType;
     	setCoordinates(mPath.getCoordinate(0));
     	setCheckpoint(1);
     	updateAngle();

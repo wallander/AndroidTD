@@ -2,11 +2,10 @@ package com.chalmers.game.td;
 
 import java.util.List;
 
-import com.chalmers.game.td.exceptions.EndOfGameException;
-import com.chalmers.game.td.exceptions.EndOfTrackException;
-import com.chalmers.game.td.exceptions.EndOfWaveException;
-import com.chalmers.game.td.exceptions.WaveException;
-import com.chalmers.game.td.initializers.WaveLoader;
+import android.content.Context;
+import android.util.Log;
+
+import com.chalmers.game.td.initializers.Loader;
 import com.chalmers.game.td.units.Mob;
 
 
@@ -24,53 +23,52 @@ public class MobFactory {
 	
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	private WaveLoader				mWaveLoader;
+	private Context					mContext;
+	private Loader					mLoader;
 	private List<List<Mob>>			mWaves;
-	private List<Mob>				mMobs;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
 	 */
 	private MobFactory() {
-		mWaveLoader = null;
-		mWaves = null;		
-		mMobs = null;
+		mWaves = null;
+		mContext = null;
+		mLoader = null;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public Mob getMob() throws WaveException {
-	
-		Mob mMob = null;
-		
-		if(mMobs != null) {						// If there still are mobs left in the wave
-			mMob = mMobs.remove(0); 			// Remove one from the list
-		} else {								// If the mobs are all requested
-			
-			if(mWaves != null) {					// If there still are waves left on current level
-						
-				mMobs = mWaves.remove(0);			// Get the next wave and...						
-				throw new EndOfWaveException();		// ...throw end of wave exception
-			
-			} else {								// If it's the end of the level
-				throw new EndOfTrackException();	// ...throw end of level exception
-			}
-		}
-			
-		return mMob;
+	public List<Mob> getNextWave() {
+					
+		return (mWaves.get(0) != null) ? mWaves.remove(0) : null;
 	}
 	
 	/**
-	 * 
+	 * TODO Add param level, and edit accordingly in the xml-file
 	 * @param pLevel
 	 */
-	public void initWaves(int pLevel) {
+	public void initWaves() {
 		
-		mWaveLoader = new WaveLoader("init/waves/level" + String.valueOf(pLevel));
-		mWaves = mWaveLoader.getWaves();
-		mMobs = mWaves.remove(0);
+		if(mContext != null) {
+			mLoader = new Loader(mContext);
+		} else {
+			System.err.println("Context not initiated! Error occured in MobFactory.java on line: 58");
+			Log.v("Initiation error", "Context not initiated! Error occured in MobFactory.java on line: 58");
+		}
+		
+		mWaves = mLoader.getWaves();
+	}	
+	
+	/**
+	 * Needed reference to be able to reach initwaves.xml
+	 * in resources.
+	 * 
+	 * @param pContext
+	 */
+	public void setContext(Context pContext) {
+		mContext = pContext;
 	}
 		
 	/**

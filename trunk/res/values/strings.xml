@@ -3,5 +3,6 @@
     
     <string name="app_name">Tower Defense</string>
     <string name="hello">Hello World, FuzzyTD!</string>
-    <string name="splash">The screen</string> 
+    <string name="splash">The screen</string>       
+	
 </resources>

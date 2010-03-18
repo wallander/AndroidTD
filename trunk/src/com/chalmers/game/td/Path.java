@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
-import com.chalmers.game.td.units.Unit;
 
 
 /**
@@ -19,26 +18,26 @@ import com.chalmers.game.td.units.Unit;
  * @author Daniel Arvidsson
  */
 public class Path {
-	private List<Coordinate> mPath;
-	/*private List<Double> mAngles;*/
+	private List<Coordinate> 	mPath;
+	private static final Path	INSTANCE = new Path();
 	
 	/**
 	 * Constructor.
 	 * 
-	 * Currently the path is hard coded here, will be fixed. later. TODO
 	 */
 	public Path() {
-		mPath = new ArrayList<Coordinate>();
-		
-		mPath.add(new Coordinate(0,140));
-		//mPath.add(new Coordinate(120, 140));
-		mPath.add(new Coordinate(120, 60));
-		mPath.add(new Coordinate(300, 60));
-		mPath.add(new Coordinate(300, 250));
-		mPath.add(new Coordinate(480, 250));		
+		mPath = new ArrayList<Coordinate>();	
 	}
 	
-	// TODO Add method "addCoordinates"
+	public static Path getInstance() {
+		return INSTANCE;
+	}
+	
+	public void setTrackPath(List<Coordinate> pCoordinates) {
+		for(Coordinate c : pCoordinates) {
+			mPath.add(c);
+		}
+	}	
 	
 	/**
 	 * Returns the amount of coordinates stored in the Path

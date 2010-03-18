@@ -8,6 +8,10 @@
 package com.chalmers.game.td;
 
 public final class R {
+    public static final class array {
+        public static final int init_mobs=0x7f050001;
+        public static final int init_path=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -46,17 +50,17 @@ public final class R {
         public static final int wallpaper=0x7f020020;
     }
     public static final class id {
-        public static final int Credits=0x7f060009;
-        public static final int Help=0x7f060005;
-        public static final int LinearLayout01=0x7f06000a;
-        public static final int Options=0x7f060007;
-        public static final int StartGame=0x7f060003;
-        public static final int TextView01=0x7f060001;
-        public static final int widget28=0x7f060002;
-        public static final int widget32=0x7f060000;
-        public static final int widget34=0x7f060004;
-        public static final int widget35=0x7f060006;
-        public static final int widget38=0x7f060008;
+        public static final int Credits=0x7f070009;
+        public static final int Help=0x7f070005;
+        public static final int LinearLayout01=0x7f07000a;
+        public static final int Options=0x7f070007;
+        public static final int StartGame=0x7f070003;
+        public static final int TextView01=0x7f070001;
+        public static final int widget28=0x7f070002;
+        public static final int widget32=0x7f070000;
+        public static final int widget34=0x7f070004;
+        public static final int widget35=0x7f070006;
+        public static final int widget38=0x7f070008;
     }
     public static final class layout {
         public static final int credits=0x7f030000;
@@ -71,8 +75,8 @@ public final class R {
         public static final int explosion=0x7f040000;
     }
     public static final class string {
-        public static final int app_name=0x7f050000;
-        public static final int hello=0x7f050001;
-        public static final int splash=0x7f050002;
+        public static final int app_name=0x7f060000;
+        public static final int hello=0x7f060001;
+        public static final int splash=0x7f060002;
     }
 }

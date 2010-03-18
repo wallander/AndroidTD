@@ -1,6 +1,7 @@
 package com.chalmers.game.td;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -77,6 +78,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Debug */
     TDDebug debug;
     
+    // TODO Might be unnecessary with Loader.java...
+    private List<Mob> mWave;
+    
     /**
      * Constructor called on instantiation.
      * @param context Context of calling activity.
@@ -84,6 +88,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public GamePanel(Context context) {
     	 
         super(context);
+        mobFactory.setContext(context); // Have to send a reference to context to be able to read the xml-file initwaves.xml in resources
+        mobFactory.initWaves(); // Initiate the waves declared in initwaves.xml
         
         debug = new TDDebug();
         debug.InitGameTime();
@@ -189,33 +195,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     }
     
+    public void setWave() {
+    	mWave = mobFactory.getNextWave();
+    }
+    
     /**
      * This class is called each frame. 
      * It keeps track of the creation of the mobs from the waves of the current map
      * Called from updateModel
      */
-    public Mob createMobs() {  	
+    public Mob createMobs() {  	    	    	
+    	
+    	if(mWave == null) {
+    		setWave();
+    	}
     	
     	// if it shall create a new mob
     	if(mMobDelayI >= mMobDelayMax) {
     		mMobDelayI=0;
-    		//Mob nextMob = mGameModel.getMobFactory().getNextMob();
     		
-    		try {
-    			
-    			Mob nextMob = mobFactory.getMob();
-    			
-    			return nextMob;
-    			
-    		} catch(WaveException we) {
-    			// TODO FIX BETTER SOLUTION THAN EXCEPTIONS!!!!!
-    		}     		    	
-    		
-    		//if (nextMob != null)
-    	}
-    	mMobDelayI++;
+    		return mWave.remove(0);
+    	} else {
     	
-    	return null;
+    		mMobDelayI++;
+    	
+    		return null;
+    	}
     	
     }
 
@@ -283,24 +288,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// update position, if the mob reached the last checkpoint, handle it
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
-    		////// FULKOD TODO //////
-    			// just nu l�ggs tv� nya mobs till varje g�ng en mob d�r
-    			// STRESSTEST ftw
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    	
     		}
     		
     		// handle mob death
     		if (m.getHealth() <= 0) {
-    			mGameModel.mMobs.remove(m);
-    			
-    			
-    			////// FULKOD TODO //////
-    			// just nu l�ggs tv� nya mobs till varje g�ng en mob d�r
-    			// STRESSTEST ftw
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			
+    			mGameModel.mMobs.remove(m);    			
     			
     		}
     	}
