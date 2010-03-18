@@ -122,9 +122,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
         synchronized (getHolder()) {
             
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                
-            	// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
+        	
+        	switch (event.getAction()) {
+        	case MotionEvent.ACTION_DOWN:
+        		
+        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
             	if (event.getX() < 410) {
             		
             		for (int i = 0; i < mGameModel.mTowers.size(); i++){
@@ -168,29 +170,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410){
                 	Toast.makeText(getContext(), "knapp 5", Toast.LENGTH_SHORT).show();
                 }
-                
-                
-                
-                
-            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                             
-                if(currentTower != null){
-                	tx = (int) event.getX() - 60;
 
-                	ty = (int) event.getY();
-                	currentTower.setX(tx);
-                	currentTower.setY(ty);
-                }
-                
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            	
-         
-            	if(currentTower != null){
-            		mGameModel.buildTower(currentTower,(int)event.getX() - 60 / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
+        		break;
+        		
+        	case MotionEvent.ACTION_MOVE:
+        		
+        		 if(currentTower != null){
+                 	
+                 	tx = (int) event.getX() - 60;
+                 	ty = (int) event.getY();
+                 	currentTower.setX(tx);
+                 	currentTower.setY(ty);
+                 }
+        		
+        		break;
+        		
+        	case MotionEvent.ACTION_UP:
+        		
+        		if(currentTower != null){
+            		mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
             		currentTower = null;
             	}
-            	
-            }
+        		
+        		break;
+        	}
+        	
             
         }
         try {
