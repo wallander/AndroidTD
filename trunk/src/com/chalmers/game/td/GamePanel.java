@@ -70,22 +70,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int mMobDelayI = 0;
     
     private Tower currentTower;
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/GamePanel.java
+
     private MobFactory	mobFactory = MobFactory.getInstance();
-=======
+
     private Tower selectedTower;
->>>>>>> cc433f92429a5fbe1c04407c75c620fd89f0e880:trunk/src/com/chalmers/game/td/GamePanel.java
+
 
     /** Debug */
     TDDebug debug;
     
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/GamePanel.java
+
     // TODO Might be unnecessary with Loader.java...
     private List<Mob> mWave;
-=======
-    
->>>>>>> cc433f92429a5fbe1c04407c75c620fd89f0e880:trunk/src/com/chalmers/game/td/GamePanel.java
-    
+
     /**
      * Constructor called on instantiation.
      * @param context Context of calling activity.
@@ -93,13 +90,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public GamePanel(Context context) {
     	 
         super(context);
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/GamePanel.java
+
         mobFactory.setContext(context); // Have to send a reference to context to be able to read the xml-file initwaves.xml in resources
         mobFactory.initWaves(); // Initiate the waves declared in initwaves.xml
-=======
+
       //  Context cx = Context.enter();
->>>>>>> cc433f92429a5fbe1c04407c75c620fd89f0e880:trunk/src/com/chalmers/game/td/GamePanel.java
-        
+
         debug = new TDDebug();
         debug.InitGameTime();
         
@@ -333,26 +329,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// update position, if the mob reached the last checkpoint, handle it
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/GamePanel.java
+
     	
-=======
->>>>>>> cc433f92429a5fbe1c04407c75c620fd89f0e880:trunk/src/com/chalmers/game/td/GamePanel.java
+
     		}
     		
     		// handle mob death
     		if (m.getHealth() <= 0) {
-<<<<<<< HEAD:trunk/src/com/chalmers/game/td/GamePanel.java
+
     			mGameModel.mMobs.remove(m);    			
-=======
     			mGameModel.mMobs.remove(m);
     			
     			
     			// TODO
     			// just nu läggs två nya mobs till varje gång en mob dör
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			
->>>>>>> cc433f92429a5fbe1c04407c75c620fd89f0e880:trunk/src/com/chalmers/game/td/GamePanel.java
     			
     		}
     	}
@@ -381,12 +374,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	
     	
-    	// draw all towers
-     	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
-     		Tower t = mGameModel.mTowers.get(i);
-     		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
-    	}
+
     	
     	// draw all mobs
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
@@ -416,6 +404,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		
     		
      	}
+     	
+    	// draw all towers
+     	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
+     		Tower t = mGameModel.mTowers.get(i);
+     		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
+    	}
      	
      	
      	// draw all projectiles
