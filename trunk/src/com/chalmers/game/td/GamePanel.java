@@ -83,6 +83,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     // TODO Might be unnecessary with Loader.java...
     private List<Mob> mWave;
 
+
     /**
      * Constructor called on instantiation.
      * @param context Context of calling activity.
@@ -95,6 +96,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mobFactory.initWaves(); // Initiate the waves declared in initwaves.xml
 
       //  Context cx = Context.enter();
+
+
+        
 
         debug = new TDDebug();
         debug.InitGameTime();
@@ -330,12 +334,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
 
-    	
-
     		}
     		
     		// handle mob death
     		if (m.getHealth() <= 0) {
+
 
     			mGameModel.mMobs.remove(m);    			
     			mGameModel.mMobs.remove(m);
@@ -343,9 +346,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     			
     			// TODO
     			// just nu läggs två nya mobs till varje gång en mob dör
+
     		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
     			
+
+    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
+    			
+
+
     			
     		}
     	}
