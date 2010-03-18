@@ -55,9 +55,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Cache variable for all used images. */
     private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
     
-    /** Build tower after touching in the menu     */
-    private boolean touched = false;
-
     
     /** Current x and y cord. for the touched tower     */
     private int tx;
@@ -69,6 +66,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private int mMobDelayI = 0;
     
     private Tower currentTower;
+    private Tower selectedTower;
 
     /** Debug */
     TDDebug debug;
@@ -124,9 +122,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 
+            	// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
+            	if (event.getX() < 410) {
+            		
+            		for (int i = 0; i < mGameModel.mTowers.size(); i++){
+            			Tower t = mGameModel.mTowers.get(i);
+            			
+            			if (t.selectTower(event.getX(), event.getY())){
+            				selectedTower = t;
+            				Toast.makeText(getContext(),"Debug: clicked tower #" + i, Toast.LENGTH_SHORT).show(); //TODO remove
+            				break;
+            			}
+            		}
+            	}
+
+            	
             	// button 1,
-                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410 && event.getX() < 470){
-                	touched = true;
+                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410){
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
                 	currentTower = new Tower(tx,ty);
@@ -134,22 +146,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 }
                 
                 // button 2
-                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410 && event.getX() < 470){
+                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410){
                 	Toast.makeText(getContext(), "knapp 2", Toast.LENGTH_SHORT).show();
                 }
                 
                 // button 3
-                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410 && event.getX() < 470){
+                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410){
                 	Toast.makeText(getContext(), "knapp 3", Toast.LENGTH_SHORT).show();
                 }
                 
                 // button 4
-                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410 && event.getX() < 470){
+                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410){
                 	Toast.makeText(getContext(), "knapp 4", Toast.LENGTH_SHORT).show();
                 }
                 
                 // button 5
-                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410 && event.getX() < 470){
+                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410){
                 	Toast.makeText(getContext(), "knapp 5", Toast.LENGTH_SHORT).show();
                 }
                 
@@ -157,18 +169,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 
                 
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                if(touched){
+            	
+                if(currentTower != null){
                 	tx = (int) event.getX();
                 	ty = (int) event.getY();
                 	currentTower.setX(tx);
                 	currentTower.setY(ty);
                 }
+                
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
             	
-            	if(touched){
-            		
+            	if(currentTower != null){
             		mGameModel.buildTower(currentTower,(int)event.getX() / GameModel.GAME_TILE_SIZE, (int)event.getY() / GameModel.GAME_TILE_SIZE);
-            		touched = false;
+            		currentTower = null;
             	}
             	
             }
@@ -366,7 +379,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		float left, top, right, bottom;
 		
 	
-		if(!touched) {
+		if(currentTower == null) {
 
 	    	// draw 5 placeholder buttons in the lower part of the screen
 	    	
