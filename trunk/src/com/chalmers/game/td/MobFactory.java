@@ -52,20 +52,23 @@ public class MobFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public Mob getNextMob(int pTrack) {
-		
-		if(pTrack < mTrackWaves.length)
-		{
-			if(mMobs == null)
-				mMobs = (LinkedList<Mob>)mTrackWaves[pTrack].poll();				
+				
+		if(mMobs == null) {
 			
-			if(mMobs != null) {
-				return mMobs.poll();
+			if(pTrack < mTrackWaves.length)
+			{
+				mMobs = (LinkedList<Mob>)mTrackWaves[pTrack-1].poll();
 			} else {
 				return null;
 			}
+		}
+									
+		if(mMobs != null) {
+			return mMobs.poll();
 		} else {
 			return null;
 		}
+	
 	}
 	
 	/**
@@ -86,13 +89,14 @@ public class MobFactory {
 	 */
 	private void initWaves() {
 		
-		
-		mCoordinates = new ArrayList<Coordinate>();
-		mWaves = new LinkedList<Queue<Mob>>();
-		mMobs = new LinkedList<Mob>();		
-		
+		// TODO initPath & initWaves instead...
+							
 		for(int i = 0; i < TRACKS; ++i) {
 			mPath.reset();
+			
+			mCoordinates = new ArrayList<Coordinate>();
+			mWaves = new LinkedList<Queue<Mob>>();
+			mMobs = new LinkedList<Mob>();
 			
 			String		mInitPath = "init_path_" + String.valueOf(i+1),
 						mInitMob = "init_mob_" + String.valueOf(i+1);
