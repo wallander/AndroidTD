@@ -46,7 +46,7 @@ public class GameModel {
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
-		mPath = new Path();
+		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();
 		
 		// calculate where towers can be placed.

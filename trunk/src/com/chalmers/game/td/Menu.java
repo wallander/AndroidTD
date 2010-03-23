@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class Menu extends Activity {
+	
+	private boolean nextActivityStarted = false;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,12 @@ public class Menu extends Activity {
         StartGameButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		Intent StartGameIntent = new Intent(Menu.this,MenuGame.class); 
-        		startActivity(StartGameIntent);
+        		
+        		if (nextActivityStarted == false) {
+        			nextActivityStarted = true;
+        			Intent StartGameIntent = new Intent(Menu.this,MenuGame.class); 
+        			startActivity(StartGameIntent);
+        		}
         	}
         });
         
@@ -43,8 +50,11 @@ public class Menu extends Activity {
         HelpButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		Intent HelpIntent = new Intent(Menu.this,MenuHelp.class);
-        		startActivity(HelpIntent);
+        		if (nextActivityStarted == false) {
+        			nextActivityStarted = true;
+        			Intent HelpIntent = new Intent(Menu.this,MenuHelp.class);
+        			startActivity(HelpIntent);
+        		}
         	}
         });
         
@@ -52,8 +62,11 @@ public class Menu extends Activity {
         OptionsButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		Intent OptionsIntent = new Intent(Menu.this,MenuOptions.class);
-        		startActivity(OptionsIntent);
+        		if (nextActivityStarted == false ) {
+        			nextActivityStarted = true;
+        			Intent OptionsIntent = new Intent(Menu.this,MenuOptions.class);
+        			startActivity(OptionsIntent);
+        		}
         	}
         });
         
@@ -61,8 +74,11 @@ public class Menu extends Activity {
         CreditsButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		Intent CreditsIntent= new Intent(Menu.this,MenuCredits.class);
-        		startActivity(CreditsIntent);
+        		if (nextActivityStarted == false ) {
+        			nextActivityStarted = true;
+        			Intent CreditsIntent= new Intent(Menu.this,MenuCredits.class);
+        			startActivity(CreditsIntent);
+        		}
         	}
         });
     }

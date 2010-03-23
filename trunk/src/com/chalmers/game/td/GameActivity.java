@@ -8,8 +8,9 @@ import android.view.MotionEvent;
 
 
 public class GameActivity extends Activity {
-    protected boolean _active = true;
-    protected int _splashTime = 5000;
+    protected int _splashTime = 3000;
+    protected Thread splashThread;
+    private boolean nextActivityStarted;
     
     /** Called when the activity is first created. */
     @Override
@@ -21,40 +22,46 @@ public class GameActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
         // thread for displaying the SplashScreen
-        Thread splashTread = new Thread() {
+        splashThread = new Thread() {
             @Override
             public void run() {
                 try {
                     int waited = 0;
-                    while(_active && (waited < _splashTime)) {
+                    while (waited < _splashTime) {
                         sleep(100);
-                        if(_active) {
-                            waited += 100;
-                        }
+                        
+                        waited += 100;
+                        
                     }
                 } catch(InterruptedException e) {
                     // do nothing
                 } finally {
-             		if (_active) {
+                	if (nextActivityStarted == false) {
+             			nextActivityStarted = true;
              			startActivity(new Intent(GameActivity.this, MenuStart.class));
              			finish();
-             		}
+                	}
+             		
                 }
             }
         };
-        splashTread.start();
+        splashThread.start();
     }
     
+    /*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        	if (_active == true) {
-        		_active = false;
+        	
+        	if (nextActivityStarted == false) {
+        		nextActivityStarted = true;
+        		splashThread = null;
         		startActivity(new Intent(GameActivity.this, MenuStart.class));
           		finish();
-          		
         	}
+        	
         }
         return true;
     }
+    */
 }
