@@ -49,7 +49,8 @@ public class Loader {
 			mCoordinates.add(new Coordinate(Integer.parseInt(mCoords[0]), Integer.parseInt(mCoords[1])));
 		}
 		
-		mPath.setTrackPath(mCoordinates);
+		if (Path.isInitialized() == false)
+			mPath.setTrackPath(mCoordinates);
 		
 		for(int i = 0; i < mMobTypes.length; ++i) {
 			mMobInfo = mMobTypes[i].split(" ");
@@ -70,6 +71,7 @@ public class Loader {
 			mWaves.add(mMobs);
 		}
 		
+		Path.setInitialized(true);
 	}
 
 }

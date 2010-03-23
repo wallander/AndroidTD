@@ -67,16 +67,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
 
     /** Keeps track of the delay between creation of Mobs in waves */
-    private int mMobDelayMax = 30;
+    private static final int MOB_DELAY_MAX = 30;
     private int mMobDelayI = 0;
     
     private Tower currentTower;
-
+    private Tower selectedTower;
+    
     private MobFactory	mobFactory = MobFactory.getInstance();
 
-    private Tower selectedTower;
+    
 
-    private boolean showUpgradeWindow = false;
 
     /** Debug */
     TDDebug debug;
@@ -147,14 +147,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         	case MotionEvent.ACTION_DOWN:
         		
         		//When upgrade window is up, press to upgrade or outside to go back
-        		if(showUpgradeWindow && event.getY() > 40  && event.getY() < 240 && event.getX() > 70 && event.getX() < 350){
+        		if(selectedTower != null && event.getY() > 40  && event.getY() < 240 && event.getX() > 70 && event.getX() < 350){
         			
-        			Toast.makeText(getContext(),"Pressed to upgrade!", Toast.LENGTH_SHORT).show(); //TODO remove
+        			Toast.makeText(getContext(),"Debug: Pressed to upgrade!", Toast.LENGTH_SHORT).show(); //TODO remove
   
-        			showUpgradeWindow = false;
+//        			showUpgradeWindow = false;
         		} else {
 
-        			showUpgradeWindow = false;
+//        			showUpgradeWindow = false;
+        			selectedTower = null;
 	        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
 	            	if (event.getX() < 410) {
 	            		
@@ -164,7 +165,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	            			if (t.selectTower(event.getX(), event.getY())){
 	            				
 		            			selectedTower = t;
-		            			showUpgradeWindow = true;
+//		            			showUpgradeWindow = true;
 	            				
 	            			//	cx.startActivity(new Intent(cx, UpgradeTowerDialog.class));
 	            				Toast.makeText(getContext(),"Debug: clicked tower #" + i, Toast.LENGTH_SHORT).show(); //TODO remove
@@ -177,13 +178,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	            	// button 1,
 	
 	
-	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410 && event.getX() < 470){
+	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
 	                	
 	                	tx = (int) event.getX() - 60;
 	                }
 	
 	
-	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410){
+	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
 	                	tx = (int) event.getX() - 60;
 	
 	                	ty = (int) event.getY();
@@ -192,23 +193,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                }
 	                
 	                // button 2
-	                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410){
-	                	Toast.makeText(getContext(), "knapp 2", Toast.LENGTH_SHORT).show();
+	                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410) {
+	                	Toast.makeText(getContext(), "Debug: knapp 2", Toast.LENGTH_SHORT).show();
 	                }
 	                
 	                // button 3
-	                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410){
-	                	Toast.makeText(getContext(), "knapp 3", Toast.LENGTH_SHORT).show();
+	                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410) {
+	                	Toast.makeText(getContext(), "Debug: knapp 3", Toast.LENGTH_SHORT).show();
 	                }
 	                
 	                // button 4
-	                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410){
-	                	Toast.makeText(getContext(), "knapp 4", Toast.LENGTH_SHORT).show();
+	                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410) {
+	                	Toast.makeText(getContext(), "Debug: knapp 4", Toast.LENGTH_SHORT).show();
 	                }
 	                
 	                // button 5
-	                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410){
-	                	Toast.makeText(getContext(), "knapp 5", Toast.LENGTH_SHORT).show();
+	                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410) {
+	                	
+	                	mGameModel.mMobs.add(new Mob(Path.getInstance(), null));
+	                	
+	                	Toast.makeText(getContext(), "Debug: knapp 5", Toast.LENGTH_SHORT).show();
 	                }
 
         		}
@@ -260,7 +264,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * This class is called each frame. 
      * It keeps track of the creation of the mobs from the waves of the current map
-     * Called from updateModel
+     * Called from updateModel TODO fix bug
      */
     public Mob createMobs() {  	    	    	
     	
@@ -268,17 +272,34 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		setWave();
     	}
     	
-    	// if it shall create a new mob
-    	if(mMobDelayI >= mMobDelayMax) {
-    		mMobDelayI=0;
+    	
+    	switch (mMobDelayI) {
+    	case MOB_DELAY_MAX:
+    		mMobDelayI = 0;
     		
-    		return mWave.remove(0);
-    	} else {
-    	
-    		mMobDelayI++;
-    	
+    		
+    		if (!mWave.isEmpty())
+    			return mWave.remove(0);
+    		else
+    			return null;
+    		
+    	default:
+    		++mMobDelayI;
     		return null;
     	}
+    	
+    	/*
+    	if (mMobDelayI < MOB_DELAY_MAX) {
+    		mMobDelayI++;
+    		return null;
+    	} else {
+    		mMobDelayI = 0;
+    		if (mWave.isEmpty() == false) {
+    			return mWave.remove(0);
+    		} else
+    			return null;
+    	}
+    	*/
     	
     }
 
@@ -350,27 +371,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     		}
     		
-    		// handle mob death
+    		// handle mob death TODO
     		if (m.getHealth() <= 0) {
+//    			give money to the player?
+//    			give experience to the player?
 
-
-    			mGameModel.mMobs.remove(m);    			
     			mGameModel.mMobs.remove(m);
-    			
-    			
-    			// TODO
-    			// just nu läggs två nya mobs till varje gång en mob dör
-
-    		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    		//	mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			
-
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			
-
-
-    			
     		}
     	}
     }
@@ -501,7 +507,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		}
 		
-		if(showUpgradeWindow){
+		if(selectedTower != null){
 			/*
 	     	Paint paint2 = new Paint();
 			paint2.setARGB(100,255,0,0);

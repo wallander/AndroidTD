@@ -47,21 +47,4 @@ public class GameActivity extends Activity {
         };
         splashThread.start();
     }
-    
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        	
-        	if (nextActivityStarted == false) {
-        		nextActivityStarted = true;
-        		splashThread = null;
-        		startActivity(new Intent(GameActivity.this, MenuStart.class));
-          		finish();
-        	}
-        	
-        }
-        return true;
-    }
-    */
 }

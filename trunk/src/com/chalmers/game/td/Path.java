@@ -20,6 +20,7 @@ import com.chalmers.game.td.Coordinate;
 public class Path {
 	private List<Coordinate> 	mPath;
 	private static final Path	INSTANCE = new Path();
+	private static boolean initialized = false;
 	
 	/**
 	 * Constructor.
@@ -32,6 +33,8 @@ public class Path {
 	public static Path getInstance() {
 		return INSTANCE;
 	}
+	
+	
 	
 	public void setTrackPath(List<Coordinate> pCoordinates) {
 		for(Coordinate c : pCoordinates) {
@@ -61,6 +64,14 @@ public class Path {
 			return null;
 		} 
 		
+	}
+
+	public static void setInitialized(boolean initialized) {
+		Path.initialized = initialized;
+	}
+
+	public static boolean isInitialized() {
+		return initialized;
 	}
 
 }
