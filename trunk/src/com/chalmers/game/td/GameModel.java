@@ -34,7 +34,9 @@ public class GameModel {
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;
 	protected int mWaveNr;
+	protected Player currentPlayer;
 	
+
 
 	/** Size of "game tiles" */
     public static final int GAME_TILE_SIZE = 16;
@@ -43,6 +45,9 @@ public class GameModel {
 	 * Constructor
 	 */
 	public GameModel() {
+		
+		currentPlayer = new Player();
+		
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
