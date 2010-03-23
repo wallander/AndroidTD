@@ -64,20 +64,18 @@ public class Mob extends Unit{
         mPath = pPath;
         mType = pType;
     	setCoordinates(mPath.getCoordinate(0));
-    	setCheckpoint(1);
+    	setCheckpoint(0);
     	updateAngle();
-        setSpeed(1);        
+        setSpeed(1);      
         setHealth(1200);
         setMaxHealth(1200);
         setArmor(1200);
         
+        updatePosition();
+        
         // TODO: fix dynamic size
         setSize(24);
         
-        // TODO: Fredrik f�r fixa...
-        speedX = getSpeed() * Math.cos(getAngle());
-		speedY = getSpeed() * Math.sin(getAngle());
-
     }
 	
     /**

@@ -1,7 +1,9 @@
 package com.chalmers.game.td;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,8 +29,8 @@ public class MobFactory {
 	private Context					mContext;
 	private Path					mPath;
 	private List<Coordinate>		mCoordinates;
-	private List<Mob>				mMobs;
-	private List<List<Mob>>			mWaves;
+	private Queue<Mob>				mMobs;
+	private Queue<Queue<Mob>>		mWaves;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
@@ -37,28 +39,19 @@ public class MobFactory {
 		mWaves = null;
 		mContext = null;
 		mCoordinates = null;
-		mMobs = null;				
+		mMobs = null;		
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<Mob> getNextWave() {
 		
-		if(mWaves != null) {
-			mMobs = mWaves.remove(0);
-			
-			if(mWaves == null) {
-				// TODO maybe initWaves(next wave) ?
-			}
-			
-			return mMobs;
+	public Mob getNextMob() {
+		
+		mMobs = mWaves.poll();
+		
+		if(mMobs!= null) {
+			return mMobs.poll();
+		} else {
+			return null;
 		}
-		
-		return null;
 	}
-		
 	
 	/**
 	 * Needed reference to be able to reach initwaves.xml
@@ -79,7 +72,9 @@ public class MobFactory {
 	private void initWaves() {
 		
 		mCoordinates = new ArrayList<Coordinate>();
-		mMobs = new ArrayList<Mob>();
+		mWaves = new LinkedList<Queue<Mob>>();
+		mMobs = new LinkedList<Mob>();
+		
 		
 		String[]	mPathCoordinates = mContext.getResources().getStringArray(R.array.init_path),
 					mCoords,
