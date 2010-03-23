@@ -175,4 +175,9 @@ public class Tower extends Unit{
 	public int getCost() {
 		return mCost;
 	}
+
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return mLevel;
+	}
 }

@@ -147,13 +147,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         		
         		//When upgrade window is up, press to upgrade or outside to go back
         		if(selectedTower != null && event.getY() > 40  && event.getY() < 240 && event.getX() > 70 && event.getX() < 350){
-        			
-        			Toast.makeText(getContext(),"Debug: Pressed to upgrade!", Toast.LENGTH_SHORT).show(); //TODO remove
-  
-//        			showUpgradeWindow = false;
-        		} else {
+//        			if (har råd att uppgradera tornet)
+        			selectedTower.upgrade();
+        			Toast.makeText(getContext(),"Upgraded tower to level " + selectedTower.getLevel(), Toast.LENGTH_SHORT).show();
 
-//        			showUpgradeWindow = false;
+        		} else {
         			selectedTower = null;
 	        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
 	            	if (event.getX() < 410) {
@@ -167,7 +165,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 //		            			showUpgradeWindow = true;
 	            				
 	            			//	cx.startActivity(new Intent(cx, UpgradeTowerDialog.class));
-	            				Toast.makeText(getContext(),"Debug: clicked tower #" + i, Toast.LENGTH_SHORT).show(); //TODO remove
+	            				Toast.makeText(getContext(),"Tower: " + i + " level: " + t.getLevel(), Toast.LENGTH_SHORT).show();
 	            				break;
 	            			}
 	            		}
