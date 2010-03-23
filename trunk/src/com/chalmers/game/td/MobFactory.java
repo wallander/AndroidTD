@@ -44,9 +44,10 @@ public class MobFactory {
 		
 	public Mob getNextMob() {
 		
-		mMobs = mWaves.poll();
+		if(mMobs == null)
+			mMobs = mWaves.poll();				
 		
-		if(mMobs!= null) {
+		if(mMobs != null) {
 			return mMobs.poll();
 		} else {
 			return null;
@@ -95,15 +96,15 @@ public class MobFactory {
 			mMobInfo = mMobTypes[i].split(" ");
 			
 			for(int j = 0; j < Integer.parseInt(mMobInfo[1]); ++j) {
-							
+
 				if(mMobInfo[0].equals("NORMAL")) {
 					mMobs.add(new Mob(mPath, MobType.NORMAL));
 				} else if(mMobInfo[0].equals("ARMORED")) {
-					mMobs.add(new Mob(mPath, MobType.ARMORED));
+					mMobs.add(new Mob(mPath, MobType.ARMORED));					
 				} else if(mMobInfo[0].equals("FAST")) {
-					mMobs.add(new Mob(mPath, MobType.FAST));
+					mMobs.add(new Mob(mPath, MobType.FAST));					
 				} else if(mMobInfo[0].equals("HEALTHY")) {
-					mMobs.add(new Mob(mPath, MobType.HEALTHY));
+					mMobs.add(new Mob(mPath, MobType.HEALTHY));					
 				}
 			}
 			

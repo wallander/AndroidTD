@@ -261,35 +261,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * It keeps track of the creation of the mobs from the waves of the current map
      * Called from updateModel 
      */
-    public Mob createMobs() {  	    	    	    	        	
-    	    	
+    public Mob createMobs() {  	    	    	    	        	    	    	
     	
     	switch (mMobDelayI) {
     	case MOB_DELAY_MAX:
     		mMobDelayI = 0;
     		
-    		
     	return mobFactory.getNextMob();
     	
     		
     	default:
-    		++mMobDelayI;
+    		++mMobDelayI;    		
     		return null;
-    	}
-    	
-    	/*
-    	if (mMobDelayI < MOB_DELAY_MAX) {
-    		mMobDelayI++;
-    		return null;
-    	} else {
-    		mMobDelayI = 0;
-    		if (mWave.isEmpty() == false) {
-    			return mWave.remove(0);
-    		} else
-    			return null;
-    	}
-    	*/
-    	
+    	}    
     }
 
     /**
@@ -305,7 +289,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	Mob mNewMob = createMobs();
     	
     	if(mNewMob != null) {
-    	
+    	    		
     		mGameModel.mMobs.add(mNewMob);
     	}
     	
