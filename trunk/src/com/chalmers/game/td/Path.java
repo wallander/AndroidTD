@@ -22,7 +22,7 @@ import com.chalmers.game.td.Coordinate;
 public class Path {
 	private List<Coordinate> 	mPath;
 	private static final Path	INSTANCE = new Path();
-	private static boolean initialized = false;
+
 	
 	/**
 	 * Constructor.
@@ -70,12 +70,12 @@ public class Path {
 		
 	}
 
-	public static void setInitialized(boolean initialized) {
-		Path.initialized = initialized;
+	/**
+	 * Resets the Path
+	 */
+	public void reset() {
+		mPath = new ArrayList<Coordinate>();
 	}
 
-	public static boolean isInitialized() {
-		return initialized;
-	}
 
 }

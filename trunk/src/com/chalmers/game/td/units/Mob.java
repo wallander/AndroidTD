@@ -213,12 +213,11 @@ public class Mob extends Unit{
 			speedX = getSpeed() * Math.cos(getAngle());
 			speedY = getSpeed() * Math.sin(getAngle());
 			
-			setX(getX() + speedX);
-			setY(getY() - speedY);
-		} else {
-			setX(getX() + speedX);
-			setY(getY() - speedY);
 		}
+		
+		setX(getX() + speedX);
+		setY(getY() - speedY);
+		
 		return true;
 	}
 
