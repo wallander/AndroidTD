@@ -306,7 +306,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     	if(mNewMob != null) {
     	
-    		mGameModel.mMobs.add(createMobs());
+    		mGameModel.mMobs.add(mNewMob);
     	}
     	
     	/*
