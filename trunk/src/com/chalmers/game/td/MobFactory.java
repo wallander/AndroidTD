@@ -26,11 +26,13 @@ public class MobFactory {
 	
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
+	private static final int		TRACKS = 2;	// TODO number of tracks is not accurate, depends on how much time we will have left in the end...
 	private Context					mContext;
 	private Path					mPath;
 	private List<Coordinate>		mCoordinates;
 	private Queue<Mob>				mMobs;
 	private Queue<Queue<Mob>>		mWaves;
+	private Queue[]					mTrackWaves;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
@@ -39,7 +41,8 @@ public class MobFactory {
 		mWaves = null;
 		mContext = null;
 		mCoordinates = null;
-		mMobs = null;		
+		mMobs = null;
+		mTrackWaves = new Queue[TRACKS]; 
 	}
 		
 	public Mob getNextMob() {
@@ -71,45 +74,59 @@ public class MobFactory {
 	 * TODO Somehow solve which track to load waves to
 	 */
 	private void initWaves() {
-		mPath.reset();
+		
 		
 		mCoordinates = new ArrayList<Coordinate>();
 		mWaves = new LinkedList<Queue<Mob>>();
-		mMobs = new LinkedList<Mob>();
+		mMobs = new LinkedList<Mob>();		
 		
-		
-		String[]	mPathCoordinates = mContext.getResources().getStringArray(R.array.init_path),
-					mCoords,
-					mMobTypes = mContext.getResources().getStringArray(R.array.init_mobs),
-					mMobInfo;		
-		
-		// For all coordinates in initwaves.xml
-		for(int i = 0; i < mPathCoordinates.length; ++i) {
-			mCoords = mPathCoordinates[i].split(" ");	// Split each <item>-element
-			mCoordinates.add(new Coordinate(Integer.parseInt(mCoords[0]), Integer.parseInt(mCoords[1])));	// Add coordinates to the list
-		}
-		
-		// TODO Somehow it might be nice to be able to reset or just change path depending on level
-		mPath.setTrackPath(mCoordinates);
-
-		for(int i = 0; i < mMobTypes.length; ++i) {
-			mMobInfo = mMobTypes[i].split(" ");
+		for(int i = 0; i < TRACKS; ++i) {
+			mPath.reset();
 			
-			for(int j = 0; j < Integer.parseInt(mMobInfo[1]); ++j) {
-
-				if(mMobInfo[0].equals("NORMAL")) {
-					mMobs.add(new Mob(mPath, MobType.NORMAL));
-				} else if(mMobInfo[0].equals("ARMORED")) {
-					mMobs.add(new Mob(mPath, MobType.ARMORED));					
-				} else if(mMobInfo[0].equals("FAST")) {
-					mMobs.add(new Mob(mPath, MobType.FAST));					
-				} else if(mMobInfo[0].equals("HEALTHY")) {
-					mMobs.add(new Mob(mPath, MobType.HEALTHY));					
-				}
+			String		mInitPath = "init_path_" + String.valueOf(i+1);
+						Log.v("INIT PATH", mInitPath);
+			String		mInitMob = "init_mob_" + String.valueOf(i+1);
+						Log.v("INIT MOB", mInitMob);
+			int			mPathIdentifier = mContext.getResources().getIdentifier(mInitPath, "array", mContext.getPackageName()),
+						mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
+			String[]	mPathCoordinates = mContext.getResources().getStringArray(mPathIdentifier),
+						mMobTypes = mContext.getResources().getStringArray(mMobIdentifier),						
+						mCoords,
+						mMobInfo;
+			
+			Log.v("PATH RESOURCES", mPathCoordinates[0]);
+			Log.v("MOB RESOURCES", mMobTypes[0]);
+			
+			// For all coordinates in initwaves.xml
+			for(int j = 0; j < mPathCoordinates.length; ++j) {
+				mCoords = mPathCoordinates[j].split(" ");	// Split each <item>-element
+				mCoordinates.add(new Coordinate(Integer.parseInt(mCoords[0]), Integer.parseInt(mCoords[1])));	// Add coordinates to the list
 			}
 			
-			if(mMobs != null)
-				mWaves.add(mMobs);
+			mPath.setTrackPath(mCoordinates);
+
+			for(int j = 0; j < mMobTypes.length; ++j) {
+				mMobInfo = mMobTypes[j].split(" ");
+				
+				for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
+
+					if(mMobInfo[0].equals("NORMAL")) {
+						mMobs.add(new Mob(mPath, MobType.NORMAL));
+					} else if(mMobInfo[0].equals("ARMORED")) {
+						mMobs.add(new Mob(mPath, MobType.ARMORED));					
+					} else if(mMobInfo[0].equals("FAST")) {
+						mMobs.add(new Mob(mPath, MobType.FAST));					
+					} else if(mMobInfo[0].equals("HEALTHY")) {
+						mMobs.add(new Mob(mPath, MobType.HEALTHY));					
+					}
+				}
+				
+				if(mMobs != null)
+					mWaves.add(mMobs);
+			}
+			
+			mTrackWaves[i] = mWaves;
+
 		}
 		
 	}
