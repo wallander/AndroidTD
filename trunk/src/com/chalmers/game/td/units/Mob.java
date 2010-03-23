@@ -35,6 +35,9 @@ public class Mob extends Unit{
 	/** Mob armor */
 	private int mArmor;
 	
+	// how much money you get when you kill this mob
+	private int mReward;
+	
 	/** Mob type (Ground, air or invisible) */
 	private MobType mType;	
 	
@@ -70,6 +73,7 @@ public class Mob extends Unit{
         setHealth(1200);
         setMaxHealth(1200);
         setArmor(1200);
+        setReward(20);
         
         updatePosition();
         
@@ -258,6 +262,14 @@ public class Mob extends Unit{
 
 	public int getMaxHealth() {
 		return mMaxHealth;
+	}
+
+	public void setReward(int mReward) {
+		this.mReward = mReward;
+	}
+
+	public int getReward() {
+		return mReward;
 	}
    
 }

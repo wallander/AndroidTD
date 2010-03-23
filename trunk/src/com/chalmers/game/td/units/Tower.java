@@ -23,7 +23,7 @@ public class Tower extends Unit{
 	private int mDamage;		// Tower damage
 	private int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
-	private int mLevel = 1;			// Tower level
+	private int mLevel = 1;		// Tower level
 	private int mCooldownLeft;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
 	private TowerType mType;	// Tower type
@@ -174,5 +174,20 @@ public class Tower extends Unit{
 
 	public int getCost() {
 		return mCost;
+	}
+
+	public int getLevel() {
+		
+		return mLevel;
+	}
+
+	/**
+	 * Returns upgrade cost.
+	 * Currently 50% of the tower cost, plus another 10% per tower level
+	 * @return
+	 */
+	public int getUpgradeCost() {
+
+		return (int)(getCost()*0.5) + (int)(getCost()*0.10*(getLevel() - 1));
 	}
 }

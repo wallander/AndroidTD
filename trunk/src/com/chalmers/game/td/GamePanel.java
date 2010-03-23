@@ -90,14 +90,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
 
         mobFactory = MobFactory.getInstance(); 
-        mobFactory.setContext(context); // Have to send a reference to context to be able to read the xml-file initwaves.xml in resources            
+        mobFactory.setContext(context); 
+//        Have to send a reference to context to be able to 
+//        read the xml-file initwaves.xml in resources            
         
-      //  Context cx = Context.enter();
-
-
-
-
-        
+       
 
         debug = new TDDebug();
         debug.InitGameTime();
@@ -131,9 +128,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 }
 
     /**
-     * TODO fixa knappevents
      * 
-     * Process the MotionEvent.
+     * Processes MotionEvents. This is basically where all user input is handled
+     * during the game play.
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -147,13 +144,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         		
         		//When upgrade window is up, press to upgrade or outside to go back
         		if(selectedTower != null && event.getY() > 40  && event.getY() < 240 && event.getX() > 70 && event.getX() < 350){
+        			if (mGameModel.currentPlayer.getMoney() >= selectedTower.getUpgradeCost()) {
+        				
+        				selectedTower.upgrade();
+        				mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - selectedTower.getUpgradeCost());
+        				Toast.makeText(getContext(),"Upgraded tower to lvl " + selectedTower.getLevel() +
+        						". Money left: " + mGameModel.currentPlayer.getMoney(), Toast.LENGTH_SHORT).show();
         			
-        			Toast.makeText(getContext(),"Debug: Pressed to upgrade!", Toast.LENGTH_SHORT).show(); //TODO remove
-  
-//        			showUpgradeWindow = false;
+        			}
         		} else {
-
-//        			showUpgradeWindow = false;
         			selectedTower = null;
 	        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
 	            	if (event.getX() < 410) {
@@ -167,7 +166,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 //		            			showUpgradeWindow = true;
 	            				
 	            			//	cx.startActivity(new Intent(cx, UpgradeTowerDialog.class));
-	            				Toast.makeText(getContext(),"Debug: clicked tower #" + i, Toast.LENGTH_SHORT).show(); //TODO remove
+	            				Toast.makeText(getContext(),"Tower: " + i + " level: " + t.getLevel(), Toast.LENGTH_SHORT).show();
 	            				break;
 	            			}
 	            		}
@@ -347,14 +346,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// update position, if the mob reached the last checkpoint, handle it
     		if (!m.updatePosition()){
     			mGameModel.mMobs.remove(m);
-
+    			mGameModel.currentPlayer.removeLife();
     		}
     		
     		// handle mob death TODO
     		if (m.getHealth() <= 0) {
-//    			give money to the player?
-//    			give experience to the player?
-
+//    			give money to the player
+    			mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() + m.getReward());
 
     			mGameModel.mMobs.remove(m);
 
@@ -381,10 +379,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
     	
-    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ mGameModel.mMobs.size()+ " Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 10, new Paint());
+    	Paint textPaint = new Paint();
     	
+    	textPaint.setTextSize(18);
     	
+    	// draw debug messages in the top left corner
+    	canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ mGameModel.mMobs.size()+
+    			" Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 10,textPaint);
     	
+    	// show stats of the player    	
+    	canvas.drawText("Player: " + mGameModel.currentPlayer.getName() + " Money: " 
+    			+ mGameModel.currentPlayer.getMoney() + " Remaining lives: " +  mGameModel.currentPlayer.getRemainingLives(), 
+    			20, 300, textPaint);
 
     	
     	// draw all mobs
@@ -488,21 +494,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		}
 		
-		if(selectedTower != null){
-			/*
-	     	Paint paint2 = new Paint();
-			paint2.setARGB(100,255,0,0);
-			paint2.setStyle(Paint.Style.FILL);
-			float left2, top2, right2, bottom2;
-			
-			top2 = 15 + 60;
-			left2 = 210;
-			bottom2 = 65 + 60;
-			right2 = 270;
-			RectF rect2 = new RectF(left2, top2, right2, bo
-			ttom2);
-	     	canvas.drawRoundRect(rect2, 5, 5, paint);*/
-			
+		// if a tower is selected for upgrades and such and such
+		if(selectedTower != null){	
 			
 			// draw a circle that shows the tower's range
     		Paint gridpaint2 = new Paint();
