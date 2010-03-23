@@ -70,6 +70,7 @@ public class MobFactory {
 	 * TODO Somehow solve which track to load waves to
 	 */
 	private void initWaves() {
+		mPath.reset();
 		
 		mCoordinates = new ArrayList<Coordinate>();
 		mWaves = new LinkedList<Queue<Mob>>();

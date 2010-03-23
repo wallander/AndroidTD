@@ -72,24 +72,20 @@ public class GameModel {
 			}
 		}
 		
-		// Temporary code to add a tower and a mob for testing purposes	
 
-		 Log.v("", "Skapa tower");
 
 		 Tower 	a = new Tower(0,0),
 		 		b = new Tower(0,0);
 		 
 		 a.setSize(2);
 		 b.setSize(2);
-		 
+
 		 buildTower(a,8,10);
 		 buildTower(b,12,6);
 		 
 		 Log.v("", "skapa mob");
 
-		 // adds a new mob to the game field with a predefined path
-		// TODO TEST TO ADD THROUGH GAME FACTORY
-		 //mMobs.add(new Mob(mPath));
+		
 		
 	}
 	
