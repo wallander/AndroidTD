@@ -266,7 +266,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	case MOB_DELAY_MAX:
     		mMobDelayI = 0;
     		
-    	return mobFactory.getNextMob();
+    	return mobFactory.getNextMob(1); // TODO do not use hard code..
     	
     		
     	default:

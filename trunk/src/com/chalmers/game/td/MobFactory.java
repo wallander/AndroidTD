@@ -45,13 +45,24 @@ public class MobFactory {
 		mTrackWaves = new Queue[TRACKS]; 
 	}
 		
-	public Mob getNextMob() {
+	/**
+	 * 
+	 * @param pTrack
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public Mob getNextMob(int pTrack) {
 		
-		if(mMobs == null)
-			mMobs = mWaves.poll();				
-		
-		if(mMobs != null) {
-			return mMobs.poll();
+		if(pTrack < mTrackWaves.length)
+		{
+			if(mMobs == null)
+				mMobs = (LinkedList<Mob>)mTrackWaves[pTrack].poll();				
+			
+			if(mMobs != null) {
+				return mMobs.poll();
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}
