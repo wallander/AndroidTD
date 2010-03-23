@@ -23,10 +23,9 @@ public class Tower extends Unit{
 	private int mDamage;		// Tower damage
 	private int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
-	private int mLevel;			// Tower level
+	private int mLevel = 1;			// Tower level
 	private int mCooldownLeft;	// Tower shoot delay
 	private int mAttackSpeed;	// Tower constant shoot speed
-	private boolean mEnabled;	// wat
 	private TowerType mType;	// Tower type
 
 	
@@ -41,13 +40,18 @@ public class Tower extends Unit{
 	 */
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
-    	mRange = 100;
+    	setRange(100);
     	mAttackSpeed = 5;
     	setDamage(50);
-    	mEnabled = true;
-    	setSize(32);
+    	setCost(50);
+    	
+    	setSize(2);
     }
 	
+	private void setCost(int i) {
+		mCost = i;
+	}
+
 	/**
      * Constructor called to create a tower
      * @param 
@@ -67,22 +71,18 @@ public class Tower extends Unit{
      * @return Projectile set to target the first mob the tower can reach.
      */
     public Projectile tryToShoot(List<Mob> mobs){
-    	double tx = this.getX();
-		double ty = this.getY();
-	
+    	
 		// if the tower is not on cooldown
 		if (mCooldownLeft == 0) {
 
 			// loop through the list of mobs
 			for (int i=0; i<mobs.size();i++) {
 				Mob m = mobs.get(i);
-				double mx = m.getX();
-				double my = m.getY();
-    	
-				
+
+				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
     		
 				// return a new Projectile on the first mob that the tower can reach
-				if ((tx - mx)*(tx - mx) + (ty - my)*(ty - my) < mRange * mRange ){
+				if (sqrDist < mRange ){
 					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this));
 	    		}
@@ -117,12 +117,24 @@ public class Tower extends Unit{
     
     /**
      * Upgrade tower to next level (NYI)
+     * TODO: increase damage/range according to level
+     * currently damage is increased by 10 for each level
+     * range is increased by 5 for each level
      */
-    public void upgrade(){ //Could be boolean
+    public boolean upgrade() {
+    	mLevel++;
+    	setDamage(getDamage()+10);
+    	setRange(getRange()+5);
     	
+    	return true;
     }
     
-    public int getRange(){
+    private void setRange(int i) {
+		mRange = i;
+		
+	}
+
+	public int getRange() {
     	return mRange;
     }
     
@@ -158,5 +170,9 @@ public class Tower extends Unit{
 
 	public int getDamage() {
 		return mDamage;
+	}
+
+	public int getCost() {
+		return mCost;
 	}
 }
