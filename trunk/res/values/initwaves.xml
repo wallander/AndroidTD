@@ -10,9 +10,9 @@
 	</array>
 
 	<array name="init_mobs">
-        <item>NORMAL 20</item>
-        <item>ARMORED 20</item>
-        <item>FAST 20</item>
-        <item>HEALTHY 20</item>
+        <item>NORMAL 2</item>
+        <item>ARMORED 2</item>
+        <item>FAST 2</item>
+        <item>HEALTHY 2</item>
     </array>
 </resources>

@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import com.chalmers.game.td.exceptions.EndOfTrackException;
-import com.chalmers.game.td.exceptions.EndOfWaveException;
-import com.chalmers.game.td.exceptions.WaveException;
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
 
@@ -71,7 +67,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
     private Tower currentTower;
 
-    private MobFactory	mobFactory = MobFactory.getInstance();
+    private MobFactory	mobFactory;
 
     private Tower selectedTower;
 
@@ -92,9 +88,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 
         super(context);
 
-        mobFactory.setContext(context); // Have to send a reference to context to be able to read the xml-file initwaves.xml in resources
-        mobFactory.initWaves(); // Initiate the waves declared in initwaves.xml
-
+        mobFactory = MobFactory.getInstance(); 
+        mobFactory.setContext(context); // Have to send a reference to context to be able to read the xml-file initwaves.xml in resources            
+        
       //  Context cx = Context.enter();
 
         
@@ -237,26 +233,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
             
     
-    public void setWave() {
-    	mWave = mobFactory.getNextWave();
-    }
-    
     /**
      * This class is called each frame. 
      * It keeps track of the creation of the mobs from the waves of the current map
      * Called from updateModel
      */
-    public Mob createMobs() {  	    	    	
+    public Mob createMobs() {  	    	    	    	        	
     	
-    	if(mWave == null) {
-    		setWave();
-    	}
     	
-    	// if it shall create a new mob
+    	// if it shall create a new mob TODO UGLY SOLUTION!!!!!!
     	if(mMobDelayI >= mMobDelayMax) {
-    		mMobDelayI=0;
+    		mMobDelayI = 0;
     		
-    		return mWave.remove(0);
+    		return null;
+    		
     	} else {
     	
     		mMobDelayI++;
@@ -276,11 +266,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	debug.UpdateFPS();
     	//Log.v("FPS",Float.toString(debug.getFPS()));
     	
-    	// TODO TEMP TESTING fix this later
-    	Mob newMob = createMobs();
+    	// TODO Add mob to game    	
     	
-    	if(newMob != null)
-    		mGameModel.mMobs.add(newMob);
     	/*
     	 * for every tower:
     	 * 	create a new Projectile set to a Mob that the Tower can reach
@@ -337,15 +324,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// handle mob death
     		if (m.getHealth() <= 0) {
 
-    			mGameModel.mMobs.remove(m);
-    			
-    			
-    			// TODO
-    			// just nu läggs två nya mobs till varje gång en mob dör
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			//mGameModel.mMobs.add(new Mob(mGameModel.mPath));
-    			
-
+    			mGameModel.mMobs.remove(m);        			
     			
     		}
     	}

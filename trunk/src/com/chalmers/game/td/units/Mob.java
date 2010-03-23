@@ -74,7 +74,7 @@ public class Mob extends Unit{
         // TODO: fix dynamic size
         setSize(24);
         
-        // TODO: Fredrik får fixa...
+        // TODO: Fredrik fï¿½r fixa...
         speedX = getSpeed() * Math.cos(getAngle());
 		speedY = getSpeed() * Math.sin(getAngle());
 
@@ -207,7 +207,7 @@ public class Mob extends Unit{
 			
 		
 			if (mPath.getCoordinate(getCheckpoint()) == null) {
-				Log.v("JONAS","NULL");
+				Log.v("MOB EVENT","NEXT COORDINATE IS NULL"); // Kan ta bort efter debug
 				return false;
 			}
 			updateAngle();

@@ -3,6 +3,8 @@ package com.chalmers.game.td;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import com.chalmers.game.td.Coordinate;
 
 
@@ -55,11 +57,13 @@ public class Path {
 	 * @return
 	 */
 	public Coordinate getCoordinate(int index) {
+		
 		try {
 			return mPath.get(index);
-		} catch (Exception e) {
+		} catch(IndexOutOfBoundsException iobe) {
+			Log.v("GET COORDINATE FOR PATH", "Index out of bounds!");
 			return null;
-		} 
+		}
 		
 	}
 
