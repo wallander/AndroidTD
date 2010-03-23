@@ -83,10 +83,8 @@ public class MobFactory {
 		for(int i = 0; i < TRACKS; ++i) {
 			mPath.reset();
 			
-			String		mInitPath = "init_path_" + String.valueOf(i+1);
-						Log.v("INIT PATH", mInitPath);
-			String		mInitMob = "init_mob_" + String.valueOf(i+1);
-						Log.v("INIT MOB", mInitMob);
+			String		mInitPath = "init_path_" + String.valueOf(i+1),
+						mInitMob = "init_mob_" + String.valueOf(i+1);
 			int			mPathIdentifier = mContext.getResources().getIdentifier(mInitPath, "array", mContext.getPackageName()),
 						mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
 			String[]	mPathCoordinates = mContext.getResources().getStringArray(mPathIdentifier),
@@ -94,8 +92,6 @@ public class MobFactory {
 						mCoords,
 						mMobInfo;
 			
-			Log.v("PATH RESOURCES", mPathCoordinates[0]);
-			Log.v("MOB RESOURCES", mMobTypes[0]);
 			
 			// For all coordinates in initwaves.xml
 			for(int j = 0; j < mPathCoordinates.length; ++j) {
