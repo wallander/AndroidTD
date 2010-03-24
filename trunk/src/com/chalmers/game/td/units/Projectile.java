@@ -21,21 +21,21 @@ import com.chalmers.game.td.GameModel;
 public class Projectile extends Unit{
 
 	/** Projectile movement speed */
-	private int mSpeed;
+	protected int mSpeed;
 	
 	/** Projectile damage */
-	private int mDamage;
+	protected int mDamage;
 
 	/** Projectile target */
-	private Mob mTarget;
+	protected Mob mTarget;
 	
-	private GameModel mGameModel;
+	protected GameModel mGameModel;
 	
 	/** Projectile tower */
-	private Tower mTower;
+	protected Tower mTower;
 	
 	/** Projectile movement angle */
-	private double mAngle;
+	protected double mAngle;
     
 
 	
@@ -103,7 +103,7 @@ public class Projectile extends Unit{
 	}
     
     /**
-     * @return Damage done
+     * 
      */
     public void inflictDmg() {
        mTarget.setHealth(mTarget.getHealth() - mDamage);

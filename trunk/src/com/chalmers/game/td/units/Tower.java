@@ -22,11 +22,11 @@ public class Tower extends Unit{
 	private enum TowerType { GROUND, AIR, INVIS }
 
 	private int mDamage;		// Tower damage
-	private int mRange;			// Tower shoot range
+	protected int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
 	private int mLevel = 1;		// Tower level
-	private int mCooldownLeft;	// Tower shoot delay
-	private int mAttackSpeed;	// Tower constant shoot speed
+	protected int mCooldownLeft;	// Tower shoot delay
+	protected int mAttackSpeed;	// Tower constant shoot speed
 	private TowerType mType;	// Tower type
 
 	private int mImage;
@@ -95,7 +95,7 @@ public class Tower extends Unit{
 				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
     		
 				// return a new Projectile on the first mob that the tower can reach
-				if (sqrDist < mRange ){
+				if (sqrDist < mRange){
 					mCooldownLeft = mAttackSpeed;
 	    			return (new Projectile(m, this, pGameModel));
 	    		}

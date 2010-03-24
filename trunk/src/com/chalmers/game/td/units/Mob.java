@@ -50,6 +50,8 @@ public class Mob extends Unit{
 	/** Speed */
 	double speedX;
 	double speedY;
+
+	private int mSlowLeft = 0;
 	
 	
 	/**
@@ -214,8 +216,15 @@ public class Mob extends Unit{
 			
 		}
 		
-		setX(getX() + speedX);
-		setY(getY() - speedY);
+		if (isSlowed()){
+			setX(getX() + speedX*0.7);
+			setY(getY() - speedY*0.7);
+			--mSlowLeft;
+		} else {
+			setX(getX() + speedX);
+			setY(getY() - speedY);
+		}
+		
 		
 		return true;
 	}
@@ -251,6 +260,14 @@ public class Mob extends Unit{
 		
 	}
 
+	public void setSlowed(int i) {
+		mSlowLeft   = i;
+	}
+	
+	public boolean isSlowed() {
+		return (mSlowLeft > 0 );
+	}
+	
 	public void setMaxHealth(int mMaxHealth) {
 		this.mMaxHealth = mMaxHealth;
 	}
