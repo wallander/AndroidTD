@@ -9,14 +9,12 @@ package com.chalmers.game.td;
 
 public final class R {
     public static final class array {
-        public static final int init_mob_1=0x7f050001;
-        public static final int init_mob_2=0x7f050003;
         /**  
 			Track 1
 			======= 
 	
          */
-        public static final int init_path_1=0x7f050000;
+        public static final int mobs_track_1=0x7f050001;
         /**  
   			==========
   	 
@@ -25,7 +23,8 @@ public final class R {
 			======= 
 	
          */
-        public static final int init_path_2=0x7f050002;
+        public static final int mobs_track_2=0x7f050002;
+        public static final int path_track_1=0x7f050000;
     }
     public static final class attr {
     }

@@ -4,18 +4,8 @@
 	<!-- 
 			Track 1
 			======= 
-	-->		
-	
-	<array name="init_path_1">
-		<item>0 140</item>
-        <item>120 60</item>
-        <item>300 60</item>
-        <item>300 250</item>
-        <item>480 250</item>		
-	</array>
-
-	
-	<array name="init_mob_1">
+	-->			
+	<array name="mobs_track_1">
         <item>NORMAL 2</item>
         <item>ARMORED 2</item>
         <item>FAST 2</item>
@@ -31,16 +21,7 @@
 			======= 
 	-->		
 	
-	<array name="init_path_2">
-		<item>0 140</item>
-        <item>120 60</item>
-        <item>300 60</item>
-        <item>300 250</item>
-        <item>480 250</item>		
-	</array>
-
-	
-	<array name="init_mob_2">
+	<array name="mobs_track_2">
         <item>NORMAL 4</item>
         <item>ARMORED 4</item>
         <item>FAST 4</item>
