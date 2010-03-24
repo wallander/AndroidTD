@@ -50,8 +50,14 @@ public class Path {
 	 * @param pCoordinates
 	 */
 	public void setTrackPath(int pTrack) {
-		for(Coordinate c : mTrackPaths.get(pTrack)) {
-			mPath.add(c);
+		List<Coordinate> mPathList = mTrackPaths.get(pTrack);
+		
+		if(mPathList != null) {
+			
+			for(Coordinate c : mPathList) {
+			
+				mPath.add(c);
+			}
 		}
 	}	
 	
@@ -109,9 +115,11 @@ public class Path {
 				for(int j = 0; j < mAllPathCoordinates.length; ++j) {
 					
 					// Split the item element to get the x and y coordinates
-					mPathCoordinates = mAllPathCoordinates[i].split(" ");
+					mPathCoordinates = mAllPathCoordinates[j].split(" ");
 					// Create a new Coordinate object and add it to a list of coordinates
 					mListCoordinates.add(new Coordinate(Double.parseDouble(mPathCoordinates[0]), Double.parseDouble(mPathCoordinates[1])));
+					
+					Log.v("INIT PATH", "Track: " + String.valueOf(i+1) + " X: " + mPathCoordinates[0] + " Y: " + mPathCoordinates[1]);
 				}
 				
 				// Add the newly created list of coordinates to the track list

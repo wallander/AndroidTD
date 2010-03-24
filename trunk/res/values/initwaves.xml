@@ -15,21 +15,5 @@
   	<!-- 
   			==========
   	 -->
-  	 
-  	 <!-- 
-			Track 2
-			======= 
-	-->		
-	
-	<array name="mobs_track_2">
-        <item>NORMAL 4</item>
-        <item>ARMORED 4</item>
-        <item>FAST 4</item>
-        <item>HEALTHY 4</item>
-    </array>        
-  
-  	<!-- 
-  			==========
-  	 -->
     
 </resources>
