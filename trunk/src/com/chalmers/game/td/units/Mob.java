@@ -81,6 +81,34 @@ public class Mob extends Unit{
         setSize(24);
         
     }
+    
+    /**
+     * Currently used constructor for Mobs
+     * (2010-03-24)
+     * @param pType
+     */
+    public Mob(MobType pType) {
+    	mType = pType;
+    	    	
+        setSpeed(1);      
+        setHealth(1200);
+        setMaxHealth(1200);
+        setArmor(1200);
+        setReward(20);                
+        
+        // TODO: fix dynamic size
+        setSize(24);
+    }
+    
+    public void setPath(Path pPath) {
+    	
+    	mPath = pPath;
+    	setCoordinates(mPath.getCoordinate(0));
+    	setCheckpoint(0);
+    	updateAngle();
+    	
+    	updatePosition();
+    }
 	
     /**
      * Setter for mob movement speed
@@ -89,6 +117,7 @@ public class Mob extends Unit{
 	private void setSpeed(int i) {
 		mSpeed = i;
 	}
+
 	/**
 	 * Setter for mob armor
 	 * @param i
@@ -98,40 +127,6 @@ public class Mob extends Unit{
 		
 	}
 
-	/**
-     * Constructor. even more hard code lolmobs.
-     * 
-     * 
-     */
-    public Mob(MobType pType) {
-        setType(pType);
-        
-        setCoordinates(new Coordinate(180,20));
-        setSpeed(1);
-        setAngle(Math.PI * 1.5);
-
-        
-        setHealth(1200);
-        setMaxHealth(1200);
-        setArmor(1200);  
-        
-    }
-	
-    /**
-     * Constructor
-     * 
-     * @param pHealth Mob health
-     * @param pSpeed Mob movement speed
-     * @param pAngle Mob movement angle
-     * @param pArmor Mob armor
-     */
-    public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
-    	setMaxHealth(pHealth);
-    	setHealth(pHealth);
-    	setSpeed(pSpeed);
-    	setAngle(pAngle);
-    	setArmor(pArmor);
-    }
 
     /**
      * Setter for which checkpoint the mob is walking to.

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
 import android.util.Log;
 
 import com.chalmers.game.td.units.Mob;
@@ -25,24 +26,19 @@ import com.chalmers.game.td.units.Mob.MobType;
 public class MobFactory {
 	
 	// Instance variables	
-	private static final MobFactory	INSTANCE = new MobFactory();
-	private static final int		TRACKS = 2;	// TODO number of tracks is not accurate, depends on how much time we will have left in the end...
+	private static final MobFactory	INSTANCE = new MobFactory();	
 	private Context					mContext;
-	private Path					mPath;
-	private List<Coordinate>		mCoordinates;
+	private Path					mPath;	
 	private Queue<Mob>				mMobs;
 	private Queue<Queue<Mob>>		mWaves;
-	private Queue[]					mTrackWaves;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
 	 */
 	private MobFactory() {
 		mWaves = null;
-		mContext = null;
-		mCoordinates = null;
+		mContext = null;		
 		mMobs = null;
-		mTrackWaves = new Queue[TRACKS]; 
 	}
 		
 	/**
@@ -50,22 +46,30 @@ public class MobFactory {
 	 * @param pTrack
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public Mob getNextMob(int pTrack) {
-				
-		if(mMobs == null) {
+		
+		Mob mMob = null;
+		
+		if(pTrack < mWaves.size()) {
 			
-			if(pTrack < mTrackWaves.length)
-			{
-				mMobs = (LinkedList<Mob>)mTrackWaves[pTrack-1].poll();
-			} else {
+			if(mMobs == null) {
+				mMobs = mWaves.poll();
+				mPath.setTrackPath(pTrack);
+			}
+			
+			if(mMobs != null) {
+				mMob = mMobs.poll();	
+				
+				if(mMob != null)
+					mMob.setPath(mPath);
+				
+				return mMob;
+			
+			} else {			
 				return null;
 			}
-		}
-									
-		if(mMobs != null) {
-			return mMobs.poll();
-		} else {
+			
+		} else {		
 			return null;
 		}
 	
@@ -79,7 +83,8 @@ public class MobFactory {
 	 */
 	public void setContext(Context pContext) {
 		mContext = pContext;
-		mPath = Path.getInstance();
+		mPath = Path.getInstance();		
+		mPath.setContext(pContext);
 		initWaves();
 	}
 	
@@ -90,53 +95,61 @@ public class MobFactory {
 	private void initWaves() {
 		
 		// TODO initPath & initWaves instead...
-							
-		for(int i = 0; i < TRACKS; ++i) {
-			mPath.reset();
-			
-			mCoordinates = new ArrayList<Coordinate>();
-			mWaves = new LinkedList<Queue<Mob>>();
-			mMobs = new LinkedList<Mob>();
-			
-			String		mInitPath = "init_path_" + String.valueOf(i+1),
-						mInitMob = "init_mob_" + String.valueOf(i+1);
-			int			mPathIdentifier = mContext.getResources().getIdentifier(mInitPath, "array", mContext.getPackageName()),
-						mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
-			String[]	mPathCoordinates = mContext.getResources().getStringArray(mPathIdentifier),
-						mMobTypes = mContext.getResources().getStringArray(mMobIdentifier),						
-						mCoords,
-						mMobInfo;
-			
-			
-			// For all coordinates in initwaves.xml
-			for(int j = 0; j < mPathCoordinates.length; ++j) {
-				mCoords = mPathCoordinates[j].split(" ");	// Split each <item>-element
-				mCoordinates.add(new Coordinate(Integer.parseInt(mCoords[0]), Integer.parseInt(mCoords[1])));	// Add coordinates to the list
-			}
-			
-			mPath.setTrackPath(mCoordinates);
 
-			for(int j = 0; j < mMobTypes.length; ++j) {
-				mMobInfo = mMobTypes[j].split(" ");
+		mWaves = new LinkedList<Queue<Mob>>();
+		
+		for(int i = 0; ; ++i) {
+			
+			try {
 				
-				for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
-
-					if(mMobInfo[0].equals("NORMAL")) {
-						mMobs.add(new Mob(mPath, MobType.NORMAL));
-					} else if(mMobInfo[0].equals("ARMORED")) {
-						mMobs.add(new Mob(mPath, MobType.ARMORED));					
-					} else if(mMobInfo[0].equals("FAST")) {
-						mMobs.add(new Mob(mPath, MobType.FAST));					
-					} else if(mMobInfo[0].equals("HEALTHY")) {
-						mMobs.add(new Mob(mPath, MobType.HEALTHY));					
+				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
+			
+				
+				mMobs = new LinkedList<Mob>();
+				
+				String		mInitMob = "mobs_track_" + String.valueOf(i+1);
+				int			mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
+				String[]	mMobTypes = mContext.getResources().getStringArray(mMobIdentifier),
+							mMobInfo;														
+	
+				for(int j = 0; j < mMobTypes.length; ++j) {
+					
+					mMobInfo = mMobTypes[j].split(" ");
+					Log.v("INIT MOB", "mMobInfo contains: " + mMobInfo[0] + " " + mMobInfo[1]);
+					Log.v("INIT MOB", "Mobs: " + String.valueOf(j+1) + " / " + String.valueOf(mMobTypes.length));
+					
+					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
+	
+						if(mMobInfo[0].equals("NORMAL")) {							
+							mMobs.add(new Mob(MobType.NORMAL));
+							Log.v("INIT MOB", "Mob of type: NORMAL created");
+						} else if(mMobInfo[0].equals("ARMORED")) {
+							mMobs.add(new Mob(MobType.ARMORED));
+							Log.v("INIT MOB", "Mob of type: ARMORED created");
+						} else if(mMobInfo[0].equals("FAST")) {
+							mMobs.add(new Mob(MobType.FAST));		
+							Log.v("INIT MOB", "Mob of type: FAST created");
+						} else if(mMobInfo[0].equals("HEALTHY")) {
+							mMobs.add(new Mob(MobType.HEALTHY));
+							Log.v("INIT MOB", "Mob of type: HEALTHY created");
+						}
 					}
+					
+					if(mMobs != null)
+						mWaves.add(mMobs);
 				}
 				
-				if(mMobs != null)
-					mWaves.add(mMobs);
+				
+			} catch(NullPointerException npe) {
+				// If there are no more tracks, array elements in initwaves.xml,
+				// there will be a NullPointerException thrown, it will be
+				// caught and the loop will break.
+				Log.v("INITIATION", "Mob initiation complete."); 
+				break;
+			} catch(NotFoundException nfe) {				
+				Log.v("INIT MOB", "Mob initiation complete, no more tracks to add.");
+				break;
 			}
-			
-			mTrackWaves[i] = mWaves;
 
 		}
 		

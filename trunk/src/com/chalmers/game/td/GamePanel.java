@@ -99,19 +99,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public GamePanel(Context context) {
     	 
         super(context);
-
-        mobFactory = MobFactory.getInstance(); 
-        mobFactory.setContext(context); 
-//        Have to send a reference to context to be able to 
-//        read the xml-file initwaves.xml in resources            
-        
-       
+      
 
         debug = new TDDebug();
         debug.InitGameTime();
         
         
         mGameModel = new GameModel();
+        
+        mobFactory = MobFactory.getInstance(); 
+        mobFactory.setContext(context); 
+        
         fillBitmapCache();
         getHolder().addCallback(this);
         mGameThread = new GameThread(this);
