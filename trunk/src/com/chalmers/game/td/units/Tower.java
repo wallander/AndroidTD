@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.R;
 
 /**
  * Class which contains tower specific information
@@ -28,6 +29,7 @@ public class Tower extends Unit{
 	private int mAttackSpeed;	// Tower constant shoot speed
 	private TowerType mType;	// Tower type
 
+	private int mImage;
 	
 	
 
@@ -46,7 +48,17 @@ public class Tower extends Unit{
     	setCost(50);
     	
     	setSize(2);
+    	
+    	setImage(R.drawable.rock);
     }
+	
+	public void setImage(int img) {
+		mImage = img;
+	}
+
+	public int getImage() {
+		return mImage;
+	}
 	
 	private void setCost(int i) {
 		mCost = i;
@@ -116,7 +128,7 @@ public class Tower extends Unit{
     
     
     /**
-     * Upgrade tower to next level (NYI)
+     * Upgrade tower to next level
      * TODO: increase damage/range according to level
      * currently damage is increased by 10 for each level
      * range is increased by 5 for each level
@@ -140,13 +152,13 @@ public class Tower extends Unit{
     
     
     /**
-     * Sell item, return money
+     * returns amount of money you get when you sell this tower
      * 
      * @return
      */
     public int sell(){
     	
-    	return 0;
+    	return (int)0.5*getCost() + (int)(getCost()*0.05*getLevel());
     }
     
 
@@ -179,6 +191,10 @@ public class Tower extends Unit{
 	public int getLevel() {
 		
 		return mLevel;
+	}
+	
+	public String getName() {
+		return "Basic Tower";
 	}
 
 	/**

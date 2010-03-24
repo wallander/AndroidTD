@@ -143,5 +143,21 @@ public class GameModel {
 		return true;
 		
 	}
+	
+	public void removeTower(Tower t) {
+		mTowers.remove(t);
+		
+		int tx = (int) (t.getX() / GAME_TILE_SIZE);
+		int ty = (int) (t.getY() / GAME_TILE_SIZE);
+		
+		for (int i = 0; i < t.getWidth(); i++) {
+			
+			for (int j = 0; j < t.getHeight(); j++) {
+				if (mOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
+					mOccupiedTilePositions.remove(new Point(tx+i,ty+j));
+			}
+		}	
+		
+	}
 }
 
