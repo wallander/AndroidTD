@@ -29,7 +29,7 @@ import com.chalmers.game.td.Path;
 public class GameModel {
 	
 	protected List<Tower> mTowers;
-	protected List<Mob> mMobs;
+	public List<Mob> mMobs;
 	protected List<Projectile> mProjectiles;
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;

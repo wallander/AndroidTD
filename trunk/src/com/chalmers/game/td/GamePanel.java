@@ -329,7 +329,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		Projectile proj = null;
     		
     		if (mGameModel.mMobs.size() > 0) {
-    			proj = t.tryToShoot(mGameModel.mMobs);
+    			proj = t.tryToShoot(mGameModel);
     		}
     		
     		if(proj != null){

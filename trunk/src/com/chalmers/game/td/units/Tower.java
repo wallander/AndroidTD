@@ -82,21 +82,22 @@ public class Tower extends Unit{
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
-    public Projectile tryToShoot(List<Mob> mobs){
+    public Projectile tryToShoot(GameModel pGameModel){
+    	
     	
 		// if the tower is not on cooldown
 		if (mCooldownLeft == 0) {
 
 			// loop through the list of mobs
-			for (int i=0; i<mobs.size();i++) {
-				Mob m = mobs.get(i);
+			for (int i=0; i<pGameModel.mMobs.size();i++) {
+				Mob m = pGameModel.mMobs.get(i);
 
 				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
     		
 				// return a new Projectile on the first mob that the tower can reach
 				if (sqrDist < mRange ){
 					mCooldownLeft = mAttackSpeed;
-	    			return (new Projectile(m, this));
+	    			return (new Projectile(m, this, pGameModel));
 	    		}
 			}
 		

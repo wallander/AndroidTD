@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -27,6 +29,8 @@ public class Projectile extends Unit{
 	/** Projectile target */
 	private Mob mTarget;
 	
+	private GameModel mGameModel;
+	
 	/** Projectile tower */
 	private Tower mTower;
 	
@@ -40,7 +44,7 @@ public class Projectile extends Unit{
      * 
      * @param bitmap Bitmap which should be drawn.
      */
-    public Projectile(Mob pTarget, Tower pTower) {
+    public Projectile(Mob pTarget, Tower pTower, GameModel model) {
     	setCoordinates(new Coordinate(
     			pTower.getX() + (pTower.getWidth() * GameModel.GAME_TILE_SIZE / 2),
     			pTower.getY() - 16 + (pTower.getHeight() * GameModel.GAME_TILE_SIZE / 2)));
