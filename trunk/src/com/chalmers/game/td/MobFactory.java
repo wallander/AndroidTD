@@ -63,6 +63,7 @@ public class MobFactory {
 			Log.v("GET NEXT MOB", "Polled a mob from the wave..");
 			if(m != null)
 				m.setPath(mPath);
+			return m;
 		}
 		
 		
@@ -96,21 +97,22 @@ public class MobFactory {
 
 		mWaves = new LinkedList<Queue<Mob>>();
 		
-		for(int i = 0; ; ++i) {
+		for(int i = 0; ; i++) {
 			
 			try {
 				
-				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
+//				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
 			
 				
 				mMobs = new LinkedList<Mob>();
 				
 				String		mInitMob = "mobs_track_" + String.valueOf(i+1);
+				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
 				int			mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
 				String[]	mMobTypes = mContext.getResources().getStringArray(mMobIdentifier),
 							mMobInfo;														
 	
-				for(int j = 0; j < mMobTypes.length; ++j) {
+				for(int j = 0; j < mMobTypes.length; j++) {
 					
 					mMobInfo = mMobTypes[j].split(" ");
 					Log.v("INIT MOB", "mMobInfo contains: " + mMobInfo[0] + " " + mMobInfo[1]);
@@ -133,8 +135,10 @@ public class MobFactory {
 						}
 					}
 					
-					if(mMobs != null)
+					if(mMobs != null) {
 						mWaves.add(mMobs);
+						Log.v("INIT MOB","Wave nr: " + i + " added.");
+					}
 				}
 				
 				

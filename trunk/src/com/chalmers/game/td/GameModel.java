@@ -54,6 +54,8 @@ public class GameModel {
 		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();
 		
+		
+		
 		// calculate where towers can be placed.
 		for (int i = 0; i < mPath.getSize()-1; i++) {
 			Coordinate c1 = mPath.getCoordinate(i);			

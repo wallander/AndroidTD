@@ -105,10 +105,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         debug.InitGameTime();
         
         
-        mGameModel = new GameModel();
+       
+        
+        
         
         mobFactory = MobFactory.getInstance(); 
         mobFactory.setContext(context); 
+        Path.getInstance().setTrackPath(0); // TODO remove fulkod
+        
+        mGameModel = new GameModel();
         
         fillBitmapCache();
         getHolder().addCallback(this);
@@ -289,7 +294,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	case MOB_DELAY_MAX:
     		mMobDelayI = 0;
     		
-    	return mobFactory.getNextMob(1); // TODO do not use hard code..
+    	return mobFactory.getNextMob(0); // TODO do not use hard code..
     	
     		
     	default:

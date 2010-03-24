@@ -217,8 +217,8 @@ public class Mob extends Unit{
 		}
 		
 		if (isSlowed()){
-			setX(getX() + speedX*0.7);
-			setY(getY() - speedY*0.7);
+			setX(getX() + speedX*0.2);
+			setY(getY() - speedY*0.2);
 			--mSlowLeft;
 		} else {
 			setX(getX() + speedX);

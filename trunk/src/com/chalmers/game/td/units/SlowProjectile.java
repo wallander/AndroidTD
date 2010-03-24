@@ -13,7 +13,7 @@ public class SlowProjectile extends Projectile {
 	 * Slows the target mob.
 	 */
 	 public void inflictDmg() {
-	       mTarget.setSlowed(50);
+	       mTarget.setSlowed(500);
 	    }
 	
 }

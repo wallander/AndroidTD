@@ -9,11 +9,6 @@ package com.chalmers.game.td;
 
 public final class R {
     public static final class array {
-        /**  
-			Track 1
-			======= 
-	
-         */
         public static final int mobs_track_1=0x7f050001;
         public static final int path_track_1=0x7f050000;
     }
