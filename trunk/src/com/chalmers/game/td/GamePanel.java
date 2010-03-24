@@ -167,8 +167,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         				}
         				
         			} else if (sellButton.contains(event.getX(), event.getY()) ) {
-        				Toast.makeText(getContext(), "Sell button pressed", Toast.LENGTH_SHORT).show();
         				
+        				mGameModel.currentPlayer.setMoney(
+    							mGameModel.currentPlayer.getMoney() + selectedTower.sell());
+        				mGameModel.removeTower(selectedTower);
+        				selectedTower = null;
         			} else {
         				selectedTower = null;
         			}
@@ -538,10 +541,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		canvas.drawText("Damage: " + selectedTower.getDamage(), 170, 124, boxTextPaint);
     		canvas.drawText("Range: " + selectedTower.getRange(), 170, 146, boxTextPaint);
     		
-
     		canvas.drawRoundRect(sellButton,10,10,buttonBoxPaint);
     		canvas.drawRoundRect(upgradeButton,6,6,buttonBoxPaint);
-
+    		
+    		canvas.drawText("Sell", sellButton.left+10, sellButton.top+(sellButton.height()/2), boxTextPaint);
+    		canvas.drawText("Upgrade for " + selectedTower.getUpgradeCost() + "$",
+    				upgradeButton.left+10, upgradeButton.top+(sellButton.height()/2), boxTextPaint);
+    		
 		}
 		
     }

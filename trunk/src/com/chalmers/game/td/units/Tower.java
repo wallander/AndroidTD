@@ -116,7 +116,7 @@ public class Tower extends Unit{
     
     
     /**
-     * Upgrade tower to next level (NYI)
+     * Upgrade tower to next level
      * TODO: increase damage/range according to level
      * currently damage is increased by 10 for each level
      * range is increased by 5 for each level
@@ -140,13 +140,13 @@ public class Tower extends Unit{
     
     
     /**
-     * Sell item, return money
+     * returns amount of money you get when you sell this tower
      * 
      * @return
      */
     public int sell(){
     	
-    	return 0;
+    	return (int)0.5*getCost() + (int)(getCost()*0.05*getLevel());
     }
     
 
