@@ -8,6 +8,8 @@ import com.chalmers.game.td.R;
 
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
+import com.chalmers.game.td.units.SlowTower;
+import com.chalmers.game.td.units.SplashTower;
 
 
 
@@ -135,9 +137,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
         mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
         mBitMapCache.put(R.drawable.upgrade, BitmapFactory.decodeResource(getResources(), R.drawable.upgrade));
+        mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
         
         
-}
+
+    }
 
     /**
      * 
@@ -194,14 +198,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	            	
 	            	// button 1,
-	
-	
-	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
-	                	
-	                	tx = (int) event.getX() - 60;
-	                }
-	
-	
 	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
 	                	tx = (int) event.getX() - 60;
 	
@@ -212,12 +208,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                
 	                // button 2
 	                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410) {
+	                	tx = (int) event.getX() - 60;
+	                	
+	                	ty = (int) event.getY();
+	                	currentTower = new SplashTower(tx ,ty);
+	            		currentTower.setSize(2);
 
 	                }
 	                
 	                // button 3
 	                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410) {
-
+	                	tx = (int) event.getX() - 60;
+	                	
+	                	ty = (int) event.getY();
+	                	currentTower = new SlowTower(tx ,ty);
+	            		currentTower.setSize(2);
+	                	
 	                }
 	                
 	                // button 4
@@ -391,7 +397,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * </ul>
      */
     
-    @Override
+    @SuppressWarnings("static-access")
+	@Override
     public void onDraw(Canvas canvas) {
     	// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
     	
@@ -439,8 +446,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	// draw all towers
      	for (int i = 0; i < mGameModel.mTowers.size(); i++) {
      		Tower t = mGameModel.mTowers.get(i);
-     		////canvas.drawBitmap(mBitMapCache.get(t.getBitmap()), (int) t.getX() , (int) t.getY() , null);
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), (int) t.getX() , (int) t.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(t.getImage()), (int) t.getX() , (int) t.getY() , null);
     	}
      	
      	
@@ -480,11 +486,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		     	canvas.drawRoundRect(rect, 5, 5, paint);
 			}
 			
+			// draw some temporary images for the buttons
+			// TODO fix some image buttons ffs
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock),425,25,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.rock2),425,85,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.big),425,145,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.man), 430,270,null);
+			
 		} else {
 			
 			// draw the chosen tower
 			canvas.drawBitmap(
-					mBitMapCache.get(R.drawable.rock), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) ,
+					mBitMapCache.get(currentTower.getImage()), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) ,
 					GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE) , null);
 			
 			
@@ -528,10 +541,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		// draw box for the selected tower
     		canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
     		
-    		// TODO draw the image of the selectedTower
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.rock), 100, 80,null);
+    		canvas.drawBitmap(mBitMapCache.get(selectedTower.getImage()), 100, 80,null);
 
-    		
     		canvas.drawLine(150, 60, 150, 160, linePaint);
     		canvas.drawLine(80, 165, 310, 165, linePaint);
     		

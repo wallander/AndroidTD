@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.R;
 
 /**
  * Class which contains tower specific information
@@ -28,6 +29,7 @@ public class Tower extends Unit{
 	private int mAttackSpeed;	// Tower constant shoot speed
 	private TowerType mType;	// Tower type
 
+	private int mImage;
 	
 	
 
@@ -46,7 +48,17 @@ public class Tower extends Unit{
     	setCost(50);
     	
     	setSize(2);
+    	
+    	setImage(R.drawable.rock);
     }
+	
+	public void setImage(int img) {
+		mImage = img;
+	}
+
+	public int getImage() {
+		return mImage;
+	}
 	
 	private void setCost(int i) {
 		mCost = i;
