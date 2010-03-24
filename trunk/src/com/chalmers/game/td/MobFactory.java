@@ -48,30 +48,28 @@ public class MobFactory {
 	 */
 	public Mob getNextMob(int pTrack) {
 		
-		Mob mMob = null;
+		Log.v("GET NEXT MOB", "Nr of waves: " + mWaves.size());
+				
+		Log.v("GET NEXT MOB", "Path contains " + mPath.getSize() + " coordinates.");
 		
-		if(pTrack < mWaves.size()) {
-			
-			if(mMobs == null) {
-				mMobs = mWaves.poll();
-				mPath.setTrackPath(pTrack);
-			}
-			
-			if(mMobs != null) {
-				mMob = mMobs.poll();	
-				
-				if(mMob != null)
-					mMob.setPath(mPath);
-				
-				return mMob;
-			
-			} else {			
-				return null;
-			}
-			
-		} else {		
-			return null;
+		if(mMobs == null) {
+			mMobs = mWaves.poll();
+			Log.v("GET NEXT MOB", "Polled a wave from the queue..");
+			Log.v("GET NEXT MOB", "Nr of mobs in wave is: " + mMobs.size());
 		}
+		
+		if(mMobs != null) {
+			Mob m = mMobs.poll();
+			Log.v("GET NEXT MOB", "Polled a mob from the wave..");
+			if(m != null)
+				m.setPath(mPath);
+		}
+		
+		
+		
+		Log.v("GET NEXT MOB", "");
+		
+		return null;
 	
 	}
 	
