@@ -180,6 +180,10 @@ public class Tower extends Unit{
 		
 		return mLevel;
 	}
+	
+	public String getName() {
+		return "Basic Tower";
+	}
 
 	/**
 	 * Returns upgrade cost.
