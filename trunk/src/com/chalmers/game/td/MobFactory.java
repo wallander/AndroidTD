@@ -47,6 +47,7 @@ public class MobFactory {
 	 * @return
 	 */
 	public Mob getNextMob(int pTrack) {
+
 		
 		Mob mMob = null;
 		
@@ -57,7 +58,7 @@ public class MobFactory {
 				mPath.setTrackPath(pTrack);
 			}
 			
-			if(mMobs != null) {
+			/*if(mMobs != null) {
 				mMob = mMobs.poll();	
 				
 				if(mMob != null)
@@ -67,11 +68,37 @@ public class MobFactory {
 			
 			} else {			
 				return null;
-			}
+			}*/
 			
 		} else {		
 			return null;
 		}
+
+		
+		Log.v("GET NEXT MOB", "Nr of waves: " + mWaves.size());
+				
+		Log.v("GET NEXT MOB", "Path contains " + mPath.getSize() + " coordinates.");
+		
+		if(mMobs == null) {
+			mMobs = mWaves.poll();
+			Log.v("GET NEXT MOB", "Polled a wave from the queue..");
+			Log.v("GET NEXT MOB", "Nr of mobs in wave is: " + mMobs.size());
+		}
+		/*
+		if(mMobs != null) {
+			Mob m = mMobs.poll();
+			Log.v("GET NEXT MOB", "Polled a mob from the wave..");
+			if(m != null)
+				m.setPath(mPath);
+			return m;
+		}
+		*/
+		
+		
+		Log.v("GET NEXT MOB", "");
+		
+		return null;
+
 	
 	}
 	
@@ -98,22 +125,36 @@ public class MobFactory {
 
 		mWaves = new LinkedList<Queue<Mob>>();
 		
+
 		for(int i = 0; ; ++i) {
 			
 			try {
 				
 				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
+
+	//	for(int i = 0; ; i++) {
+			
+			//try {
+				
+//				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
+
 			
 				
 				mMobs = new LinkedList<Mob>();
 				
 				String		mInitMob = "mobs_track_" + String.valueOf(i+1);
+
+				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
+
 				int			mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
 				String[]	mMobTypes = mContext.getResources().getStringArray(mMobIdentifier),
 							mMobInfo;														
 	
+
 				for(int j = 0; j < mMobTypes.length; ++j) {
-					
+
+		//		for(int j = 0; j < mMobTypes.length; j++) {
+
 					mMobInfo = mMobTypes[j].split(" ");
 					Log.v("INIT MOB", "mMobInfo contains: " + mMobInfo[0] + " " + mMobInfo[1]);
 					Log.v("INIT MOB", "Mobs: " + String.valueOf(j+1) + " / " + String.valueOf(mMobTypes.length));
@@ -135,8 +176,15 @@ public class MobFactory {
 						}
 					}
 					
+
 					if(mMobs != null)
 						mWaves.add(mMobs);
+
+					if(mMobs != null) {
+						mWaves.add(mMobs);
+						Log.v("INIT MOB","Wave nr: " + i + " added.");
+					}
+
 				}
 				
 				

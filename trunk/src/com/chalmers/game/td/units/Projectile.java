@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -19,19 +21,21 @@ import com.chalmers.game.td.GameModel;
 public class Projectile extends Unit{
 
 	/** Projectile movement speed */
-	private int mSpeed;
+	protected int mSpeed;
 	
 	/** Projectile damage */
-	private int mDamage;
+	protected int mDamage;
 
 	/** Projectile target */
-	private Mob mTarget;
+	protected Mob mTarget;
+	
+	protected GameModel mGameModel;
 	
 	/** Projectile tower */
-	private Tower mTower;
+	protected Tower mTower;
 	
 	/** Projectile movement angle */
-	private double mAngle;
+	protected double mAngle;
     
 
 	
@@ -40,7 +44,8 @@ public class Projectile extends Unit{
      * 
      * @param bitmap Bitmap which should be drawn.
      */
-    public Projectile(Mob pTarget, Tower pTower) {
+    public Projectile(Mob pTarget, Tower pTower, GameModel model) {
+    	mGameModel = model;
     	setCoordinates(new Coordinate(
     			pTower.getX() + (pTower.getWidth() * GameModel.GAME_TILE_SIZE / 2),
     			pTower.getY() - 16 + (pTower.getHeight() * GameModel.GAME_TILE_SIZE / 2)));
@@ -99,7 +104,7 @@ public class Projectile extends Unit{
 	}
     
     /**
-     * @return Damage done
+     * 
      */
     public void inflictDmg() {
        mTarget.setHealth(mTarget.getHealth() - mDamage);

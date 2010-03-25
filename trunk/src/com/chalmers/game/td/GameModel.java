@@ -29,7 +29,7 @@ import com.chalmers.game.td.Path;
 public class GameModel {
 	
 	protected List<Tower> mTowers;
-	protected List<Mob> mMobs;
+	public List<Mob> mMobs;
 	protected List<Projectile> mProjectiles;
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;
@@ -53,6 +53,8 @@ public class GameModel {
 		mProjectiles = new ArrayList<Projectile>();
 		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();
+		
+		
 		
 		// calculate where towers can be placed.
 		for (int i = 0; i < mPath.getSize()-1; i++) {

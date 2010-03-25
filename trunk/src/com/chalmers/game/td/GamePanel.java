@@ -27,7 +27,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
-// Jonas och Ahmed önsker en god jul från Val Thorens!
+
 
 /**
  * This is a view that displays the entire game board. The onDraw method draws
@@ -87,8 +87,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint noRangeIndicationPaint = new Paint();
 	private static final Paint gridpaint = new Paint();
 	private static final Paint healthBarPaint = new Paint();
+
 	private static final Paint boxTextPaintTitle = new Paint();
-	
+
 	
     /** Debug */
     TDDebug debug;    
@@ -107,11 +108,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         debug.InitGameTime();
         
         
-        mGameModel = new GameModel();
+       
+        
+        
         
         mobFactory = MobFactory.getInstance(); 
         mobFactory.setContext(context); 
+        Path.getInstance().setTrackPath(0); // TODO remove fulkod
         
+        mGameModel = new GameModel();
+        
+
+        mobFactory = MobFactory.getInstance(); 
+        mobFactory.setContext(context); 
+        
+
         fillBitmapCache();
         getHolder().addCallback(this);
         mGameThread = new GameThread(this);
@@ -150,7 +161,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.base, BitmapFactory.decodeResource(getResources(), R.drawable.base));
         mBitMapCache.put(R.drawable.money, BitmapFactory.decodeResource(getResources(), R.drawable.money));
         mBitMapCache.put(R.drawable.lives, BitmapFactory.decodeResource(getResources(), R.drawable.lives));
-        
+
+        mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
+ 
         
 
     }
@@ -303,8 +316,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	case MOB_DELAY_MAX:
     		mMobDelayI = 0;
     		
-    	return mobFactory.getNextMob(1); // TODO do not use hard code..
-    	
+
+   // 	return mobFactory.getNextMob(1); // TODO do not use hard code..
+
+    	return mobFactory.getNextMob(0); // TODO do not use hard code..
+
     		
     	default:
     		++mMobDelayI;    		
@@ -341,7 +357,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		Projectile proj = null;
     		
     		if (mGameModel.mMobs.size() > 0) {
-    			proj = t.tryToShoot(mGameModel.mMobs);
+
+    			//proj = t.tryToShoot(mGameModel.mMobs);
+
+    			proj = t.tryToShoot(mGameModel);
+
     		}
     		
     		if(proj != null){
@@ -417,6 +437,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
     	
+
+
+	
+
     	// draw all mobs
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
      		Mob m = mGameModel.mMobs.get(i);
@@ -494,10 +518,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			// draw some temporary images for the buttons
 			// TODO fix some image buttons ffs
+
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.man), 437,270,null);
+
 			
 		} else {
 			
@@ -548,6 +574,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
     		
     		canvas.drawBitmap(mBitMapCache.get(selectedTower.getImage()), 100, 80,null);
+
 
     		//canvas.drawLine(150, 60, 150, 160, linePaint);
     		//canvas.drawLine(80, 165, 310, 165, linePaint);
@@ -600,9 +627,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	boxTextPaint.setARGB(255, 255, 255, 255);
 		boxTextPaint.setTextSize(16);
 		
+
     	boxTextPaintTitle.setARGB(255, 255, 255, 255);
 		boxTextPaintTitle.setTextSize(22);
 		
+
 		// set color and width of the lines in the selected tower box
 		linePaint.setARGB(255, 255, 255, 0);
 		linePaint.setStrokeWidth(5);

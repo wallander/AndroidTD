@@ -41,6 +41,7 @@ public class Path {
 	
 	public void setContext(Context pContext) {
 		mContext = pContext;
+
 		reset();
 		initPath();
 	}
@@ -50,12 +51,19 @@ public class Path {
 	 * @param pCoordinates
 	 */
 	public void setTrackPath(int pTrack) {
+
 		List<Coordinate> mPathList = mTrackPaths.get(pTrack);
 		
-		if(mPathList != null) {
+		//if(mPathList != null) {
 			
-			for(Coordinate c : mPathList) {
+	//		for(Coordinate c : mPathList) {
+
+//		List<Coordinate> mPathList = mTrackPaths.get(pTrack);
+		
+		if(mTrackPaths.get(pTrack) != null) {
 			
+			for(Coordinate c : mTrackPaths.get(pTrack)) {
+
 				mPath.add(c);
 			}
 		}
@@ -98,6 +106,10 @@ public class Path {
 		int					mTrackIdentifier;
 		List<Coordinate>	mListCoordinates;
 		
+
+		mTrackPaths = new ArrayList<List<Coordinate>>();
+		
+
 		for(int i = 0; ; ++i) {
 			
 			try {
@@ -122,7 +134,11 @@ public class Path {
 					Log.v("INIT PATH", "Track: " + String.valueOf(i+1) + " X: " + mPathCoordinates[0] + " Y: " + mPathCoordinates[1]);
 				}
 				
+
 				// Add the newly created list of coordinates to the track list
+
+				// Add the new list of coordinates to the track list
+
 				mTrackPaths.add(mListCoordinates);
 				
 			} catch(NullPointerException npe) {
@@ -131,6 +147,11 @@ public class Path {
 				// caught and the loop will break.
 				Log.v("INITIATION", "Path initiation complete."); 
 				break;
+
+			} catch (android.content.res.Resources.NotFoundException nfe) {
+				Log.v("INITIATION", "Path initiation complete."); 
+				break;
+
 			}
 			
 		}

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
 	<!-- 
 			Track 1
 			======= 
 	-->			
+
 	<array name="mobs_track_1">
         <item>NORMAL 2</item>
         <item>ARMORED 2</item>
@@ -12,8 +14,9 @@
         <item>HEALTHY 2</item>
     </array>        
   
+
   	<!-- 
   			==========
   	 -->
-    
+
 </resources>

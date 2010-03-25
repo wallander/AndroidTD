@@ -12,7 +12,11 @@ public class Player {
 	
 	public Player() {
 		setName("noname");
+
 		setMoney(1000);
+
+		setMoney(100);
+
 	}
 
 	public void setMoney(int mMoney) {

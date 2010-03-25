@@ -21,16 +21,17 @@ public class Tower extends Unit{
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
-	private int mDamage;		// Tower damage
-	private int mRange;			// Tower shoot range
+	protected int mDamage;		// Tower damage
+	protected int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
 	protected int mLevel = 1;		// Tower level
-	private int mCooldownLeft;	// Tower shoot delay
-	private int mAttackSpeed;	// Tower constant shoot speed
+	protected int mCooldownLeft;	// Tower shoot delay
+	protected int mAttackSpeed;	// Tower constant shoot speed
 	private TowerType mType;	// Tower type
 
 	protected int mImage; //Har den protected för att kunna ändra från extended splashTower
-	
+
+
 	
 
 	/**
@@ -49,7 +50,10 @@ public class Tower extends Unit{
     	
     	setSize(2);
     	
+
     	setImage(mLevel);
+
+
     }
 
     // Temporary changes images up to 4 upgrades.
@@ -70,6 +74,7 @@ public class Tower extends Unit{
 		return mImage;
 	}
 	
+
 	private void setCost(int i) {
 		mCost = i;
 	}
@@ -92,24 +97,35 @@ public class Tower extends Unit{
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
-    public Projectile tryToShoot(List<Mob> mobs){
+
+   // public Projectile tryToShoot(List<Mob> mobs){
+
+    public Projectile tryToShoot(GameModel pGameModel){
     	
+	
 		// if the tower is not on cooldown
 		if (mCooldownLeft == 0) {
 
 			// loop through the list of mobs
-			for (int i=0; i<mobs.size();i++) {
-				Mob m = mobs.get(i);
+
+		//	for (int i=0; i<mobs.size();i++) {
+		//		Mob m = mobs.get(i);
+
+			for (int i=0; i<pGameModel.mMobs.size();i++) {
+				Mob m = pGameModel.mMobs.get(i);
 
 				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
     		
 				// return a new Projectile on the first mob that the tower can reach
-				if (sqrDist < mRange ){
+
+			
+				if (sqrDist < mRange){
+
 					mCooldownLeft = mAttackSpeed;
-	    			return (new Projectile(m, this));
+	    			return (new Projectile(m, this, pGameModel));
 	    		}
+	
 			}
-		
 		} else { // if the tower is on cooldown
 			mCooldownLeft--;
 			return null;
@@ -145,7 +161,9 @@ public class Tower extends Unit{
      */
     public boolean upgrade() {
     	mLevel++;
+
     	setImage(mLevel);
+
     	setDamage(getDamage()+10);
     	setRange(getRange()+5);
     	
