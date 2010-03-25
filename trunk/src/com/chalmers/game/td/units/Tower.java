@@ -21,7 +21,7 @@ public class Tower extends Unit{
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
-	private int mDamage;		// Tower damage
+	protected int mDamage;		// Tower damage
 	protected int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
 	private int mLevel = 1;		// Tower level

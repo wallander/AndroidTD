@@ -16,7 +16,8 @@ public class SplashTower extends Tower {
 		setImage(R.drawable.rock2);
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
-		
+		mDamage = 30;
+		mAttackSpeed = 30;
 		
 	}
 

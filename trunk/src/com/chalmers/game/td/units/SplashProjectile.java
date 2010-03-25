@@ -6,12 +6,15 @@ import com.chalmers.game.td.GameModel;
 public class SplashProjectile extends Projectile {
 
 	private Coordinate targetCoordinate;
+	private double blastRadius;
 	
 	public SplashProjectile(Mob pTarget, Tower pTower, GameModel pGameModel) {
 		super(pTarget, pTower, pGameModel);
 		
 		targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
+		
+		blastRadius = 100;
 	}
 
 	/**
@@ -21,7 +24,15 @@ public class SplashProjectile extends Projectile {
 	     	//TODO implement stuff
 		 	// hit every mob within a certain radius of the target coordinate for
 		 	// a certain amount of damage.
-		 
+		 	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+		 		Mob m = mGameModel.mMobs.get(i);
+		 		
+		 		double sqrDist = Coordinate.getSqrDistance(targetCoordinate, m.getCoordinates());
+		 		
+		 		if (sqrDist <= blastRadius) {
+		 			m.setHealth(m.getHealth() - mTower.getDamage());
+		 		}
+		 	}
 	    }
 	
 	 /**
