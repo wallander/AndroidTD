@@ -35,6 +35,9 @@ public class Mob extends Unit{
 	/** Mob armor */
 	private int mArmor;
 	
+	// how much money you get when you kill this mob
+	private int mReward;
+	
 	/** Mob type (Ground, air or invisible) */
 	private MobType mType;	
 	
@@ -64,20 +67,47 @@ public class Mob extends Unit{
         mPath = pPath;
         mType = pType;
     	setCoordinates(mPath.getCoordinate(0));
-    	setCheckpoint(1);
+    	setCheckpoint(0);
     	updateAngle();
-        setSpeed(1);        
+        setSpeed(1);      
         setHealth(1200);
         setMaxHealth(1200);
         setArmor(1200);
+        setReward(20);
+        
+        updatePosition();
         
         // TODO: fix dynamic size
         setSize(24);
         
-        // TODO: Fredrik får fixa...
-        speedX = getSpeed() * Math.cos(getAngle());
-		speedY = getSpeed() * Math.sin(getAngle());
-
+    }
+    
+    /**
+     * Currently used constructor for Mobs
+     * (2010-03-24)
+     * @param pType
+     */
+    public Mob(MobType pType) {
+    	mType = pType;
+    	    	
+        setSpeed(1);      
+        setHealth(1200);
+        setMaxHealth(1200);
+        setArmor(1200);
+        setReward(20);                
+        
+        // TODO: fix dynamic size
+        setSize(24);
+    }
+    
+    public void setPath(Path pPath) {
+    	
+    	mPath = pPath;
+    	setCoordinates(mPath.getCoordinate(0));
+    	setCheckpoint(0);
+    	updateAngle();
+    	
+    	updatePosition();
     }
 	
     /**
@@ -87,6 +117,7 @@ public class Mob extends Unit{
 	private void setSpeed(int i) {
 		mSpeed = i;
 	}
+
 	/**
 	 * Setter for mob armor
 	 * @param i
@@ -96,40 +127,6 @@ public class Mob extends Unit{
 		
 	}
 
-	/**
-     * Constructor. even more hard code lolmobs.
-     * 
-     * 
-     */
-    public Mob(MobType pType) {
-        setType(pType);
-        
-        setCoordinates(new Coordinate(180,20));
-        setSpeed(1);
-        setAngle(Math.PI * 1.5);
-
-        
-        setHealth(1200);
-        setMaxHealth(1200);
-        setArmor(1200);  
-        
-    }
-	
-    /**
-     * Constructor
-     * 
-     * @param pHealth Mob health
-     * @param pSpeed Mob movement speed
-     * @param pAngle Mob movement angle
-     * @param pArmor Mob armor
-     */
-    public Mob(int pHealth, int pSpeed, int pAngle, int pArmor){
-    	setMaxHealth(pHealth);
-    	setHealth(pHealth);
-    	setSpeed(pSpeed);
-    	setAngle(pAngle);
-    	setArmor(pArmor);
-    }
 
     /**
      * Setter for which checkpoint the mob is walking to.
@@ -207,7 +204,7 @@ public class Mob extends Unit{
 			
 		
 			if (mPath.getCoordinate(getCheckpoint()) == null) {
-				Log.v("JONAS","NULL");
+				Log.v("MOB EVENT","NEXT COORDINATE IS NULL"); // Kan ta bort efter debug
 				return false;
 			}
 			updateAngle();
@@ -215,12 +212,11 @@ public class Mob extends Unit{
 			speedX = getSpeed() * Math.cos(getAngle());
 			speedY = getSpeed() * Math.sin(getAngle());
 			
-			setX(getX() + speedX);
-			setY(getY() - speedY);
-		} else {
-			setX(getX() + speedX);
-			setY(getY() - speedY);
 		}
+		
+		setX(getX() + speedX);
+		setY(getY() - speedY);
+		
 		return true;
 	}
 
@@ -261,6 +257,14 @@ public class Mob extends Unit{
 
 	public int getMaxHealth() {
 		return mMaxHealth;
+	}
+
+	public void setReward(int mReward) {
+		this.mReward = mReward;
+	}
+
+	public int getReward() {
+		return mReward;
 	}
    
 }
