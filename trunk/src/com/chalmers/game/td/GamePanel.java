@@ -132,11 +132,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         Path.getInstance().setTrackPath(0); // TODO remove fulkod
         
         mGameModel = new GameModel();
-        
-
-        mobFactory = MobFactory.getInstance(); 
-        mobFactory.setContext(context); 
-        
+                
 
         fillBitmapCache();
         getHolder().addCallback(this);
@@ -488,7 +484,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      * </ul>
      */
     
-    @SuppressWarnings("static-access")
 	@Override
     public void onDraw(Canvas canvas) {
     	// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas

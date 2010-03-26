@@ -92,22 +92,22 @@ public class MobFactory {
 					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 						
-						if(mMobInfo.equals("NORMAL")) {
+						if(mMobInfo[0].equals("NORMAL")) {
 							
 							mMobs.add(new Mob(MobType.NORMAL));
 							Log.v("INIT MOBS", "Created mob of type NORMAL");
 							
-						} else if(mMobInfo.equals("ARMORED")) {
+						} else if(mMobInfo[0].equals("ARMORED")) {
 							
 							mMobs.add(new Mob(MobType.NORMAL));
 							Log.v("INIT MOBS", "Created mob of type ARMORED");
 							
-						} else if(mMobInfo.equals("FAST")) {
+						} else if(mMobInfo[0].equals("FAST")) {
 							
 							mMobs.add(new Mob(MobType.NORMAL));
 							Log.v("INIT MOBS", "Created mob of type FAST");
 							
-						} else if(mMobInfo.equals("HEALTHY")) {
+						} else if(mMobInfo[0].equals("HEALTHY")) {
 							
 							mMobs.add(new Mob(MobType.NORMAL));
 							Log.v("INIT MOBS", "Created mob of type HEALTHY");
@@ -117,7 +117,11 @@ public class MobFactory {
 				}
 				
 			} catch(NullPointerException npe) {
-				
+				Log.v("INITIATION", "Mobs initiation complete.");
+				break;
+			} catch(NotFoundException nfe) {
+				Log.v("INITIATION", "Mobs initiation complete. No more mobs to load.");
+				break;
 			}
 			
 		}
