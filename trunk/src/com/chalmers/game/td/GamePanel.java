@@ -24,8 +24,8 @@ import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -105,6 +105,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     SensorEvent latestSensorEvent;
 
 	private boolean accelerometerSupported;
+
+	private Vibrator vibrator;
     
 
 
@@ -156,6 +158,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if (accelerometerSupported)
         mSensorManager.registerListener(mAccelerometerListener,
     			mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
+   
+    
+        // TODO some vibrator stuffs
+        
+        vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+    
+    
     }
     
     /**
@@ -297,6 +306,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                // button 4
 	                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410) {
 
+	                	// TODO do something with this button?
+	                	vibrator.vibrate(500);
+	                	
 	                }
 	                
 	                // button 5
