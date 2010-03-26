@@ -52,8 +52,9 @@ public class MobFactory {
 		
 		if(mWaves != null) {
 			
-			if(mMobs == null) {
+			if(mMobs == null || mMobs.isEmpty()) {
 				mMobs = mWaves.poll();
+				Log.v("GET NEXT MOB", "New wave initialized!");
 			}
 			
 			if(mMobs != null) {
@@ -64,9 +65,18 @@ public class MobFactory {
 					
 					mPath.setTrackPath(pTrack);
 					mMob.setPath(mPath);
+					
+					Log.v("GET NEXT MOB", "New Mob initialized with path..");
 				}
 			}
+		} else {
+			Log.v("GET NEXT MOB", "No more waves to send!");
 		}
+		
+		if(mMob != null)
+			Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
+		else
+			Log.v("GET NEXT MOB", "Mob is now NULL");
 		
 		return mMob;
 

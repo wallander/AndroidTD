@@ -10,6 +10,7 @@ import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.SplashTower;
+import com.chalmers.game.td.units.Mob.MobType;
 
 
 
@@ -302,15 +303,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                // button 4
 	                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410) {
 
-	                	// TODO do something with this button?
+	                	// TODO do fast forward with this button
 	                	vibrator.vibrate(500);
 	                	
 	                }
 	                
-	                // button 5
+	                // button 5 TODO Remove this after debug mode
 	                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410) {
 	                	
-	                	mGameModel.mMobs.add(new Mob(Path.getInstance(), null));
+	                	Mob mTemp = new Mob(MobType.ARMORED);
+	                	Path mTempPath = Path.getInstance();
+	                	mTemp.setPath(mTempPath);
+	                	
+	                	mGameModel.mMobs.add(mTemp);
 
 	                }
 

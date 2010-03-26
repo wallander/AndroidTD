@@ -65,6 +65,7 @@ public class Mob extends Unit{
      * @param 
      */
 
+	/*
     public Mob(Path pPath, MobType pType) {
         mPath = pPath;
         mType = pType;
@@ -83,6 +84,7 @@ public class Mob extends Unit{
         setSize(24);
         
     }
+    */
     
     /**
      * Currently used constructor for Mobs
