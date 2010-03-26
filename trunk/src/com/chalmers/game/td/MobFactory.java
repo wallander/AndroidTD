@@ -48,8 +48,27 @@ public class MobFactory {
 	 */
 	public Mob getNextMob(int pTrack) {
 
-		// TODO Implement...
-		return null;
+		Mob mMob = null;
+		
+		if(mWaves != null) {
+			
+			if(mMobs == null) {
+				mMobs = mWaves.poll();
+			}
+			
+			if(mMobs != null) {
+				
+				mMob = mMobs.poll();
+				
+				if(mMob != null) {
+					
+					mPath.setTrackPath(pTrack);
+					mMob.setPath(mPath);
+				}
+			}
+		}
+		
+		return mMob;
 
 	
 	}
@@ -125,9 +144,13 @@ public class MobFactory {
 				
 			} catch(NullPointerException npe) {
 				Log.v("INITIATION", "Mobs initiation complete.");
+				// Reset mMobs so it will be able to be used at getNextMob()
+				mMobs = null;
 				break;
 			} catch(NotFoundException nfe) {
 				Log.v("INITIATION", "Mobs initiation complete. No more mobs to load.");
+				// Reset mMobs so it will be able to be used at getNextMob()
+				mMobs = null;
 				break;
 			}
 			
