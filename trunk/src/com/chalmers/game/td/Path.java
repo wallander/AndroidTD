@@ -50,15 +50,7 @@ public class Path {
 	 * 
 	 * @param pCoordinates
 	 */
-	public void setTrackPath(int pTrack) {
-
-		List<Coordinate> mPathList = mTrackPaths.get(pTrack);
-		
-		//if(mPathList != null) {
-			
-	//		for(Coordinate c : mPathList) {
-
-//		List<Coordinate> mPathList = mTrackPaths.get(pTrack);
+	public void setTrackPath(int pTrack) {		
 		
 		if(mTrackPaths.get(pTrack) != null) {
 			
@@ -135,15 +127,12 @@ public class Path {
 				}
 				
 
-				// Add the newly created list of coordinates to the track list
-
 				// Add the new list of coordinates to the track list
-
 				mTrackPaths.add(mListCoordinates);
 				
 			} catch(NullPointerException npe) {
 				// If there are no more tracks, array elements in initpath.xml,
-				// there will be a NullPointerException thrown, it will be
+				// there will be a NullPointerException or a NotFoundException thrown, they will be
 				// caught and the loop will break.
 				Log.v("INITIATION", "Path initiation complete."); 
 				break;

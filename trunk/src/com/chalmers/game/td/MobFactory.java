@@ -49,54 +49,6 @@ public class MobFactory {
 	public Mob getNextMob(int pTrack) {
 
 		
-		Mob mMob = null;
-		
-		if(pTrack < mWaves.size()) {
-			
-			if(mMobs == null) {
-				mMobs = mWaves.poll();
-				mPath.setTrackPath(pTrack);
-			}
-			
-			/*if(mMobs != null) {
-				mMob = mMobs.poll();	
-				
-				if(mMob != null)
-					mMob.setPath(mPath);
-				
-				return mMob;
-			
-			} else {			
-				return null;
-			}*/
-			
-		} else {		
-			return null;
-		}
-
-		
-		Log.v("GET NEXT MOB", "Nr of waves: " + mWaves.size());
-				
-		Log.v("GET NEXT MOB", "Path contains " + mPath.getSize() + " coordinates.");
-		
-		if(mMobs == null) {
-			mMobs = mWaves.poll();
-			Log.v("GET NEXT MOB", "Polled a wave from the queue..");
-			Log.v("GET NEXT MOB", "Nr of mobs in wave is: " + mMobs.size());
-		}
-		/*
-		if(mMobs != null) {
-			Mob m = mMobs.poll();
-			Log.v("GET NEXT MOB", "Polled a mob from the wave..");
-			if(m != null)
-				m.setPath(mPath);
-			return m;
-		}
-		*/
-		
-		
-		Log.v("GET NEXT MOB", "");
-		
 		return null;
 
 	
@@ -121,84 +73,53 @@ public class MobFactory {
 	 */
 	private void initWaves() {
 		
-		// TODO initPath & initWaves instead...
-
-		mWaves = new LinkedList<Queue<Mob>>();
+		String		mTrackNumber;
+		String[]	mAllMobs,
+					mMobInfo;
+		int			mTrackIdentifier;
 		
-
 		for(int i = 0; ; ++i) {
 			
 			try {
 				
-				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
-
-	//	for(int i = 0; ; i++) {
-			
-			//try {
+				mTrackNumber = "mobs_track_" + String.valueOf(i+1);
+				mTrackIdentifier = mContext.getResources().getIdentifier(mTrackNumber, "array", mContext.getPackageName());
+				mAllMobs = mContext.getResources().getStringArray(mTrackIdentifier);
 				
-//				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
-
-			
-				
-				mMobs = new LinkedList<Mob>();
-				
-				String		mInitMob = "mobs_track_" + String.valueOf(i+1);
-
-				Log.v("INIT MOB", "Track nr: " + String.valueOf(i+1));
-
-				int			mMobIdentifier = mContext.getResources().getIdentifier(mInitMob, "array", mContext.getPackageName());
-				String[]	mMobTypes = mContext.getResources().getStringArray(mMobIdentifier),
-							mMobInfo;														
-	
-
-				for(int j = 0; j < mMobTypes.length; ++j) {
-
-		//		for(int j = 0; j < mMobTypes.length; j++) {
-
-					mMobInfo = mMobTypes[j].split(" ");
-					Log.v("INIT MOB", "mMobInfo contains: " + mMobInfo[0] + " " + mMobInfo[1]);
-					Log.v("INIT MOB", "Mobs: " + String.valueOf(j+1) + " / " + String.valueOf(mMobTypes.length));
+				for(int j = 0; j < mAllMobs.length; ++i) {
+					
+					mMobInfo = mAllMobs[j].split(" ");
 					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
-	
-						if(mMobInfo[0].equals("NORMAL")) {							
+						
+						if(mMobInfo.equals("NORMAL")) {
+							
 							mMobs.add(new Mob(MobType.NORMAL));
-							Log.v("INIT MOB", "Mob of type: NORMAL created");
-						} else if(mMobInfo[0].equals("ARMORED")) {
-							mMobs.add(new Mob(MobType.ARMORED));
-							Log.v("INIT MOB", "Mob of type: ARMORED created");
-						} else if(mMobInfo[0].equals("FAST")) {
-							mMobs.add(new Mob(MobType.FAST));		
-							Log.v("INIT MOB", "Mob of type: FAST created");
-						} else if(mMobInfo[0].equals("HEALTHY")) {
-							mMobs.add(new Mob(MobType.HEALTHY));
-							Log.v("INIT MOB", "Mob of type: HEALTHY created");
+							Log.v("INIT MOBS", "Created mob of type NORMAL");
+							
+						} else if(mMobInfo.equals("ARMORED")) {
+							
+							mMobs.add(new Mob(MobType.NORMAL));
+							Log.v("INIT MOBS", "Created mob of type ARMORED");
+							
+						} else if(mMobInfo.equals("FAST")) {
+							
+							mMobs.add(new Mob(MobType.NORMAL));
+							Log.v("INIT MOBS", "Created mob of type FAST");
+							
+						} else if(mMobInfo.equals("HEALTHY")) {
+							
+							mMobs.add(new Mob(MobType.NORMAL));
+							Log.v("INIT MOBS", "Created mob of type HEALTHY");
 						}
 					}
 					
-
-					if(mMobs != null)
-						mWaves.add(mMobs);
-
-					if(mMobs != null) {
-						mWaves.add(mMobs);
-						Log.v("INIT MOB","Wave nr: " + i + " added.");
-					}
-
 				}
 				
-				
 			} catch(NullPointerException npe) {
-				// If there are no more tracks, array elements in initwaves.xml,
-				// there will be a NullPointerException thrown, it will be
-				// caught and the loop will break.
-				Log.v("INITIATION", "Mob initiation complete."); 
-				break;
-			} catch(NotFoundException nfe) {				
-				Log.v("INIT MOB", "Mob initiation complete, no more tracks to add.");
-				break;
+				
 			}
-
+			
 		}
 		
 	}

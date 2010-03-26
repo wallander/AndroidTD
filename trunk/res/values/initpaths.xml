@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-	<array name="path_track_2">
-
+	<array name="path_track_1">
 		<item>0 140</item>
         <item>120 60</item>
         <item>300 60</item>
