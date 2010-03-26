@@ -146,11 +146,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         
-        if (mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).isEmpty()){
-        	accelerometerSupported = false;
-        } else {
-        	accelerometerSupported = true;
-        }
+        accelerometerSupported = !mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).isEmpty();
         
         if (accelerometerSupported)
         mSensorManager.registerListener(mAccelerometerListener,
