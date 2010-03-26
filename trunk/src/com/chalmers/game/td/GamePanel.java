@@ -21,6 +21,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -94,6 +99,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     /** Debug */
     TDDebug debug;    
 
+    
+    // TODO accelerometer stuff
+    SensorManager mSensorManager;
+    SensorEvent latestSensorEvent;
+
+	private boolean accelerometerSupported;
+    
+
 
     /**
      * Constructor called on instantiation.
@@ -130,7 +143,37 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         
         setupPaint();
         
+        // TODO accelerometer stuff
+        
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        
+        if (mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).isEmpty()){
+        	accelerometerSupported = false;
+        } else {
+        	accelerometerSupported = true;
+        }
+        
+        if (accelerometerSupported)
+        mSensorManager.registerListener(mAccelerometerListener,
+    			mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
     }
+    
+    /**
+     * TODO accelerometer stuff
+     */
+    private SensorEventListener mAccelerometerListener = new SensorEventListener() {
+
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void onSensorChanged(SensorEvent event) {
+			latestSensorEvent = event;
+		}
+    	
+    };
+    
     
     /**
      * Fill the bitmap cache.
@@ -415,6 +458,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     		}
     	}
+    	
+    	
+
+    	
     }
 
     
@@ -606,7 +653,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	canvas.drawText("0/50", 170, 20, textPaint);
     	canvas.drawText("Score: 0", 230, 20, textPaint);
 	
-		
+    	//TODO accelerometer stuff
+    	if (accelerometerSupported && latestSensorEvent != null) {
+		canvas.drawText("X-axis: " + latestSensorEvent.values[0],
+				30, 50, textPaint);
+		canvas.drawText("Y-axis: " + latestSensorEvent.values[1],
+				30, 65, textPaint);
+		canvas.drawText("Z-axis: " + latestSensorEvent.values[2],
+				30, 80, textPaint);
+    	}
     }
 
     /**
