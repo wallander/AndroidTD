@@ -88,11 +88,13 @@ public class MobFactory {
 				mTrackIdentifier = mContext.getResources().getIdentifier(mTrackNumber, "array", mContext.getPackageName());
 				mAllMobs = mContext.getResources().getStringArray(mTrackIdentifier);
 				
-				for(int j = 0; j < mAllMobs.length; ++i) {
+				for(int j = 0; j < mAllMobs.length; ++j) {
 					
 					mMobs = new LinkedList<Mob>();
 					
 					mMobInfo = mAllMobs[j].split(" ");
+					
+					Log.v("INIT MOBS", "MobInfo = " + mMobInfo[0] + " " + mMobInfo[1]);
 					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 						
@@ -117,11 +119,8 @@ public class MobFactory {
 							Log.v("INIT MOBS", "Created mob of type HEALTHY");
 						}											
 					}
-					
-					if(mMobs != null)
-						mWaves.add(mMobs);						
-					else
-						break;
+										
+					mWaves.add(mMobs);					
 				}
 				
 			} catch(NullPointerException npe) {
