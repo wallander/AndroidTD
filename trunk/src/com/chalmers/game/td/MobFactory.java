@@ -48,7 +48,7 @@ public class MobFactory {
 	 */
 	public Mob getNextMob(int pTrack) {
 
-		
+		// TODO Implement...
 		return null;
 
 	
@@ -78,6 +78,8 @@ public class MobFactory {
 					mMobInfo;
 		int			mTrackIdentifier;
 		
+		mWaves = new LinkedList<Queue<Mob>>();		
+		
 		for(int i = 0; ; ++i) {
 			
 			try {
@@ -87,6 +89,8 @@ public class MobFactory {
 				mAllMobs = mContext.getResources().getStringArray(mTrackIdentifier);
 				
 				for(int j = 0; j < mAllMobs.length; ++i) {
+					
+					mMobs = new LinkedList<Mob>();
 					
 					mMobInfo = mAllMobs[j].split(" ");
 					
@@ -99,21 +103,25 @@ public class MobFactory {
 							
 						} else if(mMobInfo[0].equals("ARMORED")) {
 							
-							mMobs.add(new Mob(MobType.NORMAL));
+							mMobs.add(new Mob(MobType.ARMORED));
 							Log.v("INIT MOBS", "Created mob of type ARMORED");
 							
 						} else if(mMobInfo[0].equals("FAST")) {
 							
-							mMobs.add(new Mob(MobType.NORMAL));
+							mMobs.add(new Mob(MobType.FAST));
 							Log.v("INIT MOBS", "Created mob of type FAST");
 							
 						} else if(mMobInfo[0].equals("HEALTHY")) {
 							
-							mMobs.add(new Mob(MobType.NORMAL));
+							mMobs.add(new Mob(MobType.HEALTHY));
 							Log.v("INIT MOBS", "Created mob of type HEALTHY");
-						}
+						}											
 					}
 					
+					if(mMobs != null)
+						mWaves.add(mMobs);						
+					else
+						break;
 				}
 				
 			} catch(NullPointerException npe) {
