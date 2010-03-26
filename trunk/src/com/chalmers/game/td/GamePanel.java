@@ -368,8 +368,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     		mMobDelayI = 0;
     		
 
-   // 	return mobFactory.getNextMob(1); // TODO do not use hard code..
-
     	return mobFactory.getNextMob(0); // TODO do not use hard code..
 
     		
@@ -394,6 +392,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	if(mNewMob != null) {
     	    		
     		mGameModel.mMobs.add(mNewMob);
+    		Log.v("GAME MOBS", "Added new mob of type: " + mNewMob.getType().toString());
     	}
     	
     	/*

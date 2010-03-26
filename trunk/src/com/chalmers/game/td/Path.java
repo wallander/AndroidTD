@@ -52,6 +52,8 @@ public class Path {
 	 */
 	public void setTrackPath(int pTrack) {		
 		
+		reset();
+		
 		if(mTrackPaths.get(pTrack) != null) {
 			
 			for(Coordinate c : mTrackPaths.get(pTrack)) {

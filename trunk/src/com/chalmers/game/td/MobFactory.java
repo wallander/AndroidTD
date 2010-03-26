@@ -138,8 +138,9 @@ public class MobFactory {
 							Log.v("INIT MOBS", "Created mob of type HEALTHY");
 						}											
 					}
-										
-					mWaves.add(mMobs);					
+														
+					mWaves.add(mMobs);
+					Log.v("INIT MOBS", "New wave added!");
 				}
 				
 			} catch(NullPointerException npe) {
