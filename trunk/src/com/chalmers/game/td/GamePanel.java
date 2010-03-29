@@ -200,7 +200,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.slowtower4, BitmapFactory.decodeResource(getResources(), R.drawable.slowtower4));
         mBitMapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
         mBitMapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
-        mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
+        mBitMapCache.put(R.drawable.man2, BitmapFactory.decodeResource(getResources(), R.drawable.man2));
         mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
         mBitMapCache.put(R.drawable.upgrade, BitmapFactory.decodeResource(getResources(), R.drawable.upgrade));
         mBitMapCache.put(R.drawable.base, BitmapFactory.decodeResource(getResources(), R.drawable.base));
@@ -499,7 +499,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
      	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
      		Mob m = mGameModel.mMobs.get(i);
      		
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man2), (int) m.getX() , (int) m.getY() , null);
     		
     		int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
     		
@@ -576,7 +576,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.man), 437,270,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.man2), 437,270,null);
 
 			
 		} else {
