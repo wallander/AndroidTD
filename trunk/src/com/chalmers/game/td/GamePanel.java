@@ -680,7 +680,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	textPaint.setTextSize(18);
     	
     	// set color of the selected tower box
-		selectedTowerBoxPaint.setARGB(175, 51, 51, 51);
+		selectedTowerBoxPaint.setARGB(90, 51, 51, 51);
     	
     	// set color of the upgrade- and sell buttons in the selected tower box
     	buttonBoxPaint.setARGB(255, 51, 51, 51);
