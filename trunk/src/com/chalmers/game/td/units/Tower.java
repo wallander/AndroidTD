@@ -23,7 +23,7 @@ public class Tower extends Unit{
 
 	protected int mDamage;		// Tower damage
 	protected int mRange;			// Tower shoot range
-	private int mCost;			// Tower cost
+	private double mCost;			// Tower cost
 	protected int mLevel = 1;		// Tower level
 	protected int mCooldownLeft;	// Tower shoot delay
 	protected int mAttackSpeed;	// Tower constant shoot speed
@@ -75,7 +75,7 @@ public class Tower extends Unit{
 	}
 	
 
-	private void setCost(int i) {
+	private void setCost(double i) {
 		mCost = i;
 	}
 
@@ -185,9 +185,9 @@ public class Tower extends Unit{
      * 
      * @return
      */
-    public int sell(){
+    public double sell(){
     	
-    	return (int)0.5*getCost() + (int)(getCost()*0.05*getLevel());
+    	return 0.5*getCost() + (getCost()*0.05*getLevel());
     }
     
 
@@ -213,7 +213,7 @@ public class Tower extends Unit{
 		return mDamage;
 	}
 
-	public int getCost() {
+	public double getCost() {
 		return mCost;
 	}
 
@@ -231,8 +231,8 @@ public class Tower extends Unit{
 	 * Currently 50% of the tower cost, plus another 10% per tower level
 	 * @return
 	 */
-	public int getUpgradeCost() {
+	public double getUpgradeCost() {
 
-		return (int)(getCost()*0.5) + (int)(getCost()*0.10*(getLevel() - 1));
+		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
 	}
 }
