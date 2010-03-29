@@ -3,7 +3,7 @@ package com.chalmers.game.td;
 public class Player {
 
 	private String mName;
-	private int mMoney;
+	private double mMoney;
 	private int mExperience;
 	
 	private int mLives = 50;
@@ -12,18 +12,15 @@ public class Player {
 	
 	public Player() {
 		setName("noname");
-
-		setMoney(1000);
-
 		setMoney(100);
 
 	}
 
-	public void setMoney(int mMoney) {
+	public void setMoney(double mMoney) {
 		this.mMoney = mMoney;
 	}
 
-	public int getMoney() {
+	public double getMoney() {
 		return mMoney;
 	}
 
