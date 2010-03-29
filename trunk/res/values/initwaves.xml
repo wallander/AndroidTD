@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<array name="init_path">
-		<item>0 140</item>
-        <item>120 60</item>
-        <item>300 60</item>
-        <item>300 250</item>
-        <item>480 250</item>		
-	</array>
-
-	<array name="init_mobs">
-        <item>NORMAL 20</item>
-        <item>ARMORED 20</item>
-        <item>FAST 20</item>
-        <item>HEALTHY 20</item>
-    </array>
+	<array name="mobs_track_1">
+        <item>NORMAL 2</item>
+        <item>ARMORED 2</item>
+        <item>FAST 2</item>
+        <item>HEALTHY 2</item>
+    </array>        
+  
 </resources>

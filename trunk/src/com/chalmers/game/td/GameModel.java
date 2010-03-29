@@ -29,12 +29,14 @@ import com.chalmers.game.td.Path;
 public class GameModel {
 	
 	protected List<Tower> mTowers;
-	protected List<Mob> mMobs;
+	public List<Mob> mMobs;
 	protected List<Projectile> mProjectiles;
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;
 	protected int mWaveNr;
+	protected Player currentPlayer;
 	
+
 
 	/** Size of "game tiles" */
     public static final int GAME_TILE_SIZE = 16;
@@ -43,15 +45,20 @@ public class GameModel {
 	 * Constructor
 	 */
 	public GameModel() {
+		
+		currentPlayer = new Player();
+		
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
-		mPath = new Path();
+		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();
+		
+		
 		
 		// calculate where towers can be placed.
 		for (int i = 0; i < mPath.getSize()-1; i++) {
-			Coordinate c1 = mPath.getCoordinate(i);
+			Coordinate c1 = mPath.getCoordinate(i);			
 			Coordinate c2 = mPath.getCoordinate(i+1);
 			
 			double angle = Coordinate.getAngle(c1, c2);
@@ -72,24 +79,20 @@ public class GameModel {
 			}
 		}
 		
-		// Temporary code to add a tower and a mob for testing purposes	
 
-		 Log.v("", "Skapa tower");
 
 		 Tower 	a = new Tower(0,0),
 		 		b = new Tower(0,0);
 		 
 		 a.setSize(2);
 		 b.setSize(2);
-		 
+
 		 buildTower(a,8,10);
 		 buildTower(b,12,6);
 		 
 		 Log.v("", "skapa mob");
 
-		 // adds a new mob to the game field with a predefined path
-		// TODO TEST TO ADD THROUGH GAME FACTORY
-		 //mMobs.add(new Mob(mPath));
+		
 		
 	}
 	
@@ -140,6 +143,22 @@ public class GameModel {
 			}
 		}
 		return true;
+		
+	}
+	
+	public void removeTower(Tower t) {
+		mTowers.remove(t);
+		
+		int tx = (int) (t.getX() / GAME_TILE_SIZE);
+		int ty = (int) (t.getY() / GAME_TILE_SIZE);
+		
+		for (int i = 0; i < t.getWidth(); i++) {
+			
+			for (int j = 0; j < t.getHeight(); j++) {
+				if (mOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
+					mOccupiedTilePositions.remove(new Point(tx+i,ty+j));
+			}
+		}	
 		
 	}
 }
