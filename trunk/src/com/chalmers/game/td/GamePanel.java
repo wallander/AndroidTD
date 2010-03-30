@@ -14,6 +14,8 @@ import com.chalmers.game.td.units.Mob.MobType;
 
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,11 +28,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -81,6 +85,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private static final RectF sellButton = new RectF(90,180,150,230);
 	private static final RectF upgradeButton = new RectF(165,180,300,230);
 	private static final RectF selectedTowerBox = new RectF(70,50,320,240);
+	private static final RectF buttonGroup = new RectF(450,0,480,320);
     
 
 	// Paints
@@ -93,7 +98,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint noRangeIndicationPaint = new Paint();
 	private static final Paint gridpaint = new Paint();
 	private static final Paint healthBarPaint = new Paint();
-
 	private static final Paint boxTextPaintTitle = new Paint();
 
 	
@@ -106,9 +110,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     SensorEvent latestSensorEvent;
 
 	private boolean accelerometerSupported;
+	private boolean showTooltip;
 
 	private Vibrator vibrator;
-    
+
 
 
     /**
@@ -157,7 +162,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
     
-    
+
+        
     }
     
     /**
@@ -200,7 +206,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.slowtower4, BitmapFactory.decodeResource(getResources(), R.drawable.slowtower4));
         mBitMapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
         mBitMapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
-        mBitMapCache.put(R.drawable.man, BitmapFactory.decodeResource(getResources(), R.drawable.man));
+        mBitMapCache.put(R.drawable.man2, BitmapFactory.decodeResource(getResources(), R.drawable.man2));
         mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
         mBitMapCache.put(R.drawable.upgrade, BitmapFactory.decodeResource(getResources(), R.drawable.upgrade));
         mBitMapCache.put(R.drawable.base, BitmapFactory.decodeResource(getResources(), R.drawable.base));
@@ -233,28 +239,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         			if (upgradeButton.contains(event.getX(), event.getY())) {
         				
         				if (mGameModel.currentPlayer.getMoney() >= selectedTower.getUpgradeCost()) {
-            				
         					selectedTower.upgrade();
-        					mGameModel.currentPlayer.setMoney(
-        							mGameModel.currentPlayer.getMoney() - selectedTower.getUpgradeCost());
-        			
+        					mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - selectedTower.getUpgradeCost());
         				}
-        				
         			} else if (sellButton.contains(event.getX(), event.getY()) ) {
-        				
-        				mGameModel.currentPlayer.setMoney(
-    							mGameModel.currentPlayer.getMoney() + selectedTower.sell());
+        				mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() + selectedTower.sell());
         				mGameModel.removeTower(selectedTower);
         				selectedTower = null;
-        			} else {
+        			} else 
         				selectedTower = null;
-        			}
-	
+
         			
         		} else {
         			selectedTower = null;
 	        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
 	            	if (event.getX() < 410) {
+	            		showTooltip = false;
 	            		
 	            		for (int i = 0; i < mGameModel.mTowers.size(); i++){
 	            			Tower t = mGameModel.mTowers.get(i);
@@ -264,9 +264,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	            				break;
 	            			}
 	            		}
-	            	}
-	
-	            	
+	            	} else
 	            	// button 1,
 	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
 	                	tx = (int) event.getX() - 60;
@@ -274,7 +272,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                	ty = (int) event.getY();
 	                	currentTower = new Tower(tx ,ty);
 	            		currentTower.setSize(2);
-	                }
+	            		showTooltip = true;
+	                } else
 	                
 	                // button 2
 	                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410) {
@@ -283,8 +282,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                	ty = (int) event.getY();
 	                	currentTower = new SplashTower(tx ,ty);
 	            		currentTower.setSize(2);
-
-	                }
+	            		showTooltip = true;
+	                } else
 	                
 	                // button 3
 	                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410) {
@@ -293,8 +292,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                	ty = (int) event.getY();
 	                	currentTower = new SlowTower(tx ,ty);
 	            		currentTower.setSize(2);
-	                	
-	                }
+	                	showTooltip = true;
+	                } else
 	                
 	                // button 4
 	                if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410) {
@@ -302,7 +301,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                	// TODO do fast forward with this button
 	                	vibrator.vibrate(500);
 	                	
-	                }
+	                } else
 	                
 	                // button 5 TODO Remove this after debug mode
 	                if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410) {
@@ -312,30 +311,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                	mTemp.setPath(mTempPath);
 	                	
 	                	mGameModel.mMobs.add(mTemp);
-
 	                }
-
         		}
                 
-    
-        		
+        		break;
         	case MotionEvent.ACTION_MOVE:
         		
         		 if(currentTower != null){
-                 	
+        			showTooltip = buttonGroup.contains(event.getX(),event.getY());
                  	tx = (int) event.getX() - 60;
                  	ty = (int) event.getY();
                  	currentTower.setX(tx);
                  	currentTower.setY(ty);
                  }
-        		
         		break;
         		
         	case MotionEvent.ACTION_UP:
         		
         		if(currentTower != null){
-            		mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
-            		currentTower = null;
+        			if (!buttonGroup.contains(event.getX(), event.getY()))
+        				mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
+            		
+        			currentTower = null;
             	}
         		
         		break;
@@ -496,10 +493,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 
     	// draw all mobs
-     	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+     	for (int i = mGameModel.mMobs.size()-1; i >= 0; i--) {
      		Mob m = mGameModel.mMobs.get(i);
      		
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man2), (int) m.getX() , (int) m.getY() , null);
     		
     		int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
     		
@@ -576,10 +573,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.man), 437,270,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.man2), 437,270,null);
 
 			
-		} else {
+		} else if (!showTooltip) {
 			
 			// draw the chosen tower
 			canvas.drawBitmap(
@@ -612,6 +609,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						noRangeIndicationPaint);
 			}
 		
+		} else {
+			// draw tooltip for the current tower
+			canvas.drawRoundRect(selectedTowerBox,10,10, selectedTowerBoxPaint);
+			
+			canvas.drawBitmap(mBitMapCache.get(currentTower.getImage()), 100, 80,null);
+
+			canvas.drawText(currentTower.getName(), 170, 90, boxTextPaintTitle);
+    		canvas.drawText("Level " + currentTower.getLevel(), 170, 117, boxTextPaint);
+    		canvas.drawText("Damage: " + currentTower.getDamage(), 170, 139, boxTextPaint);
+    		canvas.drawText("Range: " + currentTower.getRange(), 170, 161, boxTextPaint);
+			
+    		canvas.drawText("Drag buy this tower!", 130, 180, boxTextPaint);
+			
 		}
 		
 		// if a tower is selected for upgrades and such and such
@@ -680,7 +690,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	textPaint.setTextSize(18);
     	
     	// set color of the selected tower box
-		selectedTowerBoxPaint.setARGB(175, 51, 51, 51);
+		selectedTowerBoxPaint.setARGB(90, 51, 51, 51);
     	
     	// set color of the upgrade- and sell buttons in the selected tower box
     	buttonBoxPaint.setARGB(255, 51, 51, 51);
