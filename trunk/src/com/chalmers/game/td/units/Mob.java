@@ -95,10 +95,10 @@ public class Mob extends Unit{
     	mType = pType;
     	    	
         setSpeed(1);      
-        setHealth(1200);
-        setMaxHealth(1200);
-        setArmor(1200);
-        setReward(20);                
+        setHealth(20);
+        setMaxHealth(20);
+        setArmor(20);
+        setReward(2);                
         
         // TODO: fix dynamic size
         setSize(24);
