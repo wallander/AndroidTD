@@ -657,8 +657,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	canvas.drawText("" + mGameModel.currentPlayer.getMoney(), 45, 20, textPaint);
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 100, 0, null);
     	canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, textPaint);
-    	canvas.drawText("0/50", 170, 20, textPaint);
-    	canvas.drawText("Score: 0", 230, 20, textPaint);
+    	canvas.drawText("0/50", 170, 20, textPaint); //TODO: Count the wave
+    	canvas.drawText("Score: 0", 230, 20, textPaint); //TODO: Count score
 	
     	//TODO accelerometer stuff
     	if (accelerometerSupported && latestSensorEvent != null) {
