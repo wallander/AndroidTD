@@ -30,7 +30,7 @@ public class SplashProjectile extends Projectile {
 		 		double sqrDist = Coordinate.getSqrDistance(targetCoordinate, m.getCoordinates());
 		 		
 		 		if (sqrDist <= blastRadius) {
-		 			m.setHealth(m.getHealth() - (int)(mTower.getDamage() * (sqrDist/blastRadius)));
+		 			m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() * (1 - sqrDist/blastRadius)));
 		 		}
 		 	}
 	    }

@@ -13,9 +13,6 @@ import com.chalmers.game.td.units.SplashTower;
 import com.chalmers.game.td.units.Mob.MobType;
 
 
-
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,13 +25,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.Toast;
 
 
@@ -56,6 +51,12 @@ import android.widget.Toast;
  */
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     
+	private static final int STATE_RUNNING = 1;
+	private static final int STATE_GAMEOVER = 2;
+	private static final int STATE_WIN = 3;
+	
+	private int GAME_STATE = STATE_RUNNING;
+	
     /** Thread which contains our game loop. */
     private GameThread mGameThread;
     
@@ -370,7 +371,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     		
     	default:
-    		++mMobDelayI;    		
+    		++mMobDelayI;
     		return null;
     	}    
     }
@@ -383,90 +384,95 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void updateModel() {
     	
     	debug.UpdateFPS();
-    	//Log.v("FPS",Float.toString(debug.getFPS()));
     	
-    	Mob mNewMob = createMobs();
-    	
-    	if(mNewMob != null) {
-    	    		
-    		mGameModel.mMobs.add(mNewMob);
-    		Log.v("GAME MOBS", "Added new mob of type: " + mNewMob.getType().toString());
-    	}
-    	
-    	/*
-    	 * for every tower:
-    	 * 	create a new Projectile set to a Mob that the Tower can reach
-    	 *  and add that to the list of Projectiles in the GameModel
-    	 * 
-    	 * tryToShoot() returns null if the tower can't reach any mob
-    	 */
-    	for (int i=0; i<mGameModel.mTowers.size(); i++) {
-    		Tower t = mGameModel.mTowers.get(i);
-    		Projectile proj = null;
-    		
-    		if (mGameModel.mMobs.size() > 0) {
+    	if (GAME_STATE == STATE_RUNNING) {
+			Mob mNewMob = createMobs();
+			if (mNewMob != null) {
 
-    			//proj = t.tryToShoot(mGameModel.mMobs);
+				mGameModel.mMobs.add(mNewMob);
+				Log.v("GAME MOBS", "Added new mob of type: "
+						+ mNewMob.getType().toString());
+			}
+			/*
+			 * for every tower:
+			 * 	create a new Projectile set to a Mob that the Tower can reach
+			 *  and add that to the list of Projectiles in the GameModel
+			 * 
+			 * tryToShoot() returns null if the tower can't reach any mob
+			 */
+			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
+				Tower t = mGameModel.mTowers.get(i);
+				Projectile proj = null;
 
-    			proj = t.tryToShoot(mGameModel);
+				if (mGameModel.mMobs.size() > 0) {
 
-    		}
-    		
-    		if(proj != null){
-    			mGameModel.mProjectiles.add(proj);
-    		}
-    	}
-    	
-    	
-    	// Check if any projectile has hit it's target
-    	// Handle hit, remove projectile, calculate damage on mob, etc. etc.
-    	for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
-    		Projectile p = mGameModel.mProjectiles.get(i);
+					//proj = t.tryToShoot(mGameModel.mMobs);
 
-    		// Update position for the projectiles
-    		p.updatePosition();
+					proj = t.tryToShoot(mGameModel);
 
-    		// If the projectile has collided, inflict damage and remove it.
-    		if (p.hasCollided()) {
-    			p.inflictDmg();
-    			mGameModel.mProjectiles.remove(p);
-    		}
-    		
-    		// if the projectile's target is dead, remove the projectile
-    		// TODO: solve this in a better way
-    		if (p.getMob().getHealth() <= 0) {
-    			mGameModel.mProjectiles.remove(p);
-    		}
-    	}
-    	
-    	
-    	/*
-    	 * For every mob:
-    	 *  Update position
-    	 *  If the mob has died, handle it
-    	 */
-    	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
-    		Mob m = mGameModel.mMobs.get(i);
-    		
-    		// update position, if the mob reached the last checkpoint, handle it
-    		if (!m.updatePosition()){
-    			mGameModel.mMobs.remove(m);
-    			mGameModel.currentPlayer.removeLife();
-    		}
-    		
-    		// TODO handle mob death
-    		if (m.getHealth() <= 0) {
-//    			give money to the player
-    			mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() + m.getReward());
+				}
 
-    			mGameModel.mMobs.remove(m);
+				if (proj != null) {
+					mGameModel.mProjectiles.add(proj);
+				}
+			}
+			// Check if any projectile has hit it's target
+			// Handle hit, remove projectile, calculate damage on mob, etc. etc.
+			for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
+				Projectile p = mGameModel.mProjectiles.get(i);
 
-    		}
-    	}
-    	
-    	
+				// Update position for the projectiles
+				p.updatePosition();
 
-    	
+				// If the projectile has collided, inflict damage and remove it.
+				if (p.hasCollided()) {
+					p.inflictDmg();
+					mGameModel.mProjectiles.remove(p);
+				}
+
+				// if the projectile's target is dead, remove the projectile
+				// TODO: solve this in a better way
+				if (p.getMob().getHealth() <= 0) {
+					mGameModel.mProjectiles.remove(p);
+				}
+			}
+			/*
+			 * For every mob:
+			 *  Update position
+			 *  If the mob has died, handle it
+			 */
+			for (int i = 0; i < mGameModel.mMobs.size(); i++) {
+				Mob m = mGameModel.mMobs.get(i);
+
+				// update position, if the mob reached the last checkpoint, handle it
+				if (!m.updatePosition()) {
+					mGameModel.mMobs.remove(m);
+					mGameModel.currentPlayer.removeLife();
+				}
+
+				// TODO handle mob death
+				if (m.getHealth() <= 0) {
+					//    			give money to the player
+					mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer
+							.getMoney()
+							+ m.getReward());
+
+					mGameModel.mMobs.remove(m);
+
+				}
+			}
+			
+			// If the player has 0 or less lives remaining, change game state
+			if (mGameModel.currentPlayer.getRemainingLives() <= 0) {
+				GAME_STATE = STATE_GAMEOVER;
+			}
+			
+			// TODO check if the user has won
+			if (false) {
+				GAME_STATE = STATE_WIN;
+			}
+		}
+
     }
 
     
@@ -487,11 +493,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
         // draw the background
     	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
+
     	
-
-
-	
-
     	// draw all mobs
      	for (int i = mGameModel.mMobs.size()-1; i >= 0; i--) {
      		Mob m = mGameModel.mMobs.get(i);
@@ -669,15 +672,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, textPaint);
     	canvas.drawText("0/50", 170, 20, textPaint); //TODO: Count the wave
     	canvas.drawText("Score: 0", 230, 20, textPaint); //TODO: Count score
-	
-    	//TODO accelerometer stuff
-    	if (accelerometerSupported && latestSensorEvent != null) {
-		canvas.drawText("X-axis: " + latestSensorEvent.values[0],
-				30, 50, textPaint);
-		canvas.drawText("Y-axis: " + latestSensorEvent.values[1],
-				30, 65, textPaint);
-		canvas.drawText("Z-axis: " + latestSensorEvent.values[2],
-				30, 80, textPaint);
+    	
+    	// if the player lost
+    	if (GAME_STATE == STATE_GAMEOVER) {
+    		
+    		canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
+    		
+    		canvas.drawText("YOU LOSE! SUCKER!",100,150 ,boxTextPaint);
+    		
     	}
     }
 
