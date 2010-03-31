@@ -20,8 +20,11 @@ public class SplashTower extends Tower {
 
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
-		mDamage = 30;
+		mDamage = 50;
 		mAttackSpeed = 30;
+		mCost = 50;
+		mRange = 80;
+		
 		
 
 	}

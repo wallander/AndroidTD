@@ -55,8 +55,11 @@ class GameThread extends Thread {
                 synchronized (mGamePanel.getHolder()) {
                 	
                     mGamePanel.updateModel();
+                }
+                synchronized (mGamePanel.getHolder()) {
                     mGamePanel.onDraw(c);
                 }
+                
                 sleep(5);
             } catch (InterruptedException ie) {
             	// doNothing();

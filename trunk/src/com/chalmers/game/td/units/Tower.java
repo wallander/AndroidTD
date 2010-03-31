@@ -23,7 +23,7 @@ public class Tower extends Unit{
 
 	protected int mDamage;		// Tower damage
 	protected int mRange;			// Tower shoot range
-	private double mCost;			// Tower cost
+	protected int mCost;			// Tower cost
 	protected int mLevel = 1;		// Tower level
 	protected int mCooldownLeft;	// Tower shoot delay
 	protected int mAttackSpeed;	// Tower constant shoot speed
@@ -46,7 +46,7 @@ public class Tower extends Unit{
     	setRange(100);
     	mAttackSpeed = 20;
     	setDamage(9);
-    	setCost(50);
+    	setCost(60);
     	
     	setSize(2);
     	
@@ -75,7 +75,7 @@ public class Tower extends Unit{
 	}
 	
 
-	private void setCost(double i) {
+	public void setCost(int i) {
 		mCost = i;
 		// ta bort kostnad från spelarens konto?
 	}
