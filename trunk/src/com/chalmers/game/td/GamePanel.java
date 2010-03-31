@@ -112,9 +112,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private boolean accelerometerSupported;
 	private boolean showTooltip;
-
+	private boolean allowBuild;
+	
 	private Vibrator vibrator;
+	
+	protected Tower Tower1 = new Tower(0,0);
+	protected SplashTower Tower2 = new SplashTower(0,0);
+	protected SlowTower Tower3 = new SlowTower(0,0);
 
+    
 
 
     /**
@@ -230,6 +236,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
     	
     	
+    	
         synchronized (getHolder()) {
             
         	
@@ -254,6 +261,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         			
         		} else {
         			selectedTower = null;
+        			allowBuild = false;
 	        		// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
 	            	if (event.getX() < 410) {
 	            		showTooltip = false;
@@ -269,18 +277,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	            	} else
 	            	// button 1,
 	                if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
-	                	tx = (int) event.getX() - 60;
-	
-	                	ty = (int) event.getY();
-	                	currentTower = new Tower(tx ,ty);
-	            		currentTower.setSize(2);
-	            		showTooltip = true;
+	                	if (Tower1.getCost() <= mGameModel.currentPlayer.getMoney()) {
+	                		allowBuild = true;
+	                	}	
+	                		tx = (int) event.getX() - 60;
+		
+		                	ty = (int) event.getY();
+		                	currentTower = new Tower(tx ,ty);
+		            		currentTower.setSize(2);
+		            		
+	                	
+	                	showTooltip = true;
 	                } else
 	                
 	                // button 2
 	                if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410) {
-	                	tx = (int) event.getX() - 60;
+	                	if (Tower2.getCost() <= mGameModel.currentPlayer.getMoney()) {
+	                		allowBuild = true;
+	                	}	
 	                	
+	                	tx = (int) event.getX() - 60;
 	                	ty = (int) event.getY();
 	                	currentTower = new SplashTower(tx ,ty);
 	            		currentTower.setSize(2);
@@ -289,8 +305,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	                
 	                // button 3
 	                if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410) {
-	                	tx = (int) event.getX() - 60;
+	                	if (Tower3.getCost() <= mGameModel.currentPlayer.getMoney()) {
+	                		allowBuild = true;
+	                	}	
 	                	
+	                	tx = (int) event.getX() - 60;
 	                	ty = (int) event.getY();
 	                	currentTower = new SlowTower(tx ,ty);
 	            		currentTower.setSize(2);
@@ -319,21 +338,29 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         		break;
         	case MotionEvent.ACTION_MOVE:
         		
+        		
         		 if(currentTower != null){
+        			
         			showTooltip = buttonGroup.contains(event.getX(),event.getY());
-                 	tx = (int) event.getX() - 60;
-                 	ty = (int) event.getY();
-                 	currentTower.setX(tx);
-                 	currentTower.setY(ty);
+                 	if(!showTooltip && !allowBuild) {
+                 		currentTower = null;
+                 		
+                 	} else  {
+	        			tx = (int) event.getX() - 60;
+	                 	ty = (int) event.getY();
+	                 	currentTower.setX(tx);
+	                 	currentTower.setY(ty);
+                 	}
                  }
         		break;
         		
         	case MotionEvent.ACTION_UP:
         		
         		if(currentTower != null){
-        			if (!buttonGroup.contains(event.getX(), event.getY()))
+        			if (!buttonGroup.contains(event.getX(), event.getY()) && allowBuild)
         				mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
-            		
+        				
+						mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - currentTower.getCost());
         			currentTower = null;
             	}
         		
@@ -385,6 +412,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void updateModel() {
     	
     	debug.UpdateFPS();
+    	
+  
+    	
     	
     	if (GAME_STATE == STATE_RUNNING) {
 			Mob mNewMob = createMobs();
@@ -578,11 +608,36 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			
 			// draw some temporary images for the buttons
+		
 			// TODO fix some image buttons ffs
+			
+					
+			Paint paintalfa = new Paint();
+			
+			//if the tower build buttons should be "unavaliable" or not
+			if(Tower1.getCost() >= mGameModel.currentPlayer.getMoney()) {
+				paintalfa.setAlpha(100);
+			} else {
+				paintalfa.setAlpha(255);
+			}
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,paintalfa);
+			
+			if(Tower2.getCost() >= mGameModel.currentPlayer.getMoney()) {
+				paintalfa.setAlpha(100);
+			} else {
+				paintalfa.setAlpha(255);
+			}
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,paintalfa);
+			
+			if(Tower3.getCost() >= mGameModel.currentPlayer.getMoney()) {
+				paintalfa.setAlpha(100);
+			} else {
+				paintalfa.setAlpha(255);
+			}
+			
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
 
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,null);
+			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
 
 			
