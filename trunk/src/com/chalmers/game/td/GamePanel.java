@@ -359,7 +359,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         		if(currentTower != null){
         			if (!buttonGroup.contains(event.getX(), event.getY()) && allowBuild)
         				mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
-            		
+        				
+						mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - currentTower.getCost());
         			currentTower = null;
             	}
         		
