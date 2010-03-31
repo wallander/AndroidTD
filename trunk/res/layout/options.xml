@@ -12,8 +12,10 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:background="@drawable/startgame_button"
 >
-</Button><TextView android:text="This is where you would show any options your game has " 
-android:id="@+id/TextView01" 
+</Button>
+
+<TextView android:text="This is where you would show any options your game has "
+android:id="@+id/TextView01"
 android:layout_width="wrap_content" 
 android:layout_height="wrap_content"></TextView>
 </RelativeLayout>

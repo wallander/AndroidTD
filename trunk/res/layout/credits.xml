@@ -5,6 +5,13 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
+<Button
+android:id="@+id/StartGame"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@drawable/startgame_button"
+>
+</Button>
 
 <TextView android:text="This is where you would show the game credits" 
 android:id="@+id/TextView01" 
