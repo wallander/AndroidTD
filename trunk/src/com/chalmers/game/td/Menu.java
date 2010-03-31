@@ -9,72 +9,54 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class Menu extends Activity {
+public class Menu extends Activity implements OnClickListener{
+	 
+	Button mStartGameButton, mHelpButton, mOptionsButton, mCreditsButton;
 	
+	public void onClick(View v) {
+		Intent i;
+ 		if (v == mStartGameButton)
+ 			i = new Intent(Menu.this, MenuGame.class);
+ 		else if (v == mHelpButton)
+ 			i = new Intent(Menu.this, MenuHelp.class);
+ 		else if (v == mOptionsButton)
+ 			i = new Intent(Menu.this, MenuOptions.class);
+ 		else /*if (v == CreditsButton)*/
+ 			i = new Intent(Menu.this, MenuCredits.class);
+ 		startActivity(i);
+	}	
 	
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); 
+    protected void onCreate(Bundle savedInstanceState) {
+    	
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
         // Set the screen orientation to Portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    	
+    	mStartGameButton = (Button)findViewById(R.id.StartGame); 
+    	mStartGameButton.setOnClickListener(this);
+    	
+    	mHelpButton = (Button)findViewById(R.id.Help);
+        mHelpButton.setOnClickListener(this);
         
+    	mOptionsButton = (Button)findViewById(R.id.Options);
+    	mOptionsButton.setOnClickListener(this);
+        
+    	mCreditsButton = (Button)findViewById(R.id.Credits);
+        mCreditsButton.setOnClickListener(this);        
         
         Bundle b = getIntent().getExtras();
         if(b != null){
         	String value = b.getString("msg");
         	Toast.makeText(this, "Value : " + value, Toast.LENGTH_LONG).show();
         }
-      /*  
+        /*  
         if (savedInstanceState != null) {
             Toast.makeText(this, "onCreate() : " + savedInstanceState.getString("TO_REMEMBER"), Toast.LENGTH_LONG).show();
         }
         */
-        Button StartGameButton = (Button)findViewById(R.id.StartGame);
-        StartGameButton.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		
-        		
-        			Intent StartGameIntent = new Intent(Menu.this,MenuGame.class); 
-        			startActivity(StartGameIntent);
-        		
-        	}
-        });
-        
-        Button HelpButton = (Button)findViewById(R.id.Help);
-        HelpButton.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		
-        			Intent HelpIntent = new Intent(Menu.this,MenuHelp.class);
-        			startActivity(HelpIntent);
-        		
-        	}
-        });
-        
-        Button OptionsButton = (Button)findViewById(R.id.Options);
-        OptionsButton.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		
-        			Intent OptionsIntent = new Intent(Menu.this,MenuOptions.class);
-        			startActivity(OptionsIntent);
-        		
-        	}
-        });
-        
-        Button CreditsButton = (Button)findViewById(R.id.Credits);
-        CreditsButton.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		
-        			Intent CreditsIntent= new Intent(Menu.this,MenuCredits.class);
-        			startActivity(CreditsIntent);
-        		
-        	}
-        });
     }
 }

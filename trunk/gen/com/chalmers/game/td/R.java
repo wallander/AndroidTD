@@ -83,9 +83,9 @@ public final class R {
         public static final int Help=0x7f070005;
         public static final int LinearLayout01=0x7f07000a;
         public static final int Options=0x7f070007;
-        public static final int StartGame=0x7f070003;
-        public static final int TextView01=0x7f070001;
-        public static final int widget28=0x7f070002;
+        public static final int StartGame=0x7f070001;
+        public static final int TextView01=0x7f070002;
+        public static final int widget28=0x7f070003;
         public static final int widget32=0x7f070000;
         public static final int widget34=0x7f070004;
         public static final int widget35=0x7f070006;
