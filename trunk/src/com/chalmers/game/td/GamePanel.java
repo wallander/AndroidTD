@@ -26,6 +26,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Vibrator;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -131,14 +133,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	 
         super(context);
       
-
+        // make sure the screen can't turn off while playing
+        setKeepScreenOn(true);
+        
+        
         debug = new TDDebug();
         debug.InitGameTime();
-        
-        
-       
-        
-        
         
         mobFactory = MobFactory.getInstance(); 
         mobFactory.setContext(context); 
@@ -169,7 +169,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
     
-
+        ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         
     }
     
@@ -189,6 +189,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	
     };
     
+    private PhoneStateListener mPhoneListener = new PhoneStateListener() {
+    	
+    	@Override 
+        public void onCallStateChanged(int state, String incomingNumber) { 
+           super.onCallStateChanged(state, incomingNumber); 
+            
+           switch (state){ 
+           case TelephonyManager.CALL_STATE_RINGING: 
+              Log.d("PhoneState", "ringing"); 
+              // TODO handle incoming calls
+              // maybe pause and such and such
+              break; 
+            
+           case TelephonyManager.CALL_STATE_IDLE: 
+              Log.d("PhoneState", "idle"); 
+              break; 
+
+           case TelephonyManager.CALL_STATE_OFFHOOK : 
+              Log.d("PhoneState", "offhook"); 
+              break;
+           } 
+
+    	}
+    };
     
     /**
      * Fill the bitmap cache.
@@ -638,10 +662,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
-
+			
 			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
-
 			
 		} else if (!showTooltip) {
 			
@@ -809,6 +832,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mGameThread.start();
     }
 
+    
     /**
      * Called if the SurfaceView should be destroyed.
      * We try to finish the game loop thread here.
