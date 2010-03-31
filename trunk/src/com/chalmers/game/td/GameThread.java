@@ -1,6 +1,8 @@
 package com.chalmers.game.td;
 
 import android.graphics.Canvas;
+import android.view.animation.Animation;
+
 
 /**
  * Thread class to perform the so called "game loop".
