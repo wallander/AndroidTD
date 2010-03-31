@@ -236,6 +236,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
     	
     	
+    	
         synchronized (getHolder()) {
             
         	
