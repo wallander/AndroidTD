@@ -522,6 +522,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				s.updatePosition(latestSensorEvent);
 
 				s.inflictDmg(mGameModel.mMobs);
+				
+				if (s.getCharges() <= 0) {
+					mGameModel.mSnowballs.remove(s);
+				}
+				
 			}
 
 
@@ -618,11 +623,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		}
 
+		Paint snowPaint = new Paint();
+		snowPaint.setARGB(255, 159, 182, 205);
+		
+		Paint borderPaint = new Paint();
+		borderPaint.setARGB(255, 0, 0, 0);
+		borderPaint.setStyle(Paint.Style.STROKE);
+		
 		// draw snowballs
 		for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
 			Snowball s = mGameModel.mSnowballs.get(i);
 
-			canvas.drawCircle((float)s.getX(), (float)s.getY(), 20, new Paint());
+			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges(), snowPaint);
+			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges(), borderPaint);
 		}
 
 
@@ -751,7 +764,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 		} else if (currentSnowball != null) {
-			canvas.drawCircle((int)currentSnowball.getX(),(int)currentSnowball.getY(),20,new Paint());
+			canvas.drawCircle((int)currentSnowball.getX(),(int)currentSnowball.getY(),10 + currentSnowball.getCharges(),snowPaint);
 		}
 
 		// if a tower is selected for upgrades and such and such
