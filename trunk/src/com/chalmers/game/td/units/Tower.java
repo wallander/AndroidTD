@@ -44,8 +44,8 @@ public class Tower extends Unit{
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
     	setRange(100);
-    	mAttackSpeed = 5;
-    	setDamage(50);
+    	mAttackSpeed = 20;
+    	setDamage(9);
     	setCost(50);
     	
     	setSize(2);
@@ -77,6 +77,7 @@ public class Tower extends Unit{
 
 	private void setCost(double i) {
 		mCost = i;
+		// ta bort kostnad från spelarens konto?
 	}
 
 	/**
