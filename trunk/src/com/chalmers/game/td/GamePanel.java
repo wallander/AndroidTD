@@ -495,6 +495,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
 				Snowball s = mGameModel.mSnowballs.get(i);
 				
+				// if the ball is moving ON a tower in the game field
+				// lower it's speed
+				s.setSlowed(false);
+				
+				for (int j = 0; j < mGameModel.mTowers.size(); j++) {
+					Tower t = mGameModel.mTowers.get(j);
+					Coordinate mobCoordinate = new Coordinate(t.getX()+16,t.getY()+16);
+					double distance = Coordinate.getSqrDistance(s.getCoordinates(), mobCoordinate);
+					
+					if (distance < 10 + s.getCharges() + 16)
+						s.setSlowed(true);
+				}
+				
+				
 				// update position with accelerometer
 				s.updatePosition(latestSensorEvent);
 
@@ -574,8 +588,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		drawBackground(canvas);
 		drawMobs(canvas);
-		drawSnowballs(canvas);
 		drawTowers(canvas);
+		drawSnowballs(canvas);
 		drawProjectiles(canvas);
 		drawButtons(canvas);
 
@@ -624,7 +638,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),20,0, null);
-		canvas.drawText("" + mGameModel.currentPlayer.getMoney(), 45, 20, textPaint);
+		canvas.drawText("" + (int)mGameModel.currentPlayer.getMoney(), 45, 20, textPaint);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 100, 0, null);
 		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, textPaint);
 		canvas.drawText("0/50", 170, 20, textPaint); //TODO: Count the wave
