@@ -248,8 +248,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         			if (upgradeButton.contains(event.getX(), event.getY())) {
         				
         				if (mGameModel.currentPlayer.getMoney() >= selectedTower.getUpgradeCost()) {
-        					selectedTower.upgrade();
         					mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - selectedTower.getUpgradeCost());
+        					selectedTower.upgrade();
+
+        					
         				}
         			} else if (sellButton.contains(event.getX(), event.getY()) ) {
         				mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() + selectedTower.sell());
