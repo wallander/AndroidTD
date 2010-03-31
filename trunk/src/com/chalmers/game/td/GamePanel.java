@@ -213,7 +213,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.base, BitmapFactory.decodeResource(getResources(), R.drawable.base));
         mBitMapCache.put(R.drawable.money, BitmapFactory.decodeResource(getResources(), R.drawable.money));
         mBitMapCache.put(R.drawable.lives, BitmapFactory.decodeResource(getResources(), R.drawable.lives));
-
+        mBitMapCache.put(R.drawable.snowmap, BitmapFactory.decodeResource(getResources(), R.drawable.snowmap));
+        mBitMapCache.put(R.drawable.penguinmob, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
         mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
  
         
@@ -492,14 +493,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
     	
         // draw the background
-    	canvas.drawBitmap(mBitMapCache.get(R.drawable.abstrakt), 0 , 0, null);
+
+    	canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
+    	
+    	// dra the "end-point-base"
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
+    	
+
 
     	
     	// draw all mobs
      	for (int i = mGameModel.mMobs.size()-1; i >= 0; i--) {
      		Mob m = mGameModel.mMobs.get(i);
      		
-    		canvas.drawBitmap(mBitMapCache.get(R.drawable.man2), (int) m.getX() , (int) m.getY() , null);
+    		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), (int) m.getX() , (int) m.getY() , null);
     		
     		int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
     		
@@ -554,7 +561,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		float left, top, right, bottom;
 		
 		
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
+
 
 	
 		if(currentTower == null) {
@@ -576,7 +583,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.man2), 437,270,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
 
 			
 		} else if (!showTooltip) {
