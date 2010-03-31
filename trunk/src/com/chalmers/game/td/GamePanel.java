@@ -408,14 +408,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				break;
 				
 			case STATE_GAMEOVER:
-				// TODO handle input when in "GAMEOVER" state
-				// two buttons? "New Game" and "exit" maybe? yes? no? yes?
-				
+//				TODO handle input when in "GAMEOVER" state
+//				two buttons? "New Game" and "exit" maybe? yes? no? yes?
+//				
+//				switch (event.getAction()) {
+//				case MotionEvent.ACTION_DOWN:
+//					break;
+//				case MotionEvent.ACTION_MOVE:
+//					break;
+//				case MotionEvent.ACTION_UP:
+//					break;
+//				}
 				break;
 			case STATE_WIN:
-				// TODO handle input when in "WIN" state
-				// two buttons? "New Game" and "exit" maybe? yes? no? yes?
-				
+//				TODO handle input when in "WIN" state
+//				two buttons? "New Game" and "exit" maybe? yes? no? yes?
+//				
+//				switch (event.getAction()) {
+//				case MotionEvent.ACTION_DOWN:
+//					break;
+//				case MotionEvent.ACTION_MOVE:
+//					break;
+//				case MotionEvent.ACTION_UP:
+//					break;
+//				}
 				break;
 			}
 		}
