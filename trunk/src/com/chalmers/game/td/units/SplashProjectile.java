@@ -6,7 +6,8 @@ import com.chalmers.game.td.GameModel;
 public class SplashProjectile extends Projectile {
 
 	private Coordinate targetCoordinate;
-	private double blastRadius;
+	private int blastRadius;
+	private int blastEffect;
 	
 	public SplashProjectile(Mob pTarget, Tower pTower, GameModel pGameModel) {
 		super(pTarget, pTower, pGameModel);
@@ -14,7 +15,8 @@ public class SplashProjectile extends Projectile {
 		targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 		
-		blastRadius = 50;
+		blastRadius = 20;
+		blastEffect = 3; //tal mellan 1-5, hur stor effect slashen har
 	}
 
 	/**
@@ -30,7 +32,7 @@ public class SplashProjectile extends Projectile {
 		 		double sqrDist = Coordinate.getSqrDistance(targetCoordinate, m.getCoordinates());
 		 		
 		 		if (sqrDist <= blastRadius) {
-		 			m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() * (1 - sqrDist/blastRadius)));
+		 			m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() * (1 - sqrDist/blastRadius)/5*blastEffect));
 		 		}
 		 	}
 	    }
@@ -47,9 +49,9 @@ public class SplashProjectile extends Projectile {
 	 
 	 public boolean hasCollided() {
 			
-			double sqrDist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
+			double Dist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
 			
-			if (sqrDist < getSpeed())
+			if (Dist < getSpeed())
 				return true;
 			
 			return false;
