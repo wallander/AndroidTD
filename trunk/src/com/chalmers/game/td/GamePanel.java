@@ -1,6 +1,7 @@
 package com.chalmers.game.td;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.chalmers.game.td.units.Tower;
@@ -17,9 +18,7 @@ import com.chalmers.game.td.units.Mob.MobType;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
-import android.graphics.MaskFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -68,6 +67,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	/** Model which contains the game model  */
 	private GameModel mGameModel;
 
+	private MobFactory	mobFactory;
+	
 	/** Cache variable for all used images. */
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 
@@ -76,23 +77,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private int tx;
 	private int ty;
 
-
+	private Tower currentTower;
+	private Tower selectedTower;
+	private Snowball currentSnowball;
+	
+	
 	/** Keeps track of the delay between creation of Mobs in waves */
 	private static final int MOB_DELAY_MAX = 30;
 	private int mMobDelayI = 0;
-
-	private Tower currentTower;
-
-	private MobFactory	mobFactory;
-
-	private Tower selectedTower;
 
 	// Graphic elements used in the GUI
 	private static final RectF sellButton = new RectF(90,180,150,230);
 	private static final RectF upgradeButton = new RectF(165,180,300,230);
 	private static final RectF selectedTowerBox = new RectF(70,50,320,240);
 	private static final RectF buttonGroup = new RectF(450,0,480,320);
-
+	private static final RectF button1 = new RectF(420,15,475,65);
+	private static final RectF button2 = new RectF(420,15+60,475,65+60);
+	private static final RectF button3 = new RectF(420,15+120,475,65+120);
+	private static final RectF button4 = new RectF(420,15+180,475,65+180);
+	private static final RectF button5 = new RectF(420,15+240,475,65+240);
 
 	// Paints
 	private static final Paint buttonBoxPaint = new Paint();
@@ -105,26 +108,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint gridpaint = new Paint();
 	private static final Paint healthBarPaint = new Paint();
 	private static final Paint boxTextPaintTitle = new Paint();
-
+	private static final Paint snowPaint = new Paint();
+	private static final Paint borderPaint = new Paint();
 
 	/** Debug */
 	TDDebug debug;    
 
 
 	// TODO accelerometer stuff
-	SensorManager mSensorManager;
-	SensorEvent latestSensorEvent;
+	private SensorManager mSensorManager;
+	private SensorEvent latestSensorEvent;
 
+	// use this to make the phone vibrate. vibrator.vibrate(int time);
+	private Vibrator vibrator;
+	
 	private boolean accelerometerSupported;
 	private boolean showTooltip;
 	private boolean allowBuild;
 
-	private Vibrator vibrator;
+	
 
 	protected Tower Tower1 = new Tower(0,0);
 	protected SplashTower Tower2 = new SplashTower(0,0);
 	protected SlowTower Tower3 = new SlowTower(0,0);
-
+	
 
 
 
@@ -136,7 +143,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		super(context);
 
-		// make sure the screen can't turn off while playing
+		// makes sure the screen can't turn off while playing
 		setKeepScreenOn(true);
 
 
@@ -155,36 +162,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mGameThread = new GameThread(this);
 		setFocusable(true);
 
+		// do settings to all paint objects used in the GUI
 		setupPaint();
 
-		// TODO accelerometer stuff
-
+		// get a reference to the vibrator in the phone
+		vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+		
+		// start listening to accelerometer events
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-
 		accelerometerSupported = !mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).isEmpty();
 
 		if (accelerometerSupported)
 			mSensorManager.registerListener(mAccelerometerListener,
-					mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
+					mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+					SensorManager.SENSOR_DELAY_FASTEST);
 
-
-		// TODO some vibrator stuffs
-
-		vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-
-		((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+		// start listening to telephone events (incoming calls etc)
+		((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE))
+				.listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
 
 	}
 
 	/**
-	 * TODO accelerometer stuff
+	 * Handle accelerometer events
 	 */
 	private SensorEventListener mAccelerometerListener = new SensorEventListener() {
 
-		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			// TODO Auto-generated method stub
-
-		}
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
 		public void onSensorChanged(SensorEvent event) {
 			latestSensorEvent = event;
@@ -192,6 +196,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	};
 
+	/**
+	 * Listener that handles telephone events
+	 */
 	private PhoneStateListener mPhoneListener = new PhoneStateListener() {
 
 		@Override 
@@ -216,7 +223,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		}
 	};
-	private Snowball currentSnowball;
+	
 
 	/**
 	 * Fill the bitmap cache.
@@ -263,26 +270,29 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
-
-
 		synchronized (getHolder()) {
-
+			
+			// store the coordinates of the event
+			// change the x coordinate with an offset of -60 pixels
+			tx = (int) event.getX() - 60;
+			ty = (int) event.getY();
 
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 
+				// If the user has selected a Tower
 				if (selectedTower != null) {
-
+					
+					// Upgrade button pressed
 					if (upgradeButton.contains(event.getX(), event.getY())) {
 
 						if (mGameModel.currentPlayer.getMoney() >= selectedTower.getUpgradeCost()) {
-							mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - selectedTower.getUpgradeCost());
+							mGameModel.currentPlayer.changeMoney(-selectedTower.getUpgradeCost());
 							selectedTower.upgrade();
-
-
 						}
 					} else if (sellButton.contains(event.getX(), event.getY()) ) {
-						mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() + selectedTower.sell());
+						// Sell button pressed
+						mGameModel.currentPlayer.changeMoney(selectedTower.sell());
 						mGameModel.removeTower(selectedTower);
 						selectedTower = null;
 					} else 
@@ -290,12 +300,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
 				} else {
-					selectedTower = null;
+					// if the user has NOT selected a tower
+					
 					allowBuild = false;
-					// If the ACTION_DOWN event was not in the button section but on a tower, select the clicked tower
+					
+					// game field clicked
 					if (event.getX() < 410) {
 						showTooltip = false;
 
+						// if a tower was clicked, mark it as selected
 						for (int i = 0; i < mGameModel.mTowers.size(); i++){
 							Tower t = mGameModel.mTowers.get(i);
 
@@ -304,68 +317,44 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								break;
 							}
 						}
-					} else
-						// button 1,
-						if(event.getY() > 15  && event.getY() < 65 && event.getX() > 410) {
-							if (Tower1.getCost() <= mGameModel.currentPlayer.getMoney()) {
-								allowBuild = true;
-							}	
-							tx = (int) event.getX() - 60;
+						
+					} else if(button1.contains(event.getX(),event.getY())) {
+						// button 1
+						if (Tower1.getCost() <= mGameModel.currentPlayer.getMoney()) {
+							allowBuild = true;
+						}	
+						currentTower = new Tower(tx ,ty);
+						showTooltip = true;
+					} else if(button2.contains(event.getX(),event.getY())) {
+						// button 2
+						if (Tower2.getCost() <= mGameModel.currentPlayer.getMoney()) {
+							allowBuild = true;
+						}	
 
-							ty = (int) event.getY();
-							currentTower = new Tower(tx ,ty);
-							currentTower.setSize(2);
+						currentTower = new SplashTower(tx ,ty);
+						showTooltip = true;
 
+					} else if(button3.contains(event.getX(),event.getY())) {
+						// button 3
+						if (Tower3.getCost() <= mGameModel.currentPlayer.getMoney()) {
+							allowBuild = true;
+						}	
+						currentTower = new SlowTower(tx ,ty);
+						showTooltip = true;
+					} else if(button4.contains(event.getX(),event.getY())) {
+						// button 4
+						if (accelerometerSupported)
+							currentSnowball = new Snowball(tx,ty);
 
-							showTooltip = true;
-						} else
+					} else if(button5.contains(event.getX(),event.getY())) {
+						// button 5 TODO remove this when done
 
-							// button 2
-							if(event.getY() > 15+60  && event.getY() < 65+60 && event.getX() > 410) {
-								if (Tower2.getCost() <= mGameModel.currentPlayer.getMoney()) {
-									allowBuild = true;
-								}	
+						Mob mTemp = new Mob(MobType.ARMORED);
+						Path mTempPath = Path.getInstance();
+						mTemp.setPath(mTempPath);
 
-								tx = (int) event.getX() - 60;
-								ty = (int) event.getY();
-								currentTower = new SplashTower(tx ,ty);
-								currentTower.setSize(2);
-								showTooltip = true;
-							} else
-
-								// button 3
-								if(event.getY() > 15+120  && event.getY() < 65+120 && event.getX() > 410) {
-									if (Tower3.getCost() <= mGameModel.currentPlayer.getMoney()) {
-										allowBuild = true;
-									}	
-
-									tx = (int) event.getX() - 60;
-									ty = (int) event.getY();
-									currentTower = new SlowTower(tx ,ty);
-									currentTower.setSize(2);
-									showTooltip = true;
-								} else
-
-									// button 4
-									if(event.getY() > 15+180  && event.getY() < 65+180 && event.getX() > 410) {
-										tx = (int) event.getX() - 60;
-										ty = (int) event.getY();
-										// TODO do fast forward with this button
-										//	                	vibrator.vibrate(500);
-										if (accelerometerSupported)
-											currentSnowball = new Snowball(tx,ty);
-
-									} else
-
-										// button 5 TODO Remove this after debug mode
-										if(event.getY() > 15+240  && event.getY() < 65+240 && event.getX() > 410) {
-
-											Mob mTemp = new Mob(MobType.ARMORED);
-											Path mTempPath = Path.getInstance();
-											mTemp.setPath(mTempPath);
-
-											mGameModel.mMobs.add(mTemp);
-										}
+						mGameModel.mMobs.add(mTemp);
+					}
 				}
 
 				break;
@@ -376,36 +365,35 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					showTooltip = buttonGroup.contains(event.getX(),event.getY());
 					if(!showTooltip && !allowBuild) {
 						currentTower = null;
-
 					} else  {
-						tx = (int) event.getX() - 60;
-						ty = (int) event.getY();
 						currentTower.setX(tx);
 						currentTower.setY(ty);
 					}
 				} else if (currentSnowball != null) {
-					tx = (int) event.getX() - 60;
-					ty = (int) event.getY();
 					currentSnowball.setX(tx);
 					currentSnowball.setY(ty);
 				}
-
-
 				break;
 
 			case MotionEvent.ACTION_UP:
-
-				if(currentTower != null){
-					if (!buttonGroup.contains(event.getX(), event.getY()) && allowBuild)
-						mGameModel.buildTower(currentTower, (int)currentTower.getX() / GameModel.GAME_TILE_SIZE, (int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
-
-					mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() - currentTower.getCost());
-					currentTower = null;
+				//if a tower is placed on the game field
+				if(currentTower != null) {
+					
+					// if building is allowed
+					if (!buttonGroup.contains(event.getX(), event.getY()) && allowBuild) {
+						
+						// build the tower and remove money from player
+						mGameModel.buildTower(currentTower, 
+								(int)currentTower.getX() / GameModel.GAME_TILE_SIZE,
+								(int)currentTower.getY() / GameModel.GAME_TILE_SIZE);
+						mGameModel.currentPlayer.changeMoney(-currentTower.getCost());
+						currentTower = null;
+					}
 				} else if (currentSnowball != null) {
+					// if a snowball is being placed
 					mGameModel.mSnowballs.add(currentSnowball);
 					currentSnowball = null;
 				}
-
 				break;
 			}
 
@@ -418,10 +406,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 
 		return true;
-
-
-
-
 	}
 
 
@@ -455,9 +439,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		debug.UpdateFPS();
 
-
-
-
 		if (GAME_STATE == STATE_RUNNING) {
 			Mob mNewMob = createMobs();
 			if (mNewMob != null) {
@@ -476,19 +457,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
 				Tower t = mGameModel.mTowers.get(i);
-				Projectile proj = null;
+				List<Projectile> newProjectiles = null;
 
-				if (mGameModel.mMobs.size() > 0) {
-
-					//proj = t.tryToShoot(mGameModel.mMobs);
-
-					proj = t.tryToShoot(mGameModel);
-
-				}
-
-				if (proj != null) {
-					mGameModel.mProjectiles.add(proj);
-				}
+				if (mGameModel.mMobs.size() > 0) 
+					newProjectiles = t.tryToShoot(mGameModel);
+			
+				if (newProjectiles != null) 
+					mGameModel.mProjectiles.addAll(newProjectiles);
 			}
 
 			// Check if any projectile has hit it's target
@@ -519,14 +494,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
 				Snowball s = mGameModel.mSnowballs.get(i);
+				
+				// update position with accelerometer
 				s.updatePosition(latestSensorEvent);
 
-				s.inflictDmg(mGameModel.mMobs);
-				
+				// read what mobs are hit
+				List<Mob> deadMobs = s.getCollidedMobs(mGameModel.mMobs);
+
+				// handle mobs that were hit
+				for (int j = 0; j < deadMobs.size(); j++) {
+					Mob m = deadMobs.get(j);
+					mGameModel.currentPlayer.changeMoney(m.getReward());
+				}
+				mGameModel.mMobs.removeAll(deadMobs);
+
+				// if the snowball is out of charges, remove it
 				if (s.getCharges() <= 0) {
 					mGameModel.mSnowballs.remove(s);
 				}
-				
+
 			}
 
 
@@ -544,13 +530,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					mGameModel.currentPlayer.removeLife();
 				}
 
-				// TODO handle mob death
+				// handle mob death
 				if (m.getHealth() <= 0) {
-					//    			give money to the player
-					mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer
-							.getMoney()
-							+ m.getReward());
-
+					mGameModel.currentPlayer.changeMoney(m.getReward());
 					mGameModel.mMobs.remove(m);
 
 				}
@@ -574,26 +556,239 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * Draw on the SurfaceView.
 	 * Order:
 	 * <ul>
-	 *  <li>Game map</li>
+	 *  <li>Game map and environments</li>
 	 *  <li>Mobs</li>
-	 *  <li>Towers</li>
+	 *  <li>Snowballs</li>
+	 *  <li>Towers></li>
 	 *  <li>Projectiles</li>
+	 *  <li>Buttons</li>
+	 *  <li>Current Tower/Snowball</li>
+	 *  <li>Stats</li>
+	 *  <li>Win- and Lose screen</li>
 	 * </ul>
 	 */
-
 	@Override
 	public void onDraw(Canvas canvas) {
 		// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
+		// DONE AND DONE /Fredrik
 
-		// draw the background
+		drawBackground(canvas);
+		drawMobs(canvas);
+		drawSnowballs(canvas);
+		drawTowers(canvas);
+		drawProjectiles(canvas);
+		drawButtons(canvas);
 
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
+		// if a tower is being bought
+		// draw either the tooltip for it, or how it would be placed.
+		if (currentTower != null) {
+			if (showTooltip)
+				drawTooltip(canvas);
+			else
+				drawCurrentTower(canvas);
+		}
 
-		// dra the "end-point-base"
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
+		// draw current snowball
+		if (currentSnowball != null) {
+			canvas.drawCircle((int)currentSnowball.getX(),(int)currentSnowball.getY(),10 + currentSnowball.getCharges(),snowPaint);
+		}
+
+		// if a tower is selected for upgrades and such and such
+		if(selectedTower != null){	
+			drawUpgradeWindow(canvas);
+
+		}
+
+		drawStatisticsText(canvas);
+
+		
+		switch (GAME_STATE) {
+		case STATE_GAMEOVER:
+			canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
+			canvas.drawText("YOU LOSE! SUCKER!",100,150 ,boxTextPaint);
+			break;
+		case STATE_WIN:
+			canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
+			canvas.drawText("YOU ARE WINRAR!",100,150 ,boxTextPaint);
+			break;
+		}
+		
+	}
 
 
 
+	private void drawStatisticsText(Canvas canvas) {
+		// draw debug messages in the top left corner
+		canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ mGameModel.mMobs.size()+
+				" Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 320,textPaint);
+
+		// show stats of the player    	
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),20,0, null);
+		canvas.drawText("" + mGameModel.currentPlayer.getMoney(), 45, 20, textPaint);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 100, 0, null);
+		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, textPaint);
+		canvas.drawText("0/50", 170, 20, textPaint); //TODO: Count the wave
+		canvas.drawText("Score: 0", 230, 20, textPaint); //TODO: Count score
+
+	}
+
+	private void drawUpgradeWindow(Canvas canvas) {
+		// draw a circle that shows the tower's range
+		canvas.drawCircle(
+				GameModel.GAME_TILE_SIZE * ((float)selectedTower.getX() / GameModel.GAME_TILE_SIZE + (selectedTower.getWidth()/2)),
+				GameModel.GAME_TILE_SIZE * ((float)selectedTower.getY() / GameModel.GAME_TILE_SIZE + (selectedTower.getHeight()/2)),
+				selectedTower.getRange(), rangeIndicationPaint);
+
+
+		// draw box for the selected tower
+		canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
+
+		canvas.drawBitmap(mBitMapCache.get(selectedTower.getImage()), 100, 80,null);
+
+		canvas.drawText(selectedTower.getName(), 170, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + selectedTower.getLevel(), 170, 117, boxTextPaint);
+		canvas.drawText("Damage: " + selectedTower.getDamage(), 170, 139, boxTextPaint);
+		canvas.drawText("Range: " + selectedTower.getRange(), 170, 161, boxTextPaint);
+
+		canvas.drawRoundRect(sellButton,10,10,buttonBoxPaint);
+		canvas.drawRoundRect(upgradeButton,6,6,buttonBoxPaint);
+
+		canvas.drawText("Sell", sellButton.left+10, sellButton.top+(sellButton.height()/2), boxTextPaint);
+		canvas.drawText("Upgrade for " + selectedTower.getUpgradeCost() + "$",
+				upgradeButton.left+10, upgradeButton.top+(sellButton.height()/2), boxTextPaint);
+
+	}
+
+	private void drawCurrentTower(Canvas canvas) {
+
+
+		// draw the chosen tower
+		canvas.drawBitmap(
+				mBitMapCache.get(currentTower.getImage()), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) ,
+				GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE) , null);
+
+
+		// draw a red transparent rectangle on every occupied tile
+		for (Point p : mGameModel.mOccupiedTilePositions) {
+			canvas.drawRect(
+					p.x*GameModel.GAME_TILE_SIZE,
+					p.y*GameModel.GAME_TILE_SIZE,
+					(1+p.x)*GameModel.GAME_TILE_SIZE,
+					(1+p.y)*GameModel.GAME_TILE_SIZE,
+					gridpaint);
+		}
+
+		// draw a circle that shows the tower's range
+		// one color if it can be placed on current location, another if can't
+		if (mGameModel.canAddTower(currentTower)) {
+			canvas.drawCircle(
+					GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)),
+					GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)),
+					currentTower.getRange(),
+					rangeIndicationPaint);
+		} else {
+			canvas.drawCircle(
+					GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)),
+					GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)),
+					currentTower.getRange(),
+					noRangeIndicationPaint);
+		}
+
+	}
+
+	private void drawTooltip(Canvas canvas) {
+
+		// draw tooltip for the current tower
+		canvas.drawRoundRect(selectedTowerBox,10,10, selectedTowerBoxPaint);
+
+		canvas.drawBitmap(mBitMapCache.get(currentTower.getImage()), 100, 80,null);
+
+		canvas.drawText(currentTower.getName(), 170, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + currentTower.getLevel(), 170, 117, boxTextPaint);
+		canvas.drawText("Damage: " + currentTower.getDamage(), 170, 139, boxTextPaint);
+		canvas.drawText("Range: " + currentTower.getRange(), 170, 161, boxTextPaint);
+
+		canvas.drawText("Drag buy this tower!", 130, 180, boxTextPaint);
+	}
+
+	private void drawButtons(Canvas canvas) {
+
+		Paint paint = new Paint();
+		paint.setARGB(100,100,100,100);
+		paint.setStyle(Paint.Style.FILL);
+
+		canvas.drawRoundRect(button1, 5, 5, paint);
+		canvas.drawRoundRect(button2, 5, 5, paint);
+		canvas.drawRoundRect(button3, 5, 5, paint);
+		canvas.drawRoundRect(button4, 5, 5, paint);
+		canvas.drawRoundRect(button5, 5, 5, paint);
+		
+		
+		Paint paintalfa = new Paint();
+
+		//if the tower build buttons should be "unavaliable" or not
+		if(Tower1.getCost() >= mGameModel.currentPlayer.getMoney()) {
+			paintalfa.setAlpha(100);
+		} else {
+			paintalfa.setAlpha(255);
+		}
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,paintalfa);
+
+		if(Tower2.getCost() >= mGameModel.currentPlayer.getMoney()) {
+			paintalfa.setAlpha(100);
+		} else {
+			paintalfa.setAlpha(255);
+		}
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,paintalfa);
+
+		if(Tower3.getCost() >= mGameModel.currentPlayer.getMoney()) {
+			paintalfa.setAlpha(100);
+		} else {
+			paintalfa.setAlpha(255);
+		}
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
+
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
+
+	}
+
+	private void drawProjectiles(Canvas canvas) {
+		// draw all projectiles
+		for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
+			Projectile p = mGameModel.mProjectiles.get(i);
+			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
+			Matrix matrix = new Matrix(); 
+
+
+
+			// rotate the Bitmap 
+			matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
+			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true); 
+
+			canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
+
+		}
+	}
+
+	private void drawTowers(Canvas canvas) {
+		// draw all towers
+		for (int i = 0; i < mGameModel.mTowers.size(); i++) {
+			Tower t = mGameModel.mTowers.get(i);
+			canvas.drawBitmap(mBitMapCache.get(t.getImage()), (int) t.getX() , (int) t.getY() , null);
+		}
+	}
+
+	private void drawSnowballs(Canvas canvas) {
+		// draw snowballs
+		for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
+			Snowball s = mGameModel.mSnowballs.get(i);
+
+			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges(), snowPaint);
+			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges(), borderPaint);
+		}
+	}
+
+	private void drawMobs(Canvas canvas) {
 		// draw all mobs
 		for (int i = mGameModel.mMobs.size()-1; i >= 0; i--) {
 			Mob m = mGameModel.mMobs.get(i);
@@ -622,205 +817,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
 		}
+	}
 
-		Paint snowPaint = new Paint();
-		snowPaint.setARGB(255, 159, 182, 205);
-		
-		Paint borderPaint = new Paint();
-		borderPaint.setARGB(255, 0, 0, 0);
-		borderPaint.setStyle(Paint.Style.STROKE);
-		
-		// draw snowballs
-		for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
-			Snowball s = mGameModel.mSnowballs.get(i);
+	private void drawBackground(Canvas canvas) {
+		// draw the background
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
 
-			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges(), snowPaint);
-			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges(), borderPaint);
-		}
-
-
-		// draw all towers
-		for (int i = 0; i < mGameModel.mTowers.size(); i++) {
-			Tower t = mGameModel.mTowers.get(i);
-			canvas.drawBitmap(mBitMapCache.get(t.getImage()), (int) t.getX() , (int) t.getY() , null);
-		}
-
-
-		// draw all projectiles
-		for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
-			Projectile p = mGameModel.mProjectiles.get(i);
-			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
-			Matrix matrix = new Matrix(); 
-
-
-
-			// rotate the Bitmap 
-			matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
-			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true); 
-
-			canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
-
-		}
-
-
-		Paint paint = new Paint();
-		paint.setARGB(100,100,100,100);
-		paint.setStyle(Paint.Style.FILL);
-		float left, top, right, bottom;
-
-
-
-		// draw 5 placeholder buttons in the lower part of the screen
-
-		for (int i = 0; i < 5; i++) {
-			top = 15 + 60*i;
-			left = 420;
-			bottom = 65 + 60*i;
-			right = 475;
-			RectF rect = new RectF(left, top, right, bottom);
-			canvas.drawRoundRect(rect, 5, 5, paint);
-		}
-
-		// draw some temporary images for the buttons
-
-		// TODO fix some image buttons ffs
-
-
-		Paint paintalfa = new Paint();
-
-		//if the tower build buttons should be "unavaliable" or not
-		if(Tower1.getCost() >= mGameModel.currentPlayer.getMoney()) {
-			paintalfa.setAlpha(100);
-		} else {
-			paintalfa.setAlpha(255);
-		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,paintalfa);
-
-		if(Tower2.getCost() >= mGameModel.currentPlayer.getMoney()) {
-			paintalfa.setAlpha(100);
-		} else {
-			paintalfa.setAlpha(255);
-		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,paintalfa);
-
-		if(Tower3.getCost() >= mGameModel.currentPlayer.getMoney()) {
-			paintalfa.setAlpha(100);
-		} else {
-			paintalfa.setAlpha(255);
-		}
-
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
-
-
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
-
-
-		if (currentTower != null && showTooltip) {
-
-			// draw tooltip for the current tower
-			canvas.drawRoundRect(selectedTowerBox,10,10, selectedTowerBoxPaint);
-
-			canvas.drawBitmap(mBitMapCache.get(currentTower.getImage()), 100, 80,null);
-
-			canvas.drawText(currentTower.getName(), 170, 90, boxTextPaintTitle);
-			canvas.drawText("Level " + currentTower.getLevel(), 170, 117, boxTextPaint);
-			canvas.drawText("Damage: " + currentTower.getDamage(), 170, 139, boxTextPaint);
-			canvas.drawText("Range: " + currentTower.getRange(), 170, 161, boxTextPaint);
-
-			canvas.drawText("Drag buy this tower!", 130, 180, boxTextPaint);
-
-
-		} else if (currentTower != null) {
-
-			// draw the chosen tower
-			canvas.drawBitmap(
-					mBitMapCache.get(currentTower.getImage()), GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE) ,
-					GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE) , null);
-
-
-			// draw a red transparent rectangle on every occupied tile
-			for (Point p : mGameModel.mOccupiedTilePositions) {
-				canvas.drawRect(
-						p.x*GameModel.GAME_TILE_SIZE,
-						p.y*GameModel.GAME_TILE_SIZE,
-						(1+p.x)*GameModel.GAME_TILE_SIZE,
-						(1+p.y)*GameModel.GAME_TILE_SIZE,
-						gridpaint);
-			}
-
-			// draw a circle that shows the tower's range
-			if (mGameModel.canAddTower(currentTower)) {
-				canvas.drawCircle(
-						GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)),
-						GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)),
-						currentTower.getRange(),
-						rangeIndicationPaint);
-			} else {
-				canvas.drawCircle(
-						GameModel.GAME_TILE_SIZE*(tx / GameModel.GAME_TILE_SIZE + (currentTower.getWidth()/2)),
-						GameModel.GAME_TILE_SIZE*(ty / GameModel.GAME_TILE_SIZE + (currentTower.getHeight() / 2)),
-						currentTower.getRange(),
-						noRangeIndicationPaint);
-			}
-
-		} else if (currentSnowball != null) {
-			canvas.drawCircle((int)currentSnowball.getX(),(int)currentSnowball.getY(),10 + currentSnowball.getCharges(),snowPaint);
-		}
-
-		// if a tower is selected for upgrades and such and such
-		if(selectedTower != null){	
-
-			// draw a circle that shows the tower's range
-			canvas.drawCircle(
-					GameModel.GAME_TILE_SIZE * ((float)selectedTower.getX() / GameModel.GAME_TILE_SIZE + (selectedTower.getWidth()/2)),
-					GameModel.GAME_TILE_SIZE * ((float)selectedTower.getY() / GameModel.GAME_TILE_SIZE + (selectedTower.getHeight()/2)),
-					selectedTower.getRange(), rangeIndicationPaint);
-
-
-			// draw box for the selected tower
-			canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
-
-			canvas.drawBitmap(mBitMapCache.get(selectedTower.getImage()), 100, 80,null);
-
-
-			//canvas.drawLine(150, 60, 150, 160, linePaint);
-			//canvas.drawLine(80, 165, 310, 165, linePaint);
-
-
-			canvas.drawText(selectedTower.getName(), 170, 90, boxTextPaintTitle);
-			canvas.drawText("Level " + selectedTower.getLevel(), 170, 117, boxTextPaint);
-			canvas.drawText("Damage: " + selectedTower.getDamage(), 170, 139, boxTextPaint);
-			canvas.drawText("Range: " + selectedTower.getRange(), 170, 161, boxTextPaint);
-
-			canvas.drawRoundRect(sellButton,10,10,buttonBoxPaint);
-			canvas.drawRoundRect(upgradeButton,6,6,buttonBoxPaint);
-
-			canvas.drawText("Sell", sellButton.left+10, sellButton.top+(sellButton.height()/2), boxTextPaint);
-			canvas.drawText("Upgrade for " + selectedTower.getUpgradeCost() + "$",
-					upgradeButton.left+10, upgradeButton.top+(sellButton.height()/2), boxTextPaint);
-
-		}
-
-		// draw debug messages in the top left corner
-		canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ mGameModel.mMobs.size()+
-				" Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 320,textPaint);
-
-		// show stats of the player    	
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),20,0, null);
-		canvas.drawText("" + mGameModel.currentPlayer.getMoney(), 45, 20, textPaint);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 100, 0, null);
-		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, textPaint);
-		canvas.drawText("0/50", 170, 20, textPaint); //TODO: Count the wave
-		canvas.drawText("Score: 0", 230, 20, textPaint); //TODO: Count score
-
-		// if the player lost
-		if (GAME_STATE == STATE_GAMEOVER) {
-
-			canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
-
-			canvas.drawText("YOU LOSE! SUCKER!",100,150 ,boxTextPaint);
-
-		}
+		// dra the "end-point-base"
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
 	}
 
 	/**
@@ -862,6 +866,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		healthBarPaint.setStyle(Paint.Style.FILL);
 
+		snowPaint.setARGB(255, 159, 182, 205);
+
+		borderPaint.setARGB(255, 0, 0, 0);
+		borderPaint.setStyle(Paint.Style.STROKE);
 	}
 
 
