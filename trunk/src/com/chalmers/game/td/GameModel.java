@@ -31,6 +31,7 @@ public class GameModel {
 	protected List<Tower> mTowers;
 	public List<Mob> mMobs;
 	protected List<Projectile> mProjectiles;
+	protected List<Snowball> mSnowballs;
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;
 	protected int mWaveNr;
@@ -51,6 +52,7 @@ public class GameModel {
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
+		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();
 		
