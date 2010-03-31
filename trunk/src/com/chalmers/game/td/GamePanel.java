@@ -1,6 +1,7 @@
 package com.chalmers.game.td;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.chalmers.game.td.units.Tower;
@@ -17,9 +18,7 @@ import com.chalmers.game.td.units.Mob.MobType;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
-import android.graphics.MaskFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -521,7 +520,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				Snowball s = mGameModel.mSnowballs.get(i);
 				s.updatePosition(latestSensorEvent);
 
-				s.inflictDmg(mGameModel.mMobs);
+				List<Mob> deadMobs = s.inflictDmg(mGameModel.mMobs);
+				
+				for (int j = 0; j < deadMobs.size(); j++) {
+					Mob m = deadMobs.get(j);
+					mGameModel.currentPlayer.setMoney(mGameModel.currentPlayer.getMoney() + m.getReward());
+				}
+				
+				mGameModel.mMobs.removeAll(deadMobs);
 				
 				if (s.getCharges() <= 0) {
 					mGameModel.mSnowballs.remove(s);
