@@ -457,19 +457,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
 				Tower t = mGameModel.mTowers.get(i);
-				Projectile proj = null;
+				List<Projectile> newProjectiles = null;
 
-				if (mGameModel.mMobs.size() > 0) {
-
-					//proj = t.tryToShoot(mGameModel.mMobs);
-
-					proj = t.tryToShoot(mGameModel);
-
-				}
-
-				if (proj != null) {
-					mGameModel.mProjectiles.add(proj);
-				}
+				if (mGameModel.mMobs.size() > 0) 
+					newProjectiles = t.tryToShoot(mGameModel);
+			
+				if (newProjectiles != null) 
+					mGameModel.mProjectiles.addAll(newProjectiles);
 			}
 
 			// Check if any projectile has hit it's target
@@ -500,17 +494,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
 				Snowball s = mGameModel.mSnowballs.get(i);
+				
+				// update position with accelerometer
 				s.updatePosition(latestSensorEvent);
 
-				List<Mob> deadMobs = s.inflictDmg(mGameModel.mMobs);
+				// read what mobs are hit
+				List<Mob> deadMobs = s.getCollidedMobs(mGameModel.mMobs);
 
+				// handle mobs that were hit
 				for (int j = 0; j < deadMobs.size(); j++) {
 					Mob m = deadMobs.get(j);
 					mGameModel.currentPlayer.changeMoney(m.getReward());
 				}
-
 				mGameModel.mMobs.removeAll(deadMobs);
 
+				// if the snowball is out of charges, remove it
 				if (s.getCharges() <= 0) {
 					mGameModel.mSnowballs.remove(s);
 				}
@@ -532,10 +530,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					mGameModel.currentPlayer.removeLife();
 				}
 
-				
+				// handle mob death
 				if (m.getHealth() <= 0) {
 					mGameModel.currentPlayer.changeMoney(m.getReward());
-
 					mGameModel.mMobs.remove(m);
 
 				}

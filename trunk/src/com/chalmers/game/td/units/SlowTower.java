@@ -1,6 +1,9 @@
 package com.chalmers.game.td.units;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 
@@ -44,11 +47,13 @@ public class SlowTower extends Tower {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
-    public Projectile tryToShoot(GameModel pGameModel){
+    public List<Projectile> tryToShoot(GameModel pGameModel){
     	
     	
 		// if the tower is not on cooldown
 		if (mCooldownLeft == 0) {
+			List<Projectile> projectiles = new ArrayList<Projectile>();
+			
 
 			// loop through the list of mobs
 			for (int i=0; i<pGameModel.mMobs.size();i++) {
@@ -59,7 +64,8 @@ public class SlowTower extends Tower {
 				// return a new Projectile on the first mob that the tower can reach
 				if (sqrDist < mRange && m.isSlowed() == false ){
 					mCooldownLeft = mAttackSpeed;
-	    			return (new SlowProjectile(m, this, pGameModel));
+					projectiles.add(new SlowProjectile(m, this, pGameModel));
+	    			return projectiles;
 	    		}
 			}
 		

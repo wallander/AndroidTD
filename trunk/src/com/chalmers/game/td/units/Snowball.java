@@ -61,7 +61,7 @@ public class Snowball extends Unit {
      * @param mMobs 
      * 
      */
-    public List<Mob> inflictDmg(List<Mob> mMobs) {
+    public List<Mob> getCollidedMobs(List<Mob> mMobs) {
     	
     	List<Mob> deadMobs = new ArrayList<Mob>();
     	
