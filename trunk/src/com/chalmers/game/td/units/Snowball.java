@@ -116,27 +116,30 @@ public class Snowball extends Unit {
 			lastUpdate = s;
 			return;
 		}
-		long time = (s.timestamp - lastUpdate.timestamp) / 1000000000;
 		
+
+			
 		double x = s.values[1];
 		double y = s.values[0];
+
 		
-		setSpeedX(time * x);
-		setSpeedY(time * y);
+		setSpeedX(getSpeedX() + (x/10));
+		setSpeedY(getSpeedY() + (y/10));
 		
-		if (getX() < 0 && getSpeedX() < 0)
-			setSpeedX(Math.abs(getSpeedX()));
-		else if (getX() > 480 && getSpeedX() > 0)
-			setSpeedX(-Math.abs(getSpeedX()));
+//		setSpeedX(getSpeedX() + x);
+//		setSpeedY(getSpeedY() + y);
 		
-		if (getY() < 0 && getSpeedY() < 0)
-			setSpeedY(Math.abs(getSpeedY()));
-		else if (getY() > 320 && getSpeedY() > 0)
-			setSpeedY(-Math.abs(getSpeedY()));
+		if ((getX() < 0 && getSpeedX() < 0 )|| (getX() > 480 && getSpeedX() > 0))
+			setSpeedX(-getSpeedX()*0.8);
+
+		if ((getY() < 0 && getSpeedY() < 0 )|| (getY() > 320 && getSpeedY() > 0))
+			setSpeedY(-getSpeedY()*0.8);
+		
 		
 		setX(getX() + getSpeedX());
 		setY(getY() + getSpeedY());
 		
+		lastUpdate = s;
 		
 	}
 
