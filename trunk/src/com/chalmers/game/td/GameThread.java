@@ -57,6 +57,9 @@ class GameThread extends Thread {
                     mGamePanel.updateModel();
                     mGamePanel.onDraw(c);
                 }
+                sleep(5);
+            } catch (InterruptedException ie) {
+            	// doNothing();
             } finally {
                 // do this in a finally so that if an exception is thrown
                 // during the above, we don't leave the Surface in an
@@ -64,6 +67,7 @@ class GameThread extends Thread {
                 if (c != null) {
                     mGamePanel.getHolder().unlockCanvasAndPost(c);
                 }
+              
             }
         }
     }
