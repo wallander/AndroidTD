@@ -14,7 +14,7 @@ public class SplashProjectile extends Projectile {
 		targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 		
-		blastRadius = 100;
+		blastRadius = 50;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class SplashProjectile extends Projectile {
 		 		double sqrDist = Coordinate.getSqrDistance(targetCoordinate, m.getCoordinates());
 		 		
 		 		if (sqrDist <= blastRadius) {
-		 			m.setHealth(m.getHealth() - mTower.getDamage());
+		 			m.setHealth(m.getHealth() - (int)(mTower.getDamage() * (sqrDist/blastRadius)));
 		 		}
 		 	}
 	    }
