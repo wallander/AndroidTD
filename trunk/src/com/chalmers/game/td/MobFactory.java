@@ -1,8 +1,6 @@
 package com.chalmers.game.td;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import android.content.Context;
@@ -26,7 +24,9 @@ import com.chalmers.game.td.units.Mob.MobType;
 public class MobFactory {
 	
 	// Instance variables	
-	private static final MobFactory	INSTANCE = new MobFactory();	
+	private static final MobFactory	INSTANCE = new MobFactory();
+	private static final int		MAX_WAVE_DELAY = 5;
+	private int						mWaveDelayI;
 	private Context					mContext;
 	private Path					mPath;	
 	private Queue<Mob>				mMobs;
@@ -39,48 +39,58 @@ public class MobFactory {
 		mWaves = null;
 		mContext = null;		
 		mMobs = null;
+		mWaveDelayI = 0;
 	}
 		
 	/**
-	 * 
+	 * TODO Implement wave tracker
 	 * @param pTrack
 	 * @return
 	 */
-	public Mob getNextMob(int pTrack) {
-
-		Mob mMob = null;
-		
-		if(mWaves != null) {
+	public Mob getNextMob(int pTrack) {	
 			
-			if(mMobs == null || mMobs.isEmpty()) {
-				mMobs = mWaves.poll();
-				Log.v("GET NEXT MOB", "New wave initialized!");
-			}
+			Mob mMob = null;
 			
-			if(mMobs != null) {
+			if(mWaves != null) {
 				
-				mMob = mMobs.poll();
-				
-				if(mMob != null) {
+				if(mMobs == null || mMobs.isEmpty()) {
 					
-					mPath.setTrackPath(pTrack);
-					mMob.setPath(mPath);
-					
-					Log.v("GET NEXT MOB", "New Mob initialized with path..");
+					switch(mWaveDelayI) {
+						
+						case MAX_WAVE_DELAY:
+							mWaveDelayI = 0;							
+							mMobs = mWaves.poll();
+						break;
+						
+						default:
+							++mWaveDelayI;
+						break;
+					}							
 				}
+												
+				if(mMobs != null) {
+					
+					mMob = mMobs.poll();
+					
+					if(mMob != null) {
+						
+						mPath.setTrackPath(pTrack);
+						mMob.setPath(mPath);
+						
+						Log.v("GET NEXT MOB", "New Mob initialized with path..");
+					}
+				}
+				
+			} else {
+				Log.v("GET NEXT MOB", "No more waves to send!");
 			}
-		} else {
-			Log.v("GET NEXT MOB", "No more waves to send!");
-		}
-		
-		if(mMob != null)
-			Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
-		else
-			Log.v("GET NEXT MOB", "Mob is now NULL");
-		
-		return mMob;
-
-	
+			
+			if(mMob != null)
+				Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
+			else
+				Log.v("GET NEXT MOB", "Mob is now NULL");
+			
+			return mMob;						
 	}
 	
 	/**
