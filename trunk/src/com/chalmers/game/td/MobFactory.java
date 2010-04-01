@@ -25,7 +25,7 @@ public class MobFactory {
 	
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	private static final int		MAX_WAVE_DELAY = 5;
+	private static final int		MAX_WAVE_DELAY = 10;
 	private int						mWaveDelayI,
 									mWaveNr,
 									mTotalNrOfWaves;
@@ -55,6 +55,10 @@ public class MobFactory {
 		return mWaveNr;
 	}
 	
+	/**
+	 *  Returns the total number of waves
+	 * @return
+	 */
 	public int getTotalNrOfWaves() {
 		return mTotalNrOfWaves;
 	}

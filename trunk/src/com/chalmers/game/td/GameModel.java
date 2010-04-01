@@ -79,23 +79,7 @@ public class GameModel {
 				temp.setXY(temp.getX() + Math.cos(angle), temp.getY() - Math.sin(angle));
 			
 			}
-		}
-		
-
-
-		 Tower 	a = new Tower(0,0),
-		 		b = new Tower(0,0);
-		 
-		 a.setSize(2);
-		 b.setSize(2);
-
-		 buildTower(a,8,10);
-		 buildTower(b,12,6);
-		 
-		 Log.v("", "skapa mob");
-
-		
-		
+		}		
 	}
 	
 	/**
