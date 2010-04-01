@@ -96,9 +96,12 @@ public class MobFactory {
 					switch(mWaveDelayI) {
 						
 						case MAX_WAVE_DELAY:
-							mWaveDelayI = 0;
-							++mWaveNr;
+							mWaveDelayI = 0;							
 							mMobs = mWaves.poll();
+							
+							if(mMobs != null) 
+								++mWaveNr;
+							
 						break;
 						
 						default:
@@ -108,7 +111,7 @@ public class MobFactory {
 				}
 												
 				if(mMobs != null) {
-					
+										
 					mMob = mMobs.poll();
 					
 					if(mMob != null) {
