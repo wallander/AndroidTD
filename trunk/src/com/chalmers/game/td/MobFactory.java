@@ -63,6 +63,22 @@ public class MobFactory {
 		return mTotalNrOfWaves;
 	}
 	
+	/**
+	 * Check if there are more mobs left
+	 * @return
+	 */
+	public boolean hasMoreMobs() {
+		
+		if(mWaves != null && !mWaves.isEmpty()) {
+			return true;
+		} else {
+			if(mMobs != null && !mMobs.isEmpty()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 	
 	/**
 	 * 
