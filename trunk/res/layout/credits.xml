@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:id="@+id/widget32"
+android:orientation="vertical"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-xmlns:android="http://schemas.android.com/apk/res/android"
 >
+<TextView android:text="Jonas Andersson\nDaniel Arvidsson\nAhmed Chaban\nDisa Faith\nFredrik Persson\nJonas Wallander" 
+android:id="@+id/TextView01" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content"
+/>
 <Button
 android:id="@+id/StartGame"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:background="@drawable/startgame_button"
->
-</Button>
+android:text="back to start menu"
+/>
 
-<TextView android:text="This is where you would show the game credits" 
-android:id="@+id/TextView01" 
-android:layout_width="wrap_content" 
-android:layout_height="wrap_content"></TextView>
-</RelativeLayout>
+</LinearLayout>

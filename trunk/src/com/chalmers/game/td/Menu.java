@@ -11,19 +11,27 @@ import android.widget.Toast;
 
 public class Menu extends Activity implements OnClickListener{
 	 
-	Button mStartGameButton, mHelpButton, mOptionsButton, mCreditsButton;
+	Button mStartGameButton, mHelpButton, mOptionsButton, mCreditsButton, mExitButton;
 	
 	public void onClick(View v) {
-		Intent i;
- 		if (v == mStartGameButton)
- 			i = new Intent(Menu.this, MenuGame.class);
- 		else if (v == mHelpButton)
- 			i = new Intent(Menu.this, MenuHelp.class);
- 		else if (v == mOptionsButton)
- 			i = new Intent(Menu.this, MenuOptions.class);
- 		else /*if (v == CreditsButton)*/
- 			i = new Intent(Menu.this, MenuCredits.class);
- 		startActivity(i);
+		
+		if (v==mExitButton) {
+			//exit game
+			this.finish();
+ 			//Toast.makeText(Menu.this, "Exit game", Toast.LENGTH_SHORT).show();
+		}
+		else {
+			Intent i;
+			if (v == mStartGameButton)
+				i = new Intent(Menu.this, MenuGame.class);
+			else if (v == mHelpButton)
+				i = new Intent(Menu.this, MenuHelp.class);
+			else if (v == mOptionsButton)
+				i = new Intent(Menu.this, MenuOptions.class);
+			else /*if (v == mCreditsButton)*/
+				i = new Intent(Menu.this, MenuCredits.class);
+			startActivity(i);
+		}
 	}	
 	
     /** Called when the activity is first created. */
@@ -46,7 +54,10 @@ public class Menu extends Activity implements OnClickListener{
     	mOptionsButton.setOnClickListener(this);
         
     	mCreditsButton = (Button)findViewById(R.id.Credits);
-        mCreditsButton.setOnClickListener(this);        
+        mCreditsButton.setOnClickListener(this);
+        
+        mExitButton = (Button)findViewById(R.id.Exit);
+        mExitButton.setOnClickListener(this);
         
         Bundle b = getIntent().getExtras();
         if(b != null){
