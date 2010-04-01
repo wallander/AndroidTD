@@ -594,7 +594,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 			// TODO check if the user has won
-			if (false) {
+			if (mobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
 				GAME_STATE = STATE_WIN;
 			}
 		}
