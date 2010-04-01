@@ -26,7 +26,9 @@ public class MobFactory {
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
 	private static final int		MAX_WAVE_DELAY = 5;
-	private int						mWaveDelayI;
+	private int						mWaveDelayI,
+									mWaveNr,
+									mTotalNrOfWaves;
 	private Context					mContext;
 	private Path					mPath;	
 	private Queue<Mob>				mMobs;
@@ -40,10 +42,26 @@ public class MobFactory {
 		mContext = null;		
 		mMobs = null;
 		mWaveDelayI = 0;
+		mWaveNr = 0;
+		mTotalNrOfWaves = 0;
 	}
-		
+	
 	/**
-	 * TODO Implement wave tracker
+	 * Returns the current wave number
+	 * 
+	 * @return
+	 */
+	public int getWaveNr() {
+		return mWaveNr;
+	}
+	
+	public int getTotalNrOfWaves() {
+		return mTotalNrOfWaves;
+	}
+	
+	
+	/**
+	 * 
 	 * @param pTrack
 	 * @return
 	 */
@@ -58,7 +76,8 @@ public class MobFactory {
 					switch(mWaveDelayI) {
 						
 						case MAX_WAVE_DELAY:
-							mWaveDelayI = 0;							
+							mWaveDelayI = 0;
+							++mWaveNr;
 							mMobs = mWaves.poll();
 						break;
 						
@@ -83,6 +102,7 @@ public class MobFactory {
 				
 			} else {
 				Log.v("GET NEXT MOB", "No more waves to send!");
+				mWaveNr = 0; // Reset the wave number
 			}
 			
 			if(mMob != null)
@@ -104,6 +124,7 @@ public class MobFactory {
 		mPath = Path.getInstance();		
 		mPath.setContext(pContext);
 		initWaves();
+		mTotalNrOfWaves = mWaves.size();
 	}
 	
 	/**
