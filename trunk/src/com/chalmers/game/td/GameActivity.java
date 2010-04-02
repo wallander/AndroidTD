@@ -29,16 +29,14 @@ public class GameActivity extends Activity {
                     int waited = 0;
                     while (waited < mSplashTime) {
                         sleep(100);
-                        
                         waited += 100;
-                        
                     }
                 } catch(InterruptedException e) {
                     // do nothing
                 } finally {
                 	if (mNextActivityStarted == false) {
              			mNextActivityStarted = true;
-             			startActivity(new Intent(GameActivity.this, MenuStart.class));
+             			startActivity(new Intent(GameActivity.this, Menu.class));
              			finish();
                 	}
              		
