@@ -82,6 +82,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private Tower selectedTower;
     
+    private int wateranimation = 0;
+    private Bitmap waterani;
+    private boolean splash = false;
+    
     // Graphic elements used in the GUI
     private static final RectF sellButton = new RectF(90,180,150,230);
 	private static final RectF upgradeButton = new RectF(165,180,300,230);
@@ -222,7 +226,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         mBitMapCache.put(R.drawable.snowmap, BitmapFactory.decodeResource(getResources(), R.drawable.snowmap));
         mBitMapCache.put(R.drawable.penguinmob, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
         mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
- 
+        mBitMapCache.put(R.drawable.water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
+        mBitMapCache.put(R.drawable.water2, BitmapFactory.decodeResource(getResources(), R.drawable.water2));
+        mBitMapCache.put(R.drawable.water3, BitmapFactory.decodeResource(getResources(), R.drawable.water3));
+
         
 
     }
@@ -477,6 +484,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
+					splash = true;
 					mGameModel.mMobs.remove(m);
 					mGameModel.currentPlayer.removeLife();
 				}
@@ -529,6 +537,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     	// dra the "end-point-base"
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
     	
+
+		if(splash){
+			if(wateranimation >= 0 && wateranimation < 5){
+		   		canvas.drawBitmap(mBitMapCache.get(R.drawable.water),410,228,null);
+		   		wateranimation++;
+			} else if(wateranimation >= 5 && wateranimation < 10){
+	       		canvas.drawBitmap(mBitMapCache.get(R.drawable.water2),410,228,null);
+	       		wateranimation++;
+			} else if(wateranimation >= 10 && wateranimation < 15){
+		     	canvas.drawBitmap(mBitMapCache.get(R.drawable.water3),410,228,null);
+		     	wateranimation++;
+			} else if(wateranimation >= 15 && wateranimation < 20){
+	        	canvas.drawBitmap(mBitMapCache.get(R.drawable.water2),410,228,null);
+	        	wateranimation++;
+			} else if(wateranimation >= 20 && wateranimation < 25){
+	        	canvas.drawBitmap(mBitMapCache.get(R.drawable.water),410,228,null);
+	        	wateranimation++;
+			} 
+		}
+
+		if(wateranimation >= 25){ 
+			wateranimation = 0;
+			splash = false;
+		}
+        
 
 
     	
