@@ -21,13 +21,7 @@ android:layout_height="wrap_content"
 android:background="@drawable/startgame_button"
 >
 </Button>
-<TextView
-android:id="@+id/widget34"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
 
->
-</TextView>
 <Button
 android:id="@+id/Help"
 android:layout_width="wrap_content"
@@ -35,13 +29,7 @@ android:layout_height="wrap_content"
 android:background="@drawable/help_button" 
 >
 </Button>
-<TextView
-android:id="@+id/widget35"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
 
->
-</TextView>
 <Button
 android:id="@+id/Options"
 android:layout_width="wrap_content"
@@ -49,13 +37,7 @@ android:layout_height="wrap_content"
 android:background="@drawable/options_button" 
 >
 </Button>
-<TextView
-android:id="@+id/widget38"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
 
->
-</TextView>
 <Button
 android:id="@+id/Credits"
 android:layout_width="wrap_content"
@@ -63,5 +45,14 @@ android:layout_height="wrap_content"
 android:background="@drawable/credits_button"
 >
 </Button>
+
+<Button
+android:id="@+id/Exit"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Exit Game"
+>
+</Button>
+
 </TableLayout>
 </RelativeLayout>

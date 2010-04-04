@@ -1,6 +1,8 @@
 package com.chalmers.game.td;
 
 import android.graphics.Canvas;
+import android.view.animation.Animation;
+
 
 /**
  * Thread class to perform the so called "game loop".
@@ -55,8 +57,14 @@ class GameThread extends Thread {
                 synchronized (mGamePanel.getHolder()) {
                 	
                     mGamePanel.updateModel();
+                }
+                synchronized (mGamePanel.getHolder()) {
                     mGamePanel.onDraw(c);
                 }
+                
+                sleep(5);
+            } catch (InterruptedException ie) {
+            	// doNothing();
             } finally {
                 // do this in a finally so that if an exception is thrown
                 // during the above, we don't leave the Surface in an
@@ -64,6 +72,7 @@ class GameThread extends Thread {
                 if (c != null) {
                     mGamePanel.getHolder().unlockCanvasAndPost(c);
                 }
+              
             }
         }
     }

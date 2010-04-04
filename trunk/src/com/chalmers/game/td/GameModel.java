@@ -31,6 +31,7 @@ public class GameModel {
 	protected List<Tower> mTowers;
 	public List<Mob> mMobs;
 	protected List<Projectile> mProjectiles;
+	protected List<Snowball> mSnowballs;
 	protected Path mPath;
 	protected HashSet<Point> mOccupiedTilePositions;
 	protected int mWaveNr;
@@ -51,6 +52,7 @@ public class GameModel {
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
+		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();
 		
@@ -77,23 +79,7 @@ public class GameModel {
 				temp.setXY(temp.getX() + Math.cos(angle), temp.getY() - Math.sin(angle));
 			
 			}
-		}
-		
-
-
-		 Tower 	a = new Tower(0,0),
-		 		b = new Tower(0,0);
-		 
-		 a.setSize(2);
-		 b.setSize(2);
-
-		 buildTower(a,8,10);
-		 buildTower(b,12,6);
-		 
-		 Log.v("", "skapa mob");
-
-		
-		
+		}		
 	}
 	
 	/**

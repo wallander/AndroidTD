@@ -1,6 +1,9 @@
 package com.chalmers.game.td.units;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 
@@ -20,8 +23,11 @@ public class SplashTower extends Tower {
 
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
-		mDamage = 30;
+		mDamage = 50;
 		mAttackSpeed = 30;
+		mCost = 50;
+		mRange = 80;
+		
 		
 
 	}
@@ -51,12 +57,13 @@ public class SplashTower extends Tower {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
-    public Projectile tryToShoot(GameModel pGameModel){
+    public List<Projectile> tryToShoot(GameModel pGameModel){
     	
     	
 		// if the tower is not on cooldown
 		if (mCooldownLeft == 0) {
-
+			List<Projectile> projectiles = new ArrayList<Projectile>();
+			
 			// loop through the list of mobs
 			for (int i=0; i<pGameModel.mMobs.size();i++) {
 				Mob m = pGameModel.mMobs.get(i);
@@ -66,7 +73,8 @@ public class SplashTower extends Tower {
 				// return a new Projectile on the first mob that the tower can reach
 				if (sqrDist < mRange){
 					mCooldownLeft = mAttackSpeed;
-	    			return (new SplashProjectile(m, this, pGameModel));
+					projectiles.add(new SplashProjectile(m, this, pGameModel));
+	    			return projectiles;
 	    		}
 			}
 		

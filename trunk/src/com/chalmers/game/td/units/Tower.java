@@ -1,6 +1,8 @@
 package com.chalmers.game.td.units;
 
 import android.graphics.Bitmap;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
@@ -23,7 +25,7 @@ public class Tower extends Unit{
 
 	protected int mDamage;		// Tower damage
 	protected int mRange;			// Tower shoot range
-	private double mCost;			// Tower cost
+	protected int mCost;			// Tower cost
 	protected int mLevel = 1;		// Tower level
 	protected int mCooldownLeft;	// Tower shoot delay
 	protected int mAttackSpeed;	// Tower constant shoot speed
@@ -46,7 +48,7 @@ public class Tower extends Unit{
     	setRange(100);
     	mAttackSpeed = 20;
     	setDamage(9);
-    	setCost(50);
+    	setCost(60);
     	
     	setSize(2);
     	
@@ -75,7 +77,7 @@ public class Tower extends Unit{
 	}
 	
 
-	private void setCost(double i) {
+	public void setCost(int i) {
 		mCost = i;
 		// ta bort kostnad från spelarens konto?
 	}
@@ -101,17 +103,16 @@ public class Tower extends Unit{
 
    // public Projectile tryToShoot(List<Mob> mobs){
 
-    public Projectile tryToShoot(GameModel pGameModel){
+    public List<Projectile> tryToShoot(GameModel pGameModel){
+    	
     	
 	
 		// if the tower is not on cooldown
 		if (mCooldownLeft == 0) {
 
+			List<Projectile> projectiles = new ArrayList<Projectile>();
+			
 			// loop through the list of mobs
-
-		//	for (int i=0; i<mobs.size();i++) {
-		//		Mob m = mobs.get(i);
-
 			for (int i=0; i<pGameModel.mMobs.size();i++) {
 				Mob m = pGameModel.mMobs.get(i);
 
@@ -121,9 +122,9 @@ public class Tower extends Unit{
 
 			
 				if (sqrDist < mRange){
-
 					mCooldownLeft = mAttackSpeed;
-	    			return (new Projectile(m, this, pGameModel));
+					projectiles.add(new Projectile(m, this, pGameModel));
+	    			return projectiles;
 	    		}
 	
 			}

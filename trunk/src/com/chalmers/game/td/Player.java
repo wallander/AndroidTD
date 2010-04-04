@@ -16,6 +16,10 @@ public class Player {
 
 	}
 
+	public void changeMoney(double amount) {
+		this.mMoney = this.mMoney + amount;
+	}
+	
 	public void setMoney(double mMoney) {
 		this.mMoney = mMoney;
 	}
@@ -40,6 +44,5 @@ public class Player {
 	public void removeLife() {
 		mLives--;
 	}
-	
 	
 }

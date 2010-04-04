@@ -22,19 +22,16 @@ public class MenuOptions extends Activity {
         StartGameButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		//Intent GoToMenu = new Intent(Options.this,Menu.class);
-        		Intent GoToMenu = new Intent("com.dotted.games.Menu");
+        		Intent GoToMenu = new Intent(MenuOptions.this, Menu.class);
+        		//Intent GoToMenu = new Intent("com.dotted.games.Menu");
                 startActivity(GoToMenu);
         		Bundle b = new Bundle();
         		b.putString("msg", "Hej! Jag kommer från Options!");
         		GoToMenu.putExtras(b);
         		
         		finish();
-        		startActivity(GoToMenu);
-
         	}
         });
-
     }
     
 }
