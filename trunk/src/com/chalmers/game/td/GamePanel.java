@@ -132,7 +132,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean accelerometerSupported;
 	private boolean showTooltip;
 	private boolean allowBuild;
-
+	private boolean fastForward;
 
 
 	protected Tower Tower1 = new Tower(0,0);
@@ -232,6 +232,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		}
 	};
+	
 
 
 	/**
@@ -364,11 +365,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						} else if(button5.contains(event.getX(),event.getY())) {
 							// button 5 TODO remove this when done
 
-							Mob mTemp = new Mob(MobType.ARMORED);
-							Path mTempPath = Path.getInstance();
-							mTemp.setPath(mTempPath);
-
-							mGameModel.mMobs.add(mTemp);
+//							Mob mTemp = new Mob(MobType.ARMORED);
+//							Path mTempPath = Path.getInstance();
+//							mTemp.setPath(mTempPath);
+//
+//							mGameModel.mMobs.add(mTemp);
+							
+							fastForward = true;
+							
+							
 						}
 					}
 
@@ -409,6 +414,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mGameModel.mSnowballs.add(currentSnowball);
 						currentSnowball = null;
 					}
+					fastForward = false;
 					break;
 				}
 				break;
@@ -458,18 +464,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	public Mob createMobs() {  	    	    	    	        	    	    	
 
-		switch (mMobDelayI) {
-		case MOB_DELAY_MAX:
+//		switch (mMobDelayI) {
+//		case MOB_DELAY_MAX:
+//			mMobDelayI = 0;
+//
+//
+//			return mobFactory.getNextMob(0); // TODO do not use hard code..
+//
+//
+//		default:
+//			++mMobDelayI;
+//			// if fast forwarded, higher speed
+//			if (fastForward && mMobDelayI != MOB_DELAY_MAX)
+//				mMobDelayI += 1;
+//			return null;
+//		}  
+		
+		if (mMobDelayI >= MOB_DELAY_MAX) {
 			mMobDelayI = 0;
-
-
 			return mobFactory.getNextMob(0); // TODO do not use hard code..
-
-
-		default:
-			++mMobDelayI;
+		} else {
+			mMobDelayI++;
+			
+			if (fastForward)
+				mMobDelayI += 2;
 			return null;
-		}    
+		}
+			
 	}
 
 	/**
@@ -499,6 +520,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
 				Tower t = mGameModel.mTowers.get(i);
+				
+				t.setFastForward(fastForward);
+				
 				List<Projectile> newProjectiles = null;
 
 				if (mGameModel.mMobs.size() > 0) 
@@ -513,6 +537,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
 				Projectile p = mGameModel.mProjectiles.get(i);
 
+				p.setFastForward(fastForward);
+				
 				// Update position for the projectiles
 				p.updatePosition();
 
@@ -580,6 +606,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mMobs.size(); i++) {
 				Mob m = mGameModel.mMobs.get(i);
 
+				m.setFastForward(fastForward);
+				
+				
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
 					splash = true;
@@ -840,7 +869,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
 
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
+		canvas.drawLine(432, 270, 442, 280, linePaint);
+		canvas.drawLine(442, 280, 432, 290, linePaint);
+		
+		canvas.drawLine(447, 270, 457, 280, linePaint);
+		canvas.drawLine(457, 280, 447, 290, linePaint);
+		
+//		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
 
 	}
 
@@ -964,6 +999,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 
+	public boolean fastForwardEnabled() {
+		return fastForward;
+	}
 
 
 	/**

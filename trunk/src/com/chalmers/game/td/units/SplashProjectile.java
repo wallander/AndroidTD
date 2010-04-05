@@ -43,15 +43,21 @@ public class SplashProjectile extends Projectile {
 	  * This is NOT a homing projectile, it keeps the same coordinate as target.
 	  */
 	 public void updatePosition() {
-			setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
-			setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
+		 
+		 	if (fastForward) {
+		 		setX(getX() + 3*(getSpeed() * Math.cos(getAngle()) ));
+		 		setY(getY() - 3*(getSpeed() * Math.sin(getAngle()) ));
+		 	} else {
+		 		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
+		 		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
+		 	}
 		}
 	 
 	 public boolean hasCollided() {
 			
-			double Dist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
+			double distance = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
 			
-			if (Dist < getSpeed())
+			if (distance < getSpeed() || (fastForward && distance < 3*getSpeed()))
 				return true;
 			
 			return false;

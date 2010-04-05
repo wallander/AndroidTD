@@ -61,7 +61,7 @@ public class SplashTower extends Tower {
     	
     	
 		// if the tower is not on cooldown
-		if (mCooldownLeft == 0) {
+		if (mCooldownLeft <= 0) {
 			List<Projectile> projectiles = new ArrayList<Projectile>();
 			
 			// loop through the list of mobs
@@ -80,6 +80,8 @@ public class SplashTower extends Tower {
 		
 		} else { // if the tower is on cooldown
 			mCooldownLeft--;
+			if (fastForward)
+				mCooldownLeft -= 2;
 			return null;
 		}
 		

@@ -52,6 +52,9 @@ public class Mob extends Unit{
 	double speedY;
 
 	private int mSlowLeft = 0;
+
+	private double mSlowedSpeed;
+	private boolean fastForward;
 	
 	
 	/**
@@ -219,19 +222,28 @@ public class Mob extends Unit{
 
 		}
 		
-		setX(getX() + speedX);
-		setY(getY() - speedY);
-
-		
-		
-		if(isSlowed() == true){
-			setX(getX() + speedX*0.2);
-			setY(getY() - speedY*0.2);
-			--mSlowLeft;
+		if (fastForward) {
+			if(isSlowed()){
+				setX(getX() + 3*speedX*mSlowedSpeed);
+				setY(getY() - 3*speedY*mSlowedSpeed);
+				mSlowLeft -= 3;
+			} else {
+				setX(getX() + 3*speedX);
+				setY(getY() - 3*speedY);
+			}
+			
 		} else {
-			setX(getX() + speedX);
-			setY(getY() - speedY);
+			if(isSlowed()){
+				setX(getX() + speedX*mSlowedSpeed);
+				setY(getY() - speedY*mSlowedSpeed);
+				--mSlowLeft;
+			} else {
+				setX(getX() + speedX);
+				setY(getY() - speedY);
+			}
+			
 		}
+		
 		
 
 		
@@ -253,8 +265,8 @@ public class Mob extends Unit{
 	 */
 	public boolean reachedCheckpoint() {
 	
-		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));	
-		if (sqrDistance < getSpeed()*getSpeed())
+		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
+		if (sqrDistance < getSpeed()*getSpeed() || (fastForward && sqrDistance < 3*getSpeed()*getSpeed()))
 			return true;
 		
 		return false;
@@ -269,12 +281,13 @@ public class Mob extends Unit{
 		
 	}
 
-	public void setSlowed(int i) {
-		mSlowLeft   = i;
+	public void setSlowed(int time, double slow) {
+		mSlowLeft   = time;
+		mSlowedSpeed = slow;
 	}
 	
 	public boolean isSlowed() {
-		return (mSlowLeft > 0 );
+		return (mSlowLeft > 0);
 	}
 	
 	public void setMaxHealth(int mMaxHealth) {
@@ -291,6 +304,14 @@ public class Mob extends Unit{
 
 	public int getReward() {
 		return mReward;
+	}
+
+	public void setFastForward(boolean fastForward) {
+		this.fastForward = fastForward;
+	}
+
+	public boolean isFastForward() {
+		return fastForward;
 	}
    
 }

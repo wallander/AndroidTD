@@ -36,6 +36,8 @@ public class Projectile extends Unit{
 	
 	/** Projectile movement angle */
 	protected double mAngle;
+
+	protected boolean fastForward;
     
 
 	
@@ -151,8 +153,19 @@ public class Projectile extends Unit{
 		Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 		
-		setX(getX() + (getSpeed() * Math.cos(getAngle()) ));
-		setY(getY() - (getSpeed() * Math.sin(getAngle()) ));
+		
+		if (fastForward) {
+			setX(getX() + 3*(getSpeed() * Math.cos(getAngle())) );
+			setY(getY() - 3*(getSpeed() * Math.sin(getAngle())) );
+		} else {
+			setX(getX() + (getSpeed() * Math.cos(getAngle())));
+			setY(getY() - (getSpeed() * Math.sin(getAngle())));
+		}
+	}
+
+	public void setFastForward(boolean fastForward) {
+		// TODO Auto-generated method stub
+		this.fastForward = fastForward;
 	}
 
 }

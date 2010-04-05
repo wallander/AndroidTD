@@ -32,6 +32,7 @@ public class Tower extends Unit{
 	private TowerType mType;	// Tower type
 
 	protected int mImage; //Har den protected för att kunna ändra från extended splashTower
+	protected boolean fastForward;
 
 
 	
@@ -108,7 +109,7 @@ public class Tower extends Unit{
     	
 	
 		// if the tower is not on cooldown
-		if (mCooldownLeft == 0) {
+		if (mCooldownLeft <= 0) {
 
 			List<Projectile> projectiles = new ArrayList<Projectile>();
 			
@@ -130,6 +131,11 @@ public class Tower extends Unit{
 			}
 		} else { // if the tower is on cooldown
 			mCooldownLeft--;
+			
+			// if tower is in fast forward mode, reduce cooldown faster
+			if(fastForward){
+				mCooldownLeft -= 2;
+			}	
 			return null;
 		}
 		
@@ -236,5 +242,10 @@ public class Tower extends Unit{
 	public double getUpgradeCost() {
 
 		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
+	}
+
+	public void setFastForward(boolean fastForward) {
+		// TODO Auto-generated method stub
+		this.fastForward = fastForward;
 	}
 }
