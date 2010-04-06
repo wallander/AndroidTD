@@ -60,7 +60,7 @@ import android.widget.Toast;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, OnKeyListener {
+public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private static final int STATE_RUNNING = 1;
 	private static final int STATE_GAMEOVER = 2;
@@ -173,7 +173,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, On
 		getHolder().addCallback(this);
 		mGameThread = new GameThread(this);
 		setFocusable(true);
-
+		setFocusableInTouchMode(true);
+		requestFocus();
 		// do settings to all paint objects used in the GUI
 		setupPaint();
 
@@ -279,7 +280,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, On
 
 
 	}
-
+	
+	/**
+	 * Processes KeyEvents. Hardware buttons etc.
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_MENU:
+				// TODO Handle hardware menu button
+				GAME_STATE = STATE_PAUSED;
+				
+			break;
+			
+			case KeyEvent.KEYCODE_BACK:
+				// TODO Handle hardware "back" button
+				GAME_STATE = STATE_RUNNING;
+				
+			break;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * 
 	 * Processes MotionEvents. This is basically where all user input is handled
@@ -524,7 +548,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, On
 
 		debug.UpdateFPS();
 
+		
+		
+		
 		if (GAME_STATE == STATE_RUNNING) {
+			
+			// If the player has 0 or less lives remaining, change game state
+			if (mGameModel.currentPlayer.getRemainingLives() <= 0) {
+				GAME_STATE = STATE_GAMEOVER;
+				return;
+			}
+
+			// TODO check if the user has won
+			if (mobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
+				GAME_STATE = STATE_WIN;
+				return;
+			}
+			
+			
 			Mob mNewMob = createMobs();
 			if (mNewMob != null) {
 
@@ -646,15 +687,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, On
 				}
 			}
 
-			// If the player has 0 or less lives remaining, change game state
-			if (mGameModel.currentPlayer.getRemainingLives() <= 0) {
-				GAME_STATE = STATE_GAMEOVER;
-			}
-
-			// TODO check if the user has won
-			if (mobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
-				GAME_STATE = STATE_WIN;
-			}
+			
 		}
 
 	}
@@ -1070,17 +1103,5 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, On
 		Log.i("thread", "Thread terminated...");
 	}
 
-	
-	public boolean onKey(View v, int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		
-		switch (event.getKeyCode()) {
-		case KeyEvent.KEYCODE_MENU:
-			if (event.getAction() == KeyEvent.ACTION_DOWN)
-				Log.v("button","Menu");
-		break;
-		}
-		
-		return false;
-	}
+
 }
