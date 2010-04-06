@@ -274,20 +274,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		
 		switch (keyCode) {
-			case KeyEvent.KEYCODE_MENU:
-				// TODO Handle hardware menu button
-				GAME_STATE = STATE_PAUSED;
-				
-			break;
-			
-			case KeyEvent.KEYCODE_BACK:
-				// TODO Handle hardware "back" button
-				GAME_STATE = STATE_RUNNING;
-				
-			break;
+		case KeyEvent.KEYCODE_MENU:
+			// TODO Handle hardware menu button
+			GAME_STATE = STATE_PAUSED;
+
+			return true;
+
+//		case KeyEvent.KEYCODE_BACK:
+//			// TODO Handle hardware "back" button
+//			GAME_STATE = STATE_RUNNING;
+//
+//			break;
+		default:
+			return super.onKeyDown(keyCode, event);
 		}
 		
-		return true;
 	}
 	
 	/**

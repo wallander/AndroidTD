@@ -18,7 +18,7 @@ import com.chalmers.game.td.R;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class Tower extends Unit{
+public class Tower extends Unit {
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
@@ -159,14 +159,20 @@ public class Tower extends Unit{
      * range is increased by 5 for each level
      */
     public boolean upgrade() {
-    	mLevel++;
-
-    	setImage(mLevel);
-
-    	setDamage(getDamage()+10);
-    	setRange(getRange()+5);
     	
-    	return true;
+    	
+    	if (canUpgrade()) {
+			mLevel++;
+			setImage(mLevel);
+			setDamage(getDamage() + 10);
+			setRange(getRange() + 5);
+			return true;
+		}
+		return false;
+    }
+    
+    public boolean canUpgrade() {
+    	return (mLevel <= 4);
     }
     
     private void setRange(int i) {
