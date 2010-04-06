@@ -33,6 +33,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
 
 
 /**
@@ -287,14 +288,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			return true;
 
 //		case KeyEvent.KEYCODE_BACK:
-//			// TODO Handle hardware "back" button
+			// TODO Handle hardware "back" button
 //			GAME_STATE = STATE_RUNNING;
-//
-//			break;
-		default:
-			return super.onKeyDown(keyCode, event);
+			
+//			return true;
 		}
-		
+		return false;
 	}
 	
 	/**

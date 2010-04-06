@@ -142,6 +142,7 @@ public class MobFactory {
 		mPath.setContext(pContext);
 		initWaves();
 		mTotalNrOfWaves = mWaves.size();
+		mWaveNr = 0;
 	}
 
 	/**
