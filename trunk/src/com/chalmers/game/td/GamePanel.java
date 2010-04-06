@@ -12,7 +12,6 @@ import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashTower;
-import com.chalmers.game.td.units.Mob.MobType;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +20,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -35,13 +33,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnKeyListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
 
 
 /**
@@ -108,9 +99,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final RectF sBtn5 = new RectF(420,15+240,475,65+240);
 	private static final RectF sBtnPause = new RectF(10,10,50,30);
 	private static final String sBtnPauseLabel = "PAUSE";
-	private static final RectF mBtn1 = new RectF(140, 90, 200, 120);
-	private static final RectF mBtn2 = new RectF(140, 90+45, 200, 120+45);
-	private static final RectF mBtn3 = new RectF(140, 90+90, 200, 120+90);
+	private static final RectF sBtnPauseResume = new RectF(140, 90, 200, 120);
+	private static final RectF sBtnPause2 = new RectF(140, 90+45, 200, 120+45);
+	private static final RectF sBtnPause3 = new RectF(140, 90+90, 200, 120+90);
+	
 	// Paints
 	private static final Paint sPaintBtnBox = new Paint();
 	private static final Paint sPaintBoxText = new Paint();
@@ -128,6 +120,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	/** Debug */
 	TDDebug debug;    
 
+	private static int GAME_SPEED_MULTIPLIER = 1;
 
 	// TODO accelerometer stuff
 	private SensorManager mSensorManager;
@@ -139,7 +132,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean mAccelerometerSupported;
 	private boolean mShowTooltip;
 	private boolean mAllowBuild;
-	private boolean mFastForward;
+
 
 
 	protected Tower mTower1 = new Tower(0,0);
@@ -162,11 +155,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		debug = new TDDebug();
 		debug.InitGameTime();
 
-		mMobFactory = MobFactory.getInstance(); 
-		mMobFactory.setContext(context); 
-		Path.getInstance().setTrackPath(0); // TODO remove fulkod
-
-		mGameModel = new GameModel();
+		startTrack(0); //TODO fulkod
 
 
 		fillBitmapCache();
@@ -193,6 +182,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// start listening to telephone events (incoming calls etc)
 		((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE))
 		.listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+
+	}
+	
+	private void startTrack(int track){
+		mMobFactory = MobFactory.getInstance(); 
+		mMobFactory.setContext(getContext()); 
+		Path.getInstance().setTrackPath(track); // TODO remove fulkod
+
+		mGameModel = new GameModel();
 
 	}
 
@@ -319,10 +317,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 
-					if(GAME_STATE == STATE_PAUSED){
-						if(sBtn1.contains)
-					}
-					// If the user has selected a Tower
+					
+					//If the user has selected a Tower
 					if (mSelectedTower != null) {
 
 						// Upgrade button pressed
@@ -359,7 +355,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 									break;
 								}
 							}
-							
+
 							if (sBtnPause.contains(event.getX(),event.getY())){
 								GAME_STATE = STATE_PAUSED;
 							}
@@ -371,6 +367,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							}	
 							mCurrentTower = new Tower(mTx ,mTy);
 							mShowTooltip = true;
+
 						} else if(sBtn2.contains(event.getX(),event.getY())) {
 							// button 2
 							if (mTower2.getCost() <= mGameModel.currentPlayer.getMoney()) {
@@ -387,21 +384,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							}	
 							mCurrentTower = new SlowTower(mTx ,mTy);
 							mShowTooltip = true;
+
 						} else if(sBtn4.contains(event.getX(),event.getY())) {
 							// button 4
 							if (mAccelerometerSupported)
 								mCurrentSnowball = new Snowball(mTx,mTy);
 
-						} else if(sBtn5.contains(event.getX(),event.getY())) {
-							// button 5 TODO remove this when done
 
-//							Mob mTemp = new Mob(MobType.ARMORED);
-//							Path mTempPath = Path.getInstance();
-//							mTemp.setPath(mTempPath);
-//
-//							mGameModel.mMobs.add(mTemp);
+						} else if(sBtn5.contains(event.getX(),event.getY())) {
 							
-							mFastForward = true;
+							GamePanel.setSpeedMultiplier(5);
 							
 						}
 					}
@@ -442,7 +434,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mGameModel.mSnowballs.add(mCurrentSnowball);
 						mCurrentSnowball = null;
 					}
-					mFastForward = false;
+					GamePanel.setSpeedMultiplier(1);
 					break;
 				}
 				break;
@@ -475,17 +467,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				break;
 				
 			case STATE_PAUSED:
-//				TODO handle input when in "PAUSE" state
-//				two buttons? "New Game" and "exit" maybe? yes? no? yes?
-//				
-//				switch (event.getAction()) {
-//				case MotionEvent.ACTION_DOWN:
-//					break;
-//				case MotionEvent.ACTION_MOVE:
-//					break;
-//				case MotionEvent.ACTION_UP:
-//					break;
-//				}
+				//TODO handle input when in "PAUSE" state
+				//two buttons? "New Game" and "exit" maybe? yes? no? yes?
+				
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+
+					if(sBtnPauseResume.contains(event.getX(),event.getY())){
+						GAME_STATE = STATE_RUNNING;
+					}
+					else if(sBtnPause2.contains(event.getX(), event.getY())){
+						startTrack(0);
+						GAME_STATE = STATE_RUNNING;
+					}
+
+					break;
+				case MotionEvent.ACTION_MOVE:
+					break;
+				case MotionEvent.ACTION_UP:
+					break;
+				}
 				break;
 			}
 		}
@@ -506,32 +507,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	public Mob createMobs() {  	    	    	    	        	    	    	
 
-//		switch (mMobDelayI) {
-//		case MOB_DELAY_MAX:
-//			mMobDelayI = 0;
-//
-//			return mobFactory.getNextMob(0); // TODO do not use hard code..
-//
-//
-//		default:
-//			++mMobDelayI;
-//			// if fast forwarded, higher speed
-//			if (fastForward && mMobDelayI != MOB_DELAY_MAX)
-//				mMobDelayI += 1;
-//			return null;
-//		}  
 		
 		if (mMobDelayI >= MOB_DELAY_MAX) {
 			mMobDelayI = 0;
 			return mMobFactory.getNextMob(0); // TODO do not use hard code..
 		} else {
-			mMobDelayI++;
-			
-			if (mFastForward)
-				mMobDelayI += 2;
+			mMobDelayI += GamePanel.getSpeedMultiplier();
 			return null;
 		}
-			
+
 	}
 
 	/**
@@ -544,8 +528,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		debug.UpdateFPS();
 
 		
-		
-		
 		if (GAME_STATE == STATE_RUNNING) {
 			
 			// If the player has 0 or less lives remaining, change game state
@@ -554,7 +536,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				return;
 			}
 
-			// TODO check if the user has won
+			// if the player has won (no more mobs and all mobs dead)
 			if (mMobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
 				GAME_STATE = STATE_WIN;
 				return;
@@ -579,8 +561,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
 				Tower t = mGameModel.mTowers.get(i);
 				
-				t.setFastForward(mFastForward);
-				
 				List<Projectile> newProjectiles = null;
 
 				if (mGameModel.mMobs.size() > 0) 
@@ -595,8 +575,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
 				Projectile p = mGameModel.mProjectiles.get(i);
 
-				p.setFastForward(mFastForward);
-				
 				// Update position for the projectiles
 				p.updatePosition();
 
@@ -607,7 +585,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				// if the projectile's target is dead, remove the projectile
-				// TODO: solve this in a better way
 				if (p.getMob().getHealth() <= 0) {
 					mGameModel.mProjectiles.remove(p);
 				}
@@ -623,7 +600,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				// if the ball is moving ON a tower in the game field
 				// lower it's speed
-				//s.setSlowed(false);
+//				s.setSlowed(false);
 
 //				for (int j = 0; j < mGameModel.mTowers.size(); j++) {
 //					Tower t = mGameModel.mTowers.get(j);
@@ -662,9 +639,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mMobs.size(); i++) {
 				Mob m = mGameModel.mMobs.get(i);
-
-				m.setFastForward(mFastForward);
-				
 				
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
@@ -700,7 +674,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	@Override
 	public void onDraw(Canvas canvas) {
-		// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
+		// Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
 		// DONE AND DONE /Fredrik
 
 		drawBackground(canvas);
@@ -758,14 +732,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			mBtnPaint.setARGB(255, 50, 50, 50);
 			
 			
-			
-			canvas.drawRoundRect(mBtn1, 5, 5, mBtnPaint);
+			canvas.drawRoundRect(sBtnPauseResume, 5, 5, mBtnPaint);
 			canvas.drawText("resume", 155, 95, sPaintBoxText);
 			
-			canvas.drawRoundRect(mBtn2, 5, 5, mBtnPaint);
+			canvas.drawRoundRect(sBtnPause2, 5, 5, mBtnPaint);
 			canvas.drawText("restart", 155, 95+45, sPaintBoxText);
 			
-			canvas.drawRoundRect(mBtn3, 5, 5, mBtnPaint);
+			canvas.drawRoundRect(sBtnPause3, 5, 5, mBtnPaint);
 			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
 			
 			break;
@@ -839,7 +812,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
 		canvas.drawText("Upgrade for " + mSelectedTower.getUpgradeCost() + "$",
 				sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
-
 	}
 
 	private void drawCurrentTower(Canvas canvas) {
@@ -876,7 +848,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					mCurrentTower.getRange(),
 					noRangeIndicationPaint);
 		}
-
 	}
 
 	private void drawTooltip(Canvas canvas) {
@@ -1061,10 +1032,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 
-	public boolean fastForwardEnabled() {
-		return mFastForward;
+	public static int getSpeedMultiplier() {
+		return GAME_SPEED_MULTIPLIER;
 	}
 
+	private static void setSpeedMultiplier(int i) {
+		GAME_SPEED_MULTIPLIER = i;
+	}
 
 	/**
 	 * Called if you change the configuration like open the keypad.

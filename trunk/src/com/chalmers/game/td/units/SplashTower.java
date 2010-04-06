@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.GamePanel;
 
 import com.chalmers.game.td.R;
 
@@ -79,9 +80,7 @@ public class SplashTower extends Tower {
 			}
 		
 		} else { // if the tower is on cooldown
-			mCooldownLeft--;
-			if (fastForward)
-				mCooldownLeft -= 2;
+			mCooldownLeft -= GamePanel.getSpeedMultiplier();
 			return null;
 		}
 		

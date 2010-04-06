@@ -1,12 +1,8 @@
 package com.chalmers.game.td.units;
 
-import java.util.List;
-
-import android.graphics.Bitmap;
-import android.util.Log;
-
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.GamePanel;
 
 /**
  * Class which represents a projectile on the game board.
@@ -36,10 +32,6 @@ public class Projectile extends Unit{
 	
 	/** Projectile movement angle */
 	protected double mAngle;
-
-	protected boolean fastForward;
-    
-
 	
 	/**
      * Constructor.
@@ -99,7 +91,7 @@ public class Projectile extends Unit{
 		
 		double sqrDist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
 		
-		if (sqrDist < getSpeed())
+		if (sqrDist < GamePanel.getSpeedMultiplier()*getSpeed())
 			return true;
 		
 		return false;
@@ -119,24 +111,20 @@ public class Projectile extends Unit{
 	}
     
 	private void setDamage(int i) {
-		// TODO Auto-generated method stub
 		mDamage = i;
 	}
 	
 	private void setSpeed(int i) {
-		// TODO Auto-generated method stub
 		mSpeed = i;
 	}
     
 
 	private void setTarget(Mob pTarget) {
-		// TODO Auto-generated method stub
 		mTarget = pTarget;
 	}
 	
   
     private void setTower(Tower pTower) {
-		// TODO Auto-generated method stub
 		mTower = pTower;
 	}
     
@@ -152,20 +140,12 @@ public class Projectile extends Unit{
 		// Kommentera bort 2 rader ner om du ska testa min variant. Se kommentar i konstruktorn. / Jonas
 		Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
+
+		setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY(getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 		
-		
-		if (fastForward) {
-			setX(getX() + 3*(getSpeed() * Math.cos(getAngle())) );
-			setY(getY() - 3*(getSpeed() * Math.sin(getAngle())) );
-		} else {
-			setX(getX() + (getSpeed() * Math.cos(getAngle())));
-			setY(getY() - (getSpeed() * Math.sin(getAngle())));
-		}
 	}
 
-	public void setFastForward(boolean fastForward) {
-		// TODO Auto-generated method stub
-		this.fastForward = fastForward;
-	}
+
 
 }

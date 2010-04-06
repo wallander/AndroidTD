@@ -1,12 +1,11 @@
 package com.chalmers.game.td.units;
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.GamePanel;
 import com.chalmers.game.td.R;
 
 /**
@@ -32,9 +31,6 @@ public class Tower extends Unit{
 	private TowerType mType;	// Tower type
 
 	protected int mImage; //Har den protected för att kunna ändra från extended splashTower
-	protected boolean fastForward;
-
-
 	
 
 	/**
@@ -130,12 +126,7 @@ public class Tower extends Unit{
 	
 			}
 		} else { // if the tower is on cooldown
-			mCooldownLeft--;
-			
-			// if tower is in fast forward mode, reduce cooldown faster
-			if(fastForward){
-				mCooldownLeft -= 2;
-			}	
+			mCooldownLeft -= GamePanel.getSpeedMultiplier();
 			return null;
 		}
 		
@@ -244,8 +235,4 @@ public class Tower extends Unit{
 		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
 	}
 
-	public void setFastForward(boolean fastForward) {
-		// TODO Auto-generated method stub
-		this.fastForward = fastForward;
-	}
 }
