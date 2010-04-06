@@ -31,9 +31,12 @@ import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -57,7 +60,7 @@ import android.widget.Toast;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
+public class GamePanel extends SurfaceView implements SurfaceHolder.Callback, OnKeyListener {
 
 	private static final int STATE_RUNNING = 1;
 	private static final int STATE_GAMEOVER = 2;
@@ -1039,5 +1042,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		Log.i("thread", "Thread terminated...");
+	}
+
+	
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		
+		switch (event.getKeyCode()) {
+		case KeyEvent.KEYCODE_MENU:
+			if (event.getAction() == KeyEvent.ACTION_DOWN)
+				Log.v("button","Menu");
+		break;
+		}
+		
+		return false;
 	}
 }
