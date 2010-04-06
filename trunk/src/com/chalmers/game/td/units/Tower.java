@@ -44,8 +44,8 @@ public class Tower extends Unit{
     	setCoordinates(new Coordinate(mX, mY));
     	setRange(100);
     	mAttackSpeed = 20;
-    	setDamage(9);
-    	setCost(60);
+    	setDamage(6);
+    	setCost(70);
     	
     	setSize(2);
     	
@@ -160,11 +160,19 @@ public class Tower extends Unit{
      */
     public boolean upgrade() {
     	mLevel++;
-
     	setImage(mLevel);
 
-    	setDamage(getDamage()+10);
-    	setRange(getRange()+5);
+    	if(mLevel == 2) {
+    		setDamage(16);
+    		setRange(110);
+    		
+    	} else if (mLevel == 3) {
+    		setDamage(40);
+    		setRange(125);
+    	} else if (mLevel == 4) {
+    		setDamage(120);
+    		setRange(140);
+    	}
     	
     	return true;
     }
@@ -227,12 +235,17 @@ public class Tower extends Unit{
 
 	/**
 	 * Returns upgrade cost.
-	 * Currently 50% of the tower cost, plus another 10% per tower level
-	 * @return
+	 * @return Uppgraderingskostnaden
 	 */
-	public double getUpgradeCost() {
+	public int getUpgradeCost() {
 
-		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
+//		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
+		switch(mLevel) {
+		case 1: return 13;
+		case 2: return 32;
+		case 3: return 65;
+		}
+		return 0; 	//default, not gonna happen
 	}
 
 }

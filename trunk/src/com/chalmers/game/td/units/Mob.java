@@ -87,7 +87,32 @@ public class Mob extends Unit{
         
     }
     */
-    
+  
+    /**
+     * Extra constructor for Mobs, used for setting health directly from xml-file
+     * May be merged with the old one if the rest of the group approves
+     * (2010-04-06) by Jonas
+     * @param pType
+     */
+    public Mob(MobType pType, int mHealth) {
+    	this(pType);		//anropar den andra kontruktorn
+    	setHealth(mHealth);
+    	setMaxHealth(mHealth);
+    	
+    	if (mHealth <= 110) {
+    		setReward(10);
+    	} else if(mHealth <= 790) {
+    		setReward(20);
+    	} else if(mHealth <= 1200) {
+    		setReward(30);
+    	} else if(mHealth <= 2000) {
+    		setReward(40);
+    	} else  {
+    		setReward(50);
+    	}
+    }
+	
+	
     /**
      * Currently used constructor for Mobs
      * (2010-03-24)
@@ -100,7 +125,7 @@ public class Mob extends Unit{
         setHealth(20);
         setMaxHealth(20);
         setArmor(20);
-        setReward(2);                
+        setReward(10);                
         
         // TODO: fix dynamic size
         setSize(24);

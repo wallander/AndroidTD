@@ -317,7 +317,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// Upgrade button pressed
 						if (mBtnUpgrade.contains(event.getX(), event.getY())) {
 
-							if (mGameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
+							if (mGameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
 								mGameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
 								mSelectedTower.upgrade();
 							}
@@ -796,10 +796,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawRoundRect(mBtnUpgrade,6,6,buttonBoxPaint);
 
 		canvas.drawText("Sell", mBtnSell.left+10, mBtnSell.top+(mBtnSell.height()/2), boxTextPaint);
-		canvas.drawText("Upgrade for " + mSelectedTower.getUpgradeCost() + "$",
+		if(mSelectedTower.getUpgradeCost() != 0) {
+			canvas.drawText("Upgrade for " + mSelectedTower.getUpgradeCost() + "$",
 				mBtnUpgrade.left+10, mBtnUpgrade.top+(mBtnSell.height()/2), boxTextPaint);
-
-	}
+		} else {
+			canvas.drawText("Fully uppgraded!",
+					mBtnUpgrade.left+10, mBtnUpgrade.top+(mBtnSell.height()/2), boxTextPaint);
+		}
+	}	
+	
 
 	private void drawCurrentTower(Canvas canvas) {
 
