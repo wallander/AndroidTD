@@ -100,8 +100,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final RectF sBtnPause = new RectF(10,10,50,30);
 	private static final String sBtnPauseLabel = "PAUSE";
 	private static final RectF sBtnPauseResume = new RectF(140, 90, 200, 120);
-	private static final RectF sBtnPause2 = new RectF(140, 90+45, 200, 120+45);
-	private static final RectF sBtnPause3 = new RectF(140, 90+90, 200, 120+90);
+	private static final RectF sBtnPauseRestart = new RectF(140, 90+45, 200, 120+45);
+	private static final RectF sBtnPauseExit = new RectF(140, 90+90, 200, 120+90);
 	
 	// Paints
 	private static final Paint sPaintBtnBox = new Paint();
@@ -116,6 +116,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint boxTextPaintTitle = new Paint();
 	private static final Paint snowPaint = new Paint();
 	private static final Paint borderPaint = new Paint();
+	private static final Paint mBtnPaint = new Paint();
 
 	/** Debug */
 	TDDebug debug;    
@@ -476,9 +477,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					if(sBtnPauseResume.contains(event.getX(),event.getY())){
 						GAME_STATE = STATE_RUNNING;
 					}
-					else if(sBtnPause2.contains(event.getX(), event.getY())){
+					else if(sBtnPauseRestart.contains(event.getX(), event.getY())){
 						startTrack(0);
 						GAME_STATE = STATE_RUNNING;
+					}
+					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
+						//TODO add exit functionality
 					}
 
 					break;
@@ -720,25 +724,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 		case STATE_WIN: // winner screen
 			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			canvas.drawText("YOU ARE WINRAR!",100,150 ,sPaintBoxText);
+			canvas.drawText("YOU ARE WINRAR!",100,80,sPaintBoxText);
 			// TODO draw some button. show stats etc etc osv and so on.
 			break;
 			
 		case STATE_PAUSED: // winner screen
 			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			//canvas.drawText("GAME PAUSED!",100,150,sPaintBoxText);
+			canvas.drawText("GAME PAUSED!",100,80,sPaintBoxText);
 			
-			Paint mBtnPaint = new Paint();
-			mBtnPaint.setARGB(255, 50, 50, 50);
+			canvas.drawRoundRect(sBtnPauseResume,5,5,mBtnPaint);
+			canvas.drawText("resume",155,95,sPaintBoxText);
 			
+			canvas.drawRoundRect(sBtnPauseRestart,5,5,mBtnPaint);
+			canvas.drawText("restart",155,95+45,sPaintBoxText);
 			
-			canvas.drawRoundRect(sBtnPauseResume, 5, 5, mBtnPaint);
-			canvas.drawText("resume", 155, 95, sPaintBoxText);
-			
-			canvas.drawRoundRect(sBtnPause2, 5, 5, mBtnPaint);
-			canvas.drawText("restart", 155, 95+45, sPaintBoxText);
-			
-			canvas.drawRoundRect(sBtnPause3, 5, 5, mBtnPaint);
+			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
 			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
 			
 			break;
@@ -770,7 +770,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			mSplash = false;
 		}
 	}
-
 
 
 	private void drawStatisticsText(Canvas canvas) {
@@ -982,7 +981,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw the background
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
 
-		// dra the "end-point-base"
+		// draw the "end-point-base"
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
 	}
 
@@ -990,6 +989,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * Configures all Paint-objects used in onDraw().
 	 */
 	private void setupPaint() {
+		
+		// set gray color for buttons in in-game menus 
+		mBtnPaint.setARGB(255, 50, 50, 50);
 
 		// set text size of the FPS meter and such and such
 		sPaintText.setTextSize(18);
