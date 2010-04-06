@@ -32,9 +32,12 @@ import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -170,7 +173,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		getHolder().addCallback(this);
 		mGameThread = new GameThread(this);
 		setFocusable(true);
-
+		setFocusableInTouchMode(true);
+		requestFocus();
 		// do settings to all paint objects used in the GUI
 		setupPaint();
 
@@ -270,7 +274,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.water3, BitmapFactory.decodeResource(getResources(), R.drawable.water3));
 
 	}
-
+	
+	/**
+	 * Processes KeyEvents. Hardware buttons etc.
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_MENU:
+				// TODO Handle hardware menu button
+				GAME_STATE = STATE_PAUSED;
+				
+			break;
+			
+			case KeyEvent.KEYCODE_BACK:
+				// TODO Handle hardware "back" button
+				GAME_STATE = STATE_RUNNING;
+				
+			break;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * 
 	 * Processes MotionEvents. This is basically where all user input is handled
@@ -513,7 +540,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		debug.UpdateFPS();
 
+		
+		
+		
 		if (GAME_STATE == STATE_RUNNING) {
+			
+			// If the player has 0 or less lives remaining, change game state
+			if (mGameModel.currentPlayer.getRemainingLives() <= 0) {
+				GAME_STATE = STATE_GAMEOVER;
+				return;
+			}
+
+			// TODO check if the user has won
+			if (mMobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
+				GAME_STATE = STATE_WIN;
+				return;
+			}
+			
+			
 			Mob mNewMob = createMobs();
 			if (mNewMob != null) {
 
@@ -576,16 +620,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				// if the ball is moving ON a tower in the game field
 				// lower it's speed
-				s.setSlowed(false);
+				//s.setSlowed(false);
 
-				for (int j = 0; j < mGameModel.mTowers.size(); j++) {
-					Tower t = mGameModel.mTowers.get(j);
-					Coordinate mobCoordinate = new Coordinate(t.getX()+16,t.getY()+16);
-					double distance = Coordinate.getSqrDistance(s.getCoordinates(), mobCoordinate);
-
-					if (distance < 10 + s.getCharges() + 16)
-						s.setSlowed(true);
-				}
+//				for (int j = 0; j < mGameModel.mTowers.size(); j++) {
+//					Tower t = mGameModel.mTowers.get(j);
+//					Coordinate mobCoordinate = new Coordinate(t.getX()+16,t.getY()+16);
+//					double distance = Coordinate.getSqrDistance(s.getCoordinates(), mobCoordinate);
+//
+//					if (distance < 10 + s.getCharges() + 16)
+//						s.setSlowed(true);
+//				}
 
 
 				// update position with accelerometer
@@ -634,15 +678,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 
-			// If the player has 0 or less lives remaining, change game state
-			if (mGameModel.currentPlayer.getRemainingLives() <= 0) {
-				GAME_STATE = STATE_GAMEOVER;
-			}
-
-			// TODO check if the user has won
-			if (mMobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
-				GAME_STATE = STATE_WIN;
-			}
 		}
 	}
 
@@ -1069,4 +1104,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		Log.i("thread", "Thread terminated...");
 	}
+
+
 }
