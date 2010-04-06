@@ -28,6 +28,9 @@ public class Tower extends Unit{
 	protected int mLevel = 1;		// Tower level
 	protected int mCooldownLeft;	// Tower shoot delay
 	protected int mAttackSpeed;	// Tower constant shoot speed
+
+	protected String mName;
+
 	private TowerType mType;	// Tower type
 
 	protected int mImage; //Har den protected för att kunna ändra från extended splashTower
@@ -43,17 +46,31 @@ public class Tower extends Unit{
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
     	setRange(100);
-    	mAttackSpeed = 20;
+    	setAttackSpeed(20);
     	setDamage(9);
     	setCost(60);
+    	setName("EskimoTower");
     	
     	setSize(2);
-    	
 
     	setImage(mLevel);
-
-
     }
+    
+    public void setName(String pName) {
+		mName = pName;
+	}
+
+	public int getmAttackSpeed() {
+		return mAttackSpeed;
+	}
+
+	public void setAttackSpeed(int pAttackSpeed) {
+		this.mAttackSpeed = pAttackSpeed;
+	}
+	
+	public String getAttackSpeed(){
+		return "" + 100/mAttackSpeed;
+	}
 
     // Temporary changes images up to 4 upgrades.
 	public void setImage(int img) {
@@ -102,8 +119,6 @@ public class Tower extends Unit{
 
     public List<Projectile> tryToShoot(GameModel pGameModel){
     	
-    	
-	
 		// if the tower is not on cooldown
 		if (mCooldownLeft <= 0) {
 
@@ -145,12 +160,9 @@ public class Tower extends Unit{
     public boolean selectTower(double pXpos, double pYpos) {
 
     	return (getX() <= pXpos && pXpos < getX()+(getWidth()*GameModel.GAME_TILE_SIZE) &&
-        		getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE) );
+        		getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE));
     	
     }
-    
-    
-    
     
     /**
      * Upgrade tower to next level
@@ -204,8 +216,8 @@ public class Tower extends Unit{
 		return mType;
 	}
 
-	public void setDamage(int mDamage) {
-		this.mDamage = mDamage;
+	public void setDamage(int pDamage) {
+		mDamage = pDamage;
 	}
 
 	public int getDamage() {
@@ -222,7 +234,7 @@ public class Tower extends Unit{
 	}
 	
 	public String getName() {
-		return "Basic Tower";
+		return mName;
 	}
 
 	/**
@@ -231,7 +243,6 @@ public class Tower extends Unit{
 	 * @return
 	 */
 	public double getUpgradeCost() {
-
 		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
 	}
 

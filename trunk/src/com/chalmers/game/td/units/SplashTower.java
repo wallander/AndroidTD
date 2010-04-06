@@ -21,15 +21,12 @@ public class SplashTower extends Tower {
 		super(mX, mY);
 
 		setImage(mLevel);
-
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
 		mDamage = 50;
 		mAttackSpeed = 30;
 		mCost = 50;
 		mRange = 80;
-		
-		
 
 	}
 

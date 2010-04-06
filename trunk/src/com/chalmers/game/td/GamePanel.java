@@ -855,13 +855,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if (mGameModel.canAddTower(mCurrentTower)) {
 			canvas.drawCircle(
 					GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE + (mCurrentTower.getWidth()/2)),
-					GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight() / 2)),
+					GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight()/2)),
 					mCurrentTower.getRange(),
 					rangeIndicationPaint);
 		} else {
 			canvas.drawCircle(
 					GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE + (mCurrentTower.getWidth()/2)),
-					GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight() / 2)),
+					GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight()/2)),
 					mCurrentTower.getRange(),
 					noRangeIndicationPaint);
 		}
@@ -1034,7 +1034,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		sPaintLine.setStrokeWidth(5);
 
 		// set color and style of the range indicators
-		rangeIndicationPaint.setARGB(80, 255, 255, 255);
+		rangeIndicationPaint.setARGB(80, 80, 255, 80);
 		rangeIndicationPaint.setStyle(Paint.Style.FILL);
 		noRangeIndicationPaint.setARGB(80, 255, 0, 0);
 		noRangeIndicationPaint.setStyle(Paint.Style.FILL);
@@ -1096,6 +1096,4 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		Log.i("thread", "Thread terminated...");
 	}
-
-
 }
