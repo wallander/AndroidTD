@@ -13,6 +13,7 @@ import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashTower;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -483,6 +484,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
 						//TODO add exit functionality
+						((Activity) getContext()).finish();
 					}
 
 					break;
