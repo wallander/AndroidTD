@@ -15,9 +15,9 @@ public class Menu extends Activity implements OnClickListener{
 	
 	public void onClick(View v) {
 		
-		if (v==mExitButton) {
+		if (v == mExitButton) {
 			//exit game
-			this.finish();
+			finish();
  			//Toast.makeText(Menu.this, "Exit game", Toast.LENGTH_SHORT).show();
 		}
 		else {
