@@ -18,7 +18,7 @@ import com.chalmers.game.td.R;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class Tower extends Unit{
+public class Tower extends Unit {
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
@@ -159,6 +159,7 @@ public class Tower extends Unit{
      * range is increased by 5 for each level
      */
     public boolean upgrade() {
+
     	mLevel++;
     	setImage(mLevel);
 
@@ -172,9 +173,16 @@ public class Tower extends Unit{
     	} else if (mLevel == 4) {
     		setDamage(120);
     		setRange(140);
-    	}
+    	} else {
+    		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
     	
+    		return false;
+    	}
     	return true;
+	}
+    
+    public boolean canUpgrade() {
+    	return (mLevel <= 4);
     }
     
     private void setRange(int i) {
