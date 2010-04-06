@@ -83,11 +83,13 @@ public final class R {
         public static final int water3=0x7f020041;
     }
     public static final class id {
+        public static final int Continue=0x7f070008;
         public static final int Credits=0x7f070006;
         public static final int Exit=0x7f070007;
         public static final int Help=0x7f070004;
-        public static final int LinearLayout01=0x7f070008;
+        public static final int LinearLayout01=0x7f07000a;
         public static final int Options=0x7f070005;
+        public static final int Restart=0x7f070009;
         public static final int StartGame=0x7f070002;
         public static final int TextView01=0x7f070001;
         public static final int widget28=0x7f070003;
@@ -98,9 +100,10 @@ public final class R {
         public static final int help=0x7f030001;
         public static final int main=0x7f030002;
         public static final int options=0x7f030003;
-        public static final int splash=0x7f030004;
-        public static final int start=0x7f030005;
-        public static final int startgame=0x7f030006;
+        public static final int pause=0x7f030004;
+        public static final int splash=0x7f030005;
+        public static final int start=0x7f030006;
+        public static final int startgame=0x7f030007;
     }
     public static final class raw {
         public static final int explosion=0x7f040000;

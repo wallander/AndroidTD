@@ -62,6 +62,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final int STATE_RUNNING = 1;
 	private static final int STATE_GAMEOVER = 2;
 	private static final int STATE_WIN = 3;
+	private static final int STATE_PAUSED = 4;
 
 	private int GAME_STATE = STATE_RUNNING;
 
@@ -103,6 +104,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final RectF button3 = new RectF(420,15+120,475,65+120);
 	private static final RectF button4 = new RectF(420,15+180,475,65+180);
 	private static final RectF button5 = new RectF(420,15+240,475,65+240);
+	private static final RectF buttonPause = new RectF(20,15,50,30);
 
 	// Paints
 	private static final Paint buttonBoxPaint = new Paint();
@@ -333,6 +335,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 									break;
 								}
 							}
+							
+							if (buttonPause.contains(event.getX(),event.getY())){
+								GAME_STATE = STATE_PAUSED;
+							}
 
 						} else if(button1.contains(event.getX(),event.getY())) {
 							// button 1
@@ -372,7 +378,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 //							mGameModel.mMobs.add(mTemp);
 							
 							fastForward = true;
-							
 							
 						}
 					}
@@ -434,6 +439,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				break;
 			case STATE_WIN:
 //				TODO handle input when in "WIN" state
+//				two buttons? "New Game" and "exit" maybe? yes? no? yes?
+//				
+//				switch (event.getAction()) {
+//				case MotionEvent.ACTION_DOWN:
+//					break;
+//				case MotionEvent.ACTION_MOVE:
+//					break;
+//				case MotionEvent.ACTION_UP:
+//					break;
+//				}
+				break;
+				
+			case STATE_PAUSED:
+//				TODO handle input when in "PAUSE" state
 //				two buttons? "New Game" and "exit" maybe? yes? no? yes?
 //				
 //				switch (event.getAction()) {
@@ -705,6 +724,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawText("YOU ARE WINRAR!",100,150 ,boxTextPaint);
 			// TODO draw some button. show stats etc etc osv and so on.
 			break;
+			
+		case STATE_PAUSED: // winner screen
+			canvas.drawRoundRect(selectedTowerBox,10,10,selectedTowerBoxPaint);
+			canvas.drawText("GAME PAUSED!",100,150,boxTextPaint);
+			// TODO draw some button. show stats etc etc osv and so on.
+			break;
 		}
 
 	}
@@ -843,6 +868,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawRoundRect(button3, 5, 5, paint);
 		canvas.drawRoundRect(button4, 5, 5, paint);
 		canvas.drawRoundRect(button5, 5, 5, paint);
+		canvas.drawRoundRect(buttonPause, 5, 5, paint);
 
 
 		Paint paintalfa = new Paint();
