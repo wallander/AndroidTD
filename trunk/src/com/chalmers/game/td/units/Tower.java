@@ -46,17 +46,14 @@ public class Tower extends Unit {
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
     	setRange(100);
-<<<<<<< HEAD
+
     	setAttackSpeed(20);
-    	setDamage(9);
-    	setCost(60);
-    	setName("EskimoTower");
-=======
-    	mAttackSpeed = 20;
+
+    	setName("Eskimo Tower");
+
+
     	setDamage(6);
     	setCost(70);
->>>>>>> 518b271fb965c512312a8a21d63f45132bebec55
-    	
     	setSize(2);
 
     	setImage(mLevel);
@@ -263,10 +260,7 @@ public class Tower extends Unit {
 	 * Returns upgrade cost.
 	 * @return Uppgraderingskostnaden
 	 */
-<<<<<<< HEAD
-	public double getUpgradeCost() {
-		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
-=======
+
 	public int getUpgradeCost() {
 
 //		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
@@ -276,7 +270,6 @@ public class Tower extends Unit {
 		case 3: return 65;
 		}
 		return 0; 	//default, not gonna happen
->>>>>>> 518b271fb965c512312a8a21d63f45132bebec55
 	}
 
 }
