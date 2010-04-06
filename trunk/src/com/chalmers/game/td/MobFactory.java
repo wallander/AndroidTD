@@ -27,10 +27,10 @@ public class MobFactory {
 	private static final MobFactory	INSTANCE = new MobFactory();
 	private static final int		MAX_WAVE_DELAY = 10;
 	private int						mWaveDelayI,
-	mWaveNr,
-	mTotalNrOfWaves;
+									mWaveNr,
+									mTotalNrOfWaves;
 	private Context					mContext;
-	private Path					mPath;	
+	private Path					mPath;
 	private Queue<Mob>				mMobs;
 	private Queue<Queue<Mob>>		mWaves;
 
@@ -213,9 +213,7 @@ public class MobFactory {
 				mMobs = null;
 				break;
 			}
-
 		}
-
 	}
 
 	/**
