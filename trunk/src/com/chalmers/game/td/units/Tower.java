@@ -172,7 +172,7 @@ public class Tower extends Unit {
     }
     
     public boolean canUpgrade() {
-    	return (mLevel <= 4);
+    	return (mLevel < 4);
     }
     
     private void setRange(int i) {

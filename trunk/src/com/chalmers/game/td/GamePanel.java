@@ -325,8 +325,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					//If the user has selected a Tower
 					if (mSelectedTower != null) {
 
-						// Upgrade button pressed
-						if (sBtnUpgrade.contains(event.getX(), event.getY())) {
+						// Upgrade button pressed, and selected tower is upgradeable
+						if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
 
 							if (mGameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
 								mGameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
@@ -436,6 +436,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
 						mGameModel.mSnowballs.add(mCurrentSnowball);
+						mGameModel.currentPlayer.setMoney(0); // TODO
 						mCurrentSnowball = null;
 					}
 					GamePanel.setSpeedMultiplier(1);
@@ -830,11 +831,43 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 170, 161, sPaintBoxText);
 
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
-		canvas.drawRoundRect(sBtnUpgrade,6,6,sPaintBtnBox);
-
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
-		canvas.drawText("Upgrade for " + mSelectedTower.getUpgradeCost() + "$",
-				sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+		
+		// if the tower is not fully upgraded and the player affords it
+		if (mSelectedTower.canUpgrade() && 
+				mGameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
+			
+			Paint paint = new Paint();
+			paint.setARGB(255, 0, 255, 0);
+			
+			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
+			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
+					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+			
+			
+		// if the tower is not fully upgraded, but the player can't afford upgrading
+		} else if (mSelectedTower.canUpgrade() && 
+				mGameModel.currentPlayer.getMoney() < mSelectedTower.getUpgradeCost()) {
+			
+			Paint paint = new Paint();
+			paint.setARGB(255, 255, 0, 0);
+			
+			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
+			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
+					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+			
+		// if the tower is fully upgraded
+		} else if (mSelectedTower.canUpgrade() == false) {
+			
+			Paint paint = new Paint();
+			paint.setARGB(255, 100, 100, 100);
+			
+			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
+			canvas.drawText("Fully upgraded!",
+					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+			
+		}
+
 	}
 
 	private void drawCurrentTower(Canvas canvas) {
