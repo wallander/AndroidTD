@@ -1,10 +1,9 @@
 package com.chalmers.game.td.units;
 
+import com.chalmers.game.td.GamePanel;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.units.Unit;
-
-import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -54,7 +53,7 @@ public class Mob extends Unit{
 	private int mSlowLeft = 0;
 
 	private double mSlowedSpeed;
-	private boolean fastForward;
+
 	
 	
 	/**
@@ -222,31 +221,15 @@ public class Mob extends Unit{
 
 		}
 		
-		if (fastForward) {
 			if(isSlowed()){
-				setX(getX() + 3*speedX*mSlowedSpeed);
-				setY(getY() - 3*speedY*mSlowedSpeed);
-				mSlowLeft -= 3;
+				setX(getX() + GamePanel.getSpeedMultiplier()*speedX*mSlowedSpeed);
+				setY(getY() - GamePanel.getSpeedMultiplier()*speedY*mSlowedSpeed);
+				mSlowLeft -= GamePanel.getSpeedMultiplier();
 			} else {
-				setX(getX() + 3*speedX);
-				setY(getY() - 3*speedY);
+				setX(getX() + GamePanel.getSpeedMultiplier()*speedX);
+				setY(getY() - GamePanel.getSpeedMultiplier()*speedY);
 			}
-			
-		} else {
-			if(isSlowed()){
-				setX(getX() + speedX*mSlowedSpeed);
-				setY(getY() - speedY*mSlowedSpeed);
-				--mSlowLeft;
-			} else {
-				setX(getX() + speedX);
-				setY(getY() - speedY);
-			}
-			
-		}
-		
-		
 
-		
 		return true;
 	}
 
@@ -266,7 +249,7 @@ public class Mob extends Unit{
 	public boolean reachedCheckpoint() {
 	
 		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
-		if (sqrDistance < getSpeed()*getSpeed() || (fastForward && sqrDistance < 3*getSpeed()*getSpeed()))
+		if (sqrDistance < GamePanel.getSpeedMultiplier()*getSpeed()*getSpeed())
 			return true;
 		
 		return false;
@@ -306,12 +289,4 @@ public class Mob extends Unit{
 		return mReward;
 	}
 
-	public void setFastForward(boolean fastForward) {
-		this.fastForward = fastForward;
-	}
-
-	public boolean isFastForward() {
-		return fastForward;
-	}
-   
 }

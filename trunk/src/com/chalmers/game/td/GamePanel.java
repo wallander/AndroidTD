@@ -12,8 +12,6 @@ import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashTower;
-import com.chalmers.game.td.units.Mob.MobType;
-
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,7 +20,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -36,13 +33,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnKeyListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
+
 
 
 
@@ -128,6 +119,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	/** Debug */
 	TDDebug debug;    
 
+	private static int GAME_SPEED_MULTIPLIER = 1;
 
 	// TODO accelerometer stuff
 	private SensorManager mSensorManager;
@@ -139,7 +131,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean mAccelerometerSupported;
 	private boolean mShowTooltip;
 	private boolean mAllowBuild;
-	private boolean mFastForward;
+
 
 
 	protected Tower mTower1 = new Tower(0,0);
@@ -390,15 +382,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								mCurrentSnowball = new Snowball(mTx,mTy);
 
 						} else if(mBtn5.contains(event.getX(),event.getY())) {
-							// button 5 TODO remove this when done
-
-//							Mob mTemp = new Mob(MobType.ARMORED);
-//							Path mTempPath = Path.getInstance();
-//							mTemp.setPath(mTempPath);
-//
-//							mGameModel.mMobs.add(mTemp);
 							
-							mFastForward = true;
+							GamePanel.setSpeedMultiplier(5);
 							
 						}
 					}
@@ -439,7 +424,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mGameModel.mSnowballs.add(mCurrentSnowball);
 						mCurrentSnowball = null;
 					}
-					mFastForward = false;
+					GamePanel.setSpeedMultiplier(1);
 					break;
 				}
 				break;
@@ -503,29 +488,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	public Mob createMobs() {  	    	    	    	        	    	    	
 
-//		switch (mMobDelayI) {
-//		case MOB_DELAY_MAX:
-//			mMobDelayI = 0;
-//
-//			return mobFactory.getNextMob(0); // TODO do not use hard code..
-//
-//
-//		default:
-//			++mMobDelayI;
-//			// if fast forwarded, higher speed
-//			if (fastForward && mMobDelayI != MOB_DELAY_MAX)
-//				mMobDelayI += 1;
-//			return null;
-//		}  
 		
 		if (mMobDelayI >= MOB_DELAY_MAX) {
 			mMobDelayI = 0;
 			return mMobFactory.getNextMob(0); // TODO do not use hard code..
 		} else {
-			mMobDelayI++;
-			
-			if (mFastForward)
-				mMobDelayI += 2;
+			mMobDelayI += GamePanel.getSpeedMultiplier();
 			return null;
 		}
 			
@@ -541,8 +509,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		debug.UpdateFPS();
 
 		
-		
-		
 		if (GAME_STATE == STATE_RUNNING) {
 			
 			// If the player has 0 or less lives remaining, change game state
@@ -551,7 +517,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				return;
 			}
 
-			// TODO check if the user has won
+			// if the player has won (no more mobs and all mobs dead)
 			if (mMobFactory.hasMoreMobs() == false && mGameModel.mMobs.isEmpty()) {
 				GAME_STATE = STATE_WIN;
 				return;
@@ -576,8 +542,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
 				Tower t = mGameModel.mTowers.get(i);
 				
-				t.setFastForward(mFastForward);
-				
 				List<Projectile> newProjectiles = null;
 
 				if (mGameModel.mMobs.size() > 0) 
@@ -592,8 +556,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
 				Projectile p = mGameModel.mProjectiles.get(i);
 
-				p.setFastForward(mFastForward);
-				
 				// Update position for the projectiles
 				p.updatePosition();
 
@@ -604,7 +566,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				// if the projectile's target is dead, remove the projectile
-				// TODO: solve this in a better way
 				if (p.getMob().getHealth() <= 0) {
 					mGameModel.mProjectiles.remove(p);
 				}
@@ -620,7 +581,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				// if the ball is moving ON a tower in the game field
 				// lower it's speed
-				//s.setSlowed(false);
+//				s.setSlowed(false);
 
 //				for (int j = 0; j < mGameModel.mTowers.size(); j++) {
 //					Tower t = mGameModel.mTowers.get(j);
@@ -659,9 +620,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int i = 0; i < mGameModel.mMobs.size(); i++) {
 				Mob m = mGameModel.mMobs.get(i);
-
-				m.setFastForward(mFastForward);
-				
 				
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
@@ -699,7 +657,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	@Override
 	public void onDraw(Canvas canvas) {
-		// TODO: Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
+		// Dela in subtask i subfunktioner. Ser snyggare ut! / Jonas
 		// DONE AND DONE /Fredrik
 
 		drawBackground(canvas);
@@ -1063,10 +1021,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 
-	public boolean fastForwardEnabled() {
-		return mFastForward;
+	public static int getSpeedMultiplier() {
+		return GAME_SPEED_MULTIPLIER;
 	}
 
+	private static void setSpeedMultiplier(int i) {
+		GAME_SPEED_MULTIPLIER = i;
+	}
 
 	/**
 	 * Called if you change the configuration like open the keypad.
