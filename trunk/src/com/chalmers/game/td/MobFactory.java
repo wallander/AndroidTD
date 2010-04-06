@@ -154,7 +154,8 @@ public class MobFactory {
 		String		mTrackNumber;
 		String[]	mAllMobs,
 		mMobInfo;
-		int			mTrackIdentifier;
+		int			mTrackIdentifier,
+		mHealth;
 
 		mWaves = new LinkedList<Queue<Mob>>();		
 
@@ -172,28 +173,30 @@ public class MobFactory {
 
 					mMobInfo = mAllMobs[j].split(" ");
 
-					Log.v("INIT MOBS", "MobInfo = " + mMobInfo[0] + " " + mMobInfo[1]);
-
+					Log.v("INIT MOBS", "MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
+					
+					mHealth = Integer.parseInt(mMobInfo[2]);
+					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 
 						if(mMobInfo[0].equals("NORMAL")) {
 
-							mMobs.add(new Mob(MobType.NORMAL));
+							mMobs.add(new Mob(MobType.NORMAL, mHealth));
 							Log.v("INIT MOBS", "Created mob of type NORMAL");
 
 						} else if(mMobInfo[0].equals("ARMORED")) {
 
-							mMobs.add(new Mob(MobType.ARMORED));
+							mMobs.add(new Mob(MobType.ARMORED, mHealth));
 							Log.v("INIT MOBS", "Created mob of type ARMORED");
 
 						} else if(mMobInfo[0].equals("FAST")) {
 
-							mMobs.add(new Mob(MobType.FAST));
+							mMobs.add(new Mob(MobType.FAST, mHealth));
 							Log.v("INIT MOBS", "Created mob of type FAST");
 
 						} else if(mMobInfo[0].equals("HEALTHY")) {
 
-							mMobs.add(new Mob(MobType.HEALTHY));
+							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
 							Log.v("INIT MOBS", "Created mob of type HEALTHY");
 						}											
 					}

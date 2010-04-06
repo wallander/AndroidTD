@@ -18,7 +18,7 @@ import com.chalmers.game.td.R;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class Tower extends Unit{
+public class Tower extends Unit {
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
@@ -46,10 +46,16 @@ public class Tower extends Unit{
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
     	setRange(100);
+<<<<<<< HEAD
     	setAttackSpeed(20);
     	setDamage(9);
     	setCost(60);
     	setName("EskimoTower");
+=======
+    	mAttackSpeed = 20;
+    	setDamage(6);
+    	setCost(70);
+>>>>>>> 518b271fb965c512312a8a21d63f45132bebec55
     	
     	setSize(2);
 
@@ -171,14 +177,30 @@ public class Tower extends Unit{
      * range is increased by 5 for each level
      */
     public boolean upgrade() {
-    	mLevel++;
 
+    	mLevel++;
     	setImage(mLevel);
 
-    	setDamage(getDamage()+10);
-    	setRange(getRange()+5);
+    	if(mLevel == 2) {
+    		setDamage(16);
+    		setRange(110);
+    		
+    	} else if (mLevel == 3) {
+    		setDamage(40);
+    		setRange(125);
+    	} else if (mLevel == 4) {
+    		setDamage(120);
+    		setRange(140);
+    	} else {
+    		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
     	
+    		return false;
+    	}
     	return true;
+	}
+    
+    public boolean canUpgrade() {
+    	return (mLevel < 4);
     }
     
     private void setRange(int i) {
@@ -239,11 +261,22 @@ public class Tower extends Unit{
 
 	/**
 	 * Returns upgrade cost.
-	 * Currently 50% of the tower cost, plus another 10% per tower level
-	 * @return
+	 * @return Uppgraderingskostnaden
 	 */
+<<<<<<< HEAD
 	public double getUpgradeCost() {
 		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
+=======
+	public int getUpgradeCost() {
+
+//		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
+		switch(mLevel) {
+		case 1: return 13;
+		case 2: return 32;
+		case 3: return 65;
+		}
+		return 0; 	//default, not gonna happen
+>>>>>>> 518b271fb965c512312a8a21d63f45132bebec55
 	}
 
 }

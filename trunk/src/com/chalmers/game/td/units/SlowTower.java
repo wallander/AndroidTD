@@ -16,7 +16,7 @@ public class SlowTower extends Tower {
 		super(mX, mY);
 
 		setImage(mLevel);
-		super.setName("Slow Tower");
+		setName("Slow Tower");
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
 
