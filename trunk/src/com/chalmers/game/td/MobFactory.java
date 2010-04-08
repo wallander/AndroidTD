@@ -98,7 +98,7 @@ public class MobFactory {
 						case MAX_WAVE_DELAY:
 							mWaveDelayI = 0;							
 							mMobs = mWaves.poll();
-							
+														
 							if(mMobs != null) 
 								++mWaveNr;
 							
