@@ -169,9 +169,6 @@ public class Tower extends Unit {
     
     /**
      * Upgrade tower to next level
-     * TODO: increase damage/range according to level
-     * currently damage is increased by 10 for each level
-     * range is increased by 5 for each level
      */
     public boolean upgrade() {
 
@@ -186,7 +183,7 @@ public class Tower extends Unit {
     		setDamage(40);
     		setRange(125);
     	} else if (mLevel == 4) {
-    		setDamage(120);
+    		setDamage(140);
     		setRange(140);
     	} else {
     		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
@@ -200,7 +197,7 @@ public class Tower extends Unit {
     	return (mLevel < 4);
     }
     
-    private void setRange(int i) {
+    protected void setRange(int i) {
 		mRange = i;
 		
 	}
@@ -263,11 +260,10 @@ public class Tower extends Unit {
 
 	public int getUpgradeCost() {
 
-//		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
 		switch(mLevel) {
-		case 1: return 13;
-		case 2: return 32;
-		case 3: return 65;
+		case 1: return 130;
+		case 2: return 320;
+		case 3: return 950;
 		}
 		return 0; 	//default, not gonna happen
 	}

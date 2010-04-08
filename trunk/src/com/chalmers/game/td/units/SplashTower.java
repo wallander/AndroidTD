@@ -17,22 +17,24 @@ import com.chalmers.game.td.R;
  */
 public class SplashTower extends Tower {
 
+	private int mSplash;
+	
 	public SplashTower(int mX, int mY) {
 		super(mX, mY);
 
 		setImage(mLevel);
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
-		mDamage = 50;
+		mDamage = 6;
 		mAttackSpeed = 30;
-		mCost = 50;
-		mRange = 80;
-
+		mCost = 100;
+		mRange = 70;
+		mSplash = 3;
+		//mSplashEffect = 3; //Splash effect
+		setName("Splash Tower");
 	}
 
-	public String getName() {
-		return "Splash Tower";
-	}
+	
 	
 	// Temporary changes images up to 4 upgrades.
 	public void setImage(int img) {
@@ -84,5 +86,62 @@ public class SplashTower extends Tower {
 		// if the tower is off cooldown, but has no target in range
 		return null;
     }
+    
+    /**
+     * Sets the splash effect (int 1-5) for the tower
+     * @param mSplash Splasheffect
+     */
+    
+    public void setSplash(int mSplash) {
+    	this.mSplash = mSplash;
+    }
+    
+    
+    /**
+     * Returns the splasheffect
+     * @return Splasheffect
+     */
+    public int getSplash() {
+    	return mSplash;
+    }
+    
+    
+    /**
+     * Upgrade tower to next level
+     */
+    public boolean upgrade() {
 
+    	mLevel++;
+    	setImage(mLevel);
+
+    	if(mLevel == 2) {
+    		setDamage(24);
+    		setRange(70);
+    		
+    	} else if (mLevel == 3) {
+    		setDamage(50);
+    		setRange(70);
+    		setSplash(4);
+    	} else if (mLevel == 4) {
+    		setDamage(100);
+    		setRange(70);
+    		setSplash(5);
+    	} else {
+    		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
+    	
+    		return false;
+    	}
+    	return true;
+	}
+
+    
+	public int getUpgradeCost() {
+
+		switch(mLevel) {
+		case 1: return 150;
+		case 2: return 330;
+		case 3: return 800;
+		}
+		return 0; 	//default, not gonna happen
+	}
 }
