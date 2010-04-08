@@ -47,27 +47,47 @@ public class MobFactory {
 	}
 
 	/**
-	 * Returns the current wave number
+	 * Returns the number of the wave the player
+	 * currently is facing.
 	 * 
-	 * @return
+	 * @return		the current wave number
 	 */
-	public int getWaveNr() {
+	/*@ public normal_behaviour
+	  @ 
+	  @ ensures \result == mWaveNr;
+	  @*/
+	public /*@ pure @*/ int getWaveNr() {
 		return mWaveNr;
 	}
 
 	/**
-	 *  Returns the total number of waves
-	 * @return
+	 *  Returns the total amount of waves
+	 *  on the track the player is currently
+	 *  playing.
+	 *  
+	 * @return		total number of waves
 	 */
-	public int getTotalNrOfWaves() {
+	/*@ public normal_behaviour
+	  @
+	  @ ensures \result == mTotalNrOfWaves;
+	  @*/
+	public /*@ pure @*/ int getTotalNrOfWaves() {
 		return mTotalNrOfWaves;
 	}
 
 	/**
-	 * Check if there are more mobs left
-	 * @return
+	 * Checks if there are more mobs left to
+	 * send out. Used to check for completion
+	 * of a track.
+	 * 
+	 * @return		true if there are mobs left, false otherwise
 	 */
-	public boolean hasMoreMobs() {
+	/*@ public normal_behaviour
+	  @ 
+	  @ TODO
+	  @	  
+	  @*/
+	public /*@ pure @*/ boolean hasMoreMobs() {
 
 		if(mWaves != null && !mWaves.isEmpty()) {
 			return true;
@@ -81,8 +101,10 @@ public class MobFactory {
 	}
 
 	/**
+	 * Returns the next mob on top of the queue, 
+	 * given the track number.
 	 * 
-	 * @param pTrack
+	 * @param	pTrack	TODO make sure the track number is used for waves correctly
 	 * @return
 	 */
 	public Mob getNextMob(int pTrack) {	
