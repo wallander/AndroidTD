@@ -8,9 +8,9 @@ import android.view.MotionEvent;
 
 
 public class GameActivity extends Activity {
-    protected int _splashTime = 3000;
-    protected Thread splashThread;
-    private boolean nextActivityStarted;
+    protected int mSplashTime = 3000;
+    protected Thread mSplashThread;
+    private boolean mNextActivityStarted;
     
     /** Called when the activity is first created. */
     @Override
@@ -22,29 +22,27 @@ public class GameActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
         // thread for displaying the SplashScreen
-        splashThread = new Thread() {
+        mSplashThread = new Thread() {
             @Override
             public void run() {
                 try {
                     int waited = 0;
-                    while (waited < _splashTime) {
+                    while (waited < mSplashTime) {
                         sleep(100);
-                        
                         waited += 100;
-                        
                     }
                 } catch(InterruptedException e) {
                     // do nothing
                 } finally {
-                	if (nextActivityStarted == false) {
-             			nextActivityStarted = true;
-             			startActivity(new Intent(GameActivity.this, MenuStart.class));
+                	if (mNextActivityStarted == false) {
+             			mNextActivityStarted = true;
+             			startActivity(new Intent(GameActivity.this, Menu.class));
              			finish();
                 	}
              		
                 }
             }
         };
-        splashThread.start();
+        mSplashThread.start();
     }
 }

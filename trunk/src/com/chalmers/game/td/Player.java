@@ -12,7 +12,7 @@ public class Player {
 	
 	public Player() {
 		setName("noname");
-		setMoney(10000);
+		setMoney(400);
 
 	}
 

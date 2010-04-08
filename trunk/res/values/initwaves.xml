@@ -2,26 +2,38 @@
 <resources>
 
 	<array name="mobs_track_1">
-        <item>NORMAL 10</item>
-        <item>ARMORED 10</item>
-        <item>FAST 20</item>
-        <item>HEALTHY 20</item>
-        <item>NORMAL 20</item>
-        <item>ARMORED 20</item>
-        <item>FAST 30</item>
-        <item>HEALTHY 30</item>
-        <item>NORMAL 40</item>
-        <item>ARMORED 40</item>
-        <item>FAST 40</item>
-        <item>HEALTHY 40</item>
-        <item>NORMAL 40</item>
-        <item>ARMORED 40</item>
-        <item>FAST 50</item>
-        <item>HEALTHY 50</item>
-        <item>NORMAL 60</item>
-        <item>ARMORED 60</item>
-        <item>FAST 70</item>
-        <item>HEALTHY 70</item>        
+        <item>NORMAL 20 10</item>
+        <item>NORMAL 20 40</item>
+        <item>NORMAL 20 60</item>
+        <item>NORMAL 20 75</item>
+        <item>NORMAL 20 100</item>
+        <item>FAST 20 90</item>
+        
+
+        <item>NORMAL 20 140</item>
+        <item>NORMAL 20 160</item>
+        <item>NORMAL 20 190</item>
+        <item>NORMAL 20 210</item>
+        <item>HEALTHY 1 2000</item>
+
+		<item>NORMAL 20 250</item>
+        <item>FAST 20 210</item>
+        <item>NORMAL 20 330</item>
+        <item>NORMAL 20 390</item>
+        <item>NORMAL 20 440</item>
+        <item>NORMAL 20 580</item>
+        
+        
+        <item>NORMAL 20 900</item>
+        <item>FAST 20 600</item>
+        <item>NORMAL 20 800</item>
+        <item>NORMAL 20 1200</item>
+        <item>HEALTHY 20 14000</item>
+        
+        
+       
+        
+        
     </array>        
   
 </resources>

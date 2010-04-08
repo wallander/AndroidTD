@@ -3,6 +3,7 @@
 android:id="@+id/widget32"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
+android:padding="20px"
 android:background="@drawable/background"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
@@ -15,34 +16,10 @@ android:layout_centerVertical="true"
 android:layout_centerHorizontal="true"
 >
 <Button
-android:id="@+id/StartGame"
+android:id="@+id/Continue"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:background="@drawable/startgame_button"
->
-</Button>
-
-<Button
-android:id="@+id/Help"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:background="@drawable/help_button" 
->
-</Button>
-
-<Button
-android:id="@+id/Options"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:background="@drawable/options_button" 
->
-</Button>
-
-<Button
-android:id="@+id/Credits"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:background="@drawable/credits_button"
+android:text="Contiue"
 >
 </Button>
 
@@ -50,9 +27,18 @@ android:background="@drawable/credits_button"
 android:id="@+id/Exit"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Exit Game"
+android:text="Exit"
 >
 </Button>
+
+<Button
+android:id="@+id/Restart"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Restart" 
+>
+</Button>
+
 
 </TableLayout>
 </RelativeLayout>

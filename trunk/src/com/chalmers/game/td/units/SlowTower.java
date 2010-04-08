@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.GamePanel;
 
 import com.chalmers.game.td.R;
 
@@ -15,7 +16,7 @@ public class SlowTower extends Tower {
 		super(mX, mY);
 
 		setImage(mLevel);
-
+		setName("Slow Tower");
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
 
@@ -51,7 +52,7 @@ public class SlowTower extends Tower {
     	
     	
 		// if the tower is not on cooldown
-		if (mCooldownLeft == 0) {
+		if (mCooldownLeft <= 0) {
 			List<Projectile> projectiles = new ArrayList<Projectile>();
 			
 
@@ -70,7 +71,7 @@ public class SlowTower extends Tower {
 			}
 		
 		} else { // if the tower is on cooldown
-			mCooldownLeft--;
+			mCooldownLeft -= GamePanel.getSpeedMultiplier();
 			return null;
 		}
 		

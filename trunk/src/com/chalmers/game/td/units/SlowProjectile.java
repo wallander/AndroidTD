@@ -11,9 +11,10 @@ public class SlowProjectile extends Projectile {
 
 	/**
 	 * Slows the target mob.
+	 * TODO slow more when higher level
 	 */
 	 public void inflictDmg() {
-	       mTarget.setSlowed(500);
+	       mTarget.setSlowed(200,(double)1/(double)(mTower.mLevel + 1));
 	    }
 	
 }

@@ -1,12 +1,11 @@
 package com.chalmers.game.td.units;
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.GamePanel;
 import com.chalmers.game.td.R;
 
 /**
@@ -19,7 +18,7 @@ import com.chalmers.game.td.R;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class Tower extends Unit{
+public class Tower extends Unit {
 
 	private enum TowerType { GROUND, AIR, INVIS }
 
@@ -29,11 +28,12 @@ public class Tower extends Unit{
 	protected int mLevel = 1;		// Tower level
 	protected int mCooldownLeft;	// Tower shoot delay
 	protected int mAttackSpeed;	// Tower constant shoot speed
+
+	protected String mName;
+
 	private TowerType mType;	// Tower type
 
 	protected int mImage; //Har den protected för att kunna ändra från extended splashTower
-
-
 	
 
 	/**
@@ -46,17 +46,34 @@ public class Tower extends Unit{
     public Tower(int mX, int mY){
     	setCoordinates(new Coordinate(mX, mY));
     	setRange(100);
-    	mAttackSpeed = 20;
-    	setDamage(9);
-    	setCost(60);
-    	
+
+    	setAttackSpeed(20);
+
+    	setName("Eskimo Tower");
+
+
+    	setDamage(6);
+    	setCost(70);
     	setSize(2);
-    	
 
     	setImage(mLevel);
-
-
     }
+    
+    public void setName(String pName) {
+		mName = pName;
+	}
+
+	public int getmAttackSpeed() {
+		return mAttackSpeed;
+	}
+
+	public void setAttackSpeed(int pAttackSpeed) {
+		this.mAttackSpeed = pAttackSpeed;
+	}
+	
+	public String getAttackSpeed(){
+		return "" + 100/mAttackSpeed;
+	}
 
     // Temporary changes images up to 4 upgrades.
 	public void setImage(int img) {
@@ -105,10 +122,8 @@ public class Tower extends Unit{
 
     public List<Projectile> tryToShoot(GameModel pGameModel){
     	
-    	
-	
 		// if the tower is not on cooldown
-		if (mCooldownLeft == 0) {
+		if (mCooldownLeft <= 0) {
 
 			List<Projectile> projectiles = new ArrayList<Projectile>();
 			
@@ -129,7 +144,7 @@ public class Tower extends Unit{
 	
 			}
 		} else { // if the tower is on cooldown
-			mCooldownLeft--;
+			mCooldownLeft -= GamePanel.getSpeedMultiplier();
 			return null;
 		}
 		
@@ -148,31 +163,41 @@ public class Tower extends Unit{
     public boolean selectTower(double pXpos, double pYpos) {
 
     	return (getX() <= pXpos && pXpos < getX()+(getWidth()*GameModel.GAME_TILE_SIZE) &&
-        		getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE) );
+        		getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE));
     	
     }
-    
-    
-    
     
     /**
      * Upgrade tower to next level
-     * TODO: increase damage/range according to level
-     * currently damage is increased by 10 for each level
-     * range is increased by 5 for each level
      */
     public boolean upgrade() {
-    	mLevel++;
 
+    	mLevel++;
     	setImage(mLevel);
 
-    	setDamage(getDamage()+10);
-    	setRange(getRange()+5);
+    	if(mLevel == 2) {
+    		setDamage(16);
+    		setRange(110);
+    		
+    	} else if (mLevel == 3) {
+    		setDamage(40);
+    		setRange(125);
+    	} else if (mLevel == 4) {
+    		setDamage(140);
+    		setRange(140);
+    	} else {
+    		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
     	
+    		return false;
+    	}
     	return true;
+	}
+    
+    public boolean canUpgrade() {
+    	return (mLevel < 4);
     }
     
-    private void setRange(int i) {
+    protected void setRange(int i) {
 		mRange = i;
 		
 	}
@@ -207,8 +232,8 @@ public class Tower extends Unit{
 		return mType;
 	}
 
-	public void setDamage(int mDamage) {
-		this.mDamage = mDamage;
+	public void setDamage(int pDamage) {
+		mDamage = pDamage;
 	}
 
 	public int getDamage() {
@@ -225,16 +250,22 @@ public class Tower extends Unit{
 	}
 	
 	public String getName() {
-		return "Basic Tower";
+		return mName;
 	}
 
 	/**
 	 * Returns upgrade cost.
-	 * Currently 50% of the tower cost, plus another 10% per tower level
-	 * @return
+	 * @return Uppgraderingskostnaden
 	 */
-	public double getUpgradeCost() {
 
-		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
+	public int getUpgradeCost() {
+
+		switch(mLevel) {
+		case 1: return 130;
+		case 2: return 320;
+		case 3: return 950;
+		}
+		return 0; 	//default, not gonna happen
 	}
+
 }

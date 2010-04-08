@@ -2,9 +2,9 @@
 <resources>
 	<array name="path_track_1">
 		<item>0 140</item>
-        <item>120 60</item>
-        <item>300 60</item>
-        <item>300 250</item>
-        <item>480 250</item>
+        <item>120 50</item>
+        <item>295 50</item>
+        <item>295 235</item>
+        <item>410 235</item>
 	</array>
 </resources>

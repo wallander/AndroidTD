@@ -1,10 +1,9 @@
 package com.chalmers.game.td.units;
 
+import com.chalmers.game.td.GamePanel;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.units.Unit;
-
-import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -27,7 +26,7 @@ public class Mob extends Unit{
 	private int mHealth;
 	
 	/** Mob movement speed */
-	private int mSpeed;
+	private double mSpeed;
 	
 	/** Mob movement angle */
 	private double mAngle;
@@ -52,6 +51,9 @@ public class Mob extends Unit{
 	double speedY;
 
 	private int mSlowLeft = 0;
+
+	private double mSlowedSpeed;
+
 	
 	
 	/**
@@ -85,7 +87,34 @@ public class Mob extends Unit{
         
     }
     */
-    
+  
+    /**
+     * Extra constructor for Mobs, used for setting health directly from xml-file
+     * May be merged with the old one if the rest of the group approves
+     * (2010-04-06) by Jonas
+     * @param pType
+     */
+    public Mob(MobType pType, int pHealth) {
+    	this(pType);		//anropar den andra kontruktorn
+    	setHealth(pHealth);
+    	setMaxHealth(pHealth);
+    	
+    	
+    	
+    	if (pHealth <= 110) {
+    		setReward(10);
+    	} else if(pHealth <= 790) {
+    		setReward(20);
+    	} else if(pHealth <= 1200) {
+    		setReward(30);
+    	} else if(pHealth <= 2000) {
+    		setReward(40);
+    	} else  {
+    		setReward(50);
+    	}
+    }
+	
+	
     /**
      * Currently used constructor for Mobs
      * (2010-03-24)
@@ -94,14 +123,20 @@ public class Mob extends Unit{
     public Mob(MobType pType) {
     	mType = pType;
     	    	
-        setSpeed(1);      
+        setSpeed(1.2);      
         setHealth(20);
         setMaxHealth(20);
         setArmor(20);
-        setReward(2);                
+        setReward(10);                
         
         // TODO: fix dynamic size
         setSize(24);
+        
+        if(pType == MobType.HEALTHY) {
+    		setSpeed(0.5);
+    	} else if(pType == MobType.FAST) {
+    		setSpeed(1.6);
+    	}
     }
     
     public void setPath(Path pPath) {
@@ -116,10 +151,10 @@ public class Mob extends Unit{
 	
     /**
      * Setter for mob movement speed
-     * @param i
+     * @param d
      */
-	private void setSpeed(int i) {
-		mSpeed = i;
+	private void setSpeed(double d) {
+		mSpeed = d;
 	}
 
 	/**
@@ -144,7 +179,7 @@ public class Mob extends Unit{
     /**
      * @return
      */
-    public int getSpeed() {
+    public double getSpeed() {
         return mSpeed;
     }
 
@@ -219,22 +254,15 @@ public class Mob extends Unit{
 
 		}
 		
-		setX(getX() + speedX);
-		setY(getY() - speedY);
+			if(isSlowed()){
+				setX(getX() + GamePanel.getSpeedMultiplier()*speedX*mSlowedSpeed);
+				setY(getY() - GamePanel.getSpeedMultiplier()*speedY*mSlowedSpeed);
+				mSlowLeft -= GamePanel.getSpeedMultiplier();
+			} else {
+				setX(getX() + GamePanel.getSpeedMultiplier()*speedX);
+				setY(getY() - GamePanel.getSpeedMultiplier()*speedY);
+			}
 
-		
-		
-		if(isSlowed() == true){
-			setX(getX() + speedX*0.2);
-			setY(getY() - speedY*0.2);
-			--mSlowLeft;
-		} else {
-			setX(getX() + speedX);
-			setY(getY() - speedY);
-		}
-		
-
-		
 		return true;
 	}
 
@@ -253,8 +281,8 @@ public class Mob extends Unit{
 	 */
 	public boolean reachedCheckpoint() {
 	
-		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));	
-		if (sqrDistance < getSpeed()*getSpeed())
+		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
+		if (sqrDistance < GamePanel.getSpeedMultiplier()*getSpeed()*getSpeed())
 			return true;
 		
 		return false;
@@ -269,12 +297,13 @@ public class Mob extends Unit{
 		
 	}
 
-	public void setSlowed(int i) {
-		mSlowLeft   = i;
+	public void setSlowed(int time, double slow) {
+		mSlowLeft   = time;
+		mSlowedSpeed = slow;
 	}
 	
 	public boolean isSlowed() {
-		return (mSlowLeft > 0 );
+		return (mSlowLeft > 0);
 	}
 	
 	public void setMaxHealth(int mMaxHealth) {
@@ -292,5 +321,5 @@ public class Mob extends Unit{
 	public int getReward() {
 		return mReward;
 	}
-   
+
 }
