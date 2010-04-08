@@ -26,7 +26,7 @@ public class SplashTower extends Tower {
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
 		mDamage = 6;
-		mAttackSpeed = 30;
+		mAttackSpeed = 40;
 		mCost = 100;
 		mRange = 70;
 		mSplash = 3;
@@ -121,11 +121,11 @@ public class SplashTower extends Tower {
     	} else if (mLevel == 3) {
     		setDamage(50);
     		setRange(70);
-    		setSplash(4);
+    		setAttackSpeed(30);
     	} else if (mLevel == 4) {
     		setDamage(100);
     		setRange(70);
-    		setSplash(5);
+    		setSplash(4);
     	} else {
     		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
     	

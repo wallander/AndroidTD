@@ -422,17 +422,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_UP:
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
-
-						// if building is allowed
-						if (!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild) {
-
-							// build the tower and remove money from player
-							mGameModel.buildTower(mCurrentTower, 
-									(int)mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
-									(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
-							mGameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
-							mCurrentTower = null;
+						
+						if (mGameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild) {
+		
+								// build the tower and remove money from player
+								mGameModel.buildTower(mCurrentTower, 
+										(int)mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
+										(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
+								mGameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
+								
+							
 						}
+							mCurrentTower = null;
+						
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
 						mGameModel.mSnowballs.add(mCurrentSnowball);

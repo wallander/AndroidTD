@@ -263,7 +263,7 @@ public class Tower extends Unit {
 		switch(mLevel) {
 		case 1: return 130;
 		case 2: return 320;
-		case 3: return 950;
+		case 3: return 780;
 		}
 		return 0; 	//default, not gonna happen
 	}
