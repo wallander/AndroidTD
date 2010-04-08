@@ -12,17 +12,33 @@ import com.chalmers.game.td.R;
 
 public class SlowTower extends Tower {
 
+	private int mSlow;
+	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
 
 		setImage(mLevel);
 		setName("Slow Tower");
 		
+		setCost(200);
+		setAttackSpeed(30);
+		setRange(60);
+		setDamage(20);
+		setSlow(30);
 		// TODO Set appropriate values to range, damage, attack speed and such
 
 	}
 
 	
+	public void setSlow(int i) {
+		mSlow = i;
+		
+	}
+
+	public int getSlow() {
+		return mSlow;
+	}
+
 	public String getName() {
 		return "Slowing Tower";
 	}
@@ -78,6 +94,50 @@ public class SlowTower extends Tower {
 		// if the tower is off cooldown, but has no target in range
 		return null;
     }
-	
+    
+    
+    /**
+     * Upgrade tower to next level
+     */
+    public boolean upgrade() {
+
+    	mLevel++;
+    	setImage(mLevel);
+
+    	if(mLevel == 2) {
+    		setDamage(25);
+    		setRange(75);
+    		setSlow(40);
+    		
+    	} else if (mLevel == 3) {
+    		setDamage(30);
+    		setRange(75);
+    		setSlow(50);
+    		
+    	} else if (mLevel == 4) {
+    		setDamage(40);
+    		setRange(75);
+    		setAttackSpeed(25);
+    		setSlow(60);
+    	} else {
+    		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
+    	
+    		return false;
+    	}
+    	return true;
+	}
+    
+    /**
+     * returns the current upgrade cost
+     */
+	public int getUpgradeCost() {
+
+		switch(mLevel) {
+		case 1: return 200;
+		case 2: return 200;
+		case 3: return 200;
+		}
+		return 0; 	//default, not gonna happen
+	}
 
 }
