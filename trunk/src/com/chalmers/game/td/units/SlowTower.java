@@ -12,13 +12,27 @@ import com.chalmers.game.td.R;
 
 public class SlowTower extends Tower {
 
+	private int mSlow;
+	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
-		setName("Slow Tower");
+		setName("Slow Tower");		
+		setCost(200);
 		setCoolDown(30);
     	resetCoolDown();
-		
+		setRange(60);
+		setDamage(20);
+		setSlow(30);
 		// TODO Set appropriate values to range, damage, attack speed and such
+
+	}
+
+	public void setSlow(int i) {
+		mSlow = i;
+	}
+
+	public int getSlow() {
+		return mSlow;
 	}
 
 	// Temporary changes images up to 4 upgrades.
@@ -52,19 +66,49 @@ public class SlowTower extends Tower {
     		
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
-    			setDamage(16);
-        		setRange(110);
+    			setDamage(25);
+        		setRange(75);
+        		setSlow(40); break;
     		case 3:
-    			setCoolDown(25);
-    			setDamage(40);
-        		setRange(125);
+    			setDamage(30);
+        		setRange(75);
+        		setSlow(50); break;
     		case 4:
-    			setCoolDown(15);
-    			setDamage(120);
-        		setRange(140);
+    			setDamage(40);
+        		setRange(75);
+        		setCoolDown(25);
+        		setSlow(60); break;
     		}
+    		
+// Old values, kept for reference
+//    		switch (getLevel()){			//set damage and range according to the new level
+//    		case 2:
+//    			setDamage(16);
+//        		setRange(110); break;
+//    		case 3:
+//    			setCoolDown(25);
+//    			setDamage(40);
+//        		setRange(125); break;
+//    		case 4:
+//    			setCoolDown(15);
+//    			setDamage(120);
+//        		setRange(140); break;
+//    		}
     	}
     	return true;
+	}
+    
+    /**
+     * returns the current upgrade cost
+     */
+	public int getUpgradeCost() {
+
+		switch(getLevel()) {
+		case 1: return 200;
+		case 2: return 200;
+		case 3: return 200;
+		}
+		return 0; 	//default, not gonna happen
 	}
 
 }

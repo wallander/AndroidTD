@@ -35,9 +35,22 @@ public class BasicTower extends Tower {
     			setDamage(40);
         		setRange(125);
     		case 4:
-    			setDamage(120);
+    			setDamage(140);
         		setRange(140);
     		}
+    		
+    		//Old values, kept for reference
+//    		switch (getLevel()){			//set damage and range according to the new level
+//    		case 2:
+//    			setDamage(16);
+//        		setRange(110);
+//    		case 3:
+//    			setDamage(40);
+//        		setRange(125);
+//    		case 4:
+//    			setDamage(120);
+//        		setRange(140);
+//    		}
     	}
     	return true;
 	}

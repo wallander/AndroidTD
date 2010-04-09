@@ -16,10 +16,20 @@ import com.chalmers.game.td.R;
  *
  */
 public class SplashTower extends Tower {
+	
+	private int mSplash;
+
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Tower");
+		mSplash = 3;
+		setDamage(6);
+		setCoolDown(40);
+		resetCoolDown();
+		setCost(100);
+		setRange(70);
+		
 		// TODO Set appropriate values to range, damage, attack speed and such
 //		mDamage = 50;
 //		mAttackSpeed = 30;
@@ -61,17 +71,59 @@ public class SplashTower extends Tower {
     		
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
-    			setDamage(16);
-        		setRange(110);
+    			setDamage(24);
+        		setRange(70); break;
     		case 3:
-    			setDamage(40);
-        		setRange(125);
+    			setDamage(50);
+    			setCoolDown(30); break;
     		case 4:
-    			setDamage(120);
-        		setRange(140);
+    			setDamage(100);
+    			setSplash(4); break;
     		}
+    		
+    		//old values, save for reference...
+//    		switch (getLevel()){
+//    		case 2:
+//    			setDamage(16);
+//        		setRange(110);
+//    		case 3:
+//    			setDamage(40);
+//        		setRange(125);
+//    		case 4:
+//    			setDamage(120);
+//        		setRange(140);
+//    		}
     	}
     	return true;
 	}
+				
+    
+    /**
+     * Sets the splash effect (int 1-5) for the tower
+     * @param mSplash Splasheffect
+     */
+    
+    public void setSplash(int pSplash) {
+    	mSplash = pSplash;
+    }
+    
+    
+    /**
+     * Returns the splasheffect
+     * @return Splasheffect
+     */
+    public int getSplash() {
+    	return mSplash;
+    }
 
+    
+	public int getUpgradeCost() {
+
+		switch(getLevel()) {
+		case 1: return 150;
+		case 2: return 330;
+		case 3: return 800;
+		}
+		return 0; 	//default, not gonna happen
+	}
 }

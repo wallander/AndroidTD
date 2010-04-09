@@ -26,7 +26,7 @@ public class Mob extends Unit{
 	private int mHealth;
 	
 	/** Mob movement speed */
-	private int mSpeed;
+	private double mSpeed;
 	
 	/** Mob movement angle */
 	private double mAngle;
@@ -94,18 +94,20 @@ public class Mob extends Unit{
      * (2010-04-06) by Jonas
      * @param pType
      */
-    public Mob(MobType pType, int mHealth) {
+    public Mob(MobType pType, int pHealth) {
     	this(pType);		//anropar den andra kontruktorn
-    	setHealth(mHealth);
-    	setMaxHealth(mHealth);
+    	setHealth(pHealth);
+    	setMaxHealth(pHealth);
     	
-    	if (mHealth <= 110) {
+    	
+    	
+    	if (pHealth <= 110) {
     		setReward(10);
-    	} else if(mHealth <= 790) {
+    	} else if(pHealth <= 790) {
     		setReward(20);
-    	} else if(mHealth <= 1200) {
+    	} else if(pHealth <= 1200) {
     		setReward(30);
-    	} else if(mHealth <= 2000) {
+    	} else if(pHealth <= 2000) {
     		setReward(40);
     	} else  {
     		setReward(50);
@@ -121,7 +123,7 @@ public class Mob extends Unit{
     public Mob(MobType pType) {
     	mType = pType;
     	    	
-        setSpeed(1);      
+        setSpeed(1.2);      
         setHealth(20);
         setMaxHealth(20);
         setArmor(20);
@@ -129,6 +131,12 @@ public class Mob extends Unit{
         
         // TODO: fix dynamic size
         setSize(24);
+        
+        if(pType == MobType.HEALTHY) {
+    		setSpeed(0.5);
+    	} else if(pType == MobType.FAST) {
+    		setSpeed(1.6);
+    	}
     }
     
     public void setPath(Path pPath) {
@@ -143,10 +151,10 @@ public class Mob extends Unit{
 	
     /**
      * Setter for mob movement speed
-     * @param i
+     * @param d
      */
-	private void setSpeed(int i) {
-		mSpeed = i;
+	private void setSpeed(double d) {
+		mSpeed = d;
 	}
 
 	/**
@@ -171,7 +179,7 @@ public class Mob extends Unit{
     /**
      * @return
      */
-    public int getSpeed() {
+    public double getSpeed() {
         return mSpeed;
     }
 

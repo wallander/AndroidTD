@@ -214,6 +214,7 @@ public abstract class Tower extends Unit {
     /**
      * Upgrade tower to next level
      */
+    
     public abstract boolean upgrade();
     
     public boolean canUpgrade() {
@@ -278,11 +279,10 @@ public abstract class Tower extends Unit {
 
 	public int getUpgradeCost() {
 
-//		return (getCost()*0.5) + (getCost()*0.10*(getLevel() - 1));
 		switch(mLevel) {
-		case 1: return 13;
-		case 2: return 32;
-		case 3: return 65;
+		case 1: return 130;
+		case 2: return 320;
+		case 3: return 780;
 		}
 		return 0; 	//default, not gonna happen
 	}
