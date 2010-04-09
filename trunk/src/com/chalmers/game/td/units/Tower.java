@@ -20,8 +20,6 @@ import com.chalmers.game.td.R;
  */
 public abstract class Tower extends Unit {
 
-	private enum TowerType { GROUND, AIR, INVIS }
-
 	private int mDamage;		// Tower damage
 	private int mRange;			// Tower shoot range
 	private int mCost;			// Tower cost
@@ -30,8 +28,6 @@ public abstract class Tower extends Unit {
 	private int mCoolDown;		// Tower constant shoot speed
 
 	private String mName;
-
-	private TowerType mType;	// Tower type
 
 	private int mImage; //Har den protected för att kunna ändra från extended splashTower
 	
@@ -45,16 +41,16 @@ public abstract class Tower extends Unit {
 	 */
     public Tower(int pX, int pY){
     	setCoordinates(new Coordinate(pX, pY)); //gäller alla
-    	setRange(100);		//default
-    	setCoolDown(20);	//default
-    	resetCoolDown();	//sätter CD Left till CD
-    	setLevel(1);		//gäller alla
-    	setDamage(6);		//default
-    	setCost(70);		//default, may be overwritten by towers' constructor
-    	setSize(2);			//gäller alla torn?
+    	setRange(100);			//default
+    	setCoolDown(20);		//default
+    	resetCoolDown();		//sätter CD Left till CD
+    	setLevel(1);			//gäller alla
+    	setDamage(6);			//default
+    	setCost(70);			//default, may be overwritten by towers' constructor
+    	setSize(2);				//gäller alla torn?
     	setImageByLevel(mLevel);	//gäller för alla torn
     }
-
+    
 	public void setName(String pName) {
 		mName = pName;
 	}
@@ -95,12 +91,13 @@ public abstract class Tower extends Unit {
 	
 	//Attack speed is another way to express cool down, that is more intuitive to the user
 	//higher value = better
+	//TODO add this value to tower tool tip
 	public int getAttackSpeed(){
 		return 100/mCoolDown;
 	}
 	
 	//Should be implemented so it takes the level of the tower as argument and sets the image 
-	//to the drawable that corresponds to that level for that tower type.
+	//to the drawable that corresponds to that level.
 	public abstract void setImageByLevel(int pLevel);
 	
     // Changes the tower images to the image specified by pImage.
@@ -117,16 +114,6 @@ public abstract class Tower extends Unit {
 		// ta bort kostnad från spelarens konto?
 	}
 
-	/**
-     * Constructor called to create a tower
-     * @param 
-	 */
-    public Tower(TowerType pType, int pPosX, int pPosY){
-    	setType(pType);
-    	setX(pPosX);
-    	setY(pPosY);
-    }
-    
     /**
      * Method that returns a Projectile set to target the first mob
      * in the given list of mobs that the tower can reach.
@@ -237,20 +224,6 @@ public abstract class Tower extends Unit {
     public double sell(){
     	return 0.5*getCost() + (getCost()*0.05*getLevel());
     }
-    
-	/**
-	 * @param mType the mType to set
-	 */
-	public void setType(TowerType mType) {
-		this.mType = mType;
-	}
-
-	/**
-	 * @return the mType
-	 */
-	public TowerType getType() {
-		return mType;
-	}
 
 	public void setDamage(int pDamage) {
 		mDamage = pDamage;
@@ -277,14 +250,13 @@ public abstract class Tower extends Unit {
 	 * @return Uppgraderingskostnaden
 	 */
 
-	public int getUpgradeCost() {
+    public int getUpgradeCost() {
 
-		switch(mLevel) {
-		case 1: return 130;
-		case 2: return 320;
-		case 3: return 780;
-		}
-		return 0; 	//default, not gonna happen
-	}
+    	switch(mLevel) {
+	    	case 1: return 130;
+	    	case 2: return 320;
+	    	default: return 780; //case 3 that is
+    	}	
+    }
 
 }

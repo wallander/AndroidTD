@@ -20,7 +20,7 @@ public class Projectile extends Unit{
 	protected int mSpeed;
 	
 	/** Projectile type emun */
-	public enum ProjectileType { NORMAL, SLOW, SPLASH }
+	//public enum ProjectileType { NORMAL, SLOW, SPLASH }
 	
 	/** Projectile damage */
 	protected int mDamage;
@@ -100,7 +100,7 @@ public class Projectile extends Unit{
 		return mAngle;
 	}
 
-	public Mob getMob(){
+	public Mob getTarget(){
     	return mTarget;
     }
 
@@ -118,7 +118,8 @@ public class Projectile extends Unit{
      */
 	public boolean hasCollided() {
 		
-		Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
+		Coordinate targetCoordinate = new Coordinate(mTarget.getX() + mTarget.getWidth()/2, 
+				mTarget.getY() + mTarget.getHeight()/2);
 
 		double sqrDist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
 		
@@ -167,7 +168,8 @@ public class Projectile extends Unit{
 	public void updatePosition() {
 		
 		// Kommentera bort 2 rader ner om du ska testa min variant. Se kommentar i konstruktorn. / Jonas
-		Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
+		Coordinate targetCoordinate = new Coordinate(mTarget.getX() + mTarget.getWidth()/2, 
+				mTarget.getY() + mTarget.getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 
 		setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );

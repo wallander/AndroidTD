@@ -17,6 +17,7 @@ import com.chalmers.game.td.R;
  */
 public class SplashTower extends Tower {
 	
+	//
 	private int mSplash;
 
 

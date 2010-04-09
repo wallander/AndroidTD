@@ -74,7 +74,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 
 
-	/** Current x and y cord. for the touched tower     */
+	/** Current x and y cord. for the touched tower. */
 	private int mTx;
 	private int mTy;
 
@@ -136,7 +136,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean mAccelerometerSupported;
 	private boolean mShowTooltip;
 	private boolean mAllowBuild;
-
 
 
 	protected Tower mTower1 = new BasicTower(0,0);
@@ -234,8 +233,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case TelephonyManager.CALL_STATE_OFFHOOK : 
 				Log.d("PhoneState", "offhook"); 
 				break;
-			} 
-
+			}
 		}
 	};
 
@@ -614,7 +612,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				// if the projectile's target is dead, remove the projectile
-				if (p.getMob().getHealth() <= 0) {
+				if (p.getTarget().getHealth() <= 0) {
 					mGameModel.mProjectiles.remove(p);
 				}
 			}
@@ -1129,7 +1127,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mGameThread.setRunning(true);
 		mGameThread.start();
 	}
-
 
 	/**
 	 * Called if the SurfaceView should be destroyed.
