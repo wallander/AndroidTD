@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import android.util.Log;
+
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
@@ -41,6 +43,8 @@ public class SplashProjectile extends Projectile {
 	     	//TODO implement stuff
 		 	// hit every mob within a certain radius of the target coordinate for
 		 	// a certain amount of damage.
+		 	
+
 		 	for (int i = 0; i < mGameModel.mMobs.size(); i++) {
 		 		Mob m = mGameModel.mMobs.get(i);
 		 		
@@ -49,6 +53,8 @@ public class SplashProjectile extends Projectile {
 		 		if (mTarget != m && sqrDist <= blastRadius) {
 		 			m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() * (1 - (sqrDist/blastRadius/2))/5*blastEffect));
 		 		}
+		 		
+		 		
 		 	}
 	    }
 	
