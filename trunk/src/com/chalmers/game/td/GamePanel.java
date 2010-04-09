@@ -245,7 +245,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
 		mBitMapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
 		mBitMapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
-		mBitMapCache.put(R.drawable.scissors, BitmapFactory.decodeResource(getResources(), R.drawable.scissors));
+		//mBitMapCache.put(R.drawable.scissors, BitmapFactory.decodeResource(getResources(), R.drawable.scissors));
+		mBitMapCache.put(R.drawable.snowball_small, BitmapFactory.decodeResource(getResources(), R.drawable.snowball_small));
+		mBitMapCache.put(R.drawable.snowball, BitmapFactory.decodeResource(getResources(), R.drawable.snowball));
+		
 		mBitMapCache.put(R.drawable.paper, BitmapFactory.decodeResource(getResources(), R.drawable.paper));
 		mBitMapCache.put(R.drawable.basictower, BitmapFactory.decodeResource(getResources(), R.drawable.basictower));
 		mBitMapCache.put(R.drawable.basictower2, BitmapFactory.decodeResource(getResources(), R.drawable.basictower2));
@@ -980,12 +983,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw all projectiles
 		for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
 			Projectile p = mGameModel.mProjectiles.get(i);
-			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.scissors);
+			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.snowball_small);
 			Matrix matrix = new Matrix(); 
 
-
+			
 			// rotate the Bitmap 
-			matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
+			//matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
 			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true); 
 
 			canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);

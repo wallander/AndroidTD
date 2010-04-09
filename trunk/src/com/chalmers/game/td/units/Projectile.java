@@ -19,6 +19,11 @@ public class Projectile extends Unit{
 	/** Projectile movement speed */
 	protected int mSpeed;
 	
+	/** Projectile type emun */
+	public enum ProjectileType { NORMAL, SLOW, SPLASH }
+	
+	
+	
 	/** Projectile damage */
 	protected int mDamage;
 
