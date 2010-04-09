@@ -38,7 +38,6 @@ public class GameModel {
 	protected Player currentPlayer;
 	
 
-
 	/** Size of "game tiles" */
     public static final int GAME_TILE_SIZE = 16;
 	

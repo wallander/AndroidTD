@@ -59,7 +59,6 @@ public class SplashProjectile extends Projectile {
 	  */
 	 public void updatePosition() {
 		 
-
 		 setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle()) ));
 		 setY(getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle()) ));
 

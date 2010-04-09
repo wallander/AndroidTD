@@ -585,13 +585,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				Tower t = mGameModel.mTowers.get(i);
 
 				Projectile newProjectile = null;
-
+				
 				//if there are any mobs, try to shoot at them
 				if (mGameModel.mMobs.size() > 0) 
 					newProjectile = t.tryToShoot(mGameModel);
 
 				//if a projectile was returned, add it to the game model
 				if (newProjectile != null){
+
+					newProjectile.setGameModel(mGameModel);
 					mGameModel.mProjectiles.add(newProjectile);
 				} else //if no projectile was returned decrement the CD left for that tower
 					t.decCoolDownLeft(GAME_SPEED_MULTIPLIER);

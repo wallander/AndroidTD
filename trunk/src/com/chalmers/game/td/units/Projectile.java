@@ -22,8 +22,6 @@ public class Projectile extends Unit{
 	/** Projectile type emun */
 	public enum ProjectileType { NORMAL, SLOW, SPLASH }
 	
-	
-	
 	/** Projectile damage */
 	protected int mDamage;
 
@@ -32,6 +30,14 @@ public class Projectile extends Unit{
 	
 	protected GameModel mGameModel;
 	
+	public GameModel getGameModel() {
+		return mGameModel;
+	}
+
+	public void setGameModel(GameModel pGameModel) {
+		mGameModel = pGameModel;
+	}
+
 	/** Projectile tower */
 	protected Tower mTower;
 	
@@ -146,7 +152,6 @@ public class Projectile extends Unit{
 	private void setTarget(Mob pTarget) {
 		mTarget = pTarget;
 	}
-	
   
     private void setTower(Tower pTower) {
 		mTower = pTower;
