@@ -13,9 +13,9 @@ public class SlowProjectile extends Projectile {
 		mSlowEffect = 1-(pTower.getSlow()/100.0);
 		Log.v("JONAS",""+mSlowEffect);
 	}
-	public SlowProjectile(Mob pTarget, Tower pTower) {
+	public SlowProjectile(Mob pTarget, SlowTower pTower) {
 		super(pTarget, pTower);	
-
+		mSlowEffect = 1-(pTower.getSlow()/100.0);
 	}
 	/**
 	 * Slows the target mob.
