@@ -16,38 +16,37 @@ import com.chalmers.game.td.R;
  *
  */
 public class SplashTower extends Tower {
-
-	private int mSplash;
 	
-	public SplashTower(int mX, int mY) {
-		super(mX, mY);
+	private int mSplash;
 
-		setImage(mLevel);
+
+	public SplashTower(int pX, int pY) {
+		super(pX, pY);
+		setName("Splash Tower");
+		mSplash = 3;
+		setDamage(6);
+		setCoolDown(40);
+		resetCoolDown();
+		setCost(100);
+		setRange(70);
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
-		mDamage = 6;
-		mAttackSpeed = 40;
-		mCost = 100;
-		mRange = 70;
-		mSplash = 3;
-		//mSplashEffect = 3; //Splash effect
-		setName("Splash Tower");
+//		mDamage = 50;
+//		mAttackSpeed = 30;
+//		mCost = 50;
+//		mRange = 80;
 	}
 
 	
-	
 	// Temporary changes images up to 4 upgrades.
-	public void setImage(int img) {
-		if(img == 1){
-			mImage = R.drawable.splashtower;	
-		} else if(img == 2){
-			mImage = R.drawable.splashtower2;
-		} else if(img == 3){
-			mImage = R.drawable.splashtower3;
-		} else {
-			mImage = R.drawable.splashtower4;
-		}
-		
+	public void setImageByLevel(int pLevel) {
+
+		switch (pLevel) {
+			case 1: setImage(R.drawable.splashtower); break;
+			case 2: setImage(R.drawable.splashtower2); break;
+			case 3: setImage(R.drawable.splashtower3); break;
+			case 4: setImage(R.drawable.splashtower4); break;
+		}		
 	}
 
     /**
@@ -57,43 +56,55 @@ public class SplashTower extends Tower {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
-    public List<Projectile> tryToShoot(GameModel pGameModel){
-    	
-    	
-		// if the tower is not on cooldown
-		if (mCooldownLeft <= 0) {
-			List<Projectile> projectiles = new ArrayList<Projectile>();
-			
-			// loop through the list of mobs
-			for (int i=0; i<pGameModel.mMobs.size();i++) {
-				Mob m = pGameModel.mMobs.get(i);
-
-				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
-    		
-				// return a new Projectile on the first mob that the tower can reach
-				if (sqrDist < mRange){
-					mCooldownLeft = mAttackSpeed;
-					projectiles.add(new SplashProjectile(m, this, pGameModel));
-	    			return projectiles;
-	    		}
-			}
-		
-		} else { // if the tower is on cooldown
-			mCooldownLeft -= GamePanel.getSpeedMultiplier();
-			return null;
-		}
-		
-		// if the tower is off cooldown, but has no target in range
-		return null;
+    
+    public Projectile createProjectile(Mob pTarget) {
+    	return new SplashProjectile(pTarget, this);
     }
+
+	public boolean upgrade() {
+    	//TODO change values
+    	if (!canUpgrade())					//return false if tower can't be upgraded
+    		return false;
+    	else {
+    		setLevel(getLevel()+1);			//increment tower level by one
+    		setImageByLevel(getLevel());	//set image according to the new level
+    		
+    		switch (getLevel()){			//set damage and range according to the new level
+    		case 2:
+    			setDamage(24);
+        		setRange(70); break;
+    		case 3:
+    			setDamage(50);
+    			setCoolDown(30); break;
+    		case 4:
+    			setDamage(100);
+    			setSplash(4); break;
+    		}
+    		
+    		//old values, save for reference...
+//    		switch (getLevel()){
+//    		case 2:
+//    			setDamage(16);
+//        		setRange(110);
+//    		case 3:
+//    			setDamage(40);
+//        		setRange(125);
+//    		case 4:
+//    			setDamage(120);
+//        		setRange(140);
+//    		}
+    	}
+    	return true;
+	}
+				
     
     /**
      * Sets the splash effect (int 1-5) for the tower
      * @param mSplash Splasheffect
      */
     
-    public void setSplash(int mSplash) {
-    	this.mSplash = mSplash;
+    public void setSplash(int pSplash) {
+    	mSplash = pSplash;
     }
     
     
@@ -104,40 +115,11 @@ public class SplashTower extends Tower {
     public int getSplash() {
     	return mSplash;
     }
-    
-    
-    /**
-     * Upgrade tower to next level
-     */
-    public boolean upgrade() {
-
-    	mLevel++;
-    	setImage(mLevel);
-
-    	if(mLevel == 2) {
-    		setDamage(24);
-    		setRange(70);
-    		
-    	} else if (mLevel == 3) {
-    		setDamage(50);
-    		setRange(70);
-    		setAttackSpeed(30);
-    	} else if (mLevel == 4) {
-    		setDamage(100);
-    		setRange(70);
-    		setSplash(4);
-    	} else {
-    		mLevel--; //level 5 finns ej, stanna på level 4 (fulkod?)
-    	
-    		return false;
-    	}
-    	return true;
-	}
 
     
 	public int getUpgradeCost() {
 
-		switch(mLevel) {
+		switch(getLevel()) {
 		case 1: return 150;
 		case 2: return 330;
 		case 3: return 800;

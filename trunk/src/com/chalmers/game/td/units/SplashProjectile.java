@@ -8,6 +8,8 @@ public class SplashProjectile extends Projectile {
 
 	private Coordinate targetCoordinate;
 	private int blastRadius;
+	
+	//tal mellan 1-5, hur stor effect splashen har
 	private int blastEffect;
 	
 	public SplashProjectile(Mob pTarget, SplashTower pTower, GameModel pGameModel) {
@@ -20,6 +22,17 @@ public class SplashProjectile extends Projectile {
 		blastEffect = pTower.getSplash(); //tal mellan 1-5, hur stor effect slashen har
 	}
 
+	public SplashProjectile(Mob pTarget, Tower pTower) {
+		super(pTarget, pTower);
+		
+		targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  
+				+ getMob().getHeight()/2);
+		
+		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
+		
+		blastRadius = 20;
+		blastEffect = 3; //tal mellan 1-5, hur stor effect splashen har
+	}
 	/**
 	 * Inflicts damage to all nearby mobs.
 	 */

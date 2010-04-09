@@ -7,6 +7,7 @@ import java.util.Map;
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
 
+import com.chalmers.game.td.units.BasicTower;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
@@ -138,9 +139,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
 
-	protected Tower mTower1 = new Tower(0,0);
-	protected SplashTower mTower2 = new SplashTower(0,0);
-	protected SlowTower mTower3 = new SlowTower(0,0);
+	protected Tower mTower1 = new BasicTower(0,0);
+	protected Tower mTower2 = new SplashTower(0,0);
+	protected Tower mTower3 = new SlowTower(0,0);
 
 
 	/**
@@ -330,7 +331,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 						// Upgrade button pressed, and selected tower is upgradeable
 						if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
-
 							if (mGameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
 								mGameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
 								mSelectedTower.upgrade();
@@ -344,8 +344,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							mSelectedTower = null;
 
 
-					} else {
-						// if the user has NOT selected a tower
+					} else { // if the user has NOT selected a tower
 
 						mAllowBuild = false;
 
@@ -372,7 +371,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							if (mTower1.getCost() <= mGameModel.currentPlayer.getMoney()) {
 								mAllowBuild = true;
 							}	
-							mCurrentTower = new Tower(mTx ,mTy);
+							mCurrentTower = new BasicTower(mTx ,mTy);
 							mShowTooltip = true;
 
 						} else if(sBtn2.contains(event.getX(),event.getY())) {
@@ -397,7 +396,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							if (mAccelerometerSupported)
 								mCurrentSnowball = new Snowball(mTx,mTy);
 
-
+							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
 							GamePanel.setSpeedMultiplier(5);
@@ -552,7 +551,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		debug.UpdateFPS();
 
-
 		if (GAME_STATE == STATE_RUNNING) {
 
 			// If the player has 0 or less lives remaining, change game state
@@ -581,18 +579,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 * 	create a new Projectile set to a Mob that the Tower can reach
 			 *  and add that to the list of Projectiles in the GameModel
 			 * 
-			 * tryToShoot() returns null if the tower can't reach any mob
+			 * tryToShoot() returns null if the tower can't reach any mob or if the tower is on CD
 			 */
 			for (int i = 0; i < mGameModel.mTowers.size(); i++) {
 				Tower t = mGameModel.mTowers.get(i);
 
-				List<Projectile> newProjectiles = null;
+				Projectile newProjectile = null;
 
+				//if there are any mobs, try to shoot at them
 				if (mGameModel.mMobs.size() > 0) 
-					newProjectiles = t.tryToShoot(mGameModel);
+					newProjectile = t.tryToShoot(mGameModel);
 
-				if (newProjectiles != null) 
-					mGameModel.mProjectiles.addAll(newProjectiles);
+				//if a projectile was returned, add it to the game model
+				if (newProjectile != null){
+					mGameModel.mProjectiles.add(newProjectile);
+				} else //if no projectile was returned decrement the CD left for that tower
+					t.decCoolDownLeft(GAME_SPEED_MULTIPLIER);
 			}
 
 			// Check if any projectile has hit it's target
@@ -620,8 +622,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 * update position
 			 * do damage to any mob it hits
 			 */
-			for (int i = 0; i < mGameModel.mSnowballs.size(); i++) {
-				Snowball s = mGameModel.mSnowballs.get(i);
+			for (int j = 0; j < mGameModel.mSnowballs.size(); j++) {
+				Snowball s = mGameModel.mSnowballs.get(j);
 
 				// if the ball is moving ON a tower in the game field
 				// lower it's speed
@@ -644,8 +646,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				List<Mob> deadMobs = s.getCollidedMobs(mGameModel.mMobs);
 
 				// handle mobs that were hit
-				for (int j = 0; j < deadMobs.size(); j++) {
-					Mob m = deadMobs.get(j);
+				for (int k = 0; k < deadMobs.size(); k++) {
+					Mob m = deadMobs.get(k);
 					mGameModel.currentPlayer.changeMoney(m.getReward());
 				}
 				mGameModel.mMobs.removeAll(deadMobs);
@@ -662,8 +664,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 *  Update position
 			 *  If the mob has died, handle it
 			 */
-			for (int i = 0; i < mGameModel.mMobs.size(); i++) {
-				Mob m = mGameModel.mMobs.get(i);
+			for (int j = 0; j < mGameModel.mMobs.size(); j++) {
+				Mob m = mGameModel.mMobs.get(j);
 
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
@@ -927,7 +929,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 170, 139, sPaintBoxText);
 		canvas.drawText("Range: " + mCurrentTower.getRange(), 170, 161, sPaintBoxText);
 
-		canvas.drawText("Drag buy this tower!", 130, 180, sPaintBoxText);
+		canvas.drawText("Drag to buy this tower!", 130, 180, sPaintBoxText);
 	}
 
 	private void drawButtons(Canvas canvas) {
