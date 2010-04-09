@@ -14,31 +14,21 @@ public class SlowTower extends Tower {
 
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
-
-		setImage(mLevel);
 		setName("Slow Tower");
+		setCoolDown(30);
+    	resetCoolDown();
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
-
-	}
-
-	
-	public String getName() {
-		return "Slowing Tower";
 	}
 
 	// Temporary changes images up to 4 upgrades.
-	public void setImage(int img) {
-		if(img == 1){
-			mImage = R.drawable.slowtower;	
-		} else if(img == 2){
-			mImage = R.drawable.slowtower2;
-		} else if(img == 3){
-			mImage = R.drawable.slowtower3;
-		} else {
-			mImage = R.drawable.slowtower4;
-		}
-		
+	public void setImageByLevel(int pLevel) {
+		switch (pLevel) {
+			case 1: setImage(R.drawable.slowtower); break;
+			case 2: setImage(R.drawable.slowtower2);  break;
+			case 3: setImage(R.drawable.slowtower3);  break;
+			case 4: setImage(R.drawable.slowtower4);  break;
+		}		
 	}
 
     /**
@@ -48,36 +38,33 @@ public class SlowTower extends Tower {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
-    public List<Projectile> tryToShoot(GameModel pGameModel){
-    	
-    	
-		// if the tower is not on cooldown
-		if (mCooldownLeft <= 0) {
-			List<Projectile> projectiles = new ArrayList<Projectile>();
-			
-
-			// loop through the list of mobs
-			for (int i=0; i<pGameModel.mMobs.size();i++) {
-				Mob m = pGameModel.mMobs.get(i);
-
-				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
-    		
-				// return a new Projectile on the first mob that the tower can reach
-				if (sqrDist < mRange && m.isSlowed() == false ){
-					mCooldownLeft = mAttackSpeed;
-					projectiles.add(new SlowProjectile(m, this, pGameModel));
-	    			return projectiles;
-	    		}
-			}
-		
-		} else { // if the tower is on cooldown
-			mCooldownLeft -= GamePanel.getSpeedMultiplier();
-			return null;
-		}
-		
-		// if the tower is off cooldown, but has no target in range
-		return null;
+	public Projectile createProjectile(Mob pTarget) {
+    	return new SlowProjectile(pTarget, this);
     }
-	
+
+	public boolean upgrade() {
+    	//TODO change values
+    	if (!canUpgrade())					//return false if tower can't be upgraded
+    		return false;
+    	else {
+    		setLevel(getLevel()+1);			//increment tower level by one
+    		setImageByLevel(getLevel());	//set image according to the new level
+    		
+    		switch (getLevel()){			//set damage and range according to the new level
+    		case 2:
+    			setDamage(16);
+        		setRange(110);
+    		case 3:
+    			setCoolDown(25);
+    			setDamage(40);
+        		setRange(125);
+    		case 4:
+    			setCoolDown(15);
+    			setDamage(120);
+        		setRange(140);
+    		}
+    	}
+    	return true;
+	}
 
 }

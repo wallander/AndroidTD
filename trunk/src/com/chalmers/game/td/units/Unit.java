@@ -14,8 +14,8 @@ import com.chalmers.game.td.Coordinate;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public abstract class Unit 
-{
+public abstract class Unit {
+	
 	// INSTANCE VARIABLES
 	private	Coordinate	mCoordinates;
 	protected	int			mWidth,
