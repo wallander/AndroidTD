@@ -141,6 +141,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	protected Tower mTower1 = new BasicTower(0,0);
 	protected Tower mTower2 = new SplashTower(0,0);
 	protected Tower mTower3 = new SlowTower(0,0);
+	protected Snowball mSnowball = new Snowball(0,0);
 
 
 	/**
@@ -275,6 +276,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
 		mBitMapCache.put(R.drawable.water2, BitmapFactory.decodeResource(getResources(), R.drawable.water2));
 		mBitMapCache.put(R.drawable.water3, BitmapFactory.decodeResource(getResources(), R.drawable.water3));
+		mBitMapCache.put(R.drawable.bigsnowball, BitmapFactory.decodeResource(getResources(), R.drawable.bigsnowball));
 
 	}
 
@@ -777,7 +779,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawSplashWater(Canvas canvas){
 		if(mSplash){
-			int x = 422;
+			int x = 422; //TODO: hämta från path last destination
 			int y = 130;
 			if(mWateranimation >= 0 && mWateranimation < 5){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water),x,y,null);
@@ -968,6 +970,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			paintalfa.setAlpha(255);
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
+		
+		if(mSnowball.getCost() >= mGameModel.currentPlayer.getMoney()) {
+			paintalfa.setAlpha(100);
+		} else {
+			paintalfa.setAlpha(255);
+		}
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,205,paintalfa);
 
 		canvas.drawLine(432, 270, 442, 280, sPaintLine);
 		canvas.drawLine(442, 280, 432, 290, sPaintLine);

@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import android.util.Log;
+
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
@@ -38,6 +40,8 @@ public class SplashProjectile extends Projectile {
 	/**
 	 * Inflicts damage to all nearby mobs.
 	 */
+
+
 	public void inflictDmg() {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
 		//TODO implement stuff
