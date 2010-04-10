@@ -22,6 +22,7 @@ public class Snowball extends Unit {
 	protected double mSpeedY;
 
 	private SensorEvent lastUpdate;
+	private int mCost;
 
 	private int mCharges;
 	private boolean mSlowed;
@@ -40,6 +41,15 @@ public class Snowball extends Unit {
 		setCharges(10);
 
 
+	}
+	
+	public double getCost() {
+		return mCost;
+	}
+	
+	public void setCost(int i) {
+		mCost = i;
+		
 	}
 
 
