@@ -39,6 +39,7 @@ public class Snowball extends Unit {
 		setSpeedX(0);
 		setSpeedY(0);
 		setCharges(10);
+					//set cost
 
 
 	}

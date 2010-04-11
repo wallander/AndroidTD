@@ -46,6 +46,8 @@ public class Mob extends Unit{
 	/** Path */
 	private Path mPath;
 	
+	private int mRewardAnimation = 0;
+	
 	/** Speed */
 	double speedX;
 	double speedY;
@@ -147,6 +149,14 @@ public class Mob extends Unit{
     	updateAngle();
     	
     	updatePosition();
+    }
+    
+    public void incRewAni(){
+    	mRewardAnimation++;
+    }
+    
+    public int getRewAni(){
+    	return mRewardAnimation;
     }
 	
     /**

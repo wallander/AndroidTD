@@ -120,6 +120,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint snowPaint = new Paint();
 	private static final Paint borderPaint = new Paint();
 	private static final Paint mBtnPaint = new Paint();
+	private static final Paint sMoneyAfterDead = new Paint();
+	private static final Paint sMoneyAfterDeadBg = new Paint();
 
 	/** Debug */
 	TDDebug debug;    
@@ -650,6 +652,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob m = deadMobs.get(k);
+					mGameModel.mShowRewardForMob.add(m);
 					mGameModel.currentPlayer.changeMoney(m.getReward());
 				}
 				mGameModel.mMobs.removeAll(deadMobs);
@@ -666,6 +669,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 *  Update position
 			 *  If the mob has died, handle it
 			 */
+		
 			for (int j = 0; j < mGameModel.mMobs.size(); j++) {
 				Mob m = mGameModel.mMobs.get(j);
 
@@ -675,10 +679,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					mGameModel.mMobs.remove(m);
 					mGameModel.currentPlayer.removeLife();
 				}
-
+				
+				
 				// handle mob death
 				if (m.getHealth() <= 0) {
 					mGameModel.currentPlayer.changeMoney(m.getReward());
+					mGameModel.mShowRewardForMob.add(m);
 					mGameModel.mMobs.remove(m);
 				}
 			}
@@ -713,6 +719,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		drawProjectiles(canvas);
 		drawButtons(canvas);
 		drawStatisticsText(canvas);
+		drawRewardsAfterDeadMob(canvas);
+		
+	
 
 
 		switch (GAME_STATE) {
@@ -1061,12 +1070,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw the "end-point-base"
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
 	}
+	
+	private void drawRewardsAfterDeadMob(Canvas canvas){
+		for (int i = 0; i < mGameModel.mShowRewardForMob.size(); i++) {
+			canvas.drawText("" +mGameModel.mShowRewardForMob.get(i).getReward(),(int)mGameModel.mShowRewardForMob.get(i).getX() + 1, (int)mGameModel.mShowRewardForMob.get(i).getY() - 1,sMoneyAfterDeadBg);
+			canvas.drawText("" +mGameModel.mShowRewardForMob.get(i).getReward(),(int)mGameModel.mShowRewardForMob.get(i).getX(), (int)mGameModel.mShowRewardForMob.get(i).getY() ,sMoneyAfterDead);
+			mGameModel.mShowRewardForMob.get(i).setY(mGameModel.mShowRewardForMob.get(i).getY() - 2);
+			mGameModel.mShowRewardForMob.get(i).incRewAni();
+			if(mGameModel.mShowRewardForMob.get(i).getRewAni() > 12){
+				mGameModel.mShowRewardForMob.remove(i);
+			}
+		}
+	}
+	
+
 
 	/**
 	 * Configures all Paint-objects used in onDraw().
 	 */
 	private void setupPaint() {
-
+		
+		sMoneyAfterDead.setARGB(255,255,255,0);
+		sMoneyAfterDead.setTextSize(16);
+		
+		sMoneyAfterDeadBg.setARGB(255,0,0,0);
+		sMoneyAfterDeadBg.setTextSize(16);
+		
 		// set gray color for buttons in in-game menus 
 		mBtnPaint.setARGB(255, 50, 50, 50);
 
