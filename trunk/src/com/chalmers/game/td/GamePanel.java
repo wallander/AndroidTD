@@ -399,7 +399,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
-							GamePanel.setSpeedMultiplier(5);
+							GamePanel.setSpeedMultiplier(3);
 
 						}
 					}
