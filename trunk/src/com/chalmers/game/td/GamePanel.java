@@ -293,7 +293,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		case KeyEvent.KEYCODE_BACK:
 			// TODO Handle hardware "back" button
-			GAME_STATE = STATE_RUNNING;
+			GAME_STATE = STATE_PAUSED;
 
 			break;
 		}
@@ -834,10 +834,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mSelectedTower.getName(), 170, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mSelectedTower.getLevel(), 170, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 170, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mSelectedTower.getRange(), 170, 161, sPaintBoxText);
+		canvas.drawText(mSelectedTower.getName(), 160, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mSelectedTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 160, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 160, 161, sPaintBoxText);
+		canvas.drawText("Cost: " + mSelectedTower.getCost(), 160, 183, sPaintBoxText);
+		
 
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 
@@ -924,12 +926,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mCurrentTower.getName(), 170, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mCurrentTower.getLevel(), 170, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 170, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mCurrentTower.getRange(), 170, 161, sPaintBoxText);
-
-		canvas.drawText("Drag to buy this tower!", 130, 180, sPaintBoxText);
+		canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mCurrentTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
+		canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
+		
+		canvas.drawText("Drag to buy this tower!", 100, 210, sPaintBoxText);
 	}
 
 	private void drawButtons(Canvas canvas) {
@@ -1072,7 +1075,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
-		sPaintBoxText.setTextSize(16);
+		sPaintBoxText.setStyle(Paint.Style.STROKE);
+		sPaintBoxText.setTextSize(14);
 
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
