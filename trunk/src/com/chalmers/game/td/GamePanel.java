@@ -250,7 +250,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		//mBitMapCache.put(R.drawable.scissors, BitmapFactory.decodeResource(getResources(), R.drawable.scissors));
 		mBitMapCache.put(R.drawable.snowball_small, BitmapFactory.decodeResource(getResources(), R.drawable.snowball_small));
 		mBitMapCache.put(R.drawable.snowball, BitmapFactory.decodeResource(getResources(), R.drawable.snowball));
-		
+
 		mBitMapCache.put(R.drawable.paper, BitmapFactory.decodeResource(getResources(), R.drawable.paper));
 		mBitMapCache.put(R.drawable.basictower, BitmapFactory.decodeResource(getResources(), R.drawable.basictower));
 		mBitMapCache.put(R.drawable.basictower2, BitmapFactory.decodeResource(getResources(), R.drawable.basictower2));
@@ -297,7 +297,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		case KeyEvent.KEYCODE_BACK:
 			// TODO Handle hardware "back" button
-			GAME_STATE = STATE_RUNNING;
+			GAME_STATE = STATE_PAUSED;
 
 			break;
 		}
@@ -401,7 +401,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
-							GamePanel.setSpeedMultiplier(5);
+							GamePanel.setSpeedMultiplier(3);
 
 						}
 					}
@@ -426,19 +426,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_UP:
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
-						
+
 						if (mGameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild) {
-		
-								// build the tower and remove money from player
-								mGameModel.buildTower(mCurrentTower, 
-										(int)mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
-										(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
-								mGameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
-								
-							
+
+							// build the tower and remove money from player
+							mGameModel.buildTower(mCurrentTower, 
+									(int)mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
+									(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
+							mGameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
+
+
 						}
-							mCurrentTower = null;
-						
+						mCurrentTower = null;
+
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
 						mGameModel.mSnowballs.add(mCurrentSnowball);
@@ -567,7 +567,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				return;
 			}
 
-
 			Mob mNewMob = createMobs();
 			if (mNewMob != null) {
 
@@ -587,7 +586,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				Tower t = mGameModel.mTowers.get(i);
 
 				Projectile newProjectile = null;
-				
+
 				//if there are any mobs, try to shoot at them
 				if (mGameModel.mMobs.size() > 0) 
 					newProjectile = t.tryToShoot(mGameModel);
@@ -631,16 +630,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				// if the ball is moving ON a tower in the game field
 				// lower it's speed
-				//				s.setSlowed(false);
+				//	s.setSlowed(false);
 
-				//				for (int j = 0; j < mGameModel.mTowers.size(); j++) {
-				//					Tower t = mGameModel.mTowers.get(j);
-				//					Coordinate mobCoordinate = new Coordinate(t.getX()+16,t.getY()+16);
-				//					double distance = Coordinate.getSqrDistance(s.getCoordinates(), mobCoordinate);
-				//
-				//					if (distance < 10 + s.getCharges() + 16)
-				//						s.setSlowed(true);
-				//				}
+				//	for (int j = 0; j < mGameModel.mTowers.size(); j++) {
+				//		Tower t = mGameModel.mTowers.get(j);
+				//		Coordinate mobCoordinate = new Coordinate(t.getX()+16,t.getY()+16);
+				//		double distance = Coordinate.getSqrDistance(s.getCoordinates(), mobCoordinate);
+				// //	if (distance < 10 + s.getCharges() + 16)
+				//			s.setSlowed(true);
+				//		}
 
 
 				// update position with accelerometer
@@ -845,48 +843,50 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mSelectedTower.getName(), 170, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mSelectedTower.getLevel(), 170, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 170, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mSelectedTower.getRange(), 170, 161, sPaintBoxText);
+		canvas.drawText(mSelectedTower.getName(), 160, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mSelectedTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 160, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 160, 161, sPaintBoxText);
+		
+		
 
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
-		
+
 		// if the tower is not fully upgraded and the player affords it
 		if (mSelectedTower.canUpgrade() && 
 				mGameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
-			
+
 			Paint paint = new Paint();
 			paint.setARGB(255, 0, 255, 0);
-			
+
 			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
 			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
 					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
-			
-			
-		// if the tower is not fully upgraded, but the player can't afford upgrading
+
+
+			// if the tower is not fully upgraded, but the player can't afford upgrading
 		} else if (mSelectedTower.canUpgrade() && 
 				mGameModel.currentPlayer.getMoney() < mSelectedTower.getUpgradeCost()) {
-			
+
 			Paint paint = new Paint();
 			paint.setARGB(255, 255, 0, 0);
-			
+
 			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
 			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
 					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
-			
-		// if the tower is fully upgraded
+
+			// if the tower is fully upgraded
 		} else if (mSelectedTower.canUpgrade() == false) {
-			
+
 			Paint paint = new Paint();
 			paint.setARGB(255, 100, 100, 100);
-			
+
 			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
 			canvas.drawText("Fully upgraded!",
 					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
-			
+
 		}
 
 	}
@@ -935,12 +935,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mCurrentTower.getName(), 170, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mCurrentTower.getLevel(), 170, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 170, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mCurrentTower.getRange(), 170, 161, sPaintBoxText);
-
-		canvas.drawText("Drag to buy this tower!", 130, 180, sPaintBoxText);
+		canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mCurrentTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
+		canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
+		
+		canvas.drawText("Drag to buy this tower!", 100, 210, sPaintBoxText);
 	}
 
 	private void drawButtons(Canvas canvas) {
@@ -1006,7 +1007,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.snowball_small);
 			Matrix matrix = new Matrix(); 
 
-			
+
 			// rotate the Bitmap 
 			//matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
 			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true); 
@@ -1110,7 +1111,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
-		sPaintBoxText.setTextSize(16);
+		sPaintBoxText.setStyle(Paint.Style.STROKE);
+		sPaintBoxText.setTextSize(14);
 
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);

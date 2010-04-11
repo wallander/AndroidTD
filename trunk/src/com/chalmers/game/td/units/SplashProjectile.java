@@ -10,16 +10,16 @@ public class SplashProjectile extends Projectile {
 
 	private Coordinate mTargetCoordinate;
 	private int mBlastRadius;
-	
+
 	//tal mellan 1-5, hur stor effect splashen har
 	private int mBlastEffect;
-	
+
 	public SplashProjectile(Mob pTarget, SplashTower pTower, GameModel pGameModel) {
 		super(pTarget, pTower, pGameModel);
 
 		mTargetCoordinate = new Coordinate(getTarget().getX() + getTarget().getWidth()/2, 
 				getTarget().getY() + getTarget().getHeight()/2);
-		
+
 		setAngle(Coordinate.getAngle(this.getCoordinates(), mTargetCoordinate));
 
 		mBlastRadius = 50;
@@ -43,7 +43,7 @@ public class SplashProjectile extends Projectile {
 
 
 	public void inflictDmg() {
-		mTarget.setHealth(mTarget.getHealth() - mDamage);
+		getTarget().setHealth(getTarget().getHealth() - getDamage());
 		//TODO implement stuff
 		// hit every mob within a certain radius of the target coordinate for
 		// a certain amount of damage.
@@ -52,32 +52,31 @@ public class SplashProjectile extends Projectile {
 
 			double sqrDist = Coordinate.getSqrDistance(mTargetCoordinate, m.getCoordinates());
 
-			if (mTarget != m && sqrDist <= mBlastRadius) {
+			if (getTarget() != m && sqrDist <= mBlastRadius) {
 				m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() * (1 - (sqrDist/mBlastRadius/2))/5*mBlastEffect));
 			}
 		}
 	}
 
-	
-	 /**
-	  * Updates the position of this projectile.
-	  *
-	  * This is NOT a homing projectile, it keeps the same coordinate as target.
-	  */
-	 public void updatePosition() {
+	/**
+	 * Updates the position of this projectile.
+	 *
+	 * This is NOT a homing projectile, it keeps the same coordinate as target.
+	 */
+	public void updatePosition() {
 
-		 setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle()) ));
-		 setY(getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle()) ));
-	 }
+		setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle()) ));
+		setY(getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle()) ));
+	}
 
-	 public boolean hasCollided() {
+	public boolean hasCollided() {
 
-		 double distance = Coordinate.getSqrDistance(getCoordinates(), mTargetCoordinate);
+		double distance = Coordinate.getSqrDistance(getCoordinates(), mTargetCoordinate);
 
-		 if (distance < GamePanel.getSpeedMultiplier()*getSpeed())
-			 return true;
+		if (distance < GamePanel.getSpeedMultiplier()*getSpeed())
+			return true;
 
-		 return false;
-	 }
-	 
+		return false;
+	}
+
 }

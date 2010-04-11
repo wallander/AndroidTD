@@ -16,7 +16,7 @@ public class BasicProjectile extends Projectile {
 	 * TODO slow more when higher level
 	 */
 	public void inflictDmg() {
-		mTarget.setHealth(mTarget.getHealth() - mDamage);
+		getTarget().setHealth(getTarget().getHealth() - getDamage());
 	}
 	
 }

@@ -41,7 +41,6 @@ public class Snowball extends Unit {
 		setCharges(10);
 					//set cost
 
-
 	}
 	
 	public double getCost() {
