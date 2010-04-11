@@ -14,19 +14,19 @@ import com.chalmers.game.td.GamePanel;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class Projectile extends Unit{
+public abstract class Projectile extends Unit{
 
 	/** Projectile movement speed */
-	protected int mSpeed;
+	private int mSpeed;
 	
 	/** Projectile type emun */
 	//public enum ProjectileType { NORMAL, SLOW, SPLASH }
 	
 	/** Projectile damage */
-	protected int mDamage;
+	private int mDamage;
 
 	/** Projectile target */
-	protected Mob mTarget;
+	private Mob mTarget;
 	
 	protected GameModel mGameModel;
 	
@@ -59,7 +59,6 @@ public class Projectile extends Unit{
         setTower(pTower);
         setSpeed(10);
         setDamage(mTower.getDamage());
-        
         
         // Jonas försökte göra så misilerna inte blev målsökande
         // Denna koden är bortkommenterad men testa om du vill
@@ -99,6 +98,10 @@ public class Projectile extends Unit{
     public double getAngle() {
 		return mAngle;
 	}
+    
+    public int getDamage(){
+    	return mDamage;
+    }
 
 	public Mob getTarget(){
     	return mTarget;
