@@ -3,6 +3,7 @@ package com.chalmers.game.td.units;
 import com.chalmers.game.td.GamePanel;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
+import com.chalmers.game.td.R;
 import com.chalmers.game.td.units.Unit;
 import android.util.Log;
 
@@ -55,6 +56,8 @@ public class Mob extends Unit{
 	private int mSlowLeft = 0;
 
 	private double mSlowedSpeed;
+	
+	private int mobImage = R.drawable.penguinmob;
 
 	
 	
@@ -105,13 +108,17 @@ public class Mob extends Unit{
     	
     	if (pHealth <= 110) {
     		setReward(10);
+    		setMobImage(R.drawable.penguinmob);
     	} else if(pHealth <= 790) {
     		setReward(20);
+    		setMobImage(R.drawable.bear);
     	} else if(pHealth <= 1200) {
     		setReward(30);
+    		setMobImage(R.drawable.walrus);
     	} else if(pHealth <= 2000) {
     		setReward(40);
     	} else  {
+    		setMobImage(R.drawable.icebear);
     		setReward(50);
     	}
     }
@@ -140,6 +147,15 @@ public class Mob extends Unit{
     		setSpeed(1.6);
     	}
     }
+    
+	public int getMobImage(){
+		
+		return mobImage;
+	}
+	
+	public void setMobImage(int image){
+		mobImage = image;
+	}
     
     public void setPath(Path pPath) {
     	

@@ -282,6 +282,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.projsplash_big, BitmapFactory.decodeResource(getResources(), R.drawable.projsplash_big));
 		mBitMapCache.put(R.drawable.projslow, BitmapFactory.decodeResource(getResources(), R.drawable.projslow));
 		mBitMapCache.put(R.drawable.pause, BitmapFactory.decodeResource(getResources(), R.drawable.pause));
+		mBitMapCache.put(R.drawable.walrus, BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
+		mBitMapCache.put(R.drawable.bear, BitmapFactory.decodeResource(getResources(), R.drawable.bear));
+		mBitMapCache.put(R.drawable.icebear, BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
 
 	}
 
@@ -1044,7 +1047,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		for (int i = mGameModel.mMobs.size()-1; i >= 0; i--) {
 			Mob m = mGameModel.mMobs.get(i);
 
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), (int) m.getX() , (int) m.getY() , null);
+			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
+
+			canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);
 
 			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
