@@ -11,6 +11,7 @@ public class BasicTower extends Tower {
     	setName("Eskimo Tower");
 	}
 	
+	
 	public void setImageByLevel(int pLevel) {
 		
 		switch (pLevel) {

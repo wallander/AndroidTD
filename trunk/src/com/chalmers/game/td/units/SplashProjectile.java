@@ -5,6 +5,7 @@ import android.util.Log;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.R;
 
 public class SplashProjectile extends Projectile {
 
@@ -77,6 +78,11 @@ public class SplashProjectile extends Projectile {
 			return true;
 
 		return false;
+	}
+	
+	public int getProjImage(){
+		
+		return R.drawable.projsplash_big;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.chalmers.game.td.units;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.R;
 
 /**
  * Class which represents a projectile on the game board.
@@ -159,6 +160,11 @@ public abstract class Projectile extends Unit{
   
     private void setTower(Tower pTower) {
 		mTower = pTower;
+	}
+    
+	public int getProjImage(){
+		
+		return R.drawable.snowball_small;
 	}
     
     /**

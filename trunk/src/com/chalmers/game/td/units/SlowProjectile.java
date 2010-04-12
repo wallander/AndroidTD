@@ -3,6 +3,7 @@ package com.chalmers.game.td.units;
 import android.util.Log;
 
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.R;
 
 public class SlowProjectile extends Projectile {
 
@@ -13,6 +14,7 @@ public class SlowProjectile extends Projectile {
 		mSlowEffect = 1-(pTower.getSlow()/100.0);
 		Log.v("JONAS",""+mSlowEffect);
 	}
+	
 	
 	public SlowProjectile(Mob pTarget, SlowTower pTower) {
 		super(pTarget, pTower);	
@@ -26,5 +28,10 @@ public class SlowProjectile extends Projectile {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
 		//mTarget.setSlowed(200,(double)1/(double)(mTower.mLevel + 1));
 		getTarget().setSlowed(200,mSlowEffect); 
+	}
+	
+	public int getProjImage(){
+		
+		return R.drawable.projslow;
 	}
 }

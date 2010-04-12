@@ -279,6 +279,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.water2, BitmapFactory.decodeResource(getResources(), R.drawable.water2));
 		mBitMapCache.put(R.drawable.water3, BitmapFactory.decodeResource(getResources(), R.drawable.water3));
 		mBitMapCache.put(R.drawable.bigsnowball, BitmapFactory.decodeResource(getResources(), R.drawable.bigsnowball));
+		mBitMapCache.put(R.drawable.projsplash_big, BitmapFactory.decodeResource(getResources(), R.drawable.projsplash_big));
+		mBitMapCache.put(R.drawable.projslow, BitmapFactory.decodeResource(getResources(), R.drawable.projslow));
+		mBitMapCache.put(R.drawable.pause, BitmapFactory.decodeResource(getResources(), R.drawable.pause));
 
 	}
 
@@ -821,12 +824,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				" Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),20,0, null);
-		canvas.drawText("" + (int)mGameModel.currentPlayer.getMoney(), 45, 20, sPaintText);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 100, 0, null);
-		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, sPaintText);
-		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 170, 20, sPaintText); //TODO: Count the wave
-		canvas.drawText("Score: 0", 230, 20, sPaintText); //TODO: Count score
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),60,3, null);
+		canvas.drawText("" + (int)mGameModel.currentPlayer.getMoney(), 85, 20, sPaintText);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 140, 3, null);
+		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 165, 20, sPaintText);
+		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 210, 20, sPaintText); //TODO: Count the wave
+		canvas.drawText("Score: 0", 270, 20, sPaintText); //TODO: Count score
 
 	}
 
@@ -955,8 +958,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawRoundRect(sBtn3, 5, 5, paint);
 		canvas.drawRoundRect(sBtn4, 5, 5, paint);
 		canvas.drawRoundRect(sBtn5, 5, 5, paint);
-		canvas.drawRoundRect(sBtnPause, 5, 5, paint);
-		canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
+		//canvas.drawRoundRect(sBtnPause, 5, 5, paint);
+		//canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),15,4,null);
 
 
 		Paint paintalfa = new Paint();
@@ -1004,7 +1008,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw all projectiles
 		for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
 			Projectile p = mGameModel.mProjectiles.get(i);
-			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.snowball_small);
+			Bitmap bitmapOrg = mBitMapCache.get(mGameModel.mProjectiles.get(i).getProjImage()); //R.drawable.projsplash_big before ahmed
 			Matrix matrix = new Matrix(); 
 
 
