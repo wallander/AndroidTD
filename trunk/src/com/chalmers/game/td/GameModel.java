@@ -30,6 +30,7 @@ public class GameModel {
 	
 	protected List<Tower> mTowers;
 	public List<Mob> mMobs;
+	public List<Mob> mShowRewardForMob;
 	protected List<Projectile> mProjectiles;
 	protected List<Snowball> mSnowballs;
 	protected Path mPath;
@@ -37,7 +38,6 @@ public class GameModel {
 	protected int mWaveNr;
 	protected Player currentPlayer;
 	
-
 
 	/** Size of "game tiles" */
     public static final int GAME_TILE_SIZE = 16;
@@ -51,6 +51,7 @@ public class GameModel {
 		
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
+		mShowRewardForMob = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
 		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();

@@ -25,10 +25,11 @@ public class MobFactory {
 
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	private static final int		MAX_WAVE_DELAY = 10;
+	//private static final int		MAX_WAVE_DELAY = 10;
 	private int						mWaveDelayI,
 									mWaveNr,
-									mTotalNrOfWaves;
+									mTotalNrOfWaves,
+									mMaxWaveDelay;
 	private Context					mContext;
 	private Path					mPath;
 	private Queue<Mob>				mMobs;
@@ -44,6 +45,7 @@ public class MobFactory {
 		mWaveDelayI = 0;
 		mWaveNr = 0;
 		mTotalNrOfWaves = 0;
+		mMaxWaveDelay = 10;
 	}
 
 	/**
@@ -115,14 +117,16 @@ public class MobFactory {
 
 			if(mMobs == null || mMobs.isEmpty()) {
 
-				if (mWaveDelayI >= MAX_WAVE_DELAY) {
-					mWaveDelayI = 0;							
+				if (mWaveDelayI >= mMaxWaveDelay) {
+					mWaveDelayI = 0;		
+					
 					mMobs = mWaves.poll();
-
+					
 					if(mMobs != null) 
 						++mWaveNr;
 				} else {
-					mWaveDelayI += GamePanel.getSpeedMultiplier();
+					//mWaveDelayI += GamePanel.getSpeedMultiplier();
+					mWaveDelayI++;
 				}
 			}
 
@@ -134,13 +138,28 @@ public class MobFactory {
 
 					mPath.setTrackPath(pTrack);
 					mMob.setPath(mPath);
+					
+					switch(mMob.getType()) {
+					case FAST:
+						mMaxWaveDelay = 10;
+						Log.v("Delay","FAST");
+						break;
+					case HEALTHY:
+						mMaxWaveDelay = 30;
+						Log.v("Delay","HEALTHY");
+						break;
+					default:
+						mMaxWaveDelay = 10;
+						Log.v("Delay","STANDARD");
+						break;
+					}
 
-					Log.v("GET NEXT MOB", "New Mob initialized with path..");
+					//Log.v("GET NEXT MOB", "New Mob initialized with path..");
 				}
 			}
 
 		} else {
-			Log.v("GET NEXT MOB", "No more waves to send!");
+			//Log.v("GET NEXT MOB", "No more waves to send!");
 			mWaveNr = 0; // Reset the wave number
 		}
 
