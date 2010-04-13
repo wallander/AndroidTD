@@ -287,6 +287,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.icebear, BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
 		mBitMapCache.put(R.drawable.fastforward, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward));
 		mBitMapCache.put(R.drawable.fastforward2, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
+		mBitMapCache.put(R.drawable.flyingpenguin, BitmapFactory.decodeResource(getResources(), R.drawable.flyingpenguin));
+
 	}
 
 	/**
@@ -1068,28 +1070,56 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
+			
+			if(mobImage == mBitMapCache.get(R.drawable.flyingpenguin)){
+				canvas.drawBitmap(mobImage, (int) m.getX(), (int) m.getY() - 25, null);
+				
+				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
-			canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);
+				// drawing health bars for each mob, first a black background
+				healthBarPaint.setARGB(255, 0, 0, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2 + 2,
+						(float) m.getY() - 5 - 25,
+						(float) (m.getX() + 24 + 2),
+						(float) m.getY() - 2 - 25,
+						healthBarPaint);
 
-			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+				// draw current health on the health bar
+				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2 + 2,
+						(float) m.getY() - 5 - 25,
+						(float) (m.getX() + (24 * hpRatio/255)) + 2,
+						(float) m.getY() - 2 - 25,
+						healthBarPaint);
+			} else {
+				canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);	
+				
+				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
-			// drawing health bars for each mob, first a black background
-			healthBarPaint.setARGB(255, 0, 0, 0);
-			canvas.drawRect(
-					(float)m.getX() - 2,
-					(float) m.getY() - 5,
-					(float) (m.getX() + 24),
-					(float) m.getY() - 2,
-					healthBarPaint);
+				// drawing health bars for each mob, first a black background
+				healthBarPaint.setARGB(255, 0, 0, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2,
+						(float) m.getY() - 5,
+						(float) (m.getX() + 24),
+						(float) m.getY() - 2,
+						healthBarPaint);
 
-			// draw current health on the health bar
-			healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
-			canvas.drawRect(
-					(float)m.getX() - 2,
-					(float) m.getY() - 5,
-					(float) (m.getX() + (24 * hpRatio/255)),
-					(float) m.getY() - 2,
-					healthBarPaint);
+				// draw current health on the health bar
+				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2,
+						(float) m.getY() - 5,
+						(float) (m.getX() + (24 * hpRatio/255)),
+						(float) m.getY() - 2,
+						healthBarPaint);
+			}
+
+			
+
+
 		}
 	}
 
