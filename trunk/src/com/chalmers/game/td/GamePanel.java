@@ -74,6 +74,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	/** Current x and y cord. for the touched tower. */
 	private int mTx;
 	private int mTy;
+	
+	private boolean fastf = false;
 
 	private Tower mCurrentTower;
 	private Tower mSelectedTower;
@@ -98,6 +100,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final RectF sBtn4 = new RectF(420,15+180,475,65+180);
 	private static final RectF sBtn5 = new RectF(420,15+240,475,65+240);
 	private static final RectF sBtnPause = new RectF(10,10,50,30);
+	private static final RectF sBtnPlay = new RectF(10,50,90,30);
 	private static final String sBtnPauseLabel = "PAUSE";
 	private static final RectF sBtnResume = new RectF(140, 90, 200, 120);
 	private static final RectF sBtnRestart = new RectF(140, 90+45, 200, 120+45);
@@ -149,8 +152,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	public GamePanel(Context context) {
 
-		super(context);
-
+		super(context);		
+		
 		// makes sure the screen can't turn off while playing
 		setKeepScreenOn(true);
 
@@ -278,10 +281,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.projsplash_big, BitmapFactory.decodeResource(getResources(), R.drawable.projsplash_big));
 		mBitMapCache.put(R.drawable.projslow, BitmapFactory.decodeResource(getResources(), R.drawable.projslow));
 		mBitMapCache.put(R.drawable.pause, BitmapFactory.decodeResource(getResources(), R.drawable.pause));
+		mBitMapCache.put(R.drawable.pause2, BitmapFactory.decodeResource(getResources(), R.drawable.pause2));
 		mBitMapCache.put(R.drawable.walrus, BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
 		mBitMapCache.put(R.drawable.bear, BitmapFactory.decodeResource(getResources(), R.drawable.bear));
 		mBitMapCache.put(R.drawable.icebear, BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
-
+		mBitMapCache.put(R.drawable.fastforward, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward));
+		mBitMapCache.put(R.drawable.fastforward2, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
 	}
 
 	/**
@@ -369,6 +374,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							if (sBtnPause.contains(event.getX(),event.getY())){
 								GAME_STATE = STATE_PAUSED;
 							}
+							
+							if(event.getX() > 50 && event.getX() < 90 && event.getY() > 0 && event.getY() < 30){
+								if(fastf){
+									GamePanel.setSpeedMultiplier(1);
+									fastf = false;
+								} else {
+									GamePanel.setSpeedMultiplier(3);	
+									fastf = true;
+								}
+								
+							}
 
 						} else if(sBtn1.contains(event.getX(),event.getY())) {
 							// button 1
@@ -403,9 +419,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
-							GamePanel.setSpeedMultiplier(3);
+							//GamePanel.setSpeedMultiplier(3);
 
-						}
+						} 
 					}
 
 					break;
@@ -447,7 +463,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						GameModel.currentPlayer.setMoney(0); // TODO
 						mCurrentSnowball = null;
 					}
-					GamePanel.setSpeedMultiplier(1);
+					//GamePanel.setSpeedMultiplier(1);
 					break;
 				}
 				break;
@@ -788,7 +804,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawSplashWater(Canvas canvas){
 		if(mSplash){
-			int x = 422; //TODO: hämta från path last destination
+			int x = 422; //TODO: hï¿½mta frï¿½n path last destination
 			int y = 130;
 			if(mWateranimation >= 0 && mWateranimation < 5){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water),x,y,null);
@@ -821,12 +837,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),60,3, null);
-		canvas.drawText("" + (int)GameModel.currentPlayer.getMoney(), 85, 20, sPaintText);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 140, 3, null);
-		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 165, 20, sPaintText);
-		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 210, 20, sPaintText); //TODO: Count the wave
-		canvas.drawText("Score: 0", 270, 20, sPaintText); //TODO: Count score
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
+		canvas.drawText("" + (int)GameModel.currentPlayer.getMoney(), 105, 20, sPaintText);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 160, 3, null);
+		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
+		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText); //TODO: Count the wave
+		canvas.drawText("Score: 0", 290, 20, sPaintText); //TODO: Count score
 
 	}
 
@@ -957,9 +973,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawRoundRect(sBtn5, 5, 5, paint);
 		//canvas.drawRoundRect(sBtnPause, 5, 5, paint);
 		//canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),15,4,null);
-
-
+		
+		if(GAME_STATE == STATE_PAUSED){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause2),15,4,null);
+		} else {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),15,4,null);
+		}
+		if(fastf){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),45,4,null);
+		} else {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),45,4,null);
+		}
 		Paint paintalfa = new Paint();
 
 		//if the tower build buttons should be "unavaliable" or not

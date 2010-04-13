@@ -165,13 +165,18 @@ public abstract class Tower extends Unit {
 			}
 			
 			if (!mobsInRange.isEmpty()){
-				resetCoolDown();
-				return createProjectile(firstMob(mobsInRange));					
+				
+				Projectile returnedProjectile =  createProjectile(firstMob(mobsInRange));
+				if (returnedProjectile != null) {
+					resetCoolDown();
+					return returnedProjectile;
+				} else {
+					return null;	
+				}
+				
 			}
 
 
-		} else { // if the tower is on cooldown
-			return null;
 		}
 
 		// if the tower is off cooldown, but has no target in range
