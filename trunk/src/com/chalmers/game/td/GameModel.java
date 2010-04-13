@@ -28,15 +28,15 @@ import com.chalmers.game.td.Path;
  */
 public class GameModel {
 	
-	protected List<Tower> mTowers;
-	public List<Mob> mMobs;
-	public List<Mob> mShowRewardForMob;
-	protected List<Projectile> mProjectiles;
-	protected List<Snowball> mSnowballs;
-	protected Path mPath;
-	protected HashSet<Point> mOccupiedTilePositions;
-	protected int mWaveNr;
-	protected Player currentPlayer;
+	public static List<Tower> mTowers;
+	public static List<Mob> mMobs;
+	public static List<Mob> mShowRewardForMob;
+	public static List<Projectile> mProjectiles;
+	public static List<Snowball> mSnowballs;
+	public static Path mPath;
+	public static HashSet<Point> mOccupiedTilePositions;
+	public static int mWaveNr;
+	public static Player currentPlayer;
 	
 
 	/** Size of "game tiles" */
@@ -47,8 +47,15 @@ public class GameModel {
 	 */
 	public GameModel() {
 		
-		currentPlayer = new Player();
 		
+	}
+	
+	/**
+	 * Initializes all variables of the GameModel. TODO take care of track nr
+	 */
+	public static void initialize() {
+		
+		currentPlayer = new Player();
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mShowRewardForMob = new ArrayList<Mob>();
@@ -91,7 +98,7 @@ public class GameModel {
 	 * @param x Tile position on the X-axis
 	 * @param y Tile position on the Y-axis
 	 */
-	public void buildTower(Tower tower, int x, int y){
+	public static void buildTower(Tower tower, int x, int y){
 		
 		tower.setCoordinates(new Coordinate(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE));
 		
@@ -108,15 +115,15 @@ public class GameModel {
 		
 	}
 	
-	 public int getWaveNr() {
+	 public static int getWaveNr() {
 		return mWaveNr;
 	}
 
-	public void setWaveNr(int mWaveNr) {
-		this.mWaveNr = mWaveNr;
+	public static void setWaveNr(int pWaveNr) {
+		mWaveNr = pWaveNr;
 	}
 
-	public boolean canAddTower(Tower tower) {
+	public static boolean canAddTower(Tower tower) {
 		
 		int tx = (int) (tower.getX() / GAME_TILE_SIZE);
 		int ty = (int) (tower.getY() / GAME_TILE_SIZE);
@@ -133,7 +140,7 @@ public class GameModel {
 		
 	}
 	
-	public void removeTower(Tower t) {
+	public static void removeTower(Tower t) {
 		mTowers.remove(t);
 		
 		int tx = (int) (t.getX() / GAME_TILE_SIZE);

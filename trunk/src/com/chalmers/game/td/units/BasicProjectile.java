@@ -5,9 +5,6 @@ import com.chalmers.game.td.R;
 
 public class BasicProjectile extends Projectile {
 
-	public BasicProjectile(Mob pTarget, Tower pTower, GameModel pGameModel) {
-		super(pTarget, pTower, pGameModel);
-	}
 	public BasicProjectile(Mob pTarget, Tower pTower) {
 		super(pTarget, pTower);
 	}
