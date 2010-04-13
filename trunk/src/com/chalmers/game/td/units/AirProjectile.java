@@ -3,9 +3,12 @@ package com.chalmers.game.td.units;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.R;
 
-public class BasicProjectile extends Projectile {
+public class AirProjectile extends Projectile {
 
-	public BasicProjectile(Mob pTarget, Tower pTower) {
+	public AirProjectile(Mob pTarget, AirTower pTower) {
+		super(pTarget, pTower);
+	}
+	public AirProjectile(Mob pTarget, Tower pTower) {
 		super(pTarget, pTower);
 	}
 

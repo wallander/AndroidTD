@@ -29,16 +29,6 @@ public abstract class Projectile extends Unit{
 	/** Projectile target */
 	private Mob mTarget;
 	
-	protected GameModel mGameModel;
-	
-	public GameModel getGameModel() {
-		return mGameModel;
-	}
-
-	public void setGameModel(GameModel pGameModel) {
-		mGameModel = pGameModel;
-	}
-
 	/** Projectile tower */
 	protected Tower mTower;
 	
@@ -50,8 +40,8 @@ public abstract class Projectile extends Unit{
      * 
      * @param bitmap Bitmap which should be drawn.
      */
-    public Projectile(Mob pTarget, Tower pTower, GameModel model) {
-    	mGameModel = model;
+    public Projectile(Mob pTarget, Tower pTower) {
+    	
     	setCoordinates(new Coordinate(
     			pTower.getX() + (pTower.getWidth() * GameModel.GAME_TILE_SIZE / 2),
     			pTower.getY() - 16 + (pTower.getHeight() * GameModel.GAME_TILE_SIZE / 2)));
@@ -73,28 +63,7 @@ public abstract class Projectile extends Unit{
 		//setAngle(a2 - Math.asin(getMob().getSpeed()/getSpeed()*Math.sin(Math.PI - a2 + getMob().getAngle())));
     }
     
-    public Projectile(Mob pTarget, Tower pTower) {
-    	setCoordinates(new Coordinate(
-    			pTower.getX() + (pTower.getWidth() * GameModel.GAME_TILE_SIZE / 2),
-    			pTower.getY() - 16 + (pTower.getHeight() * GameModel.GAME_TILE_SIZE / 2)));
 
-        setTarget(pTarget);
-        setTower(pTower);
-        setSpeed(10);
-        setDamage(mTower.getDamage());
-        
-        
-        // Jonas försökte göra så misilerna inte blev målsökande
-        // Denna koden är bortkommenterad men testa om du vill
-        // Kommentera bort viss kod i updatePosition isf också
-        // I denna variant beräknas vart proj och mob kommer mötas och så skickas
-        // proj ut i blindo. Formeln verkar dock göra så projektilen missar ofta då proj
-        // inte är snabb nog
-        
-        //Coordinate targetCoordinate = new Coordinate(getMob().getX() + getMob().getWidth()/2, getMob().getY()  + getMob().getHeight()/2);
-		//double a2 = Coordinate.getAngle(this.getCoordinates(), targetCoordinate);
-		//setAngle(a2 - Math.asin(getMob().getSpeed()/getSpeed()*Math.sin(Math.PI - a2 + getMob().getAngle())));
-    }
     
     public double getAngle() {
 		return mAngle;

@@ -50,8 +50,8 @@ public class Mob extends Unit{
 	private int mRewardAnimation = 0;
 	
 	/** Speed */
-	double speedX;
-	double speedY;
+	private double mSpeedX;
+	private double mSpeedY;
 
 	private int mSlowLeft = 0;
 
@@ -59,12 +59,13 @@ public class Mob extends Unit{
 	
 	private int mobImage = R.drawable.penguinmob;
 
-	
+	/** Placement on the road relative to the other mobs */
+	private double mDistanceWalked = 0;
 	
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	public enum MobType { HEALTHY, ARMORED, FAST, NORMAL }
+	public enum MobType { HEALTHY, AIR, FAST, NORMAL }
     
 	/*
      * TestConstructor. hard coded lol-mob for testing purposes. TODO
@@ -87,7 +88,6 @@ public class Mob extends Unit{
         
         updatePosition();
         
-        // TODO: fix dynamic size
         setSize(24);
         
     }
@@ -103,7 +103,6 @@ public class Mob extends Unit{
     	this(pType);		//anropar den andra kontruktorn
     	setHealth(pHealth);
     	setMaxHealth(pHealth);
-    	
     	
     	
     	if (pHealth <= 110) {
@@ -189,9 +188,7 @@ public class Mob extends Unit{
 	 */
 	private void setArmor(int i) {
 		mArmor = i;
-		
 	}
-
 
     /**
      * Setter for which checkpoint the mob is walking to.
@@ -209,7 +206,16 @@ public class Mob extends Unit{
         return mSpeed;
     }
 
-
+    public boolean isBefore(Mob pMob){
+    	if (mDistanceWalked > pMob.getDistanceWalked())
+    		return true;
+    	else
+    		return false;
+    }
+    
+    public double getDistanceWalked(){
+    	return mDistanceWalked;
+    }
 
     /**
      * @param
@@ -260,34 +266,32 @@ public class Mob extends Unit{
 	 */
 	
 	public boolean updatePosition() {
-		
-		
-		
+
 		// if the mob reached his current checkpoint, change direction		
 		if (reachedCheckpoint()) {
 			setCheckpoint(getCheckpoint()+1);
-			
-		
+
 			if (mPath.getCoordinate(getCheckpoint()) == null) {
-				Log.v("MOB EVENT","NEXT COORDINATE IS NULL"); // Kan ta bort efter debug
+				Log.v("MOB EVENT","NEXT COORDINATE IS NULL"); // TODO Kan ta bort efter debug
 				return false;
 			}
 			updateAngle();
-			
-			speedX = getSpeed() * Math.cos(getAngle());
-			speedY = getSpeed() * Math.sin(getAngle());
-			
+
+			mSpeedX = getSpeed() * Math.cos(getAngle());
+			mSpeedY = getSpeed() * Math.sin(getAngle());
 
 		}
-		
-			if(isSlowed()){
-				setX(getX() + GamePanel.getSpeedMultiplier()*speedX*mSlowedSpeed);
-				setY(getY() - GamePanel.getSpeedMultiplier()*speedY*mSlowedSpeed);
-				mSlowLeft -= GamePanel.getSpeedMultiplier();
-			} else {
-				setX(getX() + GamePanel.getSpeedMultiplier()*speedX);
-				setY(getY() - GamePanel.getSpeedMultiplier()*speedY);
-			}
+
+		if(isSlowed()){
+			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
+			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
+			mDistanceWalked += getSpeed()*mSlowedSpeed;
+			mSlowLeft -= GamePanel.getSpeedMultiplier();
+		} else {
+			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX);
+			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY);
+			mDistanceWalked += mSpeed;
+		}
 
 		return true;
 	}
@@ -302,7 +306,7 @@ public class Mob extends Unit{
 
 	/**
 	 * Method that checks whether the mob has reached its current checkpoint
-	 * Slightly bugged. TODO
+	 * 
 	 * @return
 	 */
 	public boolean reachedCheckpoint() {

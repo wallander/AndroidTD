@@ -10,30 +10,23 @@ import com.chalmers.game.td.GamePanel;
 
 import com.chalmers.game.td.R;
 
-public class SlowTower extends Tower {
+public class AirTower extends Tower {
 
-	private int mSlow;
 	
-	public SlowTower(int mX, int mY) {
+	
+	public AirTower(int mX, int mY) {
 		super(mX, mY);
-		setName("Slow Tower");		
-		setCost(200);
-		setCoolDown(30);
-    	resetCoolDown();
-		setRange(60);
+		setName("Air Tower");		
+		setCost(12);
+//		setCoolDown(30);
+  //  	resetCoolDown();
+		setRange(120);
 		setDamage(20);
-		setSlow(30);
-		setPrio(Tower.NOT_SLOWED);
 		// TODO Set appropriate values to range, damage, attack speed and such
-	}
 
-	public void setSlow(int i) {
-		mSlow = i;
 	}
+	
 
-	public int getSlow() {
-		return mSlow;
-	}
 
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
@@ -53,8 +46,7 @@ public class SlowTower extends Tower {
      * @return Projectile set to target the first mob the tower can reach.
      */
 	public Projectile createProjectile(Mob pTarget) {
-		
-    	return new SlowProjectile(pTarget, this);
+    	return new AirProjectile(pTarget, this);
     }
 
 	public boolean upgrade() {
@@ -67,18 +59,17 @@ public class SlowTower extends Tower {
     		
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
-    			setDamage(25);
-        		setRange(75);
-        		setSlow(40); break;
+    			setDamage(35);
+        		setRange(120);
+        		 break;
     		case 3:
-    			setDamage(30);
-        		setRange(75);
-        		setSlow(50); break;
+    			setDamage(50);
+        		setRange(120);
+        		break;
     		case 4:
-    			setDamage(40);
-        		setRange(75);
-        		setCoolDown(25);
-        		setSlow(60); break;
+    			setDamage(80);
+        		setRange(120);
+        		break;
     		}
     		
 // Old values, kept for reference
@@ -105,9 +96,9 @@ public class SlowTower extends Tower {
 	public int getUpgradeCost() {
 
 		switch(getLevel()) {
-		case 1: return 200;
-		case 2: return 200;
-		case 3: return 200;
+		case 1: return 20;
+		case 2: return 30;
+		case 3: return 50;
 		}
 		return 0; 	//default, not gonna happen
 	}

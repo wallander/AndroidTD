@@ -28,6 +28,7 @@ public class MenuGame extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //setContentView(new ProgressionRoutePanel(this)); TODO fix so the picture is drawn!
         setContentView(new GamePanel(this));
     }
 }

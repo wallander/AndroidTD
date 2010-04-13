@@ -227,7 +227,7 @@ public class MobFactory {
 
 						} else if(mMobInfo[0].equals("ARMORED")) {
 
-							mMobs.add(new Mob(MobType.ARMORED, mHealth));
+							mMobs.add(new Mob(MobType.AIR, mHealth));
 							Log.v("INIT MOBS", "Created mob of type ARMORED");
 
 						} else if(mMobInfo[0].equals("FAST")) {
