@@ -134,16 +134,17 @@ public abstract class Tower extends Unit {
      * @return Projectile set to target the first mob the tower can reach.
      */
 
-	public Projectile tryToShoot(GameModel pGameModel){
-
+    public Projectile tryToShoot(){
+    	
 		// if the tower is not on cooldown
 		if (!isOnCoolDown()) {
 			//mProjectiles = new ArrayList<Projectile>();
 			ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
 			// loop through the list of mobs
-			for (int i=0; i < pGameModel.mMobs.size(); i++) {
 
-				Mob m = pGameModel.mMobs.get(i);
+			for (int i=0; i < GameModel.mMobs.size(); i++) {
+				
+				Mob m = GameModel.mMobs.get(i);
 
 				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
 

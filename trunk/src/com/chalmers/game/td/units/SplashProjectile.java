@@ -15,8 +15,8 @@ public class SplashProjectile extends Projectile {
 	//tal mellan 1-5, hur stor effect splashen har
 	private int mBlastEffect;
 
-	public SplashProjectile(Mob pTarget, SplashTower pTower, GameModel pGameModel) {
-		super(pTarget, pTower, pGameModel);
+	public SplashProjectile(Mob pTarget, SplashTower pTower) {
+		super(pTarget, pTower);
 
 		mTargetCoordinate = new Coordinate(getTarget().getX() + getTarget().getWidth()/2, 
 				getTarget().getY() + getTarget().getHeight()/2);
@@ -27,17 +27,7 @@ public class SplashProjectile extends Projectile {
 		mBlastEffect = pTower.getSplash(); //tal mellan 1-5, hur stor effect slashen har
 	}
 
-	public SplashProjectile(Mob pTarget, SplashTower pTower) {
-		super(pTarget, pTower);
 
-		mTargetCoordinate = new Coordinate(getTarget().getX() + getTarget().getWidth()/2, 
-				getTarget().getY() + getTarget().getHeight()/2);
-
-		setAngle(Coordinate.getAngle(this.getCoordinates(), mTargetCoordinate));
-
-		mBlastRadius = 50;
-		mBlastEffect = pTower.getSplash(); //tal mellan 1-5, hur stor effect splashen har
-	}
 	/**
 	 * Inflicts damage to all nearby mobs.
 	 */
@@ -45,11 +35,10 @@ public class SplashProjectile extends Projectile {
 
 	public void inflictDmg() {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
-		//TODO implement stuff
 		// hit every mob within a certain radius of the target coordinate for
 		// a certain amount of damage.
-		for (int i = 0; i < mGameModel.mMobs.size(); i++) {
-			Mob m = mGameModel.mMobs.get(i);
+		for (int i = 0; i < GameModel.mMobs.size(); i++) {
+			Mob m = GameModel.mMobs.get(i);
 
 			double sqrDist = Coordinate.getSqrDistance(mTargetCoordinate, m.getCoordinates());
 
