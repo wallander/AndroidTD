@@ -18,8 +18,8 @@ public class AirTower extends Tower {
 		super(mX, mY);
 		setName("Air Tower");		
 		setCost(12);
-//		setCoolDown(30);
-  //  	resetCoolDown();
+		setCoolDown(30);
+    	resetCoolDown();
 		setRange(120);
 		setDamage(20);
 		// TODO Set appropriate values to range, damage, attack speed and such
@@ -46,7 +46,13 @@ public class AirTower extends Tower {
      * @return Projectile set to target the first mob the tower can reach.
      */
 	public Projectile createProjectile(Mob pTarget) {
-    	return new AirProjectile(pTarget, this);
+		switch(pTarget.getType()) {
+		case AIR:
+			return new AirProjectile(pTarget, this);
+			default: return null;
+			
+		}
+    	
     }
 
 	public boolean upgrade() {

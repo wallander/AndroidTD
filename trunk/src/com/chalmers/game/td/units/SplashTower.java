@@ -59,7 +59,10 @@ public class SplashTower extends Tower {
      */
     
     public Projectile createProjectile(Mob pTarget) {
-    	return new SplashProjectile(pTarget, this);
+    	switch(pTarget.getType()) {
+    		case AIR: return null;
+    		default: return new SplashProjectile(pTarget, this);
+    	}
     }
 
 	public boolean upgrade() {
