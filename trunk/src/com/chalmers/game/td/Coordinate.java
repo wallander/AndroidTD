@@ -15,7 +15,7 @@ package com.chalmers.game.td;
 public class Coordinate
 {
 	private double	mXPos,
-				mYPos;
+					mYPos;
 	
 	/**
 	 * Constructor

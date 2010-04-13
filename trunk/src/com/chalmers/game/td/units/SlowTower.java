@@ -23,10 +23,9 @@ public class SlowTower extends Tower {
 		setRange(60);
 		setDamage(20);
 		setSlow(30);
+		setPrio(Tower.NOT_SLOWED);
 		// TODO Set appropriate values to range, damage, attack speed and such
-
 	}
-	
 
 	public void setSlow(int i) {
 		mSlow = i;
@@ -54,6 +53,7 @@ public class SlowTower extends Tower {
      * @return Projectile set to target the first mob the tower can reach.
      */
 	public Projectile createProjectile(Mob pTarget) {
+		
     	return new SlowProjectile(pTarget, this);
     }
 

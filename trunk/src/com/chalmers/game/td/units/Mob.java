@@ -88,7 +88,6 @@ public class Mob extends Unit{
         
         updatePosition();
         
-        // TODO: fix dynamic size
         setSize(24);
         
     }
@@ -191,7 +190,6 @@ public class Mob extends Unit{
 		mArmor = i;
 	}
 
-
     /**
      * Setter for which checkpoint the mob is walking to.
      * 
@@ -287,7 +285,7 @@ public class Mob extends Unit{
 		if(isSlowed()){
 			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
 			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
-			mDistanceWalked += mSpeed*mSlowedSpeed;
+			mDistanceWalked += getSpeed()*mSlowedSpeed;
 			mSlowLeft -= GamePanel.getSpeedMultiplier();
 		} else {
 			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX);
@@ -308,7 +306,7 @@ public class Mob extends Unit{
 
 	/**
 	 * Method that checks whether the mob has reached its current checkpoint
-	 * Slightly bugged. TODO
+	 * 
 	 * @return
 	 */
 	public boolean reachedCheckpoint() {

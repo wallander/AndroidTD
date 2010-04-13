@@ -28,8 +28,8 @@ public abstract class Tower extends Unit {
 	private int mCoolDown;		// Tower constant shoot speed
 	
 	//how to prioritize between mobs
-	private static final int  ANY = 3, FIRST = 2, NOT_SLOWED = 3;
-	private int mPrio;
+	protected static final int  ANY = 3, FIRST = 2, NOT_SLOWED = 3;
+	protected int mPrio;
 	
 	private String mName;
 
@@ -134,19 +134,19 @@ public abstract class Tower extends Unit {
      * @return Projectile set to target the first mob the tower can reach.
      */
 
-    public Projectile tryToShoot(GameModel pGameModel){
-    	
+	public Projectile tryToShoot(GameModel pGameModel){
+
 		// if the tower is not on cooldown
 		if (!isOnCoolDown()) {
 			//mProjectiles = new ArrayList<Projectile>();
 			ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
 			// loop through the list of mobs
 			for (int i=0; i < pGameModel.mMobs.size(); i++) {
-				
+
 				Mob m = pGameModel.mMobs.get(i);
 
 				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
-				
+
 				// if mob is in range
 				if (sqrDist < getRange()){
 
@@ -156,38 +156,42 @@ public abstract class Tower extends Unit {
 						resetCoolDown();
 						return (createProjectile(m));
 					} else if (mPrio == FIRST){
-						mobsInRange.add(m);				
+						mobsInRange.add(m);
+					} else if (mPrio == NOT_SLOWED && m.isSlowed() == false){
+						mobsInRange.add(m);
 					}
+
 				}
 			}
+			
 			if (!mobsInRange.isEmpty()){
 				resetCoolDown();
-				return createProjectile(firstMob(mobsInRange));
+				return createProjectile(firstMob(mobsInRange));					
 			}
-			
-		
+
+
 		} else { // if the tower is on cooldown
 			return null;
 		}
-		
+
 		// if the tower is off cooldown, but has no target in range
 		return null;
-    }
-    
-    public Mob firstMob(ArrayList<Mob> pMobs) {
-    	Mob first = pMobs.get(0);
-    	
-    	//if only one mob, return it
-    	if (pMobs.size()==1)
-    		return first;
-    	
-    	//otherwise loop through to find and return first
-    	for (Mob m : pMobs){
-    		if (m.isBefore(first))
-    			first = m;
-    	}
-    	return first;
-    }
+	}
+
+	public Mob firstMob(ArrayList<Mob> pMobs) {
+		Mob first = pMobs.get(0);
+
+		//if only one mob, return it
+		if (pMobs.size()==1)
+			return first;
+
+		//otherwise loop through to find and return first
+		for (Mob m : pMobs){
+			if (m.isBefore(first))
+				first = m;
+		}
+		return first;
+	}
 
     
     public abstract Projectile createProjectile(Mob pTarget);
