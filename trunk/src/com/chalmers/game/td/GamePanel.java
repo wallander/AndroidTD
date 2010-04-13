@@ -152,8 +152,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	public GamePanel(Context context) {
 
-		super(context);
-
+		super(context);		
+		
 		// makes sure the screen can't turn off while playing
 		setKeepScreenOn(true);
 
@@ -806,7 +806,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawSplashWater(Canvas canvas){
 		if(mSplash){
-			int x = 422; //TODO: hämta från path last destination
+			int x = 422; //TODO: hï¿½mta frï¿½n path last destination
 			int y = 130;
 			if(mWateranimation >= 0 && mWateranimation < 5){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water),x,y,null);
