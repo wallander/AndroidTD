@@ -7,6 +7,7 @@ import java.util.Map;
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
 
+import com.chalmers.game.td.units.AirTower;
 import com.chalmers.game.td.units.BasicTower;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
@@ -140,10 +141,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean mAllowBuild;
 
 
-	protected Tower mTower1 = new BasicTower(0,0);
-	protected Tower mTower2 = new SplashTower(0,0);
-	protected Tower mTower3 = new SlowTower(0,0);
-	protected Snowball mSnowball = new Snowball(0,0);
+	private Tower mTower1 = new BasicTower(0,0);
+	private Tower mTower2 = new SplashTower(0,0);
+	private Tower mTower3 = new SlowTower(0,0);
+	private Tower mTower4 = new AirTower(0,0);
+	
+	private Snowball mSnowball = new Snowball(0,0);
 
 
 	/**
@@ -415,12 +418,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 						} else if(sBtn4.contains(event.getX(),event.getY())) {
 							// button 4
-							if (mAccelerometerSupported)
-								mCurrentSnowball = new Snowball(mTx,mTy);
+							if (mTower4.getCost() <= GameModel.currentPlayer.getMoney()) {
+								mAllowBuild = true;
+							}	
+							mCurrentTower = new AirTower(mTx ,mTy);
+							mShowTooltip = true;
 
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
+							if (mAccelerometerSupported)
+								mCurrentSnowball = new Snowball(mTx,mTy);
 							//GamePanel.setSpeedMultiplier(3);
 
 						} 
@@ -1010,18 +1018,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
 		
+		if(mTower4.getCost() >= GameModel.currentPlayer.getMoney()) {
+			paintalfa.setAlpha(100);
+		} else {
+			paintalfa.setAlpha(255);
+		}
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,205,paintalfa);
+
 		if(mSnowball.getCost() >= GameModel.currentPlayer.getMoney()) {
 			paintalfa.setAlpha(100);
 		} else {
 			paintalfa.setAlpha(255);
 		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,205,paintalfa);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,265,paintalfa);
 
-		canvas.drawLine(432, 270, 442, 280, sPaintLine);
-		canvas.drawLine(442, 280, 432, 290, sPaintLine);
 
-		canvas.drawLine(447, 270, 457, 280, sPaintLine);
-		canvas.drawLine(457, 280, 447, 290, sPaintLine);
+		
+		
+		//canvas.drawLine(432, 270, 442, 280, sPaintLine);
+		//canvas.drawLine(442, 280, 432, 290, sPaintLine);
+
+		//canvas.drawLine(447, 270, 457, 280, sPaintLine);
+		//canvas.drawLine(457, 280, 447, 290, sPaintLine);
 
 		//		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
 
