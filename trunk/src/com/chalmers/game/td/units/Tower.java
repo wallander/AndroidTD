@@ -125,6 +125,7 @@ public abstract class Tower extends Unit {
 		// ta bort kostnad från spelarens konto?
 	}
 
+
     /**
      * Method that returns a Projectile set to target the first mob
      * in the given list of mobs that the tower can reach.
@@ -272,7 +273,7 @@ public abstract class Tower extends Unit {
 		return mDamage;
 	}
 
-	public double getCost() {
+	public int getCost() {
 		return mCost;
 	}
 

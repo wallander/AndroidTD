@@ -1,6 +1,7 @@
 package com.chalmers.game.td.units;
 
 import com.chalmers.game.td.GameModel;
+import com.chalmers.game.td.R;
 
 public class BasicProjectile extends Projectile {
 
@@ -17,6 +18,11 @@ public class BasicProjectile extends Projectile {
 	 */
 	public void inflictDmg() {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
+	}
+	
+	public int getProjImage(){
+		
+		return R.drawable.snowball_small;
 	}
 	
 }

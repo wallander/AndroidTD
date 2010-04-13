@@ -30,6 +30,7 @@ public class GameModel {
 	
 	protected List<Tower> mTowers;
 	public List<Mob> mMobs;
+	public List<Mob> mShowRewardForMob;
 	protected List<Projectile> mProjectiles;
 	protected List<Snowball> mSnowballs;
 	protected Path mPath;
@@ -50,6 +51,7 @@ public class GameModel {
 		
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
+		mShowRewardForMob = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
 		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();

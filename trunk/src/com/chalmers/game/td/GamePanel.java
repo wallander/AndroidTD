@@ -120,6 +120,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint snowPaint = new Paint();
 	private static final Paint borderPaint = new Paint();
 	private static final Paint mBtnPaint = new Paint();
+	private static final Paint sMoneyAfterDead = new Paint();
+	private static final Paint sMoneyAfterDeadBg = new Paint();
 
 	/** Debug */
 	TDDebug debug;    
@@ -277,6 +279,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.water2, BitmapFactory.decodeResource(getResources(), R.drawable.water2));
 		mBitMapCache.put(R.drawable.water3, BitmapFactory.decodeResource(getResources(), R.drawable.water3));
 		mBitMapCache.put(R.drawable.bigsnowball, BitmapFactory.decodeResource(getResources(), R.drawable.bigsnowball));
+		mBitMapCache.put(R.drawable.projsplash_big, BitmapFactory.decodeResource(getResources(), R.drawable.projsplash_big));
+		mBitMapCache.put(R.drawable.projslow, BitmapFactory.decodeResource(getResources(), R.drawable.projslow));
+		mBitMapCache.put(R.drawable.pause, BitmapFactory.decodeResource(getResources(), R.drawable.pause));
+		mBitMapCache.put(R.drawable.walrus, BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
+		mBitMapCache.put(R.drawable.bear, BitmapFactory.decodeResource(getResources(), R.drawable.bear));
+		mBitMapCache.put(R.drawable.icebear, BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
 
 	}
 
@@ -295,7 +303,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		case KeyEvent.KEYCODE_BACK:
 			// TODO Handle hardware "back" button
-			GAME_STATE = STATE_RUNNING;
+			GAME_STATE = STATE_PAUSED;
 
 			break;
 		}
@@ -399,7 +407,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
-							GamePanel.setSpeedMultiplier(5);
+							GamePanel.setSpeedMultiplier(3);
 
 						}
 					}
@@ -648,6 +656,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob m = deadMobs.get(k);
+					mGameModel.mShowRewardForMob.add(m);
 					mGameModel.currentPlayer.changeMoney(m.getReward());
 				}
 				mGameModel.mMobs.removeAll(deadMobs);
@@ -664,6 +673,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 *  Update position
 			 *  If the mob has died, handle it
 			 */
+		
 			for (int j = 0; j < mGameModel.mMobs.size(); j++) {
 				Mob m = mGameModel.mMobs.get(j);
 
@@ -673,10 +683,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					mGameModel.mMobs.remove(m);
 					mGameModel.currentPlayer.removeLife();
 				}
-
+				
+				
 				// handle mob death
 				if (m.getHealth() <= 0) {
 					mGameModel.currentPlayer.changeMoney(m.getReward());
+					mGameModel.mShowRewardForMob.add(m);
 					mGameModel.mMobs.remove(m);
 				}
 			}
@@ -711,6 +723,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		drawProjectiles(canvas);
 		drawButtons(canvas);
 		drawStatisticsText(canvas);
+		drawRewardsAfterDeadMob(canvas);
+		
+	
 
 
 		switch (GAME_STATE) {
@@ -812,12 +827,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				" Proj:"+mGameModel.mProjectiles.size() + " Towers:"+ mGameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),20,0, null);
-		canvas.drawText("" + (int)mGameModel.currentPlayer.getMoney(), 45, 20, sPaintText);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 100, 0, null);
-		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 125, 20, sPaintText);
-		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 170, 20, sPaintText); //TODO: Count the wave
-		canvas.drawText("Score: 0", 230, 20, sPaintText); //TODO: Count score
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),60,3, null);
+		canvas.drawText("" + (int)mGameModel.currentPlayer.getMoney(), 85, 20, sPaintText);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 140, 3, null);
+		canvas.drawText("" + mGameModel.currentPlayer.getRemainingLives(), 165, 20, sPaintText);
+		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 210, 20, sPaintText); //TODO: Count the wave
+		canvas.drawText("Score: 0", 270, 20, sPaintText); //TODO: Count score
 
 	}
 
@@ -834,10 +849,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mSelectedTower.getName(), 170, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mSelectedTower.getLevel(), 170, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 170, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mSelectedTower.getRange(), 170, 161, sPaintBoxText);
+		canvas.drawText(mSelectedTower.getName(), 160, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mSelectedTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 160, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 160, 161, sPaintBoxText);
+		
+		
 
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 
@@ -924,12 +941,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mCurrentTower.getName(), 170, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mCurrentTower.getLevel(), 170, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 170, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mCurrentTower.getRange(), 170, 161, sPaintBoxText);
-
-		canvas.drawText("Drag to buy this tower!", 130, 180, sPaintBoxText);
+		canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mCurrentTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
+		canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
+		
+		canvas.drawText("Drag to buy this tower!", 100, 210, sPaintBoxText);
 	}
 
 	private void drawButtons(Canvas canvas) {
@@ -943,8 +961,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawRoundRect(sBtn3, 5, 5, paint);
 		canvas.drawRoundRect(sBtn4, 5, 5, paint);
 		canvas.drawRoundRect(sBtn5, 5, 5, paint);
-		canvas.drawRoundRect(sBtnPause, 5, 5, paint);
-		canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
+		//canvas.drawRoundRect(sBtnPause, 5, 5, paint);
+		//canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),15,4,null);
 
 
 		Paint paintalfa = new Paint();
@@ -992,7 +1011,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw all projectiles
 		for (int i = 0; i < mGameModel.mProjectiles.size(); i++) {
 			Projectile p = mGameModel.mProjectiles.get(i);
-			Bitmap bitmapOrg = mBitMapCache.get(R.drawable.snowball_small);
+			Bitmap bitmapOrg = mBitMapCache.get(mGameModel.mProjectiles.get(i).getProjImage()); //R.drawable.projsplash_big before ahmed
 			Matrix matrix = new Matrix(); 
 
 
@@ -1028,7 +1047,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		for (int i = mGameModel.mMobs.size()-1; i >= 0; i--) {
 			Mob m = mGameModel.mMobs.get(i);
 
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), (int) m.getX() , (int) m.getY() , null);
+			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
+
+			canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);
 
 			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
@@ -1059,12 +1080,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw the "end-point-base"
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
 	}
+	
+	private void drawRewardsAfterDeadMob(Canvas canvas){
+		for (int i = 0; i < mGameModel.mShowRewardForMob.size(); i++) {
+			canvas.drawText("" +mGameModel.mShowRewardForMob.get(i).getReward(),(int)mGameModel.mShowRewardForMob.get(i).getX() + 1, (int)mGameModel.mShowRewardForMob.get(i).getY() - 1,sMoneyAfterDeadBg);
+			canvas.drawText("" +mGameModel.mShowRewardForMob.get(i).getReward(),(int)mGameModel.mShowRewardForMob.get(i).getX(), (int)mGameModel.mShowRewardForMob.get(i).getY() ,sMoneyAfterDead);
+			mGameModel.mShowRewardForMob.get(i).setY(mGameModel.mShowRewardForMob.get(i).getY() - 2);
+			mGameModel.mShowRewardForMob.get(i).incRewAni();
+			if(mGameModel.mShowRewardForMob.get(i).getRewAni() > 12){
+				mGameModel.mShowRewardForMob.remove(i);
+			}
+		}
+	}
+	
+
 
 	/**
 	 * Configures all Paint-objects used in onDraw().
 	 */
 	private void setupPaint() {
-
+		
+		sMoneyAfterDead.setARGB(255,255,255,0);
+		sMoneyAfterDead.setTextSize(16);
+		
+		sMoneyAfterDeadBg.setARGB(255,0,0,0);
+		sMoneyAfterDeadBg.setTextSize(16);
+		
 		// set gray color for buttons in in-game menus 
 		mBtnPaint.setARGB(255, 50, 50, 50);
 
@@ -1079,7 +1120,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
-		sPaintBoxText.setTextSize(16);
+		sPaintBoxText.setStyle(Paint.Style.STROKE);
+		sPaintBoxText.setTextSize(14);
 
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);

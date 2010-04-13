@@ -26,6 +26,7 @@ public class SlowTower extends Tower {
 		// TODO Set appropriate values to range, damage, attack speed and such
 
 	}
+	
 
 	public void setSlow(int i) {
 		mSlow = i;
