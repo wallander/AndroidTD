@@ -3,7 +3,7 @@
 
 	<array name="mobs_track_1">
         <item>NORMAL 20 10</item>
-        <item>NORMAL 20 40</item>
+        <item>AIR 20 40</item>
         <item>NORMAL 20 60</item>
         <item>NORMAL 20 75</item>
         <item>NORMAL 20 100</item>
