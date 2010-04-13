@@ -115,7 +115,7 @@ public class GameModel {
 		
 	}
 	
-	 public static int getWaveNr() {
+	public static int getWaveNr() {
 		return mWaveNr;
 	}
 

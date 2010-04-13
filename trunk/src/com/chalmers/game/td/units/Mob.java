@@ -104,22 +104,74 @@ public class Mob extends Unit{
     	setHealth(pHealth);
     	setMaxHealth(pHealth);
     	
+    	if(pType == MobType.NORMAL){
+        	if (pHealth <= 110) {
+        		setReward(10);
+        		setMobImage(R.drawable.penguinmob);
+        	} else if(pHealth <= 790) {
+        		setReward(20);
+        		setMobImage(R.drawable.penguinmob);
+        	} else if(pHealth <= 1200) {
+        		setReward(30);
+        		setMobImage(R.drawable.penguinmob);
+        	} else if(pHealth <= 2000) {
+        		setReward(40);
+        	} else  {
+        		setMobImage(R.drawable.penguinmob);
+        		setReward(50);
+        	}    		
+    	} else if (pType == MobType.AIR){
+        	if (pHealth <= 110) {
+        		setReward(10);
+        		setMobImage(R.drawable.flyingpenguin);
+        	} else if(pHealth <= 790) {
+        		setReward(20);
+        		setMobImage(R.drawable.flyingpenguin);
+        	} else if(pHealth <= 1200) {
+        		setReward(30);
+        		setMobImage(R.drawable.flyingpenguin);
+        	} else if(pHealth <= 2000) {
+        		setReward(40);
+        	} else  {
+        		setMobImage(R.drawable.flyingpenguin);
+        		setReward(50);
+        	}
+    	} else if (pType == MobType.FAST){
+        	if (pHealth <= 110) {
+        		setReward(10);
+        		setMobImage(R.drawable.bear);
+        	} else if(pHealth <= 790) {
+        		setReward(20);
+        		setMobImage(R.drawable.bear);
+        	} else if(pHealth <= 1200) {
+        		setReward(30);
+        		setMobImage(R.drawable.icebear);
+        	} else if(pHealth <= 2000) {
+        		setReward(40);
+        	} else  {
+        		setMobImage(R.drawable.icebear);
+        		setReward(50);
+        	}
+    	} else if (pType == MobType.HEALTHY){
+        	if (pHealth <= 110) {
+        		setReward(10);
+        		setMobImage(R.drawable.walrus);
+        	} else if(pHealth <= 790) {
+        		setReward(20);
+        		setMobImage(R.drawable.walrus);
+        	} else if(pHealth <= 1200) {
+        		setReward(30);
+        		setMobImage(R.drawable.walrus);
+        	} else if(pHealth <= 2000) {
+        		setReward(40);
+        	} else  {
+        		setMobImage(R.drawable.walrus);
+        		setReward(50);
+        	}
+    	} 
     	
-    	if (pHealth <= 110) {
-    		setReward(10);
-    		setMobImage(R.drawable.penguinmob);
-    	} else if(pHealth <= 790) {
-    		setReward(20);
-    		setMobImage(R.drawable.bear);
-    	} else if(pHealth <= 1200) {
-    		setReward(30);
-    		setMobImage(R.drawable.walrus);
-    	} else if(pHealth <= 2000) {
-    		setReward(40);
-    	} else  {
-    		setMobImage(R.drawable.icebear);
-    		setReward(50);
-    	}
+    	
+
     }
 	
 	
@@ -146,6 +198,7 @@ public class Mob extends Unit{
     		setSpeed(1.6);
     	}
     }
+    
     
 	public int getMobImage(){
 		
