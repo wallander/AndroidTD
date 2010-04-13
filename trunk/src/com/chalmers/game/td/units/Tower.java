@@ -161,7 +161,6 @@ public abstract class Tower extends Unit {
 					} else if (mPrio == NOT_SLOWED && m.isSlowed() == false){
 						mobsInRange.add(m);
 					}
-
 				}
 			}
 			
@@ -294,7 +293,6 @@ public abstract class Tower extends Unit {
 	 * Returns upgrade cost.
 	 * @return Uppgraderingskostnaden
 	 */
-
     public int getUpgradeCost() {
 
     	switch(mLevel) {
