@@ -23,7 +23,12 @@ public class SlowProjectile extends Projectile {
 	public void inflictDmg() {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
 		//mTarget.setSlowed(200,(double)1/(double)(mTower.mLevel + 1));
-		getTarget().setSlowed(200,mSlowEffect); 
+		//switch (getTarget().getType()) {
+		
+		//case 
+		
+		getTarget().setSlowed(200,mSlowEffect);
+		//}
 	}
 	
 	public int getProjImage(){

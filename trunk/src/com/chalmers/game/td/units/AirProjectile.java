@@ -5,8 +5,8 @@ import com.chalmers.game.td.R;
 
 public class AirProjectile extends Projectile {
 
-	public AirProjectile(Mob pTarget, Tower pTower, GameModel pGameModel) {
-		super(pTarget, pTower, pGameModel);
+	public AirProjectile(Mob pTarget, AirTower pTower) {
+		super(pTarget, pTower);
 	}
 	public AirProjectile(Mob pTarget, Tower pTower) {
 		super(pTarget, pTower);
