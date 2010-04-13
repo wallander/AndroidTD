@@ -7,6 +7,7 @@ public class BasicTower extends Tower {
 	public BasicTower(int pX, int pY) {
 		super(pX, pY);
     	setName("Eskimo Tower");
+    	setPrio(2);
 	}
 	
 	public void setImageByLevel(int pLevel) {

@@ -26,12 +26,16 @@ public abstract class Tower extends Unit {
 	private int mLevel;			// Tower level
 	private int mCoolDownLeft;	// Tower shoot delay
 	private int mCoolDown;		// Tower constant shoot speed
-
+	
+	//how to prioritize between mobs
+	private static final int  ANY = 3, FIRST = 2, NOT_SLOWED = 3;
+	private int mPrio;
+	
 	private String mName;
 
 	private int mImage; //Har den protected för att kunna ändra från extended splashTower
 	
-	List<Projectile> mProjectiles;
+	//List<Projectile> mProjectiles;
 	/**
      * Constructor called to create a tower
      * 
@@ -49,6 +53,9 @@ public abstract class Tower extends Unit {
     	setCost(70);			//default, may be overwritten by towers' constructor
     	setSize(2);				//gäller alla torn?
     	setImageByLevel(mLevel);	//gäller för alla torn
+    	
+    	//Default mob priority, shots at anything within range - quite random
+    	mPrio = FIRST;
     }
     
 	public void setName(String pName) {
@@ -57,6 +64,10 @@ public abstract class Tower extends Unit {
 	
 	public String getName() {
 		return mName;
+	}
+	
+	public void setPrio(int pPrio){
+		mPrio = pPrio;
 	}
 
 	public int getCoolDown() {
@@ -126,21 +137,33 @@ public abstract class Tower extends Unit {
     	
 		// if the tower is not on cooldown
 		if (!isOnCoolDown()) {
-			mProjectiles = new ArrayList<Projectile>();
-			
+			//mProjectiles = new ArrayList<Projectile>();
+			ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
 			// loop through the list of mobs
 			for (int i=0; i < pGameModel.mMobs.size(); i++) {
 				
 				Mob m = pGameModel.mMobs.get(i);
 
 				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
-    		
-				// return a new Projectile on the first mob that the tower can reach
+				
+				// if mob is in range
 				if (sqrDist < getRange()){
-					resetCoolDown();
-					return (createProjectile(m));
-	    		}
+
+					// if prio 1, return a new Projectile on the first mob that the tower can reach
+					// else if prio 2, add mob to list
+					if (mPrio == ANY){
+						resetCoolDown();
+						return (createProjectile(m));
+					} else if (mPrio == FIRST){
+						mobsInRange.add(m);				
+					}
+				}
 			}
+			if (!mobsInRange.isEmpty()){
+				resetCoolDown();
+				return createProjectile(firstMob(mobsInRange));
+			}
+			
 		
 		} else { // if the tower is on cooldown
 			return null;
@@ -149,6 +172,22 @@ public abstract class Tower extends Unit {
 		// if the tower is off cooldown, but has no target in range
 		return null;
     }
+    
+    public Mob firstMob(ArrayList<Mob> pMobs) {
+    	Mob first = pMobs.get(0);
+    	
+    	//if only one mob, return it
+    	if (pMobs.size()==1)
+    		return first;
+    	
+    	//otherwise loop through to find and return first
+    	for (Mob m : pMobs){
+    		if (m.isBefore(first))
+    			first = m;
+    	}
+    	return first;
+    }
+
     
     public abstract Projectile createProjectile(Mob pTarget);
    // public Projectile tryToShoot(List<Mob> mobs){
@@ -195,7 +234,7 @@ public abstract class Tower extends Unit {
     public boolean selectTower(double pXpos, double pYpos) {
 
     	return (getX() <= pXpos && pXpos < getX()+(getWidth()*GameModel.GAME_TILE_SIZE) &&
-        		getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE));	
+    			getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE));	
     }
     
     /**
