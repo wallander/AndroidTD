@@ -373,11 +373,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								}
 							}
 
-							if (sBtnPause.contains(event.getX(),event.getY())){
+							if (event.getX() > 0 && event.getX() < 40 && event.getY() > 0 && event.getY() < 50){
 								GAME_STATE = STATE_PAUSED;
 							}
 							
-							if(event.getX() > 50 && event.getX() < 90 && event.getY() > 0 && event.getY() < 30){
+							if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
@@ -835,8 +835,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawStatisticsText(Canvas canvas) {
 		// draw debug messages in the top left corner
-		canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
-				" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
+		//canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
+		//		" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
@@ -977,14 +977,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		//canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
 		
 		if(GAME_STATE == STATE_PAUSED){
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause2),15,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause2),20,5,null);
 		} else {
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),15,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),20,5,null);
 		}
 		if(fastf){
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),45,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),20,285,null);
 		} else {
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),45,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),20,285,null);
 		}
 		Paint paintalfa = new Paint();
 
