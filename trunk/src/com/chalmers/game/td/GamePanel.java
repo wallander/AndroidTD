@@ -158,6 +158,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	     soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100); 
 	     soundPoolMap = new HashMap<Integer, Integer>(); 
 	     soundPoolMap.put(R.raw.explosion, soundPool.load(getContext(), R.raw.explosion, 1)); 
+	     soundPoolMap.put(R.raw.doom_1, soundPool.load(getContext(),R.raw.doom_1, 1));
 	} 
 	           
 	public void playSound(int sound) { 
@@ -184,7 +185,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		startTrack(GameModel.getTrack());
 		
 		initSounds();
-
+		
 		fillBitmapCache();
 		getHolder().addCallback(this);
 		mGameThread = new GameThread(this);
@@ -653,8 +654,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					newProjectile = t.tryToShoot();
 
 				//if a projectile was returned, add it to the game model
-				if (newProjectile != null)
+				if (newProjectile != null) {
 					GameModel.mProjectiles.add(newProjectile);
+				}
 				
 			}
 
@@ -738,7 +740,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					GameModel.currentPlayer.changeMoney(m.getReward());
 					GameModel.mShowRewardForMob.add(m);
 					GameModel.mMobs.remove(m);
-//					playSound(R.raw.explosion);
 				}
 			}
 		}
@@ -1324,4 +1325,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// To prevent memory filled exception
 		mBitMapCache = new HashMap<Integer, Bitmap>();
 	}
+
+	
 }
