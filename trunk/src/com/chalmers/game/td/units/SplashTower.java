@@ -45,10 +45,10 @@ public class SplashTower extends Tower {
 	public void setImageByLevel(int pLevel) {
 
 		switch (pLevel) {
-			case 1: setImage(R.drawable.splashtower); break;
-			case 2: setImage(R.drawable.splashtower2); break;
-			case 3: setImage(R.drawable.splashtower3); break;
-			case 4: setImage(R.drawable.splashtower4); break;
+			case 1: setImage(R.drawable.eskimotowersplash); break;
+			case 2: setImage(R.drawable.eskimotowersplash2); break;
+			case 3: setImage(R.drawable.eskimotowersplash3); break;
+			case 4: setImage(R.drawable.eskimotowersplash4); break;
 		}		
 	}
 
