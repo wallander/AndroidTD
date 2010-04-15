@@ -52,9 +52,10 @@ class ProgressionThread extends Thread {
         while (mRunThread) {
             c = null;
             try {
-                c = mProgressionPanel.getHolder().lockCanvas(null);
+                
                 
                 synchronized (mProgressionPanel.getHolder()) {
+                	c = mProgressionPanel.getHolder().lockCanvas(null);
                     mProgressionPanel.onDraw(c);
                 }
                 
