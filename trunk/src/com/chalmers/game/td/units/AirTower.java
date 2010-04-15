@@ -31,10 +31,10 @@ public class AirTower extends Tower {
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
-			case 1: setImage(R.drawable.slowtower); break;
-			case 2: setImage(R.drawable.slowtower2);  break;
-			case 3: setImage(R.drawable.slowtower3);  break;
-			case 4: setImage(R.drawable.slowtower4);  break;
+			case 1: setImage(R.drawable.airtower); break;
+			case 2: setImage(R.drawable.airtower);  break;
+			case 3: setImage(R.drawable.airtower);  break;
+			case 4: setImage(R.drawable.airtower);  break;
 		}		
 	}
 
@@ -102,9 +102,9 @@ public class AirTower extends Tower {
 	public int getUpgradeCost() {
 
 		switch(getLevel()) {
-		case 1: return 20;
-		case 2: return 30;
-		case 3: return 50;
+		case 1: return 200;
+		case 2: return 300;
+		case 3: return 500;
 		}
 		return 0; 	//default, not gonna happen
 	}

@@ -291,6 +291,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.fastforward, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward));
 		mBitMapCache.put(R.drawable.fastforward2, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
 		mBitMapCache.put(R.drawable.flyingpenguin, BitmapFactory.decodeResource(getResources(), R.drawable.flyingpenguin));
+		mBitMapCache.put(R.drawable.airtower, BitmapFactory.decodeResource(getResources(), R.drawable.airtower));
 
 	}
 
@@ -1023,7 +1024,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		} else {
 			paintalfa.setAlpha(255);
 		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,205,paintalfa);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower),432,205,paintalfa);
 
 		if(mSnowball.getCost() >= GameModel.currentPlayer.getMoney()) {
 			paintalfa.setAlpha(100);
@@ -1256,6 +1257,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * We try to finish the game loop thread here.
 	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.v("GamePanel","surfaceDestroyed");
 		boolean retry = true;
 		mGameThread.setRunning(false);
 		while (retry) {
@@ -1267,5 +1269,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		Log.i("thread", "Thread terminated...");
+		// To prevent memory filled exception
+		mBitMapCache = null;
 	}
 }

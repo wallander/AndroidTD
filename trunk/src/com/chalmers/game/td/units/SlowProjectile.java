@@ -22,12 +22,13 @@ public class SlowProjectile extends Projectile {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
 		//mTarget.setSlowed(200,(double)1/(double)(mTower.mLevel + 1));
 
-		//switch (getTarget().getType()) {
+		switch (getTarget().getType()) {
 		
-		//case 
-		
-		getTarget().setSlowed(200,mSlowEffect);
-		//}
+		case HEALTHY:		// if HEALTHY/BOSS = no slow
+			break;
+		default: getTarget().setSlowed(200,mSlowEffect);
+			break;
+		}
 	}
 	
 	public int getProjImage(){
