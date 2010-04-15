@@ -172,8 +172,7 @@ public abstract class Tower extends Unit {
 					return returnedProjectile;
 				} else {
 					return null;	
-				}
-				
+				}	
 			}
 
 
