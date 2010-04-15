@@ -23,8 +23,8 @@ public class SplashProjectile extends Projectile {
 
 		setAngle(Coordinate.getAngle(this.getCoordinates(), mTargetCoordinate));
 
-		mBlastRadius = 50;
-		mBlastEffect = pTower.getSplash(); //tal mellan 1-5, hur stor effect slashen har
+		mBlastRadius = pTower.getSplashRadius(); //50;
+		mBlastEffect = 5; //pTower.getSplash(); //tal mellan 1-5, hur stor effect slashen har
 	}
 
 
