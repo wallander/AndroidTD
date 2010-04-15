@@ -311,6 +311,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.fastforward2, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
 		mBitMapCache.put(R.drawable.flyingpenguin, BitmapFactory.decodeResource(getResources(), R.drawable.flyingpenguin));
 		mBitMapCache.put(R.drawable.airtower, BitmapFactory.decodeResource(getResources(), R.drawable.airtower));
+		mBitMapCache.put(R.drawable.airtower1, BitmapFactory.decodeResource(getResources(), R.drawable.airtower1));
+		mBitMapCache.put(R.drawable.airtower2, BitmapFactory.decodeResource(getResources(), R.drawable.airtower2));
+		mBitMapCache.put(R.drawable.airtower3, BitmapFactory.decodeResource(getResources(), R.drawable.airtower3));
+		mBitMapCache.put(R.drawable.eskimotowersplash, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash));
+		mBitMapCache.put(R.drawable.eskimotowersplash2, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash2));
+		mBitMapCache.put(R.drawable.eskimotowersplash3, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash3));
+		mBitMapCache.put(R.drawable.eskimotowersplash4, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash4));
 
 	}
 
@@ -458,7 +465,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_MOVE:
 
 					if(mCurrentTower != null){
-						mShowTooltip = sBtnGroup.contains(event.getX(),event.getY());
+						mShowTooltip = sBtnGroup.contains(event.getX(),event.getY()) || mTx > 410;
 						if(!mShowTooltip && !mAllowBuild) {
 							mCurrentTower = null;
 						} else  {
@@ -475,7 +482,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild) {
+						if (GameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild && mTx < 410) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
@@ -1031,7 +1038,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		} else {
 			paintalfa.setAlpha(255);
 		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.splashtower),432,85,paintalfa);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.eskimotowersplash),432,85,paintalfa);
 
 		if(mTower3.getCost() >= GameModel.currentPlayer.getMoney()) {
 			paintalfa.setAlpha(100);
@@ -1045,7 +1052,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		} else {
 			paintalfa.setAlpha(255);
 		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower),432,205,paintalfa);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower1),432,205,paintalfa);
 
 		if(mSnowball.getCost() >= GameModel.currentPlayer.getMoney()) {
 			paintalfa.setAlpha(100);
