@@ -6,9 +6,13 @@ import com.chalmers.game.td.R;
 
 public class BasicTower extends Tower {
 
+	
+	
 	public BasicTower(int pX, int pY) {
 		super(pX, pY);
-    	setName("Eskimo Tower");
+    	setName("Eskimo");
+    	setDescription("Throws spears with good range and speed");
+    	
     	setPrio(2);
 	}
 	
@@ -66,5 +70,7 @@ public class BasicTower extends Tower {
 	public Projectile createProjectile(Mob pTarget) {
     	return new BasicProjectile(pTarget, this);
     }
+
+
 
 }

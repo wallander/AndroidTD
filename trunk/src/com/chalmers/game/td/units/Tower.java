@@ -26,6 +26,7 @@ public abstract class Tower extends Unit {
 	private int mLevel;			// Tower level
 	private int mCoolDownLeft;	// Tower shoot delay
 	private int mCoolDown;		// Tower constant shoot speed
+	private String mDescription; // Tower description
 	
 	//how to prioritize between mobs
 	protected static final int  ANY = 3, FIRST = 2, NOT_SLOWED = 3;
@@ -53,6 +54,7 @@ public abstract class Tower extends Unit {
     	setCost(70);			//default, may be overwritten by towers' constructor
     	setSize(2);				//gäller alla torn?
     	setImageByLevel(mLevel);	//gäller för alla torn
+    	setDescription("");
     	
     	//Default mob priority, shots at anything within range - quite random
     	mPrio = FIRST;
@@ -296,4 +298,18 @@ public abstract class Tower extends Unit {
     	}	
     }
 
+	/**
+	 * @param mDescription the mDescription to set
+	 */
+	public void setDescription(String mDescription) {
+		this.mDescription = mDescription;
+	}
+
+
+	/**
+	 * @return the mDescription
+	 */
+	public String getDescription() {
+		return mDescription;
+	}
 }

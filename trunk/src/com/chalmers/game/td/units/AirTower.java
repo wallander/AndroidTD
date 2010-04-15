@@ -20,6 +20,7 @@ public class AirTower extends Tower {
 		setName("Air Tower");		
 		setCost(12);
 		setCoolDown(30);
+		setDescription("Can only damage AIR units.");
     	resetCoolDown();
 		setRange(120);
 		setDamage(20);
@@ -111,4 +112,6 @@ public class AirTower extends Tower {
 		default: return 500;	//case 3
 		}
 	}
+
+
 }

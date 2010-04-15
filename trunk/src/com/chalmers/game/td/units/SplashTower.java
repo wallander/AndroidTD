@@ -20,14 +20,15 @@ public class SplashTower extends Tower {
 	//
 	private int mSplash;
 	private int mSplashRadius;
-
+	
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
-		setName("Splash Tower");
+		setName("Splash Eskimo");
 		mSplash = 3;
 		mSplashRadius=50;
 		setDamage(6);
+		setDescription("Trows snowballs damaging multiple targets");
 		setCoolDown(40);
 		resetCoolDown();
 		setCost(100);
@@ -143,4 +144,6 @@ public class SplashTower extends Tower {
 		}
 		return 0; 	//default, not gonna happen
 	}
+
+
 }

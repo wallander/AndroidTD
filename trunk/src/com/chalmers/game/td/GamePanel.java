@@ -975,7 +975,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80,null);
 
 		canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mCurrentTower.getLevel(), 160, 117, sPaintBoxText);
+		canvas.drawText(""+mCurrentTower.getDescription(), 160, 117, sPaintBoxText);
 		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
 		canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
 		canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
