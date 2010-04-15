@@ -272,6 +272,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
 		mBitMapCache.put(R.drawable.upgrade, BitmapFactory.decodeResource(getResources(), R.drawable.upgrade));
 		mBitMapCache.put(R.drawable.base, BitmapFactory.decodeResource(getResources(), R.drawable.base));
+		mBitMapCache.put(R.drawable.basee, BitmapFactory.decodeResource(getResources(), R.drawable.basee));
 		mBitMapCache.put(R.drawable.money, BitmapFactory.decodeResource(getResources(), R.drawable.money));
 		mBitMapCache.put(R.drawable.lives, BitmapFactory.decodeResource(getResources(), R.drawable.lives));
 		mBitMapCache.put(R.drawable.snowmap, BitmapFactory.decodeResource(getResources(), R.drawable.snowmap));
@@ -1161,7 +1162,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
 
 		// draw the "end-point-base"
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.basee),403,0,null);
 		break;
 		
 //		case 2: //track 2
