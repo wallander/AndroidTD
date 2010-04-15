@@ -80,21 +80,6 @@ public class SlowTower extends Tower {
         		setCoolDown(25);
         		setSlow(60); break;
     		}
-    		
-// Old values, kept for reference
-//    		switch (getLevel()){			//set damage and range according to the new level
-//    		case 2:
-//    			setDamage(16);
-//        		setRange(110); break;
-//    		case 3:
-//    			setCoolDown(25);
-//    			setDamage(40);
-//        		setRange(125); break;
-//    		case 4:
-//    			setCoolDown(15);
-//    			setDamage(120);
-//        		setRange(140); break;
-//    		}
     	}
     	return true;
 	}
@@ -103,13 +88,37 @@ public class SlowTower extends Tower {
      * returns the current upgrade cost
      */
 	public int getUpgradeCost() {
-
+//TODO ändra till ökande kostnader
 		switch(getLevel()) {
 		case 1: return 200;
 		case 2: return 200;
-		case 3: return 200;
+		default: return 200; //case 3
 		}
-		return 0; 	//default, not gonna happen
 	}
 
+	@Override
+	public Projectile shoot() {
+
+		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
+		
+		// loop through the list of mobs
+		for (int i=0; i < GameModel.mMobs.size(); i++) {
+
+			Mob m = GameModel.mMobs.get(i);
+
+			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+
+			// if the mob is in range, and not slowed already, add it to list
+			if (sqrDist < getRange() && !m.isSlowed())
+				mobsInRange.add(m);
+		}
+
+		//if there are any mobs available to shoot, return a projectile on the first of them, 
+		//else return null
+		if (!mobsInRange.isEmpty())
+			return createProjectile(firstMob(mobsInRange));
+		else
+			return null;
+	}
+	
 }

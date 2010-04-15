@@ -133,54 +133,44 @@ public abstract class Tower extends Unit {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
+	
+	public Projectile tryToShoot(){
 
-    public Projectile tryToShoot(){
-    	
-		// if the tower is not on cooldown
-		if (!isOnCoolDown()) {
-			//mProjectiles = new ArrayList<Projectile>();
-			ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
-			// loop through the list of mobs
+		if (!isOnCoolDown()){
+			Projectile p = shoot();
+			if(p != null)		//reset the cooldown if the tower actually shoots
+				resetCoolDown();
+			return p;	//return the projectile regardless of if it is null or not	
+		}else {
+			decCoolDownLeft(GamePanel.getSpeedMultiplier());
+			return null;
+		}
+	}
 
-			for (int i=0; i < GameModel.mMobs.size(); i++) {
-				
-				Mob m = GameModel.mMobs.get(i);
+	public Projectile shoot() {
 
-				double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
 
-				// if mob is in range
-				if (sqrDist < getRange()){
+		// loop through the list of mobs
+		for (int i=0; i < GameModel.mMobs.size(); i++) {
 
-					// if prio 1, return a new Projectile on the first mob that the tower can reach
-					// else if prio 2, add mob to list
-					if (mPrio == ANY){
-						resetCoolDown();
-						return (createProjectile(m));
-					} else if (mPrio == FIRST){
-						mobsInRange.add(m);
-					} else if (mPrio == NOT_SLOWED && m.isSlowed() == false){
-						mobsInRange.add(m);
-					}
-				}
-			}
-			
-			if (!mobsInRange.isEmpty()){
-				
-				Projectile returnedProjectile =  createProjectile(firstMob(mobsInRange));
-				if (returnedProjectile != null) {
-					resetCoolDown();
-					return returnedProjectile;
-				} else {
-					return null;	
-				}	
-			}
+			Mob m = GameModel.mMobs.get(i);
 
+			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
 
+			// if the mob is in range, add it to list
+			if (sqrDist < getRange())
+				mobsInRange.add(m);
 		}
 
-		// if the tower is off cooldown, but has no target in range
-		return null;
+		//if there are any mobs available to shoot, return a projectile on the first of them, 
+		//else return null
+		if (!mobsInRange.isEmpty())
+			return createProjectile(firstMob(mobsInRange));
+		else
+			return null;
 	}
+
 
 	public Mob firstMob(ArrayList<Mob> pMobs) {
 		Mob first = pMobs.get(0);
