@@ -440,7 +440,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_MOVE:
 
 					if(mCurrentTower != null){
-						mShowTooltip = sBtnGroup.contains(event.getX(),event.getY());
+						mShowTooltip = sBtnGroup.contains(event.getX(),event.getY()) || mTx > 410;
 						if(!mShowTooltip && !mAllowBuild) {
 							mCurrentTower = null;
 						} else  {
@@ -457,7 +457,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild) {
+						if (GameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild && mTx < 410) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
