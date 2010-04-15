@@ -29,7 +29,7 @@ public class MenuGame extends Activity {
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(new ProgressionRoutePanel(this));
-        //setContentView(new GamePanel(this));
+        // Bring up the progression route view
+        setContentView(new ProgressionRoutePanel(this));        
     }
 }

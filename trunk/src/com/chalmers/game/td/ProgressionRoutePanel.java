@@ -8,6 +8,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -19,12 +22,13 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 	private Activity mActivity;
 	
+	private final RectF track1Button = new RectF(45, 200, 100, 240);
+	
 	public ProgressionRoutePanel(Context context) {
 		super(context);				
 		fillBitmapCache();		
 	
-		mActivity = (Activity) context;
-		
+		mActivity = (Activity) context;		
 		getHolder().addCallback(this);
 		thread = new ProgressionThread(this);
 		setFocusable(true);
@@ -39,15 +43,30 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		synchronized (getHolder()) {
+	public boolean onTouchEvent(MotionEvent event) {		
+		
+		synchronized (getHolder()) {			
 			
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-				
-				thread.setRunning(false);
-				mActivity.setContentView(new GamePanel(getContext()));
+			
+			
+			switch(event.getAction()) {
+			
+				case MotionEvent.ACTION_UP:
+					
+					Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
+										
+					if (trackButton1.contains(event.getX(), event.getY())) {
+						
+						Log.v("PRESSED ON PROGRESSION ROUTE", "You have pressed track 1");
+					
+						thread.setRunning(false);
+						getHolder().removeCallback(this);
+						mActivity.setContentView(new GamePanel(getContext()));
+					}
+					
+				break;
 			}
+			
 		}
 		
 		return true;
@@ -83,12 +102,15 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		}
 		
 		// To prevent memory filled exception
-		mBitMapCache = null;
+		mBitMapCache = new HashMap<Integer, Bitmap>();
 	}
 	
 	public void onDraw(Canvas canvas) {
-		
+				
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute_background),0,0,null);
+		Paint p = new Paint();
+		p.setARGB(150, 50, 50, 50);
+		canvas.drawRoundRect(trackButton1,5,5, p);
 	}
 
 }

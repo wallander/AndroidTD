@@ -223,22 +223,22 @@ public class MobFactory {
 						if(mMobInfo[0].equals("NORMAL")) {
 
 							mMobs.add(new Mob(MobType.NORMAL, mHealth));
-							Log.v("INIT MOBS", "Created mob of type NORMAL");
+							//Log.v("INIT MOBS", "Created mob of type NORMAL");
 
 						} else if(mMobInfo[0].equals("AIR")) {
 
 							mMobs.add(new Mob(MobType.AIR, mHealth));
-							Log.v("INIT MOBS", "Created mob of type AIR");
+							//Log.v("INIT MOBS", "Created mob of type AIR");
 
 						} else if(mMobInfo[0].equals("FAST")) {
 
 							mMobs.add(new Mob(MobType.FAST, mHealth));
-							Log.v("INIT MOBS", "Created mob of type FAST");
+							//Log.v("INIT MOBS", "Created mob of type FAST");
 
 						} else if(mMobInfo[0].equals("HEALTHY")) {
 
 							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
-							Log.v("INIT MOBS", "Created mob of type HEALTHY");
+							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
 						}											
 					}
 

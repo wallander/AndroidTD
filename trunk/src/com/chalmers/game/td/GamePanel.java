@@ -1269,6 +1269,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		Log.i("thread", "Thread terminated...");
 		// To prevent memory filled exception
-		mBitMapCache = null;
+		mBitMapCache = new HashMap<Integer, Bitmap>();
 	}
 }
