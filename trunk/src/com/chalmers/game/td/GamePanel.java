@@ -28,6 +28,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -123,7 +126,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint mBtnPaint = new Paint();
 	private static final Paint sMoneyAfterDead = new Paint();
 	private static final Paint sMoneyAfterDeadBg = new Paint();
-
+	
 	/** Debug */
 	TDDebug debug;    
 
@@ -148,7 +151,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private Snowball mSnowball = new Snowball(0,0);
 
+	private SoundPool soundPool; 
+	private HashMap<Integer, Integer> soundPoolMap; 
 
+	private void initSounds() { 
+	     soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100); 
+	     soundPoolMap = new HashMap<Integer, Integer>(); 
+	     soundPoolMap.put(R.raw.explosion, soundPool.load(getContext(), R.raw.explosion, 1)); 
+	     soundPoolMap.put(R.raw.doom_1, soundPool.load(getContext(),R.raw.doom_1, 1));
+	} 
+	           
+	public void playSound(int sound) { 
+	     AudioManager mgr = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE); 
+	     int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC); 
+	     soundPool.play(soundPoolMap.get(sound), streamVolume, streamVolume, 1, 0, 1f); 
+	} 	
+	
 	/**
 	 * Constructor called on instantiation.
 	 * @param context Context of calling activity.
@@ -165,8 +183,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		debug.InitGameTime();
 
 		startTrack(GameModel.getTrack());
-
-
+		
+		initSounds();
+		
 		fillBitmapCache();
 		getHolder().addCallback(this);
 		mGameThread = new GameThread(this);
@@ -635,8 +654,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					newProjectile = t.tryToShoot();
 
 				//if a projectile was returned, add it to the game model
-				if (newProjectile != null)
+				if (newProjectile != null) {
 					GameModel.mProjectiles.add(newProjectile);
+				}
 				
 			}
 
@@ -689,11 +709,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
-					Mob m = deadMobs.get(k);
-					GameModel.mShowRewardForMob.add(m);
-					GameModel.currentPlayer.changeMoney(m.getReward());
+					deadMobs.get(k).setHealth(0);
 				}
-				GameModel.mMobs.removeAll(deadMobs);
 
 				// if the snowball is out of charges, remove it
 				if (s.getCharges() <= 0) {
@@ -1308,4 +1325,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// To prevent memory filled exception
 		mBitMapCache = new HashMap<Integer, Bitmap>();
 	}
+
+	
 }
