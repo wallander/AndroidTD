@@ -485,7 +485,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_DOWN:
 
 					if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(0);
+						startTrack(GameModel.getTrack());
 						GAME_STATE = STATE_RUNNING;
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
@@ -504,7 +504,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_DOWN:
 
 					if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(0);
+						startTrack(GameModel.getTrack());
 						GAME_STATE = STATE_RUNNING;
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
@@ -530,7 +530,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						GAME_STATE = STATE_RUNNING;
 					}
 					else if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(0);
+						startTrack(GameModel.getTrack());
 						GAME_STATE = STATE_RUNNING;
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
@@ -569,7 +569,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			mMobDelayI = 0;
 			
 			if(track > 0) {
-				return mMobFactory.getNextMob(track);
+				return mMobFactory.getNextMob();
 			} else {
 				return null;
 			}
