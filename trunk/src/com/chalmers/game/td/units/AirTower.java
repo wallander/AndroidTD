@@ -102,9 +102,9 @@ public class AirTower extends Tower {
 	public int getUpgradeCost() {
 
 		switch(getLevel()) {
-		case 1: return 20;
-		case 2: return 30;
-		case 3: return 50;
+		case 1: return 200;
+		case 2: return 300;
+		case 3: return 500;
 		}
 		return 0; 	//default, not gonna happen
 	}

@@ -21,7 +21,7 @@ public class SlowTower extends Tower {
 		setCoolDown(30);
     	resetCoolDown();
 		setRange(60);
-		setDamage(20);
+		setDamage(15);
 		setSlow(30);
 		setPrio(Tower.NOT_SLOWED);
 		// TODO Set appropriate values to range, damage, attack speed and such
@@ -67,15 +67,15 @@ public class SlowTower extends Tower {
     		
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
-    			setDamage(25);
+    			setDamage(20);
         		setRange(75);
         		setSlow(40); break;
     		case 3:
-    			setDamage(30);
+    			setDamage(25);
         		setRange(75);
         		setSlow(50); break;
     		case 4:
-    			setDamage(40);
+    			setDamage(30);
         		setRange(75);
         		setCoolDown(25);
         		setSlow(60); break;

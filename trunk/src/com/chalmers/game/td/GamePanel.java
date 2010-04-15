@@ -7,6 +7,7 @@ import java.util.Map;
 import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
 
+import com.chalmers.game.td.units.AirTower;
 import com.chalmers.game.td.units.BasicTower;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
@@ -140,10 +141,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean mAllowBuild;
 
 
-	protected Tower mTower1 = new BasicTower(0,0);
-	protected Tower mTower2 = new SplashTower(0,0);
-	protected Tower mTower3 = new SlowTower(0,0);
-	protected Snowball mSnowball = new Snowball(0,0);
+	private Tower mTower1 = new BasicTower(0,0);
+	private Tower mTower2 = new SplashTower(0,0);
+	private Tower mTower3 = new SlowTower(0,0);
+	private Tower mTower4 = new AirTower(0,0);
+	
+	private Snowball mSnowball = new Snowball(0,0);
 
 
 	/**
@@ -287,6 +290,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.icebear, BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
 		mBitMapCache.put(R.drawable.fastforward, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward));
 		mBitMapCache.put(R.drawable.fastforward2, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
+		mBitMapCache.put(R.drawable.flyingpenguin, BitmapFactory.decodeResource(getResources(), R.drawable.flyingpenguin));
+
 	}
 
 	/**
@@ -371,11 +376,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								}
 							}
 
-							if (sBtnPause.contains(event.getX(),event.getY())){
+							if (event.getX() > 0 && event.getX() < 40 && event.getY() > 0 && event.getY() < 50){
 								GAME_STATE = STATE_PAUSED;
 							}
 							
-							if(event.getX() > 50 && event.getX() < 90 && event.getY() > 0 && event.getY() < 30){
+							if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
@@ -413,12 +418,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 						} else if(sBtn4.contains(event.getX(),event.getY())) {
 							// button 4
-							if (mAccelerometerSupported)
-								mCurrentSnowball = new Snowball(mTx,mTy);
+							if (mTower4.getCost() <= GameModel.currentPlayer.getMoney()) {
+								mAllowBuild = true;
+							}	
+							mCurrentTower = new AirTower(mTx ,mTy);
+							mShowTooltip = true;
 
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
+							if (mAccelerometerSupported)
+								mCurrentSnowball = new Snowball(mTx,mTy);
 							//GamePanel.setSpeedMultiplier(3);
 
 						} 
@@ -833,8 +843,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawStatisticsText(Canvas canvas) {
 		// draw debug messages in the top left corner
-		canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
-				" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
+		//canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
+		//		" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
@@ -975,14 +985,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		//canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
 		
 		if(GAME_STATE == STATE_PAUSED){
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause2),15,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause2),20,5,null);
 		} else {
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),15,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),20,5,null);
 		}
 		if(fastf){
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),45,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),20,285,null);
 		} else {
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),45,4,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),20,285,null);
 		}
 		Paint paintalfa = new Paint();
 
@@ -1008,18 +1018,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
 		
+		if(mTower4.getCost() >= GameModel.currentPlayer.getMoney()) {
+			paintalfa.setAlpha(100);
+		} else {
+			paintalfa.setAlpha(255);
+		}
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,205,paintalfa);
+
 		if(mSnowball.getCost() >= GameModel.currentPlayer.getMoney()) {
 			paintalfa.setAlpha(100);
 		} else {
 			paintalfa.setAlpha(255);
 		}
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,205,paintalfa);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,265,paintalfa);
 
-		canvas.drawLine(432, 270, 442, 280, sPaintLine);
-		canvas.drawLine(442, 280, 432, 290, sPaintLine);
 
-		canvas.drawLine(447, 270, 457, 280, sPaintLine);
-		canvas.drawLine(457, 280, 447, 290, sPaintLine);
+		
+		
+		//canvas.drawLine(432, 270, 442, 280, sPaintLine);
+		//canvas.drawLine(442, 280, 432, 290, sPaintLine);
+
+		//canvas.drawLine(447, 270, 457, 280, sPaintLine);
+		//canvas.drawLine(457, 280, 447, 290, sPaintLine);
 
 		//		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
 
@@ -1068,28 +1088,56 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
+			
+			if(mobImage == mBitMapCache.get(R.drawable.flyingpenguin)){
+				canvas.drawBitmap(mobImage, (int) m.getX(), (int) m.getY() - 25, null);
+				
+				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
-			canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);
+				// drawing health bars for each mob, first a black background
+				healthBarPaint.setARGB(255, 0, 0, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2 + 2,
+						(float) m.getY() - 5 - 25,
+						(float) (m.getX() + 24 + 2),
+						(float) m.getY() - 2 - 25,
+						healthBarPaint);
 
-			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+				// draw current health on the health bar
+				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2 + 2,
+						(float) m.getY() - 5 - 25,
+						(float) (m.getX() + (24 * hpRatio/255)) + 2,
+						(float) m.getY() - 2 - 25,
+						healthBarPaint);
+			} else {
+				canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);	
+				
+				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
-			// drawing health bars for each mob, first a black background
-			healthBarPaint.setARGB(255, 0, 0, 0);
-			canvas.drawRect(
-					(float)m.getX() - 2,
-					(float) m.getY() - 5,
-					(float) (m.getX() + 24),
-					(float) m.getY() - 2,
-					healthBarPaint);
+				// drawing health bars for each mob, first a black background
+				healthBarPaint.setARGB(255, 0, 0, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2,
+						(float) m.getY() - 5,
+						(float) (m.getX() + 24),
+						(float) m.getY() - 2,
+						healthBarPaint);
 
-			// draw current health on the health bar
-			healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
-			canvas.drawRect(
-					(float)m.getX() - 2,
-					(float) m.getY() - 5,
-					(float) (m.getX() + (24 * hpRatio/255)),
-					(float) m.getY() - 2,
-					healthBarPaint);
+				// draw current health on the health bar
+				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
+				canvas.drawRect(
+						(float)m.getX() - 2,
+						(float) m.getY() - 5,
+						(float) (m.getX() + (24 * hpRatio/255)),
+						(float) m.getY() - 2,
+						healthBarPaint);
+			}
+
+			
+
+
 		}
 	}
 
