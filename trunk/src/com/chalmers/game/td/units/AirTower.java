@@ -9,6 +9,7 @@ import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
 
 import com.chalmers.game.td.R;
+import com.chalmers.game.td.units.Mob.MobType;
 
 public class AirTower extends Tower {
 
@@ -46,15 +47,33 @@ public class AirTower extends Tower {
      * @return Projectile set to target the first mob the tower can reach.
      */
 	public Projectile createProjectile(Mob pTarget) {
-		switch(pTarget.getType()) {
-		case AIR:
-			return new AirProjectile(pTarget, this);
-			default: return null;
-			
-		}
-    	
+		return new AirProjectile(pTarget, this);    	
     }
 
+	public Projectile shoot() {
+
+		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
+
+		// loop through the list of mobs
+		for (int i=0; i < GameModel.mMobs.size(); i++) {
+
+			Mob m = GameModel.mMobs.get(i);
+
+			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+
+			// if the mob is in range, and is a air mob, add it to list
+			if (sqrDist < getRange() && m.getType()== MobType.AIR)
+				mobsInRange.add(m);
+		}
+
+		//if there are any mobs available to shoot, return a projectile on the first of them, 
+		//else return null
+		if (!mobsInRange.isEmpty())
+			return createProjectile(firstMob(mobsInRange));
+		else
+			return null;
+	}
+	
 	public boolean upgrade() {
     	//TODO change values
     	if (!canUpgrade())					//return false if tower can't be upgraded
@@ -77,21 +96,6 @@ public class AirTower extends Tower {
         		setRange(120);
         		break;
     		}
-    		
-// Old values, kept for reference
-//    		switch (getLevel()){			//set damage and range according to the new level
-//    		case 2:
-//    			setDamage(16);
-//        		setRange(110); break;
-//    		case 3:
-//    			setCoolDown(25);
-//    			setDamage(40);
-//        		setRange(125); break;
-//    		case 4:
-//    			setCoolDown(15);
-//    			setDamage(120);
-//        		setRange(140); break;
-//    		}
     	}
     	return true;
 	}
@@ -104,9 +108,7 @@ public class AirTower extends Tower {
 		switch(getLevel()) {
 		case 1: return 200;
 		case 2: return 300;
-		case 3: return 500;
+		default: return 500;	//case 3
 		}
-		return 0; 	//default, not gonna happen
 	}
-
 }

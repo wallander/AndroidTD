@@ -616,14 +616,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				Projectile newProjectile = null;
 
 				//if there are any mobs, try to shoot at them
-				if (GameModel.mMobs.size() > 0) 
+				if (GameModel.mMobs.size() > 0)
 					newProjectile = t.tryToShoot();
 
 				//if a projectile was returned, add it to the game model
-				if (newProjectile != null){
+				if (newProjectile != null)
 					GameModel.mProjectiles.add(newProjectile);
-				} else //if no projectile was returned decrement the CD left for that tower
-					t.decCoolDownLeft(GAME_SPEED_MULTIPLIER);
+				
 			}
 
 			// Check if any projectile has hit it's target
@@ -686,7 +685,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					GameModel.mSnowballs.remove(s);
 				}
 			}
-
 
 			/*
 			 * For every mob:
