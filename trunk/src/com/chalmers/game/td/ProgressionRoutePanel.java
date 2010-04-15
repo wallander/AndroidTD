@@ -1,53 +1,56 @@
 package com.chalmers.game.td;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.Callback{
 
-	
+	private ProgressionThread thread;
+	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
+	private Activity mActivity;
 	
 	public ProgressionRoutePanel(Context context) {
 		super(context);				
+		fillBitmapCache();		
+	
+		mActivity = (Activity) context;
 		
-//		Canvas c = this.getHolder().lockCanvas(null);
-//		draw(c);
-//		
-//		
-//		getHolder().unlockCanvasAndPost(c);
-		// TODO Auto-generated constructor stub
+		getHolder().addCallback(this);
+		thread = new ProgressionThread(this);
+		setFocusable(true);
+		setFocusableInTouchMode(true);
+		requestFocus();
 
-		Thread thread = new Thread() {
-			public void run() {
-				Canvas c;
-				while (true) {
-					c = null;
-					try {
-						c = getHolder().lockCanvas(null);
+	}
+	
+	private void fillBitmapCache() {
+		mBitMapCache.put(R.drawable.progressionroute_background, BitmapFactory.decodeResource(getResources(), R.drawable.progressionroute_background));
+	
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
 
-						synchronized (getHolder()) {
-							onDraw(c);
-						}
-
-						sleep(5);
-					} catch (InterruptedException ie) {
-						// doNothing();
-					} finally {
-						// do this in a finally so that if an exception is thrown
-						// during the above, we don't leave the Surface in an
-						// inconsistent state
-						if (c != null) {
-							getHolder().unlockCanvasAndPost(c);
-						}
-
-					}
-				}
+		synchronized (getHolder()) {
+			
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				
+				thread.setRunning(false);
+				mActivity.setContentView(new GamePanel(getContext()));
 			}
-		};
-
+		}
+		
+		return true;
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -57,18 +60,35 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
 		
+		if (!thread.isAlive()) {
+			thread = new ProgressionThread(this);			
+		}
 		
+		thread.setRunning(true);
+		thread.start();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
+		Log.v("Progression","surfaceDestroyed");
+		boolean retry = true;
+		thread.setRunning(false);
+		while (retry) {
+			try {
+				thread.join();
+				retry = false;
+			} catch (InterruptedException e) {
+				// we will try it again and again...
+			}
+		}
 		
+		// To prevent memory filled exception
+		mBitMapCache = null;
 	}
 	
 	public void onDraw(Canvas canvas) {
-		canvas.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.progressionroute_background),0,0,null);
+		
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute_background),0,0,null);
 	}
 
 }

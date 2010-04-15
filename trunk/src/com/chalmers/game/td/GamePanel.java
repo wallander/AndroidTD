@@ -1256,6 +1256,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * We try to finish the game loop thread here.
 	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.v("GamePanel","surfaceDestroyed");
 		boolean retry = true;
 		mGameThread.setRunning(false);
 		while (retry) {
@@ -1267,5 +1268,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		Log.i("thread", "Thread terminated...");
+		// To prevent memory filled exception
+		mBitMapCache = null;
 	}
 }
