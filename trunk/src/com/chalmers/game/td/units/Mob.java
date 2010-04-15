@@ -65,7 +65,7 @@ public class Mob extends Unit{
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	public enum MobType { HEALTHY, AIR, FAST, NORMAL }
+	public enum MobType { HEALTHY, AIR, FAST, NORMAL, IMMUNE}
     
 	/*
      * TestConstructor. hard coded lol-mob for testing purposes. TODO

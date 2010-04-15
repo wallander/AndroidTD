@@ -30,6 +30,11 @@ public abstract class Tower extends Unit {
 	
 	//how to prioritize between mobs
 	protected static final int  ANY = 3, FIRST = 2, NOT_SLOWED = 3;
+	
+	public enum TowerType {AIR, NORMAL, SPLASH, SLOW};
+	
+	protected TowerType mType;
+	
 	protected int mPrio;
 	
 	private String mName;
@@ -244,6 +249,14 @@ public abstract class Tower extends Unit {
     
     public abstract boolean upgrade();
     
+    public int getSlow() {
+    	return 0;
+    }
+    
+    public int getSplash() {
+    	return 0;
+    }
+    
     public boolean canUpgrade() {
     	return (mLevel < 4);
     }
@@ -312,4 +325,21 @@ public abstract class Tower extends Unit {
 	public String getDescription() {
 		return mDescription;
 	}
+	
+	/**
+	 * @param mType the TowerType to set
+	 */
+	public void setType(TowerType mType) {
+		this.mType = mType;
+	}
+
+
+	/**
+	 * @return the TowerType
+	 */
+	public TowerType getType() {
+		return mType;
+	}
+	
+	
 }

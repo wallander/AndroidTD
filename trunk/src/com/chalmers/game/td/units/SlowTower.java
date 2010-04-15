@@ -26,6 +26,7 @@ public class SlowTower extends Tower {
 		setDamage(15);
 		setSlow(30);
 		setPrio(Tower.NOT_SLOWED);
+		setType(TowerType.SLOW);
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}
 
