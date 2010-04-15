@@ -9,8 +9,10 @@ package com.chalmers.game.td;
 
 public final class R {
     public static final class array {
-        public static final int mobs_track_1=0x7f050001;
+        public static final int mobs_track_1=0x7f050002;
+        public static final int mobs_track_2=0x7f050003;
         public static final int path_track_1=0x7f050000;
+        public static final int path_track_2=0x7f050001;
     }
     public static final class attr {
     }
