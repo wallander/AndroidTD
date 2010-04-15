@@ -109,16 +109,16 @@ public class Snowball extends Unit {
 		double x = s.values[1];
 		double y = s.values[0];
 		
-		setSpeedX(getSpeedX() + x / 25);
-		setSpeedY(getSpeedY() + y / 25);
+		setSpeedX(getSpeedX() + x / 60);
+		setSpeedY(getSpeedY() + y / 60);
 		
 		if ((getX() < 0 && getSpeedX() < 0)	|| (getX() > 480 && getSpeedX() > 0)) {
-			setSpeedX(-getSpeedX() * 0.8);
+			setSpeedX(-getSpeedX() * 0.5);
 			mCharges--;
 		}
 		
 		if ((getY() < 0 && getSpeedY() < 0) || (getY() > 320 && getSpeedY() > 0)) {
-			setSpeedY(-getSpeedY() * 0.8);
+			setSpeedY(-getSpeedY() * 0.5);
 			mCharges--;
 		}
 		

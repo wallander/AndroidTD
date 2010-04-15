@@ -19,17 +19,19 @@ public class SplashTower extends Tower {
 	
 	//
 	private int mSplash;
+	private int mSplashRadius;
 
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Tower");
 		mSplash = 3;
+		mSplashRadius=50;
 		setDamage(6);
 		setCoolDown(40);
 		resetCoolDown();
 		setCost(100);
-		setRange(70);
+		setRange(80);
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
 //		mDamage = 50;
@@ -76,13 +78,16 @@ public class SplashTower extends Tower {
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
     			setDamage(24);
-        		setRange(70); break;
+        		setRange(70);
+        		setSplashRadius(60); break;
     		case 3:
     			setDamage(50);
-    			setCoolDown(30); break;
+    			setCoolDown(30);
+    			setSplashRadius(80); break;
     		case 4:
     			setDamage(100);
-    			setSplash(4); break;
+    			setSplash(4); 
+    			setSplashRadius(100); break;
     		}
     		
     		//old values, save for reference...
@@ -111,6 +116,13 @@ public class SplashTower extends Tower {
     	mSplash = pSplash;
     }
     
+    public void setSplashRadius(int mRadius) {
+    	mSplashRadius = mRadius;
+    }
+    
+    public int getSplashRadius() {
+    	return mSplashRadius;
+    }
     
     /**
      * Returns the splasheffect
