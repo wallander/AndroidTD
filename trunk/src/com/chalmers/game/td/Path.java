@@ -54,9 +54,9 @@ public class Path {
 		
 		reset();
 		
-		if(mTrackPaths.get(pTrack) != null) {
+		if(mTrackPaths.get(pTrack-1) != null) {
 			
-			for(Coordinate c : mTrackPaths.get(pTrack)) {
+			for(Coordinate c : mTrackPaths.get(pTrack-1)) {
 
 				mPath.add(c);
 			}
