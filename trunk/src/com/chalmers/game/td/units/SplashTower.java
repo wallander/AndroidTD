@@ -31,7 +31,7 @@ public class SplashTower extends Tower {
 		setCoolDown(40);
 		resetCoolDown();
 		setCost(100);
-		setRange(80);
+		setRange(70);
 		
 		// TODO Set appropriate values to range, damage, attack speed and such
 //		mDamage = 50;
@@ -78,7 +78,7 @@ public class SplashTower extends Tower {
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
     			setDamage(24);
-        		setRange(70);
+        		setRange(80);
         		setSplashRadius(60); break;
     		case 3:
     			setDamage(50);
@@ -86,7 +86,8 @@ public class SplashTower extends Tower {
     			setSplashRadius(80); break;
     		case 4:
     			setDamage(100);
-    			setSplash(4); 
+    			setSplash(4);
+    			setRange(90);
     			setSplashRadius(100); break;
     		}
     		
