@@ -118,7 +118,9 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute_background),0,0,null);
 		Paint p = new Paint();
 		p.setARGB(150, 50, 50, 50);
+
 		canvas.drawRoundRect(mButtonTrack1,5,5, p);
+
 	}
 
 }
