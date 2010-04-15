@@ -164,7 +164,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		debug = new TDDebug();
 		debug.InitGameTime();
 
-		startTrack(0); //TODO fulkod
+		startTrack(GameModel.getTrack());
 
 
 		fillBitmapCache();
@@ -562,10 +562,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	public Mob createMobs() {  	    	    	    	        	    	    	
 
-
+		int track = GameModel.getTrack();
+		
 		if (mMobDelayI >= MOB_DELAY_MAX) {
 			mMobDelayI = 0;
-			return mMobFactory.getNextMob(0); // TODO do not use hard code..
+			
+			if(track > 0) {
+				return mMobFactory.getNextMob(track);
+			} else {
+				return null;
+			}
 		} else {
 			mMobDelayI += GamePanel.getSpeedMultiplier();
 			return null;
@@ -1140,12 +1146,36 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	/**
+	 * Draws the background map and such.
+	 * 
+	 * TODO: add maps for other tracks
+	 * 
+	 * @param canvas
+	 */
 	private void drawBackground(Canvas canvas) {
+		
+		switch(GameModel.getTrack()) {
+		case 1: // track 1
 		// draw the background
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
 
 		// draw the "end-point-base"
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.base),403,0,null);
+		break;
+		
+//		case 2: //track 2
+//		canvas.drawBitmap(bilden för bana 2);
+//		break;
+//		
+//		case 3: //track 3
+//			canvas.drawBitmap(bilden för bana 3);
+//			break;
+//			
+//		case 4: //track 2
+//			canvas.drawBitmap(bilden för bana 4);
+//			break;	
+		}
 	}
 	
 	private void drawRewardsAfterDeadMob(Canvas canvas){

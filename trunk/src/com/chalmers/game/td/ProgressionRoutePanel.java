@@ -22,7 +22,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 	private Activity mActivity;
 	
-	private final RectF track1Button = new RectF(45, 200, 100, 240);
+	private final RectF mButtonTrack1 = new RectF(45, 200, 100, 240);
 	
 	public ProgressionRoutePanel(Context context) {
 		super(context);				
@@ -55,10 +55,18 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 					
 					Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
 										
-					if (track1Button.contains(event.getX(), event.getY())) {
+					if (mButtonTrack1.contains(event.getX(), event.getY())) {
 						
 						Log.v("PRESSED ON PROGRESSION ROUTE", "You have pressed track 1");
 					
+						GameModel.setTrack(1);
+						
+						thread.setRunning(false);
+						getHolder().removeCallback(this);
+						mActivity.setContentView(new GamePanel(getContext()));
+					} else {
+						GameModel.setTrack(2);
+						
 						thread.setRunning(false);
 						getHolder().removeCallback(this);
 						mActivity.setContentView(new GamePanel(getContext()));
@@ -110,7 +118,9 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute_background),0,0,null);
 		Paint p = new Paint();
 		p.setARGB(150, 50, 50, 50);
-		canvas.drawRoundRect(track1Button,5,5, p);
+
+		canvas.drawRoundRect(mButtonTrack1,5,5, p);
+
 	}
 
 }

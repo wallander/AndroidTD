@@ -37,6 +37,7 @@ public class GameModel {
 	public static HashSet<Point> mOccupiedTilePositions;
 	public static int mWaveNr;
 	public static Player currentPlayer;
+	public static int	sSelectedTrack = 1;
 	
 
 	/** Size of "game tiles" */
@@ -62,7 +63,7 @@ public class GameModel {
 		mProjectiles = new ArrayList<Projectile>();
 		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();
-		mOccupiedTilePositions = new HashSet<Point>();
+		mOccupiedTilePositions = new HashSet<Point>();		
 		
 		
 		
@@ -154,6 +155,14 @@ public class GameModel {
 			}
 		}	
 		
+	}
+	
+	public static void setTrack(int pTrack) {
+		sSelectedTrack = pTrack;
+	}
+	
+	public static int getTrack() {
+		return sSelectedTrack;
 	}
 }
 

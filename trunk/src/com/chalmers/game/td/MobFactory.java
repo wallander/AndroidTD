@@ -136,7 +136,7 @@ public class MobFactory {
 
 				if(mMob != null) {
 
-					mPath.setTrackPath(pTrack);
+					mPath.setTrackPath(pTrack - 1);
 					mMob.setPath(mPath);
 					
 					switch(mMob.getType()) {
