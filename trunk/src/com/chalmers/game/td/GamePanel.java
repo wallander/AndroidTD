@@ -150,7 +150,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower4 = new AirTower(0,0);
 	
 	private Snowball mSnowball = new Snowball(0,0);
-
+/*
 	private SoundPool soundPool; 
 	private HashMap<Integer, Integer> soundPoolMap; 
 
@@ -165,7 +165,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	     AudioManager mgr = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE); 
 	     int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC); 
 	     soundPool.play(soundPoolMap.get(sound), streamVolume, streamVolume, 1, 0, 1f); 
-	} 	
+	} 	*/
 	
 	/**
 	 * Constructor called on instantiation.
@@ -184,7 +184,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		startTrack(GameModel.getTrack());
 		
-		initSounds();
+		//initSounds();
 		
 		fillBitmapCache();
 		getHolder().addCallback(this);
@@ -899,13 +899,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mSelectedTower.getName(), 160, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mSelectedTower.getLevel(), 160, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 160, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mSelectedTower.getRange(), 160, 161, sPaintBoxText);
+		canvas.drawText(mSelectedTower.getName(), 150, 90, boxTextPaintTitle);
+		canvas.drawText("Level " + mSelectedTower.getLevel(), 140, 117, sPaintBoxText);
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 140, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 161, sPaintBoxText);
 		
+		switch(mSelectedTower.getType()) {
+		case Tower.SPLASH:	
+			canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 171, sPaintBoxText);
+			break;
+		case Tower.SLOW: 
+			canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 171, sPaintBoxText);
+			break;
+		}
 		
-
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);

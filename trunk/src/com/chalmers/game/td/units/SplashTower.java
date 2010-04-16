@@ -25,15 +25,14 @@ public class SplashTower extends Tower {
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Eskimo");
-		mSplash = 3;
+		mSplash = 2;
 		mSplashRadius=50;
 		setDamage(6);
 		setDescription("Trows snowballs damaging multiple targets");
-		setCoolDown(40);
+		setCoolDown(50);
 		resetCoolDown();
 		setCost(100);
-		setRange(70);
-		
+		setRange(60);
 		// TODO Set appropriate values to range, damage, attack speed and such
 //		mDamage = 50;
 //		mAttackSpeed = 30;
@@ -79,17 +78,19 @@ public class SplashTower extends Tower {
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
     			setDamage(24);
-        		setRange(80);
+        		setRange(70);
+        		setSplash(3);
         		setSplashRadius(60); break;
     		case 3:
     			setDamage(50);
     			setCoolDown(30);
+    			setSplash(4);
     			setSplashRadius(80); break;
     		case 4:
-    			setDamage(100);
-    			setSplash(4);
-    			setRange(90);
-    			setSplashRadius(100); break;
+    			setDamage(80);
+    			setSplash(5);
+    			setRange(80);
+    			setSplashRadius(90); break;
     		}
     		
     		//old values, save for reference...

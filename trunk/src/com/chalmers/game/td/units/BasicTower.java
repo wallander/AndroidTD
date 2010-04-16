@@ -10,10 +10,11 @@ public class BasicTower extends Tower {
 	
 	public BasicTower(int pX, int pY) {
 		super(pX, pY);
+
+    	setCost(70);
     	setName("Eskimo");
     	setDescription("Throws spears with good range and speed");
-    	
-    	setPrio(2);
+    	setDamage(7);
 	}
 	
 	
@@ -34,22 +35,25 @@ public class BasicTower extends Tower {
     	else {
     		setLevel(getLevel()+1);			//increment tower level by one
     		setImageByLevel(getLevel());	//set image according to the new level
-    		Log.v("Jonas","Level:"+getLevel());
+    		
     		switch (getLevel()){			//set damage and range according to the new level
+    		case 1:
+    	    	setDamage(6);			//default
+    	    	setCoolDown(20);
+    			setRange(100);
     		case 2:
     			setDamage(16);
-        		setRange(110);
+        		setRange(105);
         		break;
     		case 3:
     			setDamage(40);
-        		setRange(125);
+        		setRange(110);
         		break;
     		case 4:
-    			setDamage(140);
-        		setRange(140);
+    			setDamage(120);
+        		setRange(120);
         		break;
     		}
-    		Log.v("Jonas","Damage:"+getDamage());
     		
     		//Old values, kept for reference
 //    		switch (getLevel()){			//set damage and range according to the new level

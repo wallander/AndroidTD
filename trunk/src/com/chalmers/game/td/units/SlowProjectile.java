@@ -19,12 +19,21 @@ public class SlowProjectile extends Projectile {
 	 * TODO slow more when higher level
 	 */
 	public void inflictDmg() {
-		getTarget().setHealth(getTarget().getHealth() - getDamage());
-		//mTarget.setSlowed(200,(double)1/(double)(mTower.mLevel + 1));
-
-		switch (getTarget().getType()) {
 		
+		
+		//switch (getTarget().getType()) {
+		//case AIR:		// if HEALTHY/BOSS = no slow
+			//getTarget().setHealth((int) (getTarget().getHealth() - getDamage()*0.7));
+			//break;
+		//default: 
+			getTarget().setHealth(getTarget().getHealth() - getDamage());
+			//break;
+		//}
+		
+		switch (getTarget().getType()) {
 		case HEALTHY:		// if HEALTHY/BOSS = no slow
+			break;
+		case IMMUNE:
 			break;
 		default: getTarget().setSlowed(200,mSlowEffect);
 			break;

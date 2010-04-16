@@ -54,10 +54,10 @@ class ProgressionThread extends Thread {
             try {
                 
                 
-                synchronized (mProgressionPanel.getHolder()) {
+               // synchronized (mProgressionPanel.getHolder()) {
                 	c = mProgressionPanel.getHolder().lockCanvas(null);
                     mProgressionPanel.onDraw(c);
-                }
+                //}
                 
                 sleep(5);
             } catch (InterruptedException ie) {
