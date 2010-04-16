@@ -24,6 +24,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -1289,7 +1290,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBtnPaint.setARGB(255, 50, 50, 50);
 
 		// set text size of the FPS meter and such and such
-		sPaintText.setTextSize(18);
+		sPaintText.setTextSize(16);
+		Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+		sPaintText.setTypeface(font);
+		sPaintText.setAntiAlias(true);
 
 		// set color of the selected tower box
 		sPaintTransparentBox.setARGB(90, 51, 51, 51);
@@ -1299,8 +1303,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
-		sPaintBoxText.setStyle(Paint.Style.STROKE);
 		sPaintBoxText.setTextSize(14);
+		Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
+		sPaintText.setTypeface(font2);
+		sPaintText.setAntiAlias(true);
 
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
