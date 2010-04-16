@@ -151,6 +151,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower4 = new AirTower(0,0);
 	
 	private Snowball mSnowball = new Snowball(0,0);
+	private AudioManager mAudioManager;
 
 
 	private static SoundPool sounds;
@@ -231,6 +232,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// do settings to all paint objects used in the GUI
 		setupPaint();
 
+		mAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		
 		// get a reference to the vibrator in the phone
 		mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -379,6 +382,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// TODO Handle hardware "back" button
 			GAME_STATE = STATE_PAUSED;
 			
+			break;
+			
+		case KeyEvent.KEYCODE_VOLUME_UP:
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
+			break;
+			
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
 			break;
 		}
 
