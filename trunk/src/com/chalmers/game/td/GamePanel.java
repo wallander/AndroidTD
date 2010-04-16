@@ -927,6 +927,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
 		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText); //TODO: Count the wave
 		canvas.drawText("Score: 0", 290, 20, sPaintText); //TODO: Count score
+		
+		int mWaveTime = mMobFactory.getWaveTime(); 
+		
+		if(mWaveTime < mMobFactory.getWaveMaxDelay()) {
+			canvas.drawText("Next wave: " + mWaveTime, 260, 300, sPaintText);
+		}
 
 	}
 
