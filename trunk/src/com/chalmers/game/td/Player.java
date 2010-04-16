@@ -26,6 +26,12 @@ public class Player {
 	
 	public void saveCurrentTrackScore() {
 		mTrackScore[GameModel.getTrack() - 1] = getCurrentTrackScore();
+		saveScore();
+	}
+	
+	public void saveScore() {
+		
+		// TODO implement possibility to save score to xml 
 	}
 	
 	public double getTrackScore(int pTrack) {
