@@ -59,6 +59,7 @@ class GameThread extends Thread {
                 }
                 synchronized (mGamePanel.getHolder()) {
                     mGamePanel.onDraw(c);
+                    GamePanel.playMusic();
                 }
                 
                 sleep(5);
