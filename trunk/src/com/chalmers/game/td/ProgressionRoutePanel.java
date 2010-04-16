@@ -39,7 +39,10 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	
 	private void fillBitmapCache() {
 		mBitMapCache.put(R.drawable.progressionroute, BitmapFactory.decodeResource(getResources(), R.drawable.progressionroute));
-	
+		mBitMapCache.put(R.drawable.progdone, BitmapFactory.decodeResource(getResources(), R.drawable.progdone));
+		mBitMapCache.put(R.drawable.prognotdone, BitmapFactory.decodeResource(getResources(), R.drawable.prognotdone));
+		mBitMapCache.put(R.drawable.prognext, BitmapFactory.decodeResource(getResources(), R.drawable.prognext));
+
 	}
 	
 	@Override
@@ -112,12 +115,19 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	public void onDraw(Canvas canvas) {
-				
+		
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute),0,0,null);
+		/*
 		Paint p = new Paint();
 		p.setARGB(150, 50, 50, 50);
 
 		canvas.drawRoundRect(mButtonTrack1,5,5, p);
+		 */
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 100, 180,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
 
 	}
 
