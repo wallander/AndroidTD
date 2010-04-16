@@ -38,7 +38,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	private void fillBitmapCache() {
-		mBitMapCache.put(R.drawable.progressionroute_background, BitmapFactory.decodeResource(getResources(), R.drawable.progressionroute_background));
+		mBitMapCache.put(R.drawable.progressionroute, BitmapFactory.decodeResource(getResources(), R.drawable.progressionroute));
 	
 	}
 	
@@ -113,7 +113,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	
 	public void onDraw(Canvas canvas) {
 				
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute_background),0,0,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute),0,0,null);
 		Paint p = new Paint();
 		p.setARGB(150, 50, 50, 50);
 
