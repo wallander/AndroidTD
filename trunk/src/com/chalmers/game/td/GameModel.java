@@ -35,7 +35,7 @@ public class GameModel {
 	public static List<Snowball> mSnowballs;
 	public static Path mPath;
 	public static HashSet<Point> mOccupiedTilePositions;
-	public static int mWaveNr;
+//	public static int mWaveNr;
 	public static Player currentPlayer;
 	public static int	sSelectedTrack = 1;
 	
@@ -52,17 +52,18 @@ public class GameModel {
 	}
 	
 	/**
-	 * Initializes all variables of the GameModel. TODO take care of track nr
+	 * Initializes all variables of the GameModel.
 	 */
 	public static void initialize() {
 		
-		currentPlayer = new Player();
+		
 		mTowers = new ArrayList<Tower>();
 		mMobs = new ArrayList<Mob>();
 		mShowRewardForMob = new ArrayList<Mob>();
 		mProjectiles = new ArrayList<Projectile>();
 		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();
+		currentPlayer = new Player(mPath.getNumberOfTracks());
 		mOccupiedTilePositions = new HashSet<Point>();		
 		
 		// add a "frame" of occupied tiles around the game field
@@ -128,13 +129,13 @@ public class GameModel {
 		
 	}
 	
-	public static int getWaveNr() {
-		return mWaveNr;
-	}
+//	public static int getWaveNr() {
+//		return mWaveNr;
+//	}
 
-	public static void setWaveNr(int pWaveNr) {
-		mWaveNr = pWaveNr;
-	}
+//	public static void setWaveNr(int pWaveNr) {
+//		mWaveNr = pWaveNr;
+//	}
 
 	public static boolean canAddTower(Tower tower) {
 		

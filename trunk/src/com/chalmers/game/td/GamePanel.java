@@ -599,8 +599,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				}
 				break;
-			case STATE_WIN:
-				switch (event.getAction()) {
+			case STATE_WIN:							
+				
+				switch (event.getAction()) {								
+				
 				case MotionEvent.ACTION_DOWN:
 
 					if(sBtnRestart.contains(event.getX(), event.getY())){
@@ -705,8 +707,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// if the player has won (no more mobs and all mobs dead)
 			if (mMobFactory.hasMoreMobs() == false && GameModel.mMobs.isEmpty()) {
 				GAME_STATE = STATE_WIN;
+
 				fastf = false;
 				setSpeedMultiplier(1);
+
+				GameModel.currentPlayer.saveCurrentTrackScore();
+
 				return;
 			}
 
@@ -744,20 +750,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// Check if any projectile has hit it's target
 			// Handle hit, remove projectile, calculate damage on mob, etc. etc.
 			for (int i = 0; i < GameModel.mProjectiles.size(); i++) {
-				Projectile p = GameModel.mProjectiles.get(i);
-
+				Projectile p = GameModel.mProjectiles.get(i);								
+				
 				// Update position for the projectiles
 				p.updatePosition();
 
 				// If the projectile has collided, inflict damage and remove it.
-				if (p.hasCollided()) {
+				if (p.hasCollided()) {					
 					p.inflictDmg();
 					GameModel.mProjectiles.remove(p);
 				}
 
 				// if the projectile's target is dead, remove the projectile
 				if (p.getTarget().getHealth() <= 0) {
-					GameModel.mProjectiles.remove(p);
+					GameModel.mProjectiles.remove(p);					
 				}
 			}
 
@@ -806,7 +812,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 		
 			for (int j = 0; j < GameModel.mMobs.size(); j++) {
-				Mob m = GameModel.mMobs.get(j);
+				Mob m = GameModel.mMobs.get(j);				
 
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
@@ -819,6 +825,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// handle mob death
 				if (m.getHealth() <= 0) {
 					GameModel.currentPlayer.changeMoney(m.getReward());
+					GameModel.currentPlayer.changeScore(m);					
 					GameModel.mShowRewardForMob.add(m);
 					GameModel.mMobs.remove(m);
 				}
@@ -976,7 +983,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 160, 3, null);
 		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
 		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText); //TODO: Count the wave
-		canvas.drawText("Score: 0", 290, 20, sPaintText); //TODO: Count score
+		canvas.drawText("Score: " + (int)GameModel.currentPlayer.getCurrentTrackScore(), 290, 20, sPaintText); //TODO: Count score
 		
 		int mWaveTime = mMobFactory.getWaveTime(); 
 		

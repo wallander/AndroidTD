@@ -25,6 +25,7 @@ public class Path {
 	private static final Path		INSTANCE = new Path();
 	private	Context					mContext;
 	private List<List<Coordinate>>	mTrackPaths;
+	private int						mNumberOfTracks;
 
 	
 	/**
@@ -33,6 +34,10 @@ public class Path {
 	 */
 	public Path() {
 		mPath = new ArrayList<Coordinate>();		
+	}
+	
+	public int getNumberOfTracks() {
+		return mNumberOfTracks;
 	}
 	
 	public static Path getInstance() {
@@ -103,8 +108,12 @@ public class Path {
 
 		mTrackPaths = new ArrayList<List<Coordinate>>();
 		
-
-		for(int i = 0; ; ++i) {
+		// Stored outside to keep track
+		// of how many tracks there are
+		// in the game
+		int i;
+		
+		for(i = 0; ; ++i) {
 			
 			try {
 				
@@ -146,6 +155,8 @@ public class Path {
 			}
 			
 		}
+		
+		mNumberOfTracks = i;
 			
 		
 		
