@@ -17,6 +17,8 @@ import android.view.Window;
  */
 public class MenuGame extends Activity {
     
+	private ProgressionRoutePanel progressMap;
+	
     /**
      * Method called on application start.
      */
@@ -30,6 +32,15 @@ public class MenuGame extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         // Bring up the progression route view
-        setContentView(new ProgressionRoutePanel(this));        
+        progressMap = new ProgressionRoutePanel(this);
+        setContentView(progressMap);        
+    }
+    
+    /**
+     * Method called upon application closure.
+     */
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
     }
 }

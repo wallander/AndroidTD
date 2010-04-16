@@ -14,6 +14,7 @@ import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashTower;
+import com.chalmers.game.td.units.Mob.MobType;
 
 import android.app.Activity;
 import android.content.Context;
@@ -117,6 +118,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint sPaintLine = new Paint();
 	private static final Paint sPaintTransparentBox = new Paint();
 	private static final Paint sPaintText = new Paint();
+	private static final Paint sPaintTextWhite = new Paint();
 	private static final Paint rangeIndicationPaint = new Paint();
 	private static final Paint noRangeIndicationPaint = new Paint();
 	private static final Paint gridpaint = new Paint();
@@ -151,6 +153,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower4 = new AirTower(0,0);
 	
 	private Snowball mSnowball = new Snowball(0,0);
+	private AudioManager mAudioManager;
 
 
 	private static SoundPool sounds;
@@ -166,6 +169,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	    explosionSound = sounds.load(context, R.raw.explosion, 1);
 	    // the music that is played at the beginning and when there is only 10 seconds left in a game
 	    music = MediaPlayer.create(context, R.raw.doom_1);
+	    music.setVolume(1, 1);
 	}
 	
 	public static void playSound(int file) {
@@ -230,6 +234,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// do settings to all paint objects used in the GUI
 		setupPaint();
 
+		mAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		
 		// get a reference to the vibrator in the phone
 		mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -358,6 +364,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.eskimotowersplash2, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash2));
 		mBitMapCache.put(R.drawable.eskimotowersplash3, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash3));
 		mBitMapCache.put(R.drawable.eskimotowersplash4, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash4));
+		mBitMapCache.put(R.drawable.menutop, BitmapFactory.decodeResource(getResources(), R.drawable.menutop));
+		mBitMapCache.put(R.drawable.menumid, BitmapFactory.decodeResource(getResources(), R.drawable.menumid));
+		mBitMapCache.put(R.drawable.menubot, BitmapFactory.decodeResource(getResources(), R.drawable.menubot));
 
 	}
 
@@ -378,6 +387,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// TODO Handle hardware "back" button
 			GAME_STATE = STATE_PAUSED;
 			
+			break;
+			
+		case KeyEvent.KEYCODE_VOLUME_UP:
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
+			break;
+			
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+			mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
 			break;
 		}
 
@@ -593,19 +610,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case STATE_PAUSED:
 				//TODO handle input when in "PAUSE" state
 				//two buttons? "New Game" and "exit" maybe? yes? no? yes?
+	
 
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 
-					if(sBtnResume.contains(event.getX(),event.getY())){
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						GAME_STATE = STATE_RUNNING;
 					}
-					else if(sBtnRestart.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						startTrack(GameModel.getTrack());											
 						GAME_STATE = STATE_RUNNING;			
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
-					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
@@ -874,6 +892,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			break;
 
 		case STATE_PAUSED: // pause screen
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);
+			
+			canvas.drawText("GAME PAUSED!", 155,80+20,sPaintTextWhite);
+			canvas.drawText("Resume",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
+			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
+			
+	
+			
+			/*
 			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
 			canvas.drawText("GAME PAUSED!",100,80,sPaintBoxText);
 
@@ -885,7 +916,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
 			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
-
+			 */
 			break;
 		}
 	}
@@ -921,8 +952,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawStatisticsText(Canvas canvas) {
 		// draw debug messages in the top left corner
-		//canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
-			//	" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
+		canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
+				" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
@@ -1177,54 +1208,67 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			Mob m = GameModel.mMobs.get(i);
 
 			
-			
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
-			
-			if(mobImage == mBitMapCache.get(R.drawable.flyingpenguin)){
-				canvas.drawBitmap(mobImage, (int) m.getX(), (int) m.getY() - 25, null);
+			Matrix matrix = new Matrix();
+			if (m.getType() == MobType.HEALTHY) {
 				
-				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+				int mMultiplier;
+				mMultiplier = 3;
 
-				// drawing health bars for each mob, first a black background
-				healthBarPaint.setARGB(255, 0, 0, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2 + 2,
-						(float) m.getY() - 5 - 25,
-						(float) (m.getX() + 24 + 2),
-						(float) m.getY() - 2 - 25,
-						healthBarPaint);
+				// rotate the Bitmap ackording to animation frame
+				switch(m.nextAnimation(12)) {
+					case 0: matrix.postRotate((float) (0)); break;
+					case 1: matrix.postRotate((float) (1*mMultiplier)); break;
+					case 2: matrix.postRotate((float) (2*mMultiplier)); break;
+					case 3: matrix.postRotate((float) (3*mMultiplier)); break;
+					case 4: matrix.postRotate((float) (2*mMultiplier)); break;
+					case 5: matrix.postRotate((float) (1*mMultiplier)); break;
+					case 6: matrix.postRotate((float) (0)); break;
+					case 7: matrix.postRotate((float) (-1*mMultiplier)); break;
+					case 8: matrix.postRotate((float) (-2*mMultiplier)); break;
+					case 9: matrix.postRotate((float) (-3*mMultiplier)); break;
+					case 10: matrix.postRotate((float) (-2*mMultiplier)); break;
+					case 11: matrix.postRotate((float) (-1*mMultiplier)); break;
+				}
 
-				// draw current health on the health bar
-				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2 + 2,
-						(float) m.getY() - 5 - 25,
-						(float) (m.getX() + (24 * hpRatio/255)) + 2,
-						(float) m.getY() - 2 - 25,
-						healthBarPaint);
-			} else {
-				canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);	
-				
-				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
-
-				// drawing health bars for each mob, first a black background
-				healthBarPaint.setARGB(255, 0, 0, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2,
-						(float) m.getY() - 5,
-						(float) (m.getX() + 24),
-						(float) m.getY() - 2,
-						healthBarPaint);
-
-				// draw current health on the health bar
-				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2,
-						(float) m.getY() - 5,
-						(float) (m.getX() + (24 * hpRatio/255)),
-						(float) m.getY() - 2,
-						healthBarPaint);
+ 
 			}
+			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0, mobImage.getWidth(), mobImage.getHeight(), matrix, true);
+			
+
+			int mOffset,mOffset2;
+			if(m.getType() == Mob.MobType.AIR) {
+				mOffset = 25;
+				mOffset2 = 2;
+			} else {
+				mOffset = 0;
+				mOffset2 = 0;
+			}
+			
+			canvas.drawBitmap(tiltMob, (int) m.getX(), (int) m.getY() - mOffset, null);
+			
+			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+
+			// drawing health bars for each mob, first a black background
+			healthBarPaint.setARGB(255, 0, 0, 0);
+			canvas.drawRect(
+					(float)m.getX() - 2 + mOffset2,
+					(float) m.getY() - 5 - mOffset,
+					(float) (m.getX() + 24 + mOffset2),
+					(float) m.getY() - 2 - mOffset,
+					healthBarPaint);
+			
+			// draw current health on the health bar
+			healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
+			canvas.drawRect(
+					(float)m.getX() - 2 + mOffset2,
+					(float) m.getY() - 5 - mOffset,
+					(float) (m.getX() + (24 * hpRatio/255)) + mOffset2,
+					(float) m.getY() - 2 - mOffset,
+					healthBarPaint);			
+				
+			
+
 
 			
 
@@ -1304,6 +1348,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
 		sPaintText.setTypeface(font);
 		sPaintText.setAntiAlias(true);
+		
+		sPaintTextWhite.setTextSize(16);
+		sPaintTextWhite.setARGB(255, 255, 255, 255);
+		Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+		sPaintTextWhite.setTypeface(font2);
+		sPaintTextWhite.setAntiAlias(true);
 
 		// set color of the selected tower box
 		sPaintTransparentBox.setARGB(90, 51, 51, 51);
@@ -1314,9 +1364,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
 		sPaintBoxText.setTextSize(14);
-		Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
-		sPaintText.setTypeface(font2);
-		sPaintText.setAntiAlias(true);
+		//Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
+		//sPaintText.setTypeface(font2);
+		//sPaintText.setAntiAlias(true);
 
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
