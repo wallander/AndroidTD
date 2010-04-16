@@ -65,6 +65,18 @@ public class GameModel {
 		mPath = Path.getInstance();
 		mOccupiedTilePositions = new HashSet<Point>();		
 		
+		// add a "frame" of occupied tiles around the game field
+		for (int i = -1; i < 31; i++) {
+			mOccupiedTilePositions.add(new Point(i, 20));
+			mOccupiedTilePositions.add(new Point(i, 21));
+		}
+		
+		for (int i = -1; i < 21; i++) {
+			mOccupiedTilePositions.add(new Point(-2, i));
+			mOccupiedTilePositions.add(new Point(-1, i));
+			mOccupiedTilePositions.add(new Point(31, i));
+		}
+		
 		
 		
 		// calculate where towers can be placed.

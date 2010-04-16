@@ -14,12 +14,13 @@ public class SlowTower extends Tower {
 
 	private int mSlow;
 	
+	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
-		resetCoolDown();
-		setName("Slow Tower");		
+
+		setName("Snowman");
 		setCost(200);
-		setCoolDown(30);
+		setDescription("Low damage. Slows down units.");
     	resetCoolDown();
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}
@@ -122,5 +123,5 @@ public class SlowTower extends Tower {
 		else
 			return null;
 	}
-	
+
 }

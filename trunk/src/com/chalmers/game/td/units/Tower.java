@@ -26,10 +26,13 @@ public abstract class Tower extends Unit {
 	private int mLevel;			// Tower level
 	private int mCoolDownLeft;	// Tower shoot delay
 	private int mCoolDown;		// Tower constant shoot speed
+	private String mDescription; // Tower description
 	
 	private String mName;
-
-	private int mImage; //Har den protected för att kunna ändra från extended splashTower
+	public static final int BASIC=1, SPLASH=2, SLOW=3, AIR=4;
+	private int mType;
+	
+	private int mImage;
 	
 	//List<Projectile> mProjectiles;
 	/**
@@ -45,6 +48,7 @@ public abstract class Tower extends Unit {
     	upgrade();
     	setSize(2);				//gäller alla torn?
     	setImageByLevel(mLevel);	//gäller för alla torn
+    	setDescription("");
     }
     
 	public void setName(String pName) {
@@ -192,6 +196,14 @@ public abstract class Tower extends Unit {
     
     public abstract boolean upgrade();
     
+    public int getSlow() {
+    	return 0;
+    }
+    
+    public int getSplash() {
+    	return 0;
+    }
+    
     public boolean canUpgrade() {
     	return (mLevel < 4);
     }
@@ -246,4 +258,35 @@ public abstract class Tower extends Unit {
     	}	
     }
 
+	/**
+	 * @param mDescription the mDescription to set
+	 */
+	public void setDescription(String mDescription) {
+		this.mDescription = mDescription;
+	}
+
+
+	/**
+	 * @return the mDescription
+	 */
+	public String getDescription() {
+		return mDescription;
+	}
+	
+	/**
+	 * @param mType the TowerType to set
+	 */
+	public void setType(int pType) {
+		mType = pType;
+	}
+
+
+	/**
+	 * @return the TowerType
+	 */
+	public int getType() {
+		return mType;
+	}
+	
+	
 }

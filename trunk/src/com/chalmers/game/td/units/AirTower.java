@@ -17,12 +17,12 @@ public class AirTower extends Tower {
 	
 	public AirTower(int mX, int mY) {
 		super(mX, mY);
-		setName("Air Tower");		
-		setCost(12);
+		setName("Igloo Canon");		
+		setCost(130);
 		setCoolDown(30);
+		setDescription("Can only damage AIR units.");
     	resetCoolDown();
 		setRange(120);
-		setDamage(20);
 		// TODO Set appropriate values to range, damage, attack speed and such
 
 	}
@@ -32,9 +32,9 @@ public class AirTower extends Tower {
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
-			case 1: setImage(R.drawable.airtower); break;
-			case 2: setImage(R.drawable.airtower);  break;
-			case 3: setImage(R.drawable.airtower);  break;
+			case 1: setImage(R.drawable.airtower1); break;
+			case 2: setImage(R.drawable.airtower2);  break;
+			case 3: setImage(R.drawable.airtower3);  break;
 			case 4: setImage(R.drawable.airtower);  break;
 		}		
 	}
@@ -111,4 +111,6 @@ public class AirTower extends Tower {
 		default: return 500;	//case 3
 		}
 	}
+
+
 }

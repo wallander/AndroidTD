@@ -65,8 +65,7 @@ public class Mob extends Unit{
 	/**
 	 * Enum for the mob type. One for each type of mob.
 	 */
-	public enum MobType { HEALTHY, AIR, FAST, NORMAL }
-	//TODO public static final int HEALTHY, AIR, FAST, NORMAL; 
+	public enum MobType { HEALTHY, AIR, FAST, NORMAL, IMMUNE}
   
     /**
      * Extra constructor for Mobs, used for setting health directly from xml-file

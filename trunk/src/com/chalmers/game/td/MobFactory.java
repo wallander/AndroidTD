@@ -109,7 +109,7 @@ public class MobFactory {
 	 * @param	pTrack	TODO make sure the track number is used for waves correctly
 	 * @return
 	 */
-	public Mob getNextMob(int pTrack) {	
+	public Mob getNextMob() {	
 
 		Mob mMob = null;
 
@@ -136,7 +136,7 @@ public class MobFactory {
 
 				if(mMob != null) {
 
-					mPath.setTrackPath(pTrack - 1);
+					mPath.setTrackPath(GameModel.getTrack());
 					mMob.setPath(mPath);
 					
 					switch(mMob.getType()) {
@@ -239,7 +239,12 @@ public class MobFactory {
 
 							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
-						}											
+							
+						} else if(mMobInfo[0].equals("IMMUNE")) {
+
+							mMobs.add(new Mob(MobType.IMMUNE, mHealth));
+							//Log.v("INIT MOBS", "Created mob of type IMMUNE");
+						}																				
 					}
 
 					mWaves.add(mMobs);

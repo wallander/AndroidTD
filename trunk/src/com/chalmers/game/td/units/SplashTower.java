@@ -20,19 +20,19 @@ public class SplashTower extends Tower {
 	//
 	private int mSplash;
 	private int mSplashRadius;
-
+	
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
-		setName("Splash Tower");
-		mSplash = 3;
+		setName("Splash Eskimo");
+		mSplash = 2;
 		mSplashRadius=50;
 		setDamage(6);
-		setCoolDown(40);
+		setDescription("Trows snowballs damaging multiple targets");
+		setCoolDown(50);
 		resetCoolDown();
 		setCost(100);
-		setRange(80);
-		
+		setRange(60);
 		// TODO Set appropriate values to range, damage, attack speed and such
 //		mDamage = 50;
 //		mAttackSpeed = 30;
@@ -45,10 +45,10 @@ public class SplashTower extends Tower {
 	public void setImageByLevel(int pLevel) {
 
 		switch (pLevel) {
-			case 1: setImage(R.drawable.splashtower); break;
-			case 2: setImage(R.drawable.splashtower2); break;
-			case 3: setImage(R.drawable.splashtower3); break;
-			case 4: setImage(R.drawable.splashtower4); break;
+			case 1: setImage(R.drawable.eskimotowersplash); break;
+			case 2: setImage(R.drawable.eskimotowersplash2); break;
+			case 3: setImage(R.drawable.eskimotowersplash3); break;
+			case 4: setImage(R.drawable.eskimotowersplash4); break;
 		}		
 	}
 
@@ -79,15 +79,18 @@ public class SplashTower extends Tower {
     		case 2:
     			setDamage(24);
         		setRange(70);
+        		setSplash(3);
         		setSplashRadius(60); break;
     		case 3:
     			setDamage(50);
     			setCoolDown(30);
+    			setSplash(4);
     			setSplashRadius(80); break;
     		case 4:
-    			setDamage(100);
-    			setSplash(4); 
-    			setSplashRadius(100); break;
+    			setDamage(80);
+    			setSplash(5);
+    			setRange(80);
+    			setSplashRadius(90); break;
     		}
     		
     		//old values, save for reference...
@@ -142,4 +145,6 @@ public class SplashTower extends Tower {
 		}
 		return 0; 	//default, not gonna happen
 	}
+
+
 }
