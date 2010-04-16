@@ -167,6 +167,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	    explosionSound = sounds.load(context, R.raw.explosion, 1);
 	    // the music that is played at the beginning and when there is only 10 seconds left in a game
 	    music = MediaPlayer.create(context, R.raw.doom_1);
+	    music.setVolume(1, 1);
 	}
 	
 	public static void playSound(int file) {
