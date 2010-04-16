@@ -34,6 +34,7 @@ public class MobFactory {
 	private Path					mPath;
 	private Queue<Mob>				mMobs;
 	private Queue<Queue<Mob>>		mWaves;
+	private List<Queue<Queue<Mob>>>	mTrackWaves;
 	private List<Integer>			mWaveNumbers;
 
 	/**
@@ -41,6 +42,7 @@ public class MobFactory {
 	 */
 	private MobFactory() {
 		mWaves = null;
+		mTrackWaves = null;
 		mContext = null;		
 		mMobs = null;
 		mWaveDelayI = 0;
@@ -101,6 +103,13 @@ public class MobFactory {
 
 		Mob mMob = null;
 
+		if(mWaves == null) {
+			mWaves = mTrackWaves.get(GameModel.getTrack());
+		} else if(mWaves.isEmpty()) {
+			mWaves = null;
+			return null;
+		}
+		
 		if(mWaves != null) {
 
 			if(mMobs == null || mMobs.isEmpty()) {
@@ -184,7 +193,8 @@ public class MobFactory {
 		int			mTrackIdentifier,
 		mHealth;
 
-		mWaves = new LinkedList<Queue<Mob>>();		
+		mWaves = new LinkedList<Queue<Mob>>();
+		mTrackWaves = new ArrayList<Queue<Queue<Mob>>>();
 		
 		for(int i = 0; ; ++i) {						
 			// i == track number
@@ -236,6 +246,7 @@ public class MobFactory {
 				}
 				
 				mWaveNumbers.add(j);
+				mTrackWaves.add(mWaves);
 
 			} catch(NullPointerException npe) {
 				Log.v("INITIATION", "Mobs initiation complete.");
