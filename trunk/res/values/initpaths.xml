@@ -20,8 +20,7 @@
         <item>422 133</item>        
 	</array>
 	<array name="path_track_3">
-		<item>-20 150</item>
-        <item>122 55</item>
+		<item>-20 55</item>
         <item>295 55</item>
         <item>295 157</item>
         <item>165 157</item>
@@ -30,4 +29,24 @@
         <item>357 133</item>
         <item>422 133</item>        
 	</array>
+	<array name="path_track_4">
+		<item>-20 150</item>
+        <item>122 55</item>
+        <item>295 55</item>
+        <item>295 270</item>
+        <item>172 270</item>
+        <item>127 150</item>
+        <item>422 150</item>
+                
+	</array>
+	<array name="path_track_5">
+		<item>-20 150</item>
+        <item>122 55</item>
+        <item>295 55</item>
+        <item>295 270</item>
+        <item>172 270</item>
+        <item>127 150</item>
+        <item>422 150</item>
+	</array>
+	
 </resources>
