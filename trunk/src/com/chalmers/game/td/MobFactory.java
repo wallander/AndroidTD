@@ -54,11 +54,21 @@ public class MobFactory {
 	/**
 	 * Returns the number of the wave the player
 	 * currently is facing.
-	 * TODO FIX WITH ARRAY
+	 * 
 	 * @return		the current wave number
 	 */
 	public int getWaveNr() {
 		return mWaveNr;
+	}
+	
+	/**
+	 * Returns how many integers there are left
+	 * until next wave arrives.
+	 * 
+	 * @return
+	 */
+	public int getWaveTime() {
+		return (mMaxWaveDelay - mWaveDelayI);
 	}
 
 	/**
