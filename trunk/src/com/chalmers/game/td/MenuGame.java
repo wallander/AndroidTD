@@ -31,6 +31,8 @@ public class MenuGame extends Activity {
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
+        GameModel.initialize(this);
+        
         // Bring up the progression route view
         progressMap = new ProgressionRoutePanel(this);
         setContentView(progressMap);        
@@ -40,7 +42,8 @@ public class MenuGame extends Activity {
      * Method called upon application closure.
      */
     @Override
-    public void onDestroy() {
-    	super.onDestroy();
+    public void onStop() {
+    	super.onStop();
+    	GamePanel.releaseSounds();
     }
 }

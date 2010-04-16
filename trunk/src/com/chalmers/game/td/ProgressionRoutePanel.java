@@ -15,12 +15,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.Callback{
 
 	private ProgressionThread thread;
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 	private Activity mActivity;
+	private int tooltip = 0;
 	
 	private final RectF mButtonTrack1 = new RectF(45, 200, 100, 240);
 	
@@ -51,6 +53,9 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		synchronized (getHolder()) {			
 			
 			switch(event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				tooltip = 0;
+				break;
 			
 				case MotionEvent.ACTION_UP:
 					
@@ -59,6 +64,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 					if (event.getX() > 35 && event.getX() < 35+80 &&
 							event.getY() > 40 && event.getY() < 40+90) {
 						
+						// Button for first level pressed
+						
 						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 1");
 					
 						GameModel.setTrack(1);
@@ -66,34 +73,72 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						thread.setRunning(false);
 						getHolder().removeCallback(this);
 						mActivity.setContentView(new GamePanel(getContext()));
+						
+						
 					} else if (event.getX() > 30 && event.getX() < 30+110 &&
 							event.getY() > 200 && event.getY() < 200+70) {
-						GameModel.setTrack(2);
-						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
-						thread.setRunning(false);
-						getHolder().removeCallback(this);
-						mActivity.setContentView(new GamePanel(getContext()));
+						
+						// Button for second level pressed
+						
+						if (GameModel.currentPlayer.getTrackScore(2) != 0) {
+							GameModel.setTrack(2);
+							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
+							thread.setRunning(false);
+							getHolder().removeCallback(this);
+							mActivity.setContentView(new GamePanel(getContext()));
+						} else {
+							tooltip = 2;
+							Toast.makeText(getContext(), "You can't start track "+tooltip+" yet!", Toast.LENGTH_SHORT).show();
+						}
+						
+						
 					} else if (event.getX() > 205 && event.getX() < 205+115 &&
 							event.getY() > 210 && event.getY() < 210+70) {
-						GameModel.setTrack(3);
-						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
-						thread.setRunning(false);
-						getHolder().removeCallback(this);
-						mActivity.setContentView(new GamePanel(getContext()));
+						
+						// Button for third level pressed
+						
+						if (GameModel.currentPlayer.getTrackScore(3) != 0) {
+							GameModel.setTrack(3);
+							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
+							thread.setRunning(false);
+							getHolder().removeCallback(this);
+							mActivity.setContentView(new GamePanel(getContext()));
+						} else {
+							tooltip = 3;
+							Toast.makeText(getContext(), "You can't start track "+tooltip+" yet!", Toast.LENGTH_SHORT).show();
+						}
+						
 					} else if (event.getX() > 200 && event.getX() < 200+100 &&
 							event.getY() > 80 && event.getY() < 80+75) {
-						GameModel.setTrack(4);
-						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
-						thread.setRunning(false);
-						getHolder().removeCallback(this);
-						mActivity.setContentView(new GamePanel(getContext()));
+						
+						// Button for fourth level pressed
+
+						if (GameModel.currentPlayer.getTrackScore(4) != 0) {
+							GameModel.setTrack(4);
+							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
+							thread.setRunning(false);
+							getHolder().removeCallback(this);
+							mActivity.setContentView(new GamePanel(getContext()));
+						} else {
+							tooltip = 4;
+							Toast.makeText(getContext(), "You can't start track "+tooltip+" yet!", Toast.LENGTH_SHORT).show();
+						}
+						
 					} else if (event.getX() > 350 && event.getX() < 100+350 &&
 							event.getY() > 150 && event.getY() < 150+120) {
-						GameModel.setTrack(5);
-						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
-						thread.setRunning(false);
-						getHolder().removeCallback(this);
-						mActivity.setContentView(new GamePanel(getContext()));
+						
+						// Button for fifth level pressed
+						
+						if (GameModel.currentPlayer.getTrackScore(5) != 0) {
+							GameModel.setTrack(5);
+							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
+							thread.setRunning(false);
+							getHolder().removeCallback(this);
+							mActivity.setContentView(new GamePanel(getContext()));
+						} else {
+							tooltip = 5;
+							Toast.makeText(getContext(), "You can't start track "+tooltip+" yet!", Toast.LENGTH_SHORT).show();
+						}
 					}
 					
 				break;
@@ -106,7 +151,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -139,18 +184,55 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	
 	public void onDraw(Canvas canvas) {
 		
+		// draw background
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.progressionroute),0,0,null);
-		/*
-		Paint p = new Paint();
-		p.setARGB(150, 50, 50, 50);
 
-		canvas.drawRoundRect(mButtonTrack1,5,5, p);
-		 */
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 100, 180,null);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
+		// draw tooltip telling the user that he sucks and can't start that track
+		// TODO don't show it as a Toast
+		
+//		if (tooltip != 0) {
+//			Toast.makeText(getContext(), "You can't start track "+tooltip+" yet!", Toast.LENGTH_SHORT).show();
+//		}
+		
+		// draw buttons that shows the players progress
+		if (GameModel.currentPlayer.getTrackScore(1) == 0) {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 90, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 100, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
+		} else if (GameModel.currentPlayer.getTrackScore(2) == 0) {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 100, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
+		} else if (GameModel.currentPlayer.getTrackScore(3) == 0) {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
+		} else if (GameModel.currentPlayer.getTrackScore(4) == 0) {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
+		} else if (GameModel.currentPlayer.getTrackScore(5) == 0) {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 420, 140,null);
+		} else {
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 50,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 420, 140,null);
+		}
+
 
 	}
 

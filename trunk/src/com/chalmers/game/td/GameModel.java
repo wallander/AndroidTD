@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.Set;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.media.SoundPool;
@@ -54,7 +55,7 @@ public class GameModel {
 	/**
 	 * Initializes all variables of the GameModel.
 	 */
-	public static void initialize() {
+	public static void initialize(Context context) {
 		
 		
 		mTowers = new ArrayList<Tower>();
@@ -63,8 +64,13 @@ public class GameModel {
 		mProjectiles = new ArrayList<Projectile>();
 		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();
+		mPath.setContext(context);
+		mOccupiedTilePositions = new HashSet<Point>();
+		
 		currentPlayer = new Player(mPath.getNumberOfTracks());
-		mOccupiedTilePositions = new HashSet<Point>();		
+		
+		// TODO read highscores and such from XML file to the Player object
+				
 		
 		// add a "frame" of occupied tiles around the game field
 		for (int i = -1; i < 31; i++) {
