@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<array name="path_track_1">
+		<item>-20 55</item>
+        <item>164 55</item>
+        <item>164 245</item>
+        <item>357 245</item>
+        <item>357 131</item>
+        <item>422 131</item>
+        
+	</array>
+	<array name="path_track_2">
+		<item>-20 121</item>
+        <item>48 121</item>
+        <item>48 242</item>
+        <item>185 242</item>
+        <item>185 54</item>
+        <item>346 54</item>
+        <item>346 133</item>
+        <item>422 133</item>        
+	</array>
+	<array name="path_track_3">
 		<item>-20 150</item>
         <item>122 55</item>
         <item>295 55</item>
         <item>295 157</item>
         <item>165 157</item>
-        <item>165 244</item>
-        <item>357 244</item>
-        <item>357 133</item>
-        <item>422 133</item>        
-	</array>
-	<array name="path_track_2">
-		<item>-20 150</item>
-        <item>122 55</item>
-        <item>295 55</item>
-        <item>295 157</item>
-        
         <item>165 244</item>
         <item>357 244</item>
         <item>357 133</item>

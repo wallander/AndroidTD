@@ -151,21 +151,53 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private Snowball mSnowball = new Snowball(0,0);
 
-	private SoundPool soundPool; 
-	private HashMap<Integer, Integer> soundPoolMap; 
 
-	private void initSounds() { 
-	     soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100); 
-	     soundPoolMap = new HashMap<Integer, Integer>(); 
-	     soundPoolMap.put(R.raw.explosion, soundPool.load(getContext(), R.raw.explosion, 1)); 
-	     soundPoolMap.put(R.raw.doom_1, soundPool.load(getContext(),R.raw.doom_1, 1));
-	} 
-	           
-	public void playSound(int sound) { 
-	     AudioManager mgr = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE); 
-	     int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC); 
-	     soundPool.play(soundPoolMap.get(sound), streamVolume, streamVolume, 1, 0, 1f); 
-	} 	
+	private static SoundPool sounds;
+	private static int explosionSound;
+	private static MediaPlayer music;
+	private static boolean soundEnabled = false;
+	private static boolean musicEnabled = false;
+	
+	public static void loadSound(Context context) {
+//	    sound = SilhouPreferences.sound(context); // should there be sound?
+	    sounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+	    // three ref. to the sounds I need in the application
+	    explosionSound = sounds.load(context, R.raw.explosion, 1);
+	    // the music that is played at the beginning and when there is only 10 seconds left in a game
+	    music = MediaPlayer.create(context, R.raw.doom_1);
+	}
+	
+	public static void playSound(int file) {
+//	    if (!sound) return; // if sound is turned off no need to continue
+	    sounds.play(file, 1, 1, 1, 0, 1);
+	}
+	
+	public void updateSounds() {
+		if (musicEnabled)
+			playMusic();
+		else
+			pauseMusic();
+	}
+	
+	public static final void playMusic() {
+	    if (!music.isPlaying()) {
+	    music.seekTo(0);
+	    music.start();
+	    }
+	}
+	
+	public static final void pauseMusic() {
+//	    if (!sound) return;
+	    if (music.isPlaying()) music.pause();
+	}
+	
+	public static final void releaseSounds() {
+//	    if (!soundEnabled) return;
+	    sounds.release();
+	    music.stop();
+	    music.release();
+	}
+
 	
 	/**
 	 * Constructor called on instantiation.
@@ -184,7 +216,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		startTrack(GameModel.getTrack());
 		
-		initSounds();
+
+		loadSound(context);
+
 		
 		fillBitmapCache();
 		getHolder().addCallback(this);
@@ -294,7 +328,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.basee, BitmapFactory.decodeResource(getResources(), R.drawable.basee));
 		mBitMapCache.put(R.drawable.money, BitmapFactory.decodeResource(getResources(), R.drawable.money));
 		mBitMapCache.put(R.drawable.lives, BitmapFactory.decodeResource(getResources(), R.drawable.lives));
-		mBitMapCache.put(R.drawable.snowmap, BitmapFactory.decodeResource(getResources(), R.drawable.snowmap));
+		mBitMapCache.put(R.drawable.map1, BitmapFactory.decodeResource(getResources(), R.drawable.map1));
+		mBitMapCache.put(R.drawable.map2, BitmapFactory.decodeResource(getResources(), R.drawable.map2));
+		mBitMapCache.put(R.drawable.map3, BitmapFactory.decodeResource(getResources(), R.drawable.map3));
+		mBitMapCache.put(R.drawable.map4, BitmapFactory.decodeResource(getResources(), R.drawable.map4));
+		mBitMapCache.put(R.drawable.map5, BitmapFactory.decodeResource(getResources(), R.drawable.map5));
 		mBitMapCache.put(R.drawable.penguinmob, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
 		mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
 		mBitMapCache.put(R.drawable.water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
@@ -332,13 +370,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		case KeyEvent.KEYCODE_MENU:
 			// TODO Handle hardware menu button
 			GAME_STATE = STATE_PAUSED;
-
+			
 			break;
 
 		case KeyEvent.KEYCODE_BACK:
 			// TODO Handle hardware "back" button
 			GAME_STATE = STATE_PAUSED;
-
+			
 			break;
 		}
 
@@ -412,9 +450,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
+									musicEnabled = false;
 								} else {
 									GamePanel.setSpeedMultiplier(3);	
 									fastf = true;
+									musicEnabled = true;
 								}
 								
 							}
@@ -457,7 +497,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 							if (mAccelerometerSupported)
 								mCurrentSnowball = new Snowball(mTx,mTy);
-							//GamePanel.setSpeedMultiplier(3);
+						
 
 						} 
 					}
@@ -905,11 +945,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 161, sPaintBoxText);
 		
 		switch(mSelectedTower.getType()) {
-		case SPLASH:	canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 171, sPaintBoxText);
-		case SLOW: canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 171, sPaintBoxText);
+		case Tower.SPLASH:	
+			canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 171, sPaintBoxText);
+			break;
+		case Tower.SLOW: 
+			canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 171, sPaintBoxText);
+			break;
 		}
 		
-
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
@@ -1184,27 +1227,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void drawBackground(Canvas canvas) {
 		
+		// draw the background
 		switch(GameModel.getTrack()) {
 		case 1: // track 1
-		// draw the background
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
-
-		// draw the "end-point-base"
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.basee),403,0,null);
-		break;
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map1), 0 , 0, null); break;
 		
-//		case 2: //track 2
-//		canvas.drawBitmap(bilden för bana 2);
-//		break;
-//		
-//		case 3: //track 3
-//			canvas.drawBitmap(bilden för bana 3);
-//			break;
-//			
-//		case 4: //track 2
-//			canvas.drawBitmap(bilden för bana 4);
-//			break;	
+		case 2: //track 2
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map2), 0 , 0, null); break;	
+		
+		case 3: //track 3
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map3), 0 , 0, null); break;
+			
+		case 4: //track 4
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map4), 0 , 0, null); break;
+			
+		case 5: //track 5
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map5), 0 , 0, null); break;
+		 
+		
+		
 		}
+		//draw the "end-point-base"
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.basee),403,0,null);
 	}
 	
 	private void drawRewardsAfterDeadMob(Canvas canvas){
