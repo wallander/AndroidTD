@@ -56,18 +56,41 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 					
 					Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
 										
-					if (mButtonTrack1.contains(event.getX(), event.getY())) {
+					if (event.getX() > 35 && event.getX() < 35+80 &&
+							event.getY() > 40 && event.getY() < 40+90) {
 						
-						Log.v("PRESSED ON PROGRESSION ROUTE", "You have pressed track 1");
+						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 1");
 					
 						GameModel.setTrack(1);
 						
 						thread.setRunning(false);
 						getHolder().removeCallback(this);
 						mActivity.setContentView(new GamePanel(getContext()));
-					} else {
+					} else if (event.getX() > 30 && event.getX() < 30+110 &&
+							event.getY() > 200 && event.getY() < 200+70) {
 						GameModel.setTrack(2);
-						
+						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
+						thread.setRunning(false);
+						getHolder().removeCallback(this);
+						mActivity.setContentView(new GamePanel(getContext()));
+					} else if (event.getX() > 205 && event.getX() < 205+115 &&
+							event.getY() > 210 && event.getY() < 210+70) {
+						GameModel.setTrack(3);
+						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
+						thread.setRunning(false);
+						getHolder().removeCallback(this);
+						mActivity.setContentView(new GamePanel(getContext()));
+					} else if (event.getX() > 200 && event.getX() < 200+100 &&
+							event.getY() > 80 && event.getY() < 80+75) {
+						GameModel.setTrack(4);
+						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
+						thread.setRunning(false);
+						getHolder().removeCallback(this);
+						mActivity.setContentView(new GamePanel(getContext()));
+					} else if (event.getX() > 350 && event.getX() < 100+350 &&
+							event.getY() > 150 && event.getY() < 150+120) {
+						GameModel.setTrack(5);
+						Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
 						thread.setRunning(false);
 						getHolder().removeCallback(this);
 						mActivity.setContentView(new GamePanel(getContext()));
