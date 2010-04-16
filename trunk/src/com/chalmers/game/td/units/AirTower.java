@@ -14,19 +14,14 @@ import com.chalmers.game.td.units.Mob.MobType;
 public class AirTower extends Tower {
 
 	
-	
 	public AirTower(int mX, int mY) {
 		super(mX, mY);
 		setName("Igloo Canon");		
 		setCost(130);
-		setCoolDown(30);
 		setDescription("Can only damage AIR units.");
     	resetCoolDown();
-		setRange(120);
 		// TODO Set appropriate values to range, damage, attack speed and such
-
 	}
-	
 
 
 	// Temporary changes images up to 4 upgrades.
@@ -83,10 +78,15 @@ public class AirTower extends Tower {
     		setImageByLevel(getLevel());	//set image according to the new level
     		                                                                                                               
     		switch (getLevel()){			//set damage and range according to the new level
+    		case 1:
+    			setDamage(25);
+    			setCoolDown(30);
+    			setRange(120);
+    			break;
     		case 2:
     			setDamage(35);
         		setRange(120);
-        		 break;
+        		break;
     		case 3:
     			setDamage(50);
         		setRange(120);
