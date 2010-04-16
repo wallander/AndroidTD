@@ -41,7 +41,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewGroup;
 
 
 /**
@@ -158,7 +157,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private static SoundPool sounds;
 	private static int explosionSound;
-	private static MediaPlayer music;
+	private static MediaPlayer fastMusic,mainMusic;
 	private static boolean soundEnabled = false;
 	private static boolean musicEnabled = false;
 	
@@ -168,8 +167,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	    // three ref. to the sounds I need in the application
 	    explosionSound = sounds.load(context, R.raw.explosion, 1);
 	    // the music that is played at the beginning and when there is only 10 seconds left in a game
-	    music = MediaPlayer.create(context, R.raw.doom_1);
-	    music.setVolume(1, 1);
+	    fastMusic = MediaPlayer.create(context, R.raw.doom_1);
+	    mainMusic = MediaPlayer.create(context, R.raw.main);
 	}
 	
 	public static void playSound(int file) {
@@ -178,29 +177,42 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void updateSounds() {
-		if (musicEnabled)
-			playMusic();
-		else
-			pauseMusic();
+		switch (GAME_STATE) {
+		case STATE_RUNNING:
+			if (musicEnabled) {
+				pauseMusic(mainMusic);
+				playMusic(fastMusic);
+			} else{
+				pauseMusic(fastMusic);
+				playMusic(mainMusic);
+			}
+		break;
+		default:
+			pauseMusic(fastMusic);
+			pauseMusic(mainMusic);
+			break;
+		}
 	}
 	
-	public static final void playMusic() {
-	    if (!music.isPlaying()) {
-	    music.seekTo(0);
-	    music.start();
+	public static final void playMusic(MediaPlayer file) {
+	    if (!file.isPlaying()) {
+	    file.seekTo(0);
+	    file.start();
 	    }
 	}
 	
-	public static final void pauseMusic() {
+	public static final void pauseMusic(MediaPlayer file) {
 //	    if (!sound) return;
-	    if (music.isPlaying()) music.pause();
+	    if (file.isPlaying()) file.pause();
 	}
 	
 	public static final void releaseSounds() {
 //	    if (!soundEnabled) return;
 	    sounds.release();
-	    music.stop();
-	    music.release();
+	    fastMusic.stop();
+	    fastMusic.release();
+	    mainMusic.stop();
+	    mainMusic.release();
 	}
 
 	
@@ -260,6 +272,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Path.getInstance().setTrackPath(track);
 
 		GameModel.initialize();
+		
+		fastf = false;
+		setSpeedMultiplier(1);
 	}
 
 	/**
@@ -682,12 +697,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// If the player has 0 or less lives remaining, change game state
 			if (GameModel.currentPlayer.getRemainingLives() <= 0) {
 				GAME_STATE = STATE_GAMEOVER;
+				fastf = false;
+				setSpeedMultiplier(1);
 				return;
 			}
 
 			// if the player has won (no more mobs and all mobs dead)
 			if (mMobFactory.hasMoreMobs() == false && GameModel.mMobs.isEmpty()) {
 				GAME_STATE = STATE_WIN;
+				fastf = false;
+				setSpeedMultiplier(1);
 				return;
 			}
 
@@ -1262,12 +1281,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					(float) (m.getX() + (24 * hpRatio/255)) + mOffset2,
 					(float) m.getY() - 2 - mOffset,
 					healthBarPaint);			
-				
-			
-
-
-			
-
 
 		}
 	}
