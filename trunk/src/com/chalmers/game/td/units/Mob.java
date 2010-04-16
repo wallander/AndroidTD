@@ -80,7 +80,7 @@ public class Mob extends Unit{
     	this(pType);		//anropar den andra kontruktorn
     	setHealth(pHealth);
     	setMaxHealth(pHealth);
-    	setmAnimation(0);
+    	mAnimation = 0;
     	if(pType == MobType.NORMAL){
         	if (pHealth <= 110) {
         		setReward(10);
@@ -386,16 +386,13 @@ public class Mob extends Unit{
 	/**
 	 * @param mAnimation the mAnimation to set
 	 */
-	public void setmAnimation(int mAnimation) {
-		this.mAnimation = mAnimation;
+	public int nextAnimation(int max) {
+		mAnimation++;
+		if (mAnimation >= max) {
+			mAnimation = 0;
+		}
+		return mAnimation; 
 	}
 
-
-	/**
-	 * @return the mAnimation
-	 */
-	public int getmAnimation() {
-		return mAnimation;
-	}
 
 }
