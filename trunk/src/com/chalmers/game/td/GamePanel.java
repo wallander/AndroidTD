@@ -928,6 +928,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
 		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText); //TODO: Count the wave
 		canvas.drawText("Score: 0", 290, 20, sPaintText); //TODO: Count score
+		
+		int mWaveTime = mMobFactory.getWaveTime(); 
+		
+		if(mWaveTime < mMobFactory.getWaveMaxDelay()) {
+			canvas.drawText("Next wave: " + mWaveTime, 260, 300, sPaintText);
+		}
 
 	}
 
@@ -1167,55 +1173,70 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		for (int i = GameModel.mMobs.size()-1; i >= 0; i--) {
 			Mob m = GameModel.mMobs.get(i);
 
-			
-			
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
+				Matrix matrix = new Matrix(); 
+
+
+				// rotate the Bitmap 
+				m.setmAnimation(m.getmAnimation() + 1);
+				if (m.getmAnimation() == 12) {
+					m.setmAnimation(0);
+				}
+				
+				
+				
+				switch(m.getmAnimation()) {
+					case 0: matrix.postRotate((float) (0)); break;
+					case 1: matrix.postRotate((float) (3)); break;
+					case 2: matrix.postRotate((float) (6)); break;
+					case 3: matrix.postRotate((float) (9)); break;
+					case 4: matrix.postRotate((float) (6)); break;
+					case 5: matrix.postRotate((float) (3)); break;
+					case 6: matrix.postRotate((float) (0)); break;
+					case 7: matrix.postRotate((float) (-3)); break;
+					case 8: matrix.postRotate((float) (-6)); break;
+					case 9: matrix.postRotate((float) (-9)); break;
+					case 10: matrix.postRotate((float) (-6)); break;
+					case 11: matrix.postRotate((float) (-3)); break;
+				}
+				Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0, mobImage.getWidth(), mobImage.getHeight(), matrix, true);
+ 
 			
-			if(mobImage == mBitMapCache.get(R.drawable.flyingpenguin)){
-				canvas.drawBitmap(mobImage, (int) m.getX(), (int) m.getY() - 25, null);
-				
-				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+			
 
-				// drawing health bars for each mob, first a black background
-				healthBarPaint.setARGB(255, 0, 0, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2 + 2,
-						(float) m.getY() - 5 - 25,
-						(float) (m.getX() + 24 + 2),
-						(float) m.getY() - 2 - 25,
-						healthBarPaint);
-
-				// draw current health on the health bar
-				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2 + 2,
-						(float) m.getY() - 5 - 25,
-						(float) (m.getX() + (24 * hpRatio/255)) + 2,
-						(float) m.getY() - 2 - 25,
-						healthBarPaint);
+			int mOffset,mOffset2;
+			if(m.getType() == Mob.MobType.AIR) {
+				mOffset = 25;
+				mOffset2 = 2;
 			} else {
-				canvas.drawBitmap(mobImage, (int) m.getX() , (int) m.getY() , null);	
-				
-				int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
-
-				// drawing health bars for each mob, first a black background
-				healthBarPaint.setARGB(255, 0, 0, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2,
-						(float) m.getY() - 5,
-						(float) (m.getX() + 24),
-						(float) m.getY() - 2,
-						healthBarPaint);
-
-				// draw current health on the health bar
-				healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
-				canvas.drawRect(
-						(float)m.getX() - 2,
-						(float) m.getY() - 5,
-						(float) (m.getX() + (24 * hpRatio/255)),
-						(float) m.getY() - 2,
-						healthBarPaint);
+				mOffset = 0;
+				mOffset2 = 0;
 			}
+			
+			canvas.drawBitmap(tiltMob, (int) m.getX(), (int) m.getY() - mOffset, null);
+			
+			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
+
+			// drawing health bars for each mob, first a black background
+			healthBarPaint.setARGB(255, 0, 0, 0);
+			canvas.drawRect(
+					(float)m.getX() - 2 + mOffset2,
+					(float) m.getY() - 5 - mOffset,
+					(float) (m.getX() + 24 + mOffset2),
+					(float) m.getY() - 2 - mOffset,
+					healthBarPaint);
+			
+			// draw current health on the health bar
+			healthBarPaint.setARGB(255, 255 - hpRatio, hpRatio, 0);
+			canvas.drawRect(
+					(float)m.getX() - 2 + mOffset2,
+					(float) m.getY() - 5 - mOffset,
+					(float) (m.getX() + (24 * hpRatio/255)) + mOffset2,
+					(float) m.getY() - 2 - mOffset,
+					healthBarPaint);			
+				
+			
+
 
 			
 
