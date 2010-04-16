@@ -61,6 +61,10 @@ public class MobFactory {
 		return mWaveNr;
 	}
 	
+	public int getWaveMaxDelay() {
+		return mMaxWaveDelay;
+	}
+	
 	/**
 	 * Returns how many integers there are left
 	 * until next wave arrives.
