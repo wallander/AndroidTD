@@ -47,8 +47,6 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		
 		synchronized (getHolder()) {			
 			
-			
-			
 			switch(event.getAction()) {
 			
 				case MotionEvent.ACTION_UP:

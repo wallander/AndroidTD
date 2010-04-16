@@ -1,6 +1,8 @@
 package com.chalmers.game.td;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import android.content.Context;
@@ -25,15 +27,14 @@ public class MobFactory {
 
 	// Instance variables	
 	private static final MobFactory	INSTANCE = new MobFactory();
-	//private static final int		MAX_WAVE_DELAY = 10;
 	private int						mWaveDelayI,
 									mWaveNr,
-									mTotalNrOfWaves,
 									mMaxWaveDelay;
 	private Context					mContext;
 	private Path					mPath;
 	private Queue<Mob>				mMobs;
 	private Queue<Queue<Mob>>		mWaves;
+	private List<Integer>			mWaveNumbers;
 
 	/**
 	 * Should not be used, call getInstance() instead.
@@ -44,21 +45,17 @@ public class MobFactory {
 		mMobs = null;
 		mWaveDelayI = 0;
 		mWaveNr = 0;
-		mTotalNrOfWaves = 0;
+		mWaveNumbers = new ArrayList<Integer>();
 		mMaxWaveDelay = 10;
 	}
 
 	/**
 	 * Returns the number of the wave the player
 	 * currently is facing.
-	 * 
+	 * TODO FIX WITH ARRAY
 	 * @return		the current wave number
 	 */
-	/*@ public normal_behaviour
-	  @ 
-	  @ ensures \result == mWaveNr;
-	  @*/
-	public /*@ pure @*/ int getWaveNr() {
+	public int getWaveNr() {
 		return mWaveNr;
 	}
 
@@ -66,15 +63,11 @@ public class MobFactory {
 	 *  Returns the total amount of waves
 	 *  on the track the player is currently
 	 *  playing.
-	 *  
+	 *  TODO FIX WITH ARRAY 
 	 * @return		total number of waves
 	 */
-	/*@ public normal_behaviour
-	  @
-	  @ ensures \result == mTotalNrOfWaves;
-	  @*/
-	public /*@ pure @*/ int getTotalNrOfWaves() {
-		return mTotalNrOfWaves;
+	public int getTotalNrOfWaves() {
+		return mWaveNumbers.get(GameModel.getTrack() - 1);
 	}
 
 	/**
@@ -84,12 +77,7 @@ public class MobFactory {
 	 * 
 	 * @return		true if there are mobs left, false otherwise
 	 */
-	/*@ public normal_behaviour
-	  @ 
-	  @ TODO
-	  @	  
-	  @*/
-	public /*@ pure @*/ boolean hasMoreMobs() {
+	public boolean hasMoreMobs() {
 
 		if(mWaves != null && !mWaves.isEmpty()) {
 			return true;
@@ -122,7 +110,7 @@ public class MobFactory {
 					
 					mMobs = mWaves.poll();
 					
-					if(mMobs != null) 
+					if(mMobs != null)
 						++mWaveNr;
 				} else {
 					//mWaveDelayI += GamePanel.getSpeedMultiplier();
@@ -160,7 +148,7 @@ public class MobFactory {
 
 		} else {
 			//Log.v("GET NEXT MOB", "No more waves to send!");
-			mWaveNr = 0; // Reset the wave number
+			mWaveNr = 0;
 		}
 
 		if(mMob != null)
@@ -181,9 +169,7 @@ public class MobFactory {
 		mContext = pContext;
 		mPath = Path.getInstance();		
 		mPath.setContext(pContext);
-		initWaves();
-		mTotalNrOfWaves = mWaves.size();
-		mWaveNr = 0;
+		initWaves();				
 	}
 
 	/**
@@ -199,17 +185,20 @@ public class MobFactory {
 		mHealth;
 
 		mWaves = new LinkedList<Queue<Mob>>();		
-
-		for(int i = 0; ; ++i) {
-
+		
+		for(int i = 0; ; ++i) {						
+			// i == track number
 			try {
 
 				mTrackNumber = "mobs_track_" + String.valueOf(i+1);
 				mTrackIdentifier = mContext.getResources().getIdentifier(mTrackNumber, "array", mContext.getPackageName());
 				mAllMobs = mContext.getResources().getStringArray(mTrackIdentifier);
 
-				for(int j = 0; j < mAllMobs.length; ++j) {
-
+				int j = 0;
+				
+				for( ; j < mAllMobs.length; ++j) {
+					// j == nr of waves
+					
 					mMobs = new LinkedList<Mob>();
 
 					mMobInfo = mAllMobs[j].split(" ");
@@ -219,7 +208,7 @@ public class MobFactory {
 					mHealth = Integer.parseInt(mMobInfo[2]);
 					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
-
+						// k == nr of mobs
 						if(mMobInfo[0].equals("NORMAL")) {
 
 							mMobs.add(new Mob(MobType.NORMAL, mHealth));
@@ -239,17 +228,14 @@ public class MobFactory {
 
 							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
-							
-						} else if(mMobInfo[0].equals("IMMUNE")) {
-
-							mMobs.add(new Mob(MobType.IMMUNE, mHealth));
-							//Log.v("INIT MOBS", "Created mob of type IMMUNE");
-						}																				
-					}
-
+						}											
+					}									
+					
 					mWaves.add(mMobs);
 					Log.v("INIT MOBS", "New wave added!");
 				}
+				
+				mWaveNumbers.add(j);
 
 			} catch(NullPointerException npe) {
 				Log.v("INITIATION", "Mobs initiation complete.");
@@ -261,8 +247,9 @@ public class MobFactory {
 				// Reset mMobs so it will be able to be used at getNextMob()
 				mMobs = null;
 				break;
-			}
+			}						 
 		}
+		
 	}
 
 	/**
