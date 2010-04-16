@@ -34,6 +34,7 @@ public class MobFactory {
 	private Path					mPath;
 	private Queue<Mob>				mMobs;
 	private Queue<Queue<Mob>>		mWaves;
+	private List<Queue<Queue<Mob>>>	mTrackWaves;
 	private List<Integer>			mWaveNumbers;
 
 	/**
@@ -41,6 +42,7 @@ public class MobFactory {
 	 */
 	private MobFactory() {
 		mWaves = null;
+		mTrackWaves = null;
 		mContext = null;		
 		mMobs = null;
 		mWaveDelayI = 0;
@@ -78,18 +80,27 @@ public class MobFactory {
 	 * @return		true if there are mobs left, false otherwise
 	 */
 	public boolean hasMoreMobs() {
-
-		if(mWaves != null && !mWaves.isEmpty()) {
-			return true;
-		} else {
-			if(mMobs != null && !mMobs.isEmpty()) {
+		
+		if(mWaveNr < mWaveNumbers.get(GameModel.getTrack() - 1)) {
+					
+			if(mWaves != null && !mWaves.isEmpty()) {
 				return true;
 			} else {
-				return false;
+				if(mMobs != null && !mMobs.isEmpty()) {
+					return true;
+				} else {					
+					return false;
+				}
 			}
+		} else {
+			return false;
 		}
 	}
-
+	
+	public void resetWaveNr() {
+		mWaveNr = 0;
+	}
+	
 	/**
 	 * Returns the next mob on top of the queue, 
 	 * given the track number.
@@ -101,61 +112,71 @@ public class MobFactory {
 
 		Mob mMob = null;
 
-		if(mWaves != null) {
-
-			if(mMobs == null || mMobs.isEmpty()) {
-
-				if (mWaveDelayI >= mMaxWaveDelay) {
-					mWaveDelayI = 0;		
-					
-					mMobs = mWaves.poll();
-					
-					if(mMobs != null)
-						++mWaveNr;
-				} else {
-					//mWaveDelayI += GamePanel.getSpeedMultiplier();
-					mWaveDelayI++;
-				}
+		if(mWaveNr <= mWaveNumbers.get(GameModel.getTrack() - 1)) {
+			
+			if(mWaves == null) {
+				mWaves = mTrackWaves.get(GameModel.getTrack());
+			} else if(mWaves.isEmpty()) {
+				mWaves = null;
+				return null;
 			}
-
-			if(mMobs != null) {
-
-				mMob = mMobs.poll();
-
-				if(mMob != null) {
-
-					mPath.setTrackPath(GameModel.getTrack());
-					mMob.setPath(mPath);
-					
-					switch(mMob.getType()) {
-					case FAST:
-						mMaxWaveDelay = 10;
-						Log.v("Delay","FAST");
-						break;
-					case HEALTHY:
-						mMaxWaveDelay = 30;
-						Log.v("Delay","HEALTHY");
-						break;
-					default:
-						mMaxWaveDelay = 10;
-						Log.v("Delay","STANDARD");
-						break;
+			
+			if(mWaves != null) {
+	
+				if(mMobs == null || mMobs.isEmpty()) {
+	
+					if (mWaveDelayI >= mMaxWaveDelay) {
+						mWaveDelayI = 0;		
+						
+						mMobs = mWaves.poll();
+						
+						if(mMobs != null)
+							++mWaveNr;
+					} else {
+						//mWaveDelayI += GamePanel.getSpeedMultiplier();
+						mWaveDelayI++;
 					}
-
-					//Log.v("GET NEXT MOB", "New Mob initialized with path..");
 				}
+	
+				if(mMobs != null) {
+	
+					mMob = mMobs.poll();
+	
+					if(mMob != null) {
+	
+						mPath.setTrackPath(GameModel.getTrack());
+						mMob.setPath(mPath);
+						
+						switch(mMob.getType()) {
+						case FAST:
+							mMaxWaveDelay = 10;
+							Log.v("Delay","FAST");
+							break;
+						case HEALTHY:
+							mMaxWaveDelay = 30;
+							Log.v("Delay","HEALTHY");
+							break;
+						default:
+							mMaxWaveDelay = 10;
+							Log.v("Delay","STANDARD");
+							break;
+						}
+	
+						//Log.v("GET NEXT MOB", "New Mob initialized with path..");
+					}
+				}
+	
+			} else {
+				//Log.v("GET NEXT MOB", "No more waves to send!");
+				mWaveNr = 0;
 			}
-
-		} else {
-			//Log.v("GET NEXT MOB", "No more waves to send!");
-			mWaveNr = 0;
+	
+			if(mMob != null)
+				Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
+			else
+				Log.v("GET NEXT MOB", "Mob is now NULL");
 		}
-
-		if(mMob != null)
-			Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
-		else
-			Log.v("GET NEXT MOB", "Mob is now NULL");
-
+		
 		return mMob;						
 	}
 
@@ -184,7 +205,8 @@ public class MobFactory {
 		int			mTrackIdentifier,
 		mHealth;
 
-		mWaves = new LinkedList<Queue<Mob>>();		
+		mWaves = new LinkedList<Queue<Mob>>();
+		mTrackWaves = new ArrayList<Queue<Queue<Mob>>>();
 		
 		for(int i = 0; ; ++i) {						
 			// i == track number
@@ -236,6 +258,7 @@ public class MobFactory {
 				}
 				
 				mWaveNumbers.add(j);
+				mTrackWaves.add(mWaves);
 
 			} catch(NullPointerException npe) {
 				Log.v("INITIATION", "Mobs initiation complete.");
