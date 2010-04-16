@@ -151,10 +151,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private Snowball mSnowball = new Snowball(0,0);
 
+
 	private static SoundPool sounds;
 	private static int explosionSound;
 	private static MediaPlayer music;
-	private static boolean sound = false;
+	private static boolean soundEnabled = false;
+	private static boolean musicEnabled = false;
 	
 	public static void loadSound(Context context) {
 //	    sound = SilhouPreferences.sound(context); // should there be sound?
@@ -170,8 +172,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	    sounds.play(file, 1, 1, 1, 0, 1);
 	}
 	
+	public void updateSounds() {
+		if (musicEnabled)
+			playMusic();
+		else
+			pauseMusic();
+	}
+	
 	public static final void playMusic() {
-//	    if (!sound) return;
 	    if (!music.isPlaying()) {
 	    music.seekTo(0);
 	    music.start();
@@ -184,11 +192,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public static final void releaseSounds() {
-	    if (!sound) return;
+//	    if (!soundEnabled) return;
 	    sounds.release();
 	    music.stop();
 	    music.release();
 	}
+
 	
 	/**
 	 * Constructor called on instantiation.
@@ -207,7 +216,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		startTrack(GameModel.getTrack());
 		
+
 		loadSound(context);
+
 		
 		fillBitmapCache();
 		getHolder().addCallback(this);
@@ -355,13 +366,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		case KeyEvent.KEYCODE_MENU:
 			// TODO Handle hardware menu button
 			GAME_STATE = STATE_PAUSED;
-
+			
 			break;
 
 		case KeyEvent.KEYCODE_BACK:
 			// TODO Handle hardware "back" button
 			GAME_STATE = STATE_PAUSED;
-
+			
 			break;
 		}
 
@@ -435,9 +446,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
+									musicEnabled = false;
 								} else {
 									GamePanel.setSpeedMultiplier(3);	
 									fastf = true;
+									musicEnabled = true;
 								}
 								
 							}
@@ -480,7 +493,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 							if (mAccelerometerSupported)
 								mCurrentSnowball = new Snowball(mTx,mTy);
-							//GamePanel.setSpeedMultiplier(3);
+						
 
 						} 
 					}
@@ -1340,7 +1353,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Log.v("GamePanel","surfaceDestroyed");
 		boolean retry = true;
 		mGameThread.setRunning(false);
-		releaseSounds();
 		while (retry) {
 			try {
 				mGameThread.join();

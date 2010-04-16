@@ -56,10 +56,10 @@ class GameThread extends Thread {
                 c = mGamePanel.getHolder().lockCanvas(null);
                 synchronized (mGamePanel.getHolder()) {
                     mGamePanel.updateModel();
+                    mGamePanel.updateSounds();
                 }
                 synchronized (mGamePanel.getHolder()) {
                     mGamePanel.onDraw(c);
-                    GamePanel.playMusic();
                 }
                 
                 sleep(5);
@@ -72,7 +72,8 @@ class GameThread extends Thread {
                 if (c != null) {
                     mGamePanel.getHolder().unlockCanvasAndPost(c);
                 }
-              
+                
+                
             }
         }
     }
