@@ -117,6 +117,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint sPaintLine = new Paint();
 	private static final Paint sPaintTransparentBox = new Paint();
 	private static final Paint sPaintText = new Paint();
+	private static final Paint sPaintTextWhite = new Paint();
 	private static final Paint rangeIndicationPaint = new Paint();
 	private static final Paint noRangeIndicationPaint = new Paint();
 	private static final Paint gridpaint = new Paint();
@@ -358,6 +359,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.eskimotowersplash2, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash2));
 		mBitMapCache.put(R.drawable.eskimotowersplash3, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash3));
 		mBitMapCache.put(R.drawable.eskimotowersplash4, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash4));
+		mBitMapCache.put(R.drawable.menutop, BitmapFactory.decodeResource(getResources(), R.drawable.menutop));
+		mBitMapCache.put(R.drawable.menumid, BitmapFactory.decodeResource(getResources(), R.drawable.menumid));
+		mBitMapCache.put(R.drawable.menubot, BitmapFactory.decodeResource(getResources(), R.drawable.menubot));
 
 	}
 
@@ -591,19 +595,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case STATE_PAUSED:
 				//TODO handle input when in "PAUSE" state
 				//two buttons? "New Game" and "exit" maybe? yes? no? yes?
+	
 
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 
-					if(sBtnResume.contains(event.getX(),event.getY())){
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						GAME_STATE = STATE_RUNNING;
 					}
-					else if(sBtnRestart.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						startTrack(GameModel.getTrack());											
 						GAME_STATE = STATE_RUNNING;			
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
-					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
@@ -870,6 +875,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			break;
 
 		case STATE_PAUSED: // pause screen
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);
+			
+			canvas.drawText("GAME PAUSED!", 155,80+20,sPaintTextWhite);
+			canvas.drawText("Resume",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
+			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
+			
+	
+			
+			/*
 			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
 			canvas.drawText("GAME PAUSED!",100,80,sPaintBoxText);
 
@@ -881,7 +899,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
 			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
-
+			 */
 			break;
 		}
 	}
@@ -1294,6 +1312,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
 		sPaintText.setTypeface(font);
 		sPaintText.setAntiAlias(true);
+		
+		sPaintTextWhite.setTextSize(16);
+		sPaintTextWhite.setARGB(255, 255, 255, 255);
+		Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+		sPaintTextWhite.setTypeface(font2);
+		sPaintTextWhite.setAntiAlias(true);
 
 		// set color of the selected tower box
 		sPaintTransparentBox.setARGB(90, 51, 51, 51);
@@ -1304,9 +1328,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
 		sPaintBoxText.setTextSize(14);
-		Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
-		sPaintText.setTypeface(font2);
-		sPaintText.setAntiAlias(true);
+		//Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
+		//sPaintText.setTypeface(font2);
+		//sPaintText.setAntiAlias(true);
 
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
