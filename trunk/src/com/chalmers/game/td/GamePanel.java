@@ -150,22 +150,54 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower4 = new AirTower(0,0);
 	
 	private Snowball mSnowball = new Snowball(0,0);
-/*
-	private SoundPool soundPool; 
-	private HashMap<Integer, Integer> soundPoolMap; 
 
-	private void initSounds() { 
-	     soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100); 
-	     soundPoolMap = new HashMap<Integer, Integer>(); 
-	     soundPoolMap.put(R.raw.explosion, soundPool.load(getContext(), R.raw.explosion, 1)); 
-	     soundPoolMap.put(R.raw.doom_1, soundPool.load(getContext(),R.raw.doom_1, 1));
-	} 
-	           
-	public void playSound(int sound) { 
-	     AudioManager mgr = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE); 
-	     int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC); 
-	     soundPool.play(soundPoolMap.get(sound), streamVolume, streamVolume, 1, 0, 1f); 
-	} 	*/
+
+	private static SoundPool sounds;
+	private static int explosionSound;
+	private static MediaPlayer music;
+	private static boolean soundEnabled = false;
+	private static boolean musicEnabled = false;
+	
+	public static void loadSound(Context context) {
+//	    sound = SilhouPreferences.sound(context); // should there be sound?
+	    sounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+	    // three ref. to the sounds I need in the application
+	    explosionSound = sounds.load(context, R.raw.explosion, 1);
+	    // the music that is played at the beginning and when there is only 10 seconds left in a game
+	    music = MediaPlayer.create(context, R.raw.doom_1);
+	}
+	
+	public static void playSound(int file) {
+//	    if (!sound) return; // if sound is turned off no need to continue
+	    sounds.play(file, 1, 1, 1, 0, 1);
+	}
+	
+	public void updateSounds() {
+		if (musicEnabled)
+			playMusic();
+		else
+			pauseMusic();
+	}
+	
+	public static final void playMusic() {
+	    if (!music.isPlaying()) {
+	    music.seekTo(0);
+	    music.start();
+	    }
+	}
+	
+	public static final void pauseMusic() {
+//	    if (!sound) return;
+	    if (music.isPlaying()) music.pause();
+	}
+	
+	public static final void releaseSounds() {
+//	    if (!soundEnabled) return;
+	    sounds.release();
+	    music.stop();
+	    music.release();
+	}
+
 	
 	/**
 	 * Constructor called on instantiation.
@@ -184,7 +216,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		startTrack(GameModel.getTrack());
 		
-		//initSounds();
+
+		loadSound(context);
+
 		
 		fillBitmapCache();
 		getHolder().addCallback(this);
@@ -332,13 +366,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		case KeyEvent.KEYCODE_MENU:
 			// TODO Handle hardware menu button
 			GAME_STATE = STATE_PAUSED;
-
+			
 			break;
 
 		case KeyEvent.KEYCODE_BACK:
 			// TODO Handle hardware "back" button
 			GAME_STATE = STATE_PAUSED;
-
+			
 			break;
 		}
 
@@ -412,9 +446,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
+									musicEnabled = false;
 								} else {
 									GamePanel.setSpeedMultiplier(3);	
 									fastf = true;
+									musicEnabled = true;
 								}
 								
 							}
@@ -457,7 +493,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 							if (mAccelerometerSupported)
 								mCurrentSnowball = new Snowball(mTx,mTy);
-							//GamePanel.setSpeedMultiplier(3);
+						
 
 						} 
 					}
