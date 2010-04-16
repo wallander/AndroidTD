@@ -150,7 +150,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower4 = new AirTower(0,0);
 	
 	private Snowball mSnowball = new Snowball(0,0);
-
+/*
 	private SoundPool soundPool; 
 	private HashMap<Integer, Integer> soundPoolMap; 
 
@@ -165,7 +165,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	     AudioManager mgr = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE); 
 	     int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC); 
 	     soundPool.play(soundPoolMap.get(sound), streamVolume, streamVolume, 1, 0, 1f); 
-	} 	
+	} 	*/
 	
 	/**
 	 * Constructor called on instantiation.
@@ -184,7 +184,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		startTrack(GameModel.getTrack());
 		
-		initSounds();
+		//initSounds();
 		
 		fillBitmapCache();
 		getHolder().addCallback(this);
