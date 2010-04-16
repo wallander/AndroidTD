@@ -86,7 +86,7 @@ public final class R {
         public static final int pause2=0x7f02003f;
         public static final int penguinmob=0x7f020040;
         public static final int penguinmob2=0x7f020041;
-        public static final int progressionroute_background=0x7f020042;
+        public static final int progressionroute=0x7f020042;
         public static final int projslow=0x7f020043;
         public static final int projsplash_big=0x7f020044;
         public static final int rock=0x7f020045;
