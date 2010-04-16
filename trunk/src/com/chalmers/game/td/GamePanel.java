@@ -14,6 +14,7 @@ import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashTower;
+import com.chalmers.game.td.units.Mob.MobType;
 
 import android.app.Activity;
 import android.content.Context;
@@ -917,8 +918,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void drawStatisticsText(Canvas canvas) {
 		// draw debug messages in the top left corner
-		//canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
-			//	" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
+		canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
+				" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
@@ -1172,35 +1173,33 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		for (int i = GameModel.mMobs.size()-1; i >= 0; i--) {
 			Mob m = GameModel.mMobs.get(i);
 
-			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
-				Matrix matrix = new Matrix(); 
-
-
-				// rotate the Bitmap 
-				m.setmAnimation(m.getmAnimation() + 1);
-				if (m.getmAnimation() == 12) {
-					m.setmAnimation(0);
-				}
-				
-				
-				
-				switch(m.getmAnimation()) {
-					case 0: matrix.postRotate((float) (0)); break;
-					case 1: matrix.postRotate((float) (3)); break;
-					case 2: matrix.postRotate((float) (6)); break;
-					case 3: matrix.postRotate((float) (9)); break;
-					case 4: matrix.postRotate((float) (6)); break;
-					case 5: matrix.postRotate((float) (3)); break;
-					case 6: matrix.postRotate((float) (0)); break;
-					case 7: matrix.postRotate((float) (-3)); break;
-					case 8: matrix.postRotate((float) (-6)); break;
-					case 9: matrix.postRotate((float) (-9)); break;
-					case 10: matrix.postRotate((float) (-6)); break;
-					case 11: matrix.postRotate((float) (-3)); break;
-				}
-				Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0, mobImage.getWidth(), mobImage.getHeight(), matrix, true);
- 
 			
+			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
+			Matrix matrix = new Matrix();
+			if (m.getType() == MobType.HEALTHY) {
+				
+				int mMultiplier;
+				mMultiplier = 3;
+
+				// rotate the Bitmap ackording to animation frame
+				switch(m.nextAnimation(12)) {
+					case 0: matrix.postRotate((float) (0)); break;
+					case 1: matrix.postRotate((float) (1*mMultiplier)); break;
+					case 2: matrix.postRotate((float) (2*mMultiplier)); break;
+					case 3: matrix.postRotate((float) (3*mMultiplier)); break;
+					case 4: matrix.postRotate((float) (2*mMultiplier)); break;
+					case 5: matrix.postRotate((float) (1*mMultiplier)); break;
+					case 6: matrix.postRotate((float) (0)); break;
+					case 7: matrix.postRotate((float) (-1*mMultiplier)); break;
+					case 8: matrix.postRotate((float) (-2*mMultiplier)); break;
+					case 9: matrix.postRotate((float) (-3*mMultiplier)); break;
+					case 10: matrix.postRotate((float) (-2*mMultiplier)); break;
+					case 11: matrix.postRotate((float) (-1*mMultiplier)); break;
+				}
+
+ 
+			}
+			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0, mobImage.getWidth(), mobImage.getHeight(), matrix, true);
 			
 
 			int mOffset,mOffset2;
