@@ -17,16 +17,11 @@ public class SlowTower extends Tower {
 	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
-		setName("Snowman");		
+
+		setName("Snowman");
 		setCost(200);
-		setDescription("Little damage. Slows down units.");
-		setCoolDown(30);
+		setDescription("Low damage. Slows down units.");
     	resetCoolDown();
-		setRange(60);
-		setDamage(15);
-		setSlow(30);
-		setPrio(Tower.NOT_SLOWED);
-		setType(TowerType.SLOW);
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}
 
@@ -41,10 +36,10 @@ public class SlowTower extends Tower {
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
-			case 1: setImage(R.drawable.slowtower); break;
-			case 2: setImage(R.drawable.slowtower2);  break;
-			case 3: setImage(R.drawable.slowtower3);  break;
-			case 4: setImage(R.drawable.slowtower4);  break;
+			case 1: setImage(R.drawable.slowtower);		break;//called from the constructor
+			case 2: setImage(R.drawable.slowtower2);	break;
+			case 3: setImage(R.drawable.slowtower3);	break;
+			case 4: setImage(R.drawable.slowtower4);	break;
 		}		
 	}
 
@@ -69,6 +64,11 @@ public class SlowTower extends Tower {
     		setImageByLevel(getLevel());	//set image according to the new level
     		
     		switch (getLevel()){			//set damage and range according to the new level
+    		case 1:
+    			setCoolDown(30);
+    			setDamage(15);
+    			setRange(60);
+    			setSlow(30); break;
     		case 2:
     			setDamage(20);
         		setRange(75);
@@ -78,9 +78,9 @@ public class SlowTower extends Tower {
         		setRange(75);
         		setSlow(50); break;
     		case 4:
+        		setCoolDown(25);
     			setDamage(30);
         		setRange(75);
-        		setCoolDown(25);
         		setSlow(60); break;
     		}
     	}

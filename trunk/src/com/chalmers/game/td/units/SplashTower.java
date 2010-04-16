@@ -33,7 +33,6 @@ public class SplashTower extends Tower {
 		resetCoolDown();
 		setCost(100);
 		setRange(60);
-		setType(TowerType.SPLASH);
 		// TODO Set appropriate values to range, damage, attack speed and such
 //		mDamage = 50;
 //		mAttackSpeed = 30;

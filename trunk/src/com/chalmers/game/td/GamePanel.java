@@ -941,11 +941,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 161, sPaintBoxText);
 		
 		switch(mSelectedTower.getType()) {
-		case SPLASH:	canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 171, sPaintBoxText);
-		case SLOW: canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 171, sPaintBoxText);
+		case Tower.SPLASH:	
+			canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 171, sPaintBoxText);
+			break;
+		case Tower.SLOW: 
+			canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 171, sPaintBoxText);
+			break;
 		}
 		
-
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
