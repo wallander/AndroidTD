@@ -80,18 +80,27 @@ public class MobFactory {
 	 * @return		true if there are mobs left, false otherwise
 	 */
 	public boolean hasMoreMobs() {
-
-		if(mWaves != null && !mWaves.isEmpty()) {
-			return true;
-		} else {
-			if(mMobs != null && !mMobs.isEmpty()) {
+		
+		if(mWaveNr < mWaveNumbers.get(GameModel.getTrack() - 1)) {
+					
+			if(mWaves != null && !mWaves.isEmpty()) {
 				return true;
 			} else {
-				return false;
+				if(mMobs != null && !mMobs.isEmpty()) {
+					return true;
+				} else {					
+					return false;
+				}
 			}
+		} else {
+			return false;
 		}
 	}
-
+	
+	public void resetWaveNr() {
+		mWaveNr = 0;
+	}
+	
 	/**
 	 * Returns the next mob on top of the queue, 
 	 * given the track number.
@@ -103,68 +112,71 @@ public class MobFactory {
 
 		Mob mMob = null;
 
-		if(mWaves == null) {
-			mWaves = mTrackWaves.get(GameModel.getTrack());
-		} else if(mWaves.isEmpty()) {
-			mWaves = null;
-			return null;
+		if(mWaveNr <= mWaveNumbers.get(GameModel.getTrack() - 1)) {
+			
+			if(mWaves == null) {
+				mWaves = mTrackWaves.get(GameModel.getTrack());
+			} else if(mWaves.isEmpty()) {
+				mWaves = null;
+				return null;
+			}
+			
+			if(mWaves != null) {
+	
+				if(mMobs == null || mMobs.isEmpty()) {
+	
+					if (mWaveDelayI >= mMaxWaveDelay) {
+						mWaveDelayI = 0;		
+						
+						mMobs = mWaves.poll();
+						
+						if(mMobs != null)
+							++mWaveNr;
+					} else {
+						//mWaveDelayI += GamePanel.getSpeedMultiplier();
+						mWaveDelayI++;
+					}
+				}
+	
+				if(mMobs != null) {
+	
+					mMob = mMobs.poll();
+	
+					if(mMob != null) {
+	
+						mPath.setTrackPath(GameModel.getTrack());
+						mMob.setPath(mPath);
+						
+						switch(mMob.getType()) {
+						case FAST:
+							mMaxWaveDelay = 10;
+							Log.v("Delay","FAST");
+							break;
+						case HEALTHY:
+							mMaxWaveDelay = 30;
+							Log.v("Delay","HEALTHY");
+							break;
+						default:
+							mMaxWaveDelay = 10;
+							Log.v("Delay","STANDARD");
+							break;
+						}
+	
+						//Log.v("GET NEXT MOB", "New Mob initialized with path..");
+					}
+				}
+	
+			} else {
+				//Log.v("GET NEXT MOB", "No more waves to send!");
+				mWaveNr = 0;
+			}
+	
+			if(mMob != null)
+				Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
+			else
+				Log.v("GET NEXT MOB", "Mob is now NULL");
 		}
 		
-		if(mWaves != null) {
-
-			if(mMobs == null || mMobs.isEmpty()) {
-
-				if (mWaveDelayI >= mMaxWaveDelay) {
-					mWaveDelayI = 0;		
-					
-					mMobs = mWaves.poll();
-					
-					if(mMobs != null)
-						++mWaveNr;
-				} else {
-					//mWaveDelayI += GamePanel.getSpeedMultiplier();
-					mWaveDelayI++;
-				}
-			}
-
-			if(mMobs != null) {
-
-				mMob = mMobs.poll();
-
-				if(mMob != null) {
-
-					mPath.setTrackPath(GameModel.getTrack());
-					mMob.setPath(mPath);
-					
-					switch(mMob.getType()) {
-					case FAST:
-						mMaxWaveDelay = 10;
-						Log.v("Delay","FAST");
-						break;
-					case HEALTHY:
-						mMaxWaveDelay = 30;
-						Log.v("Delay","HEALTHY");
-						break;
-					default:
-						mMaxWaveDelay = 10;
-						Log.v("Delay","STANDARD");
-						break;
-					}
-
-					//Log.v("GET NEXT MOB", "New Mob initialized with path..");
-				}
-			}
-
-		} else {
-			//Log.v("GET NEXT MOB", "No more waves to send!");
-			mWaveNr = 0;
-		}
-
-		if(mMob != null)
-			Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
-		else
-			Log.v("GET NEXT MOB", "Mob is now NULL");
-
 		return mMob;						
 	}
 
