@@ -65,6 +65,7 @@ public class GameModel {
 		mSnowballs = new ArrayList<Snowball>();
 		mPath = Path.getInstance();
 		mPath.setContext(context);
+		mPath.setTrackPath(getTrack());
 		mOccupiedTilePositions = new HashSet<Point>();
 		
 		currentPlayer = new Player(mPath.getNumberOfTracks());
