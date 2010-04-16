@@ -294,7 +294,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.basee, BitmapFactory.decodeResource(getResources(), R.drawable.basee));
 		mBitMapCache.put(R.drawable.money, BitmapFactory.decodeResource(getResources(), R.drawable.money));
 		mBitMapCache.put(R.drawable.lives, BitmapFactory.decodeResource(getResources(), R.drawable.lives));
-		mBitMapCache.put(R.drawable.snowmap, BitmapFactory.decodeResource(getResources(), R.drawable.snowmap));
+		mBitMapCache.put(R.drawable.map1, BitmapFactory.decodeResource(getResources(), R.drawable.map1));
+		mBitMapCache.put(R.drawable.map2, BitmapFactory.decodeResource(getResources(), R.drawable.map2));
+		mBitMapCache.put(R.drawable.map3, BitmapFactory.decodeResource(getResources(), R.drawable.map3));
+		mBitMapCache.put(R.drawable.map4, BitmapFactory.decodeResource(getResources(), R.drawable.map4));
+		mBitMapCache.put(R.drawable.map5, BitmapFactory.decodeResource(getResources(), R.drawable.map5));
 		mBitMapCache.put(R.drawable.penguinmob, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
 		mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
 		mBitMapCache.put(R.drawable.water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
@@ -1187,27 +1191,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void drawBackground(Canvas canvas) {
 		
+		// draw the background
 		switch(GameModel.getTrack()) {
 		case 1: // track 1
-		// draw the background
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.snowmap), 0 , 0, null);
-
-		// draw the "end-point-base"
-		canvas.drawBitmap(mBitMapCache.get(R.drawable.basee),403,0,null);
-		break;
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map1), 0 , 0, null); break;
 		
-//		case 2: //track 2
-//		canvas.drawBitmap(bilden för bana 2);
-//		break;
-//		
-//		case 3: //track 3
-//			canvas.drawBitmap(bilden för bana 3);
-//			break;
-//			
-//		case 4: //track 2
-//			canvas.drawBitmap(bilden för bana 4);
-//			break;	
+		case 2: //track 2
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map2), 0 , 0, null); break;	
+		
+		case 3: //track 3
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map3), 0 , 0, null); break;
+			
+		case 4: //track 4
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map4), 0 , 0, null); break;
+			
+		case 5: //track 5
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map5), 0 , 0, null); break;
+		 
+		
+		
 		}
+		//draw the "end-point-base"
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.basee),403,0,null);
 	}
 	
 	private void drawRewardsAfterDeadMob(Canvas canvas){
