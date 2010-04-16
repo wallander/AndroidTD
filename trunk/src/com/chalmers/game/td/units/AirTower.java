@@ -81,7 +81,7 @@ public class AirTower extends Tower {
     	else {
     		setLevel(getLevel()+1);			//increment tower level by one
     		setImageByLevel(getLevel());	//set image according to the new level
-    		
+    		                                                                                                               
     		switch (getLevel()){			//set damage and range according to the new level
     		case 2:
     			setDamage(35);
@@ -90,7 +90,7 @@ public class AirTower extends Tower {
     		case 3:
     			setDamage(50);
         		setRange(120);
-        		break;
+        		break; 
     		case 4:
     			setDamage(80);
         		setRange(120);

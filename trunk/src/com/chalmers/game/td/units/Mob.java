@@ -66,32 +66,7 @@ public class Mob extends Unit{
 	 * Enum for the mob type. One for each type of mob.
 	 */
 	public enum MobType { HEALTHY, AIR, FAST, NORMAL }
-    
-	/*
-     * TestConstructor. hard coded lol-mob for testing purposes. TODO
-     * 
-     * @param 
-     */
-
-	/*
-    public Mob(Path pPath, MobType pType) {
-        mPath = pPath;
-        mType = pType;
-    	setCoordinates(mPath.getCoordinate(0));
-    	setCheckpoint(0);
-    	updateAngle();
-        setSpeed(1);      
-        setHealth(1200);
-        setMaxHealth(1200);
-        setArmor(1200);
-        setReward(20);
-        
-        updatePosition();
-        
-        setSize(24);
-        
-    }
-    */
+	//TODO public static final int HEALTHY, AIR, FAST, NORMAL; 
   
     /**
      * Extra constructor for Mobs, used for setting health directly from xml-file
