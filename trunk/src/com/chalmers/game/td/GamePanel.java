@@ -553,8 +553,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_DOWN:
 
 					if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(GameModel.getTrack());
-						GAME_STATE = STATE_RUNNING;
+						startTrack(GameModel.getTrack());						
+						GAME_STATE = STATE_RUNNING;		
+						mMobFactory.resetWaveNr(); // Resets the wave counter 
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
 						// close the parent activity (go to main menu)
@@ -572,8 +573,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_DOWN:
 
 					if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(GameModel.getTrack());
+						startTrack(GameModel.getTrack());												
 						GAME_STATE = STATE_RUNNING;
+						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
 						// close the parent activity (go to main menu)
@@ -598,8 +600,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						GAME_STATE = STATE_RUNNING;
 					}
 					else if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(GameModel.getTrack());
-						GAME_STATE = STATE_RUNNING;
+						startTrack(GameModel.getTrack());											
+						GAME_STATE = STATE_RUNNING;			
+						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
 					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
 						// close the parent activity (go to main menu)

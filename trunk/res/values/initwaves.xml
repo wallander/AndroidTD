@@ -2,6 +2,7 @@
 <resources>
 
 	<array name="mobs_track_1">
+        
         <item>NORMAL 20 10</item>
         <item>NORMAL 20 40</item>
         <item>NORMAL 20 60</item>
@@ -31,7 +32,7 @@
         <item>NORMAL 20 2000</item>
         <item>NORMAL 20 2400</item>
         <item>HEALTHY 1 30000</item>
-                                     
+                                             
     </array>
     
     <array name="mobs_track_2">
@@ -41,7 +42,7 @@
         <item>NORMAL 20 160</item>
         <item>NORMAL 20 190</item>
         <item>NORMAL 20 210</item>
-        
+ 
         <item>HEALTHY 1 5000</item>
 		<item>NORMAL 20 250</item>
         <item>FAST 20 210</item>
@@ -59,7 +60,7 @@
         <item>NORMAL 20 1800</item>
         <item>NORMAL 20 2200</item>
         <item>HEALTHY 1 30000</item>
-               
+                      
     </array>        
   
 </resources>
