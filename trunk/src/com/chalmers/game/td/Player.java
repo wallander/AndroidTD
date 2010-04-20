@@ -7,49 +7,34 @@ public class Player {
 	private String 			mName;
 	private final double	STARTING_MONEY = 400;
 	private double 			mMoney;
-	private double			mCurrentTrackScore;
-	private double[]		mTrackScore;
+	private double			mCurrentTrackScore;	
+	
+	private Highscore		mScore;
 	
 	private int mLives = 50;
 	
-	// Achievements
-	
 	public Player(int pTracks) {
 		setName("Mr. Awesome");
-		setMoney(STARTING_MONEY);
-		mTrackScore = new double[pTracks];
+		setMoney(STARTING_MONEY);		
+		mScore = Highscore.getInstance();
+		mScore.setTracks(pTracks);
 	}
 	
-	public void changeScore(Mob m) {
-		setCurrentTrackScore(getCurrentTrackScore() + (m.getMaxHealth() / 10));
+	public void changeScore(Mob pMob) {
+		mScore.changeScore(pMob);
 	}
 	
-	public void saveCurrentTrackScore() {
-		mTrackScore[GameModel.getTrack() - 1] = getCurrentTrackScore();
-		saveScore();
-	}
-	
-	public void saveScore() {
-		
-		// TODO implement possibility to save score to xml 
+	public void saveCurrentTrackScore() {		
+		mScore.saveScore();
 	}
 	
 	public double getTrackScore(int pTrack) {
-		return mTrackScore[pTrack - 1];
+		return mScore.getTrackScore(pTrack);
 	}
 	
-	/**
-	 * TODO connect with xml somehow
-	 * @return
-	 */
-	public double getTotalScore() {
-		double mTotalScore = 0;
+	public double getTotalScore() {		
 		
-		for(int i = 0; i < mTrackScore.length; ++i) {
-			mTotalScore += mTrackScore[i];
-		}
-		
-		return mTotalScore;
+		return mScore.getTotalScore();
 	}
 
 	public void changeMoney(double amount) {
