@@ -54,8 +54,8 @@ public class MenuOptions extends Activity {
 			}
 		});
         
-        toggleMusic.setChecked(GameModel.sCheatEnabled);
-        toggleMusic.setText("Toggle Infinite Snowballs");
+        toggleCheat.setChecked(GameModel.sCheatEnabled);
+        toggleCheat.setText("Toggle Infinite Snowballs");
         
     }
     
