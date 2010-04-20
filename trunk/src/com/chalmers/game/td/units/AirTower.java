@@ -15,7 +15,7 @@ public class AirTower extends Tower {
 
 	public static final int[] sCoolDown = new int[]{30,30,30,30};
 	public static final int[] sDamage = new int[]{25,35,50,80};
-	public static final int[] sRange = new int[]{60,70,70,80};
+	public static final int[] sRange = new int[]{120,120,120,120};
 
 	public static final int[] sUpgradeCost = new int[]{200,300,500};
 
@@ -24,7 +24,8 @@ public class AirTower extends Tower {
 		super(mX, mY);
 		setName("Igloo Canon");		
 		setCost(130);
-		setDescription("Can only damage AIR units.");
+		setType(AIR);
+		setDescription("Can only damage flying units.");
     	resetCoolDown();
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}
@@ -73,6 +74,13 @@ public class AirTower extends Tower {
 			return createProjectile(firstMob(mobsInRange));
 		else
 			return null;
+	}
+	
+	public int getAttackSpeed(int pLevel){
+		if (pLevel >= 1)
+			return 100/sCoolDown[pLevel-1];
+		else
+			return -1;
 	}
 
 	public boolean upgrade() {

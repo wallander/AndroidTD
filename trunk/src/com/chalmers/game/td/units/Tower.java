@@ -32,23 +32,25 @@ public abstract class Tower extends Unit {
 	public static final int BASIC=1, SPLASH=2, SLOW=3, AIR=4;
 	private int mType;
 	
+	private static int[] sCoolDown;
+	public static int[] sDamage;
+	public static int[] sRange;
+	
 	private int mImage;
 	
 	//List<Projectile> mProjectiles;
 	/**
      * Constructor called to create a tower
-     * 
      * Currently hardcoded. TODO
      * 
      * @param 
 	 */
     public Tower(int pX, int pY){
-    	setCoordinates(new Coordinate(pX, pY)); //gäller alla
+    	setCoordinates(new Coordinate(pX, pY));
     	setLevel(0);
     	upgrade();
-    	setSize(2);				//gäller alla torn?
-    	setImageByLevel(mLevel);	//gäller för alla torn
-    	setDescription("");
+    	setSize(2);
+    	setImageByLevel(mLevel);
     }
     
 	public void setName(String pName) {
@@ -96,6 +98,15 @@ public abstract class Tower extends Unit {
 		return 100/mCoolDown;
 	}
 	
+//	public int getAttackSpeed(int pLevel){
+//		if (pLevel >= 1)
+//			return 100/sCoolDown[pLevel-1];
+//		else
+//			return -1;
+//	}
+	
+	public abstract int getAttackSpeed(int pLevel);
+	
 	//Should be implemented so it takes the level of the tower as argument and sets the image 
 	//to the drawable that corresponds to that level.
 	public abstract void setImageByLevel(int pLevel);
@@ -111,7 +122,7 @@ public abstract class Tower extends Unit {
 	
 	public void setCost(int i) {
 		mCost = i;
-		// ta bort kostnad från spelarens konto?
+		// TODO ta bort kostnad från spelarens konto?
 	}
 	
 	public abstract int getUpgradeCost();
@@ -217,6 +228,13 @@ public abstract class Tower extends Unit {
 	public int getRange() {
     	return mRange;
     }
+	
+	public int getRange(int pLevel) {
+		if (pLevel >= 1)
+			return sRange[pLevel-1];
+		else
+			return -1;
+    }
       
     /**
      * returns amount of money you get when you sell this tower
@@ -234,12 +252,17 @@ public abstract class Tower extends Unit {
 	public int getDamage() {
 		return mDamage;
 	}
+	
+	public int getDamage(int pLevel){
+		if (pLevel >= 1)
+			return sDamage[pLevel-1];
+		else
+			return -1;
+	}
 
 	public int getCost() {
 		return mCost;
-	}
-	
-	
+	}	
 
 	public int getLevel() {
 		return mLevel;

@@ -22,7 +22,7 @@ public class SlowTower extends Tower {
 	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
-
+		setType(SLOW);
 		setName("Snowman");
 		setCost(200);
 		setDescription("Low damage. Slows down units.");
@@ -78,6 +78,13 @@ public class SlowTower extends Tower {
 			
 	    	return true;
     	}
+	}
+	
+	public int getAttackSpeed(int pLevel){
+		if (pLevel >= 1)
+			return 100/sCoolDown[pLevel-1];
+		else
+			return -1;
 	}
 	
     /**

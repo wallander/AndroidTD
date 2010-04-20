@@ -17,6 +17,7 @@ public class BasicTower extends Tower {
 
     	setCost(70);
     	setName("Eskimo");
+    	setType(BASIC);
     	setDescription("Throws spears with good range and speed");
     	setDamage(7);
 	}
@@ -60,5 +61,12 @@ public class BasicTower extends Tower {
     public int getUpgradeCost() {
     	return sUpgradeCost[getLevel()-1];
     }
+    
+    public int getAttackSpeed(int pLevel){
+		if (pLevel >= 1)
+			return 100/sCoolDown[pLevel-1];
+		else
+			return -1;
+	}
 
 }

@@ -33,6 +33,7 @@ public class SplashTower extends Tower {
 		super(pX, pY);
 		setName("Splash Eskimo");
 		setDescription("Throws snowballs damaging multiple targets");
+		setType(SPLASH);
 		resetCoolDown();
 		setCost(100);
 
@@ -83,7 +84,14 @@ public class SplashTower extends Tower {
 
 	    	return true;
     	}
-	}		
+	}	
+	
+	public int getAttackSpeed(int pLevel){
+		if (pLevel >= 1)
+			return 100/sCoolDown[pLevel-1];
+		else
+			return -1;
+	}
     
     /**
      * Sets the splash effect (int 1-5) for the tower

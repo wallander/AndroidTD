@@ -1132,10 +1132,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80,null);
 
+		int level = mSelectedTower.getLevel();
+		
 		canvas.drawText(mSelectedTower.getName(), 150, 90, boxTextPaintTitle);
-		canvas.drawText("Level " + mSelectedTower.getLevel(), 140, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 140, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 161, sPaintBoxText);
+		canvas.drawText("Level " + level + 
+				" -> " + (level+1), 140, 115, sPaintBoxText);
+		
+		canvas.drawText("Attack speed: " + mSelectedTower.getAttackSpeed() + 
+				" -> " + mSelectedTower.getAttackSpeed(mSelectedTower.getLevel()+1), 140, 127, sPaintBoxText);
+		
+		canvas.drawText("Damage: " + mSelectedTower.getDamage() + 
+				" -> " + SplashTower.sDamage[1], 140, 139, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange() +
+				"", 140, 161, sPaintBoxText);
+		
 		
 		switch(mSelectedTower.getType()) {
 		case Tower.SPLASH:	
@@ -1233,7 +1243,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if (mCurrentTower != null) {
 			canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80, null);
 			canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
-			canvas.drawText("" + mCurrentTower.getDescription(), 160, 117, sPaintBoxText);
+			//TODO uncomment again and fix position
+			//canvas.drawText("" + mCurrentTower.getDescription(), 160, 117, sPaintBoxText);
+			canvas.drawText("Attack speed: " + mCurrentTower.getAttackSpeed(), 160, 117, sPaintBoxText);
 			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
 			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
 			canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
@@ -1249,7 +1261,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawText("Available every "+ mSnowballTreshold+" scorepoints.", 100, 210, sPaintBoxText);
 			
 		}
-		
 		
 	}
 
@@ -1267,16 +1278,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		//canvas.drawRoundRect(sBtnPause, 5, 5, paint);
 		//canvas.drawText(sBtnPauseLabel, 12, 20, new Paint());
 		
-		if(GAME_STATE == STATE_PAUSED){
+		if(GAME_STATE == STATE_PAUSED)
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause2),20,5,null);
-		} else {
+		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),20,5,null);
-		}
-		if(fastf){
+				
+		if(fastf)
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),20,285,null);
-		} else {
+		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),20,285,null);
-		}
+		
 		Paint paintalfa = new Paint();
 
 		//if the tower build buttons should be "unavaliable" or not
