@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 
 
 public class GameActivity extends Activity {
@@ -17,6 +16,8 @@ public class GameActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("GameActivity", "onCreate()");
+        
         setContentView(R.layout.splash);
 
         // Set the screen orientation to Portrait
@@ -50,40 +51,40 @@ public class GameActivity extends Activity {
 
     @Override
     public void onRestart() {
-    	Log.v("JONAS","GameActivity onRestart");
+    	Log.i("GameActivity","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.v("JONAS","GameActivity onStart");
+    	Log.i("GameActivity","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.v("JONAS","GameActivity onResume");
+    	Log.i("GameActivity","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.v("JONAS","GameActivity onPause");
+    	Log.i("GameActivity","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onStop() {
-    	Log.v("JONAS","GameActivity onStop");
+    	Log.i("GameActivity","onStop()");
     	super.onStop();
     	
     }
     
     @Override
     public void onDestroy() {
-       	Log.v("JONAS","GameActivity onDestroy");
+       	Log.i("GameActivity","onDestroy()");
     	super.onDestroy();
  
     }

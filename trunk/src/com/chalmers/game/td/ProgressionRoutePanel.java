@@ -8,9 +8,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -24,7 +21,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private Activity mActivity;
 	private int tooltip = 0;
 	
-	private final RectF mButtonTrack1 = new RectF(45, 200, 100, 240);
+	private int trackPic = 0;
+	
 	
 	public ProgressionRoutePanel(Context context) {
 		super(context);				
@@ -44,6 +42,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		mBitMapCache.put(R.drawable.progdone, BitmapFactory.decodeResource(getResources(), R.drawable.progdone));
 		mBitMapCache.put(R.drawable.prognotdone, BitmapFactory.decodeResource(getResources(), R.drawable.prognotdone));
 		mBitMapCache.put(R.drawable.prognext, BitmapFactory.decodeResource(getResources(), R.drawable.prognext));
+		mBitMapCache.put(R.drawable.progmapchoose, BitmapFactory.decodeResource(getResources(), R.drawable.progmapchoose));
 
 	}
 	
@@ -56,8 +55,40 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 			case MotionEvent.ACTION_DOWN:
 				tooltip = 0;
 				break;
-			
-				case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_MOVE:
+				
+				if (event.getX() > 35 && event.getX() < 35+80 &&
+						event.getY() > 40 && event.getY() < 40+90) {
+						
+					trackPic = 1;
+					
+				} else if (event.getX() > 30 && event.getX() < 30+110 &&
+						event.getY() > 200 && event.getY() < 200+70) {
+					
+					trackPic = 2;
+					
+				} else if (event.getX() > 205 && event.getX() < 205+115 &&
+						event.getY() > 210 && event.getY() < 210+70) {
+
+					trackPic = 3;
+					
+				} else if (event.getX() > 200 && event.getX() < 200+100 &&
+						event.getY() > 80 && event.getY() < 80+75) {
+					
+					trackPic = 4;
+					
+				} else if (event.getX() > 350 && event.getX() < 100+350 &&
+						event.getY() > 150 && event.getY() < 150+120) {
+
+					trackPic = 5;
+				} else {
+					trackPic = 0;
+				}
+				
+				//-------------------
+				
+				break; 
+			case MotionEvent.ACTION_UP:
 					
 					Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
 										
@@ -232,6 +263,20 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 420, 140,null);
+		}
+		
+		if(trackPic == 1){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 40, 50,null);
+		} else if(trackPic == 2){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 50, 190,null);
+		} else if(trackPic == 3){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 230, 210,null);
+		} else if(trackPic == 4){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 220, 80,null);
+		} else if(trackPic == 5){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 360, 160,null);
+		} else {
+			
 		}
 
 
