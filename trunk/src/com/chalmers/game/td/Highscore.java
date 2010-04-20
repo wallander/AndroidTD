@@ -40,10 +40,33 @@ public class Highscore {
 		
 		mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
 		mCurrentTrackScore = 0;
+		
+		// TODO write to file below...
+		try {
+			
+			mWriter = getWriter();
+			
+			for(int i = 0; i < mTrackScore.length; ++i) {
+				
+				mWriter.write("Track: " + i + "\n Score: " + mTrackScore[i] + "\n");
+				Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
+			
+			}
+			
+			mWriter.close();
+			
+		} catch(IOException ioe) {
+			Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
+		}
+		
 	}
 	
 	public void setTracks(int pTracks) {
 		mTrackScore = new double[pTracks];
+		
+		for(int i = 0; i < mTrackScore.length; ++i) {
+			mTrackScore[i] = 0;
+		}
 	}
 	
 	public double getTrackScore(int pTrack) {
@@ -59,6 +82,29 @@ public class Highscore {
 		}
 		
 		return totalScore;
+	}
+	
+	public BufferedWriter getWriter() {
+		
+		File root = Environment.getExternalStorageDirectory();
+		
+		if(root.canWrite()) {
+			
+			Log.v("HIGHSCORE CONSTRUCTOR", "File can write.");
+			
+			mFile = new File(root, "tddata.txt");
+			
+			try {
+			
+				mWriter = new BufferedWriter(new FileWriter(mFile));
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.v("Highscore.getWriter", e.getMessage());
+			}
+		}
+					
+		return mWriter;		
 	}
 	
 	public Highscore() {
@@ -80,19 +126,12 @@ public class Highscore {
 			
 			try {
 				
-				File root = Environment.getExternalStorageDirectory();
+				mWriter = getWriter();
+				mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
+				mWriter.close();
 				
-				if(root.canWrite()) {
-					
-					Log.v("HIGHSCORE CONSTRUCTOR", "File can write.");
-					
-					mFile = new File(root, "tddata.txt");
-					mWriter = new BufferedWriter(new FileWriter(mFile));
-					mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
-					mWriter.close();
-					
-					Log.v("HIGHSCORE CONSTRUCTOR", "File written to.");
-				}
+				Log.v("HIGHSCORE CONSTRUCTOR", "File written to.");
+			
 			
 			} catch(IOException ioe) {
 				Log.v("HIGHSCORE CONSTRUCTOR", "Writing to file failed.");
