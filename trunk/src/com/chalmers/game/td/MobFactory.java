@@ -36,7 +36,8 @@ public class MobFactory {
 	private Queue<Queue<Mob>>		mWaves;
 	private List<Queue<Queue<Mob>>>	mTrackWaves;
 	private List<Integer>			mWaveNumbers;
-
+	private List<String> 			mMobTypeList;
+	
 	/**
 	 * Should not be used, call getInstance() instead.
 	 */
@@ -143,7 +144,7 @@ public class MobFactory {
 						mWaveDelayI = 0;		
 						
 						mMobs = mWaves.poll();
-						
+					
 						if(mMobs != null)
 							++mWaveNr;
 					} else {
@@ -152,6 +153,8 @@ public class MobFactory {
 					}
 				}
 	
+				
+				
 				if(mMobs != null) {
 	
 					mMob = mMobs.poll();
@@ -221,6 +224,7 @@ public class MobFactory {
 
 		mWaves = new LinkedList<Queue<Mob>>();
 		mTrackWaves = new ArrayList<Queue<Queue<Mob>>>();
+		mMobTypeList = new ArrayList<String>();
 		
 		for(int i = 0; ; ++i) {						
 			// i == track number
@@ -242,7 +246,7 @@ public class MobFactory {
 					Log.v("INIT MOBS", "MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
 					
 					mHealth = Integer.parseInt(mMobInfo[2]);
-					
+					mMobTypeList.add(mMobInfo[0]);
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 						// k == nr of mobs
 						if(mMobInfo[0].equals("NORMAL")) {
@@ -269,6 +273,7 @@ public class MobFactory {
 					
 					mWaves.add(mMobs);
 					Log.v("INIT MOBS", "New wave added!");
+					
 				}
 				
 				mWaveNumbers.add(j);
@@ -289,6 +294,18 @@ public class MobFactory {
 		
 	}
 
+	/** 
+	 * Peeks the Queue of Mobs to see what the type of the next wave is
+	 * Only to be used in between waves
+	 * @return Type of the next mob
+	 */
+	public String getWaveType() {
+		if(mMobTypeList.size() > getWaveNr()) {
+			return "" + mMobTypeList.get(getWaveNr());
+		}
+		return "-";
+	}
+	
 	/**
 	 * 
 	 * @return

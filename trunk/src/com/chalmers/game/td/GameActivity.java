@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 
 
@@ -37,6 +38,7 @@ public class GameActivity extends Activity {
                 	if (mNextActivityStarted == false) {
              			mNextActivityStarted = true;
              			startActivity(new Intent(GameActivity.this, Menu.class));
+             			
              			finish();
                 	}
              		
@@ -44,5 +46,45 @@ public class GameActivity extends Activity {
             }
         };
         mSplashThread.start();
+    }
+
+    @Override
+    public void onRestart() {
+    	Log.v("JONAS","GameActivity onRestart");
+    	super.onRestart();
+    }
+    
+    @Override
+    public void onStart() {
+    	Log.v("JONAS","GameActivity onStart");
+    	super.onStart();
+    }
+    
+    @Override
+    public void onResume() {
+    	Log.v("JONAS","GameActivity onResume");
+    	super.onResume();
+    
+    }
+    
+    @Override
+    public void onPause() {
+    	Log.v("JONAS","GameActivity onPause");
+    	super.onPause();
+    
+    }
+    
+    @Override
+    public void onStop() {
+    	Log.v("JONAS","GameActivity onStop");
+    	super.onStop();
+    	
+    }
+    
+    @Override
+    public void onDestroy() {
+       	Log.v("JONAS","GameActivity onDestroy");
+    	super.onDestroy();
+ 
     }
 }

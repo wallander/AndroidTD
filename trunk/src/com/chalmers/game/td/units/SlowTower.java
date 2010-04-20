@@ -13,6 +13,10 @@ import com.chalmers.game.td.R;
 public class SlowTower extends Tower {
 
 	private int mSlow;
+	public static final int[] sCoolDown = new int[]{30,30,30,25};
+	public static final int[] sDamage = new int[]{15,20,25,30};
+	public static final int[] sRange = new int[]{60,75,75,75};
+	public static final int[] sSlow = new int[]{30,40,50,60};
 	
 	
 	public SlowTower(int mX, int mY) {
@@ -50,11 +54,12 @@ public class SlowTower extends Tower {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
+	@Override
 	public Projectile createProjectile(Mob pTarget) {
-		
     	return new SlowProjectile(pTarget, this);
     }
 
+	@Override
 	public boolean upgrade() {
     	//TODO change values
     	if (!canUpgrade())					//return false if tower can't be upgraded
@@ -63,35 +68,22 @@ public class SlowTower extends Tower {
     		setLevel(getLevel()+1);			//increment tower level by one
     		setImageByLevel(getLevel());	//set image according to the new level
     		
-    		switch (getLevel()){			//set damage and range according to the new level
-    		case 1:
-    			setCoolDown(30);
-    			setDamage(15);
-    			setRange(60);
-    			setSlow(30); break;
-    		case 2:
-    			setDamage(20);
-        		setRange(75);
-        		setSlow(40); break;
-    		case 3:
-    			setDamage(25);
-        		setRange(75);
-        		setSlow(50); break;
-    		case 4:
-        		setCoolDown(25);
-    			setDamage(30);
-        		setRange(75);
-        		setSlow(60); break;
-    		}
+    		setCoolDown(sCoolDown[getLevel()-1]);
+			setDamage(sDamage[getLevel()-1]);
+			setRange(sRange[getLevel()-1]);
+			setSlow(sSlow[getLevel()-1]);
+    		
     	}
     	return true;
 	}
-    
+	
+	
     /**
      * returns the current upgrade cost
      */
+	@Override
 	public int getUpgradeCost() {
-//TODO ändra till ökande kostnader
+		//TODO ändra till ökande kostnader
 		switch(getLevel()) {
 		case 1: return 200;
 		case 2: return 200;

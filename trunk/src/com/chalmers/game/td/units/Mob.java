@@ -93,6 +93,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 2000) {
         		setReward(40);
+        		setMobImage(R.drawable.penguinmob);
         	} else  {
         		setMobImage(R.drawable.penguinmob);
         		setReward(50);
@@ -109,6 +110,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.flyingpenguin);
         	} else if(pHealth <= 2000) {
         		setReward(40);
+        		setMobImage(R.drawable.flyingpenguin);
         	} else  {
         		setMobImage(R.drawable.flyingpenguin);
         		setReward(50);
@@ -125,6 +127,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.icebear);
         	} else if(pHealth <= 2000) {
         		setReward(40);
+        		setMobImage(R.drawable.icebear);
         	} else  {
         		setMobImage(R.drawable.icebear);
         		setReward(50);
@@ -141,6 +144,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.walrus);
         	} else if(pHealth <= 2000) {
         		setReward(40);
+        		setMobImage(R.drawable.walrus);
         	} else  {
         		setMobImage(R.drawable.walrus);
         		setReward(50);
