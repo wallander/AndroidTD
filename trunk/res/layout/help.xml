@@ -4,18 +4,25 @@ android:id="@+id/widget32"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 xmlns:android="http://schemas.android.com/apk/res/android"
->
+android:scrollbars="vertical" android:background="@drawable/helpbg">
 
 <Button
 android:id="@+id/StartGame"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:background="@drawable/startgame_button"
->
+android:layout_marginLeft="2px" android:layout_marginTop="2px">
 </Button>
 
-<TextView android:text="This is where you show any help or how to play messages." 
-android:id="@+id/TextView01" 
-android:layout_width="wrap_content" 
-android:layout_height="wrap_content"></TextView>
+
+<ScrollView android:id="@+id/ScrollView01"
+ android:layout_width="fill_parent"
+ android:layout_marginLeft="10px" android:layout_marginRight="10px" android:layout_marginTop="120px" android:layout_height="150px">
+ <TextView android:id="@+id/TEXT_VIEW"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! " android:textColor="@color/black" android:textSize="16px"/>
+ </ScrollView>
+
+
 </RelativeLayout>

@@ -6,9 +6,9 @@ import com.chalmers.game.td.R;
 
 public class BasicTower extends Tower {
 
-	public static final int[] sDamage = new int[]{6,16,40,120};
-	public static final int[] sCoolDown = new int[]{20,20,20,20};
-	public static final int[] sRange = new int[]{100,105,110,120};
+	public static final int[] sDamage = new int[]{6,16,35,100};
+	public static final int[] sCoolDown = new int[]{20,22,24,26};
+	public static final int[] sRange = new int[]{100,105,110,110};
 	
 	public static final int[] sUpgradeCost = new int[]{130,320,780};
 	

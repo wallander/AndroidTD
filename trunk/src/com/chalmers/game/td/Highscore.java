@@ -1,14 +1,16 @@
 package com.chalmers.game.td;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.chalmers.game.td.units.Mob;
 
@@ -22,7 +24,8 @@ public class Highscore {
 	private double[]				mTrackScore;
 	private File					mFile;
 	private BufferedWriter			mWriter;
-	private FileInputStream 		mFileIS;
+	private BufferedReader	 		mReader;
+	private Map<Integer, Integer>	mSavedScore;
 	
 	public void changeScore(Mob pMob) {
 		setCurrentTrackScore(getCurrentTrackScore() + (pMob.getMaxHealth() / 10));
@@ -34,43 +37,62 @@ public class Highscore {
 	
 	private void setCurrentTrackScore(double pScore) {
 		mCurrentTrackScore =  pScore;
+		
+	}
+	
+	public boolean loadScore() {
+		
+		if(mSavedScore == null) {
+			return false;
+		} else {
+			
+			for(int i = 0; i < mSavedScore.size(); ++i) {
+				mTrackScore[i] = mSavedScore.get(i+1);
+			}
+			
+			return true;
+		}
 	}
 	
 	public void saveScore() {
 		
-		mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
-		mCurrentTrackScore = 0;
-		
-		// TODO write to file below...
-		try {
+		if(mTrackScore[GameModel.getTrack() - 1] < mCurrentTrackScore) {
 			
-			mWriter = getWriter();
-			
-			for(int i = 0; i < mTrackScore.length; ++i) {
+			mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
+					
+			// TODO write to file below...
+			try {
 				
-				mWriter.write("Track: " + String.valueOf(i+1) + "\n Score: " + String.valueOf((int)mTrackScore[i]) + "\n");
-				Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
-			
+				mWriter = getWriter();
+				
+				for(int i = 0; i < mTrackScore.length; ++i) {
+									
+					mWriter.write("Track " + String.valueOf(i+1) + "\n Score " + String.valueOf((int)mTrackScore[i]) + "\n");
+					Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
+				
+				}
+				
+				mWriter.close();			
+				
+			} catch(IOException ioe) {
+				Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
 			}
-			
-			mWriter.close();
-			
-		} catch(IOException ioe) {
-			Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
 		}
 		
+		mCurrentTrackScore = 0;
 	}
 	
 	public void setTracks(int pTracks) {
-		mTrackScore = new double[pTracks];
-		
+		mTrackScore = new double[pTracks];				
+					
 		for(int i = 0; i < mTrackScore.length; ++i) {
 			mTrackScore[i] = 0;
-		}
+		}		
 	}
 	
 	public double getTrackScore(int pTrack) {
-		return mTrackScore[pTrack - 1];
+		//return mTrackScore[pTrack - 1];
+		return 1.0;
 	}
 	
 	public double getTotalScore() {
@@ -84,7 +106,15 @@ public class Highscore {
 		return totalScore;
 	}
 	
-	public BufferedWriter getWriter() {
+	private BufferedReader getReader() throws FileNotFoundException {
+		
+		mFile = new File(Environment.getExternalStorageDirectory() + "/tddata.txt");
+		mReader = new BufferedReader(new InputStreamReader(new FileInputStream(mFile)));
+		
+		return mReader;
+	}
+	
+	private BufferedWriter getWriter() {
 		
 		File root = Environment.getExternalStorageDirectory();
 		
@@ -109,17 +139,49 @@ public class Highscore {
 	
 	public Highscore() {
 					
-		mCurrentTrackScore = 0;		
+		mCurrentTrackScore = 0;	
+		mSavedScore = new HashMap<Integer, Integer>();
 		
 		// At first try to load data.score		
 		try {
 		
 			Log.v("HIGHSCORE CONSTRUCTOR", "Try to load file");
 			
-			mFile = new File(Environment.getExternalStorageDirectory() + "/tddata.txt");
-			mFileIS = new FileInputStream(mFile);
 			
-			// TODO get food, and THEEEEEN read from file...
+			mReader = getReader();
+			
+			String 		readLine = "";
+			String[] 	input = new String[2];
+			int			track = 0;
+			
+			try {
+				
+				while((readLine = mReader.readLine()) != null) {
+					
+					Log.v("Highscore.constructor", "Read line..." + readLine);
+					
+					input = readLine.split(" ");
+					
+					Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] " + input[1]);
+					
+					if(input[0].equals("Track")) {
+						Log.v("Highscore.constructor", "Read track... track is " + String.valueOf(input[1]));
+						track = Integer.parseInt(input[1]);
+						
+					} else if(input[0].equals("Score")) {
+						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
+													
+						mSavedScore.put(track, Integer.parseInt(input[1]));
+					}
+				}								
+				
+			} catch (IOException e) {
+				
+				Log.v("Highscore.constructor", "IOEXCEPTION!!" + e.getMessage());
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 		// If the file is not found, create it
 		} catch(FileNotFoundException fnf) {
@@ -132,11 +194,11 @@ public class Highscore {
 				mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
 				mWriter.close();
 				
-				Log.v("HIGHSCORE CONSTRUCTOR", "File written to.");
+				Log.v("HIGHSCORE CONSTRUCTOR", "File created.");
 			
 			
 			} catch(IOException ioe) {
-				Log.v("HIGHSCORE CONSTRUCTOR", "Writing to file failed.");
+				Log.v("HIGHSCORE CONSTRUCTOR", "Creating file failed.");
 			}
 		}
 	}

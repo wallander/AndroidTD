@@ -31,8 +31,9 @@ public class SlowProjectile extends Projectile {
 		//}
 		
 		switch (getTarget().getType()) {
-		case HEALTHY:		// if HEALTHY/BOSS = no slow
-			break;
+		case HEALTHY:		// if HEALTHY/BOSS = less slow
+			getTarget().setSlowed(50,1-(1-mSlowEffect)/3);
+		break;
 		case IMMUNE:
 			break;
 		default: getTarget().setSlowed(200,mSlowEffect);

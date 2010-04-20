@@ -3,23 +3,21 @@
 android:id="@+id/widget32"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-xmlns:android="http://schemas.android.com/apk/res/android"
->
+xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/optionsbg">
 
 <Button
 android:id="@+id/StartGame"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:background="@drawable/startgame_button"
->
+android:layout_marginLeft="2px" android:layout_marginTop="2px">
 </Button>
 
 <CheckBox 
 android:layout_height="wrap_content"
 android:id="@+id/MusicCheckBox" 
 android:layout_width="wrap_content" 
-android:layout_toRightOf="@+id/StartGame" 
-android:text="@+id/MusicCheckBox">
+android:text="@+id/MusicCheckBox" android:layout_marginLeft="60pt" android:layout_marginTop="30pt">
 </CheckBox>
 
 <CheckBox 
@@ -27,7 +25,11 @@ android:layout_height="wrap_content"
 android:id="@+id/CheatCheckBox" 
 android:layout_width="wrap_content" 
 android:layout_below="@+id/MusicCheckBox" 
-android:layout_toRightOf="@+id/StartGame" 
-android:text="@+id/CheckBox01">
+android:text="@+id/CheckBox01" android:layout_marginLeft="60pt">
 </CheckBox>
+
+
+
+
+
 </RelativeLayout>

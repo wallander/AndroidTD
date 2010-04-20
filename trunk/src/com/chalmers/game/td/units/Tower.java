@@ -256,7 +256,6 @@ public abstract class Tower extends Unit {
 		this.mDescription = mDescription;
 	}
 
-
 	/**
 	 * @return the mDescription
 	 */
@@ -271,13 +270,10 @@ public abstract class Tower extends Unit {
 		mType = pType;
 	}
 
-
 	/**
 	 * @return the TowerType
 	 */
 	public int getType() {
 		return mType;
 	}
-	
-	
 }
