@@ -126,7 +126,7 @@ public class MobFactory {
 	public Mob getNextMob() {	
 
 		Mob mMob = null;
-
+		Log.v("JOnas","Gettrack:"+GameModel.getTrack());
 		if(mWaveNr <= mWaveNumbers.get(GameModel.getTrack() - 1)) {
 			
 			if(mWaves == null) {

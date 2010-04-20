@@ -3,7 +3,7 @@
 
 	<array name="mobs_track_1">
         
-        <item>NORMAL 20 10</item>
+        <item>HEALTHY 20 10</item>
         <item>NORMAL 20 30</item>
         <item>NORMAL 20 40</item>
         <item>AIR 20 50</item>
@@ -63,39 +63,43 @@
         <item>FAST 20 450</item>
         <item>NORMAL 20 560</item>
         
-        <item>IMMUNE 20 550</item>
+        <item>IMMUNE 20 520</item>
         <item>AIR 20 550</item>
         <item>NORMAL 20 600</item>
         <item>NORMAL 20 740</item>
         <item>HEALTHY 1 10000</item>                      
     </array>        
- 
- 	   <array name="mobs_track_3">
-                
-        <item>FAST 20 100</item>
-        <item>NORMAL 20 140</item>
-        <item>NORMAL 20 160</item>
-        <item>NORMAL 20 190</item>
-        <item>NORMAL 20 210</item>
- 
-        <item>HEALTHY 1 5000</item>
-		<item>NORMAL 20 250</item>
-        <item>FAST 20 210</item>
-        <item>NORMAL 20 330</item>
-        <item>NORMAL 20 390</item>
+    <array name="mobs_track_3">
+        <item>HEALTHY 3 300</item>
+        <item>AIR 1 300</item>
+        <item>NORMAL 20 200</item>
+        <item>AIR 20 110</item>
+        <item>NORMAL 20 130</item>
         
-        <item>NORMAL 20 440</item>
-        <item>NORMAL 20 580</item>
-        <item>NORMAL 20 900</item>
-        <item>FAST 20 600</item>
-        <item>NORMAL 20 800</item>
+        <item>FAST 20 120</item>
+        <item>NORMAL 20 150</item>
+        <item>NORMAL 20 180</item>
+        <item>IMMUNE 20 170</item>
+        <item>NORMAL 20 220</item>
         
-        <item>NORMAL 20 1200</item>
-        <item>AIR 20 1500</item>
-        <item>NORMAL 20 1800</item>
-        <item>NORMAL 20 2200</item>
-        <item>HEALTHY 1 30000</item>
-                      
+        <item>HEALTHY 1 6000</item>
+		<item>NORMAL 20 300</item>
+        <item>FAST 20 300</item>
+        <item>AIR 20 320</item>
+        <item>IMMUNE 20 340</item>
+        
+        <item>NORMAL 20 400</item>
+        <item>NORMAL 20 450</item>
+        <item>FAST 20 400</item>
+        <item>FAST 20 450</item>
+        <item>NORMAL 20 560</item>
+        
+        <item>IMMUNE 20 520</item>
+        <item>AIR 20 550</item>
+        <item>NORMAL 20 600</item>
+        <item>NORMAL 20 740</item>
+        <item>HEALTHY 1 10000</item>                      
+                       
     </array>
     
        <array name="mobs_track_4">
