@@ -13,6 +13,12 @@ import com.chalmers.game.td.units.Mob.MobType;
 
 public class AirTower extends Tower {
 
+	public static final int[] sCoolDown = new int[]{30,30,30,30};
+	public static final int[] sDamage = new int[]{25,35,50,80};
+	public static final int[] sRange = new int[]{60,70,70,80};
+
+	public static final int[] sUpgradeCost = new int[]{200,300,500};
+
 	
 	public AirTower(int mX, int mY) {
 		super(mX, mY);
@@ -27,10 +33,10 @@ public class AirTower extends Tower {
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
-			case 1: setImage(R.drawable.airtower1); break;
-			case 2: setImage(R.drawable.airtower2);  break;
-			case 3: setImage(R.drawable.airtower3);  break;
-			case 4: setImage(R.drawable.airtower);  break;
+		case 1: setImage(R.drawable.airtower1); break;
+		case 2: setImage(R.drawable.airtower2);  break;
+		case 3: setImage(R.drawable.airtower3);  break;
+		case 4: setImage(R.drawable.airtower);  break;
 		}		
 	}
 
@@ -68,49 +74,29 @@ public class AirTower extends Tower {
 		else
 			return null;
 	}
-	
+
 	public boolean upgrade() {
-    	//TODO change values
-    	if (!canUpgrade())					//return false if tower can't be upgraded
+		
+		if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
+    		
     		setLevel(getLevel()+1);			//increment tower level by one
     		setImageByLevel(getLevel());	//set image according to the new level
-    		                                                                                                               
-    		switch (getLevel()){			//set damage and range according to the new level
-    		case 1:
-    			setDamage(25);
-    			setCoolDown(30);
-    			setRange(120);
-    			break;
-    		case 2:
-    			setDamage(35);
-        		setRange(120);
-        		break;
-    		case 3:
-    			setDamage(50);
-        		setRange(120);
-        		break; 
-    		case 4:
-    			setDamage(80);
-        		setRange(120);
-        		break;
-    		}
+    		
+    		setDamage(sDamage[getLevel()-1]);
+    		setCoolDown(sCoolDown[getLevel()-1]);
+    		setRange(sRange[getLevel()-1]);
+
+        	return true;
     	}
-    	return true;
 	}
-    
+	
     /**
      * returns the current upgrade cost
      */
 	public int getUpgradeCost() {
-
-		switch(getLevel()) {
-		case 1: return 200;
-		case 2: return 300;
-		default: return 500;	//case 3
-		}
+		return sUpgradeCost[getLevel()-1];
 	}
-
 
 }
