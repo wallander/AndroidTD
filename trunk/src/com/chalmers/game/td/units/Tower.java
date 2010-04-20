@@ -1,12 +1,10 @@
 package com.chalmers.game.td.units;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
-import com.chalmers.game.td.R;
 
 /**
  * Class which contains tower specific information

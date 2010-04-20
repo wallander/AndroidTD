@@ -100,7 +100,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final RectF sBtnSell = new RectF(90,180,150,230);
 	private static final RectF sBtnUpgrade = new RectF(165,180,300,230);
 	private static final RectF sTransparentBox = new RectF(70,50,320,240);
-	private static final RectF sBtnGroup = new RectF(450,0,480,320);
 	private static final RectF sBtn1 = new RectF(420,15,475,65);
 	private static final RectF sBtn2 = new RectF(420,15+60,475,65+60);
 	private static final RectF sBtn3 = new RectF(420,15+120,475,65+120);
@@ -110,8 +109,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 //	private static final RectF sBtnPlay = new RectF(10,50,90,30);
 //	private static final String sBtnPauseLabel = "PAUSE";
 //	private static final RectF sBtnResume = new RectF(140, 90, 200, 120);
-	private static final RectF sBtnRestart = new RectF(140, 90+45, 200, 120+45);
-	private static final RectF sBtnPauseExit = new RectF(140, 90+90, 200, 120+90);
+//	private static final RectF sBtnRestart = new RectF(140, 90+45, 200, 120+45);
+//	private static final RectF sBtnPauseExit = new RectF(140, 90+90, 200, 120+90);
 
 	// Paints
 	private static final Paint sPaintBtnBox = new Paint();
@@ -153,7 +152,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower3 = new SlowTower(0,0);
 	private Tower mTower4 = new AirTower(0,0);
 	
-	private Snowball mSnowball = new Snowball(0,0);
 	private static final int mSnowballTreshold = 1500;
 	private int mUsedSnowballs;
 	
@@ -162,8 +160,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private static int explosionSound;
 	private static MediaPlayer fastMusic,mainMusic;
-	private static boolean soundEnabled = false;
-	private static boolean musicEnabled = false;
+
 	
 	public static void loadSound(Context context) {
 //	    sound = SilhouPreferences.sound(context); // should there be sound?
@@ -704,16 +701,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				}
 				break;
 
-			case STATE_PAUSED:
-				//TODO handle input when in "PAUSE" state
-				//two buttons? "New Game" and "exit" maybe? yes? no? yes?
-	
-
+			case STATE_PAUSED:	
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-
-
-					
+					// do nothing
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
@@ -748,6 +739,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				break;
 			}
 		}
+		
+		// TODO why is this here? what purpose does it serve?
 		try {
 			Thread.sleep(16);
 		} catch (InterruptedException e) {
@@ -763,7 +756,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * It keeps track of the creation of the mobs from the waves of the current map
 	 * Called from updateModel 
 	 */
-	public Mob createMobs() {  	    	    	    	        	    	    	
+	private Mob createMobs() {  	    	    	    	        	    	    	
 
 		int track = GameModel.getTrack();
 		
@@ -871,19 +864,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 */
 			for (int j = 0; j < GameModel.mSnowballs.size(); j++) {
 				Snowball s = GameModel.mSnowballs.get(j);
-
-				// if the ball is moving ON a tower in the game field
-				// lower it's speed
-				//	s.setSlowed(false);
-
-				//	for (int j = 0; j < mGameModel.mTowers.size(); j++) {
-				//		Tower t = mGameModel.mTowers.get(j);
-				//		Coordinate mobCoordinate = new Coordinate(t.getX()+16,t.getY()+16);
-				//		double distance = Coordinate.getSqrDistance(s.getCoordinates(), mobCoordinate);
-				// //	if (distance < 10 + s.getCharges() + 16)
-				//			s.setSlowed(true);
-				//		}
-
 
 				// update position with accelerometer
 				s.updatePosition(mLatestSensorEvent);
@@ -1554,7 +1534,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		//Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
 		//sPaintText.setTypeface(font2);
 		//sPaintText.setAntiAlias(true);
-
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
 		boxTextPaintTitle.setTextSize(22);

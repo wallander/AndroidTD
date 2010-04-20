@@ -1,8 +1,6 @@
 package com.chalmers.game.td.units;
 
-import android.util.Log;
 
-import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.R;
 
 public class SlowProjectile extends Projectile {

@@ -8,9 +8,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -26,7 +23,6 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	
 	private int trackPic = 0;
 	
-	private final RectF mButtonTrack1 = new RectF(45, 200, 100, 240);
 	
 	public ProgressionRoutePanel(Context context) {
 		super(context);				

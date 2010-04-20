@@ -1,6 +1,5 @@
 package com.chalmers.game.td.units;
 
-import android.util.Log;
 
 import com.chalmers.game.td.R;
 
