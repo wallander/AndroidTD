@@ -1,5 +1,7 @@
 package com.chalmers.game.td;
 
+import android.util.Log;
+
 import com.chalmers.game.td.units.Mob;
 
 public class Player {
@@ -18,7 +20,13 @@ public class Player {
 		setMoney(STARTING_MONEY);		
 		mScore = Highscore.getInstance();
 		mScore.setTracks(pTracks);
-		 // TODO loading possibilities...
+		boolean b = mScore.loadScore();
+		
+		if(b) {
+			Log.v("PLAYER KONSTRUKTOR", "Lyckades ladda från fil");
+		} else {
+			Log.v("PLAYER KONSTRUKTOR", "Lyckades INTE ladda från fil");
+		}
 	}		
 	
 	public void changeScore(Mob pMob) {

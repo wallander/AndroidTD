@@ -80,7 +80,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for second level pressed
 						
-						if (GameModel.currentPlayer.getTrackScore(2) != 0) {
+						// TODO may have missunderstood but i think it should be 1 rather than 2 here...
+						if (GameModel.currentPlayer.getTrackScore(1) != 0) {
 							GameModel.setTrack(2);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
 							thread.setRunning(false);
@@ -97,7 +98,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for third level pressed
 						
-						if (GameModel.currentPlayer.getTrackScore(3) != 0) {
+						if (GameModel.currentPlayer.getTrackScore(2) != 0) {
 							GameModel.setTrack(3);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
 							thread.setRunning(false);
@@ -113,7 +114,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for fourth level pressed
 
-						if (GameModel.currentPlayer.getTrackScore(4) != 0) {
+						if (GameModel.currentPlayer.getTrackScore(3) != 0) {
 							GameModel.setTrack(4);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
 							thread.setRunning(false);
@@ -129,7 +130,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for fifth level pressed
 						
-						if (GameModel.currentPlayer.getTrackScore(5) != 0) {
+						if (GameModel.currentPlayer.getTrackScore(4) != 0) {
 							GameModel.setTrack(5);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
 							thread.setRunning(false);

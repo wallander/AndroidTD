@@ -39,46 +39,46 @@ public class Highscore {
 		mCurrentTrackScore =  pScore;
 	}
 	
-	public double[] loadScore() {
-		
-		double[] loadedScores = new double[mSavedScore.size()];
+	public boolean loadScore() {
 		
 		if(mSavedScore == null) {
-			return null;
+			return false;
 		} else {
-		
-			for(int i = 0; i < loadedScores.length; ++i) {
-				
-				loadedScores[i] = mSavedScore.get(i+1);
+			
+			for(int i = 0; i < mSavedScore.size(); ++i) {
+				mTrackScore[i] = mSavedScore.get(i+1);
 			}
+			
+			return true;
 		}
-		
-		return loadedScores;
 	}
 	
 	public void saveScore() {
 		
-		mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
-		mCurrentTrackScore = 0;
-		
-		// TODO write to file below...
-		try {
+		if(mTrackScore[GameModel.getTrack() - 1] < mCurrentTrackScore) {
 			
-			mWriter = getWriter();
-			
-			for(int i = 0; i < mTrackScore.length; ++i) {
+			mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
+					
+			// TODO write to file below...
+			try {
 				
-				mWriter.write("Track " + String.valueOf(i+1) + "\n Score " + String.valueOf((int)mTrackScore[i]) + "\n");
-				Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
-			
+				mWriter = getWriter();
+				
+				for(int i = 0; i < mTrackScore.length; ++i) {
+									
+					mWriter.write("Track " + String.valueOf(i+1) + "\n Score " + String.valueOf((int)mTrackScore[i]) + "\n");
+					Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
+				
+				}
+				
+				mWriter.close();			
+				
+			} catch(IOException ioe) {
+				Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
 			}
-			
-			mWriter.close();
-			
-		} catch(IOException ioe) {
-			Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
 		}
 		
+		mCurrentTrackScore = 0;
 	}
 	
 	public void setTracks(int pTracks) {
@@ -168,10 +168,8 @@ public class Highscore {
 						
 					} else if(input[0].equals("Score")) {
 						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
-						if(!input[1].equals("0")) {
-							
-							mSavedScore.put(track, Integer.parseInt(input[1]));
-						}
+													
+						mSavedScore.put(track, Integer.parseInt(input[1]));
 					}
 				}								
 				
