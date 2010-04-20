@@ -47,7 +47,7 @@ public class MenuOptions extends Activity {
         toggleMusic.setText("Toggle Music");
         
         CheckBox toggleCheat = (CheckBox)findViewById(R.id.CheatCheckBox);
-        toggleMusic.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        toggleCheat.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				GameModel.setCheatEnabled(isChecked);

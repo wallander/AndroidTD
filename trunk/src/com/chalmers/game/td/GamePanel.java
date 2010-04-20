@@ -1318,6 +1318,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		} else {
 			paintalfa.setAlpha(100);
 		}
+		
+		if (GameModel.sCheatEnabled)
+			paintalfa.setAlpha(255);
+		
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,265,paintalfa);
 
 
