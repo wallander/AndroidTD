@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,6 +14,8 @@ public class MenuHelp extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("MenuHelp","onCreate()");
+        
         setContentView(R.layout.help);      
         
         // Set the screen orientation to Portrait
@@ -32,5 +35,44 @@ public class MenuHelp extends Activity {
         		finish();
         	}
     	});         
+    }
+    @Override
+    public void onRestart() {
+    	Log.i("MenuHelp","onRestart()");
+    	super.onRestart();
+    }
+    
+    @Override
+    public void onStart() {
+    	Log.i("MenuHelp","onStart()");
+    	super.onStart();
+    }
+    
+    @Override
+    public void onResume() {
+    	Log.i("MenuHelp","onResume()");
+    	super.onResume();
+    
+    }
+    
+    @Override
+    public void onPause() {
+    	Log.i("MenuHelp","onPause()");
+    	super.onPause();
+    
+    }
+    
+    @Override
+    public void onStop() {
+    	Log.i("MenuHelp","onStop()");
+    	super.onStop();
+    	
+    }
+    
+    @Override
+    public void onDestroy() {
+       	Log.i("MenuHelp","onDestroy()");
+    	super.onDestroy();
+ 
     }
 }
