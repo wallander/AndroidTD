@@ -20,24 +20,20 @@ public class SplashTower extends Tower {
 	//
 	private int mSplash;
 	private int mSplashRadius;
-	
+
+	public static final int[] sCoolDown = new int[]{50,50,50,50};
+	public static final int[] sDamage = new int[]{6,24,50,80};
+	public static final int[] sRange = new int[]{60,70,70,80};
+	public static final int[] sSplash = new int[]{2,3,4,5};
+	public static final int[] sSplashRadius = new int[]{50,60,80,90};
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Eskimo");
-		mSplash = 2;
-		mSplashRadius=50;
-		setDamage(6);
 		setDescription("Trows snowballs damaging multiple targets");
-		setCoolDown(50);
 		resetCoolDown();
 		setCost(100);
-		setRange(60);
-		// TODO Set appropriate values to range, damage, attack speed and such
-//		mDamage = 50;
-//		mAttackSpeed = 30;
-//		mCost = 50;
-//		mRange = 80;
+
 	}
 	
 	
@@ -75,38 +71,14 @@ public class SplashTower extends Tower {
     		setLevel(getLevel()+1);			//increment tower level by one
     		setImageByLevel(getLevel());	//set image according to the new level
     		
-    		switch (getLevel()){			//set damage and range according to the new level
-    		case 2:
-    			setDamage(24);
-        		setRange(70);
-        		setSplash(3);
-        		setSplashRadius(60); break;
-    		case 3:
-    			setDamage(50);
-    			setCoolDown(30);
-    			setSplash(4);
-    			setSplashRadius(80); break;
-    		case 4:
-    			setDamage(80);
-    			setSplash(5);
-    			setRange(80);
-    			setSplashRadius(90); break;
-    		}
-    		
-    		//old values, save for reference...
-//    		switch (getLevel()){
-//    		case 2:
-//    			setDamage(16);
-//        		setRange(110);
-//    		case 3:
-//    			setDamage(40);
-//        		setRange(125);
-//    		case 4:
-//    			setDamage(120);
-//        		setRange(140);
-//    		}
+    		setCoolDown(sCoolDown[getLevel()-1]);
+			setDamage(sDamage[getLevel()-1]);
+			setRange(sRange[getLevel()-1]);
+			setSplash(sSplash[getLevel()-1]);
+			setSplashRadius(sSplashRadius[getLevel()-1]);
+
+	    	return true;
     	}
-    	return true;
 	}
 				
     
