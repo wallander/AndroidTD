@@ -44,6 +44,7 @@ public class MenuGame extends Activity {
     @Override
     public void onStop() {
     	super.onStop();
+    	//progressMap.stopThread();
     	GamePanel.releaseSounds();
     }
 }
