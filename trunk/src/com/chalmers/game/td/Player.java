@@ -18,7 +18,8 @@ public class Player {
 		setMoney(STARTING_MONEY);		
 		mScore = Highscore.getInstance();
 		mScore.setTracks(pTracks);
-	}
+		 // TODO loading possibilities...
+	}		
 	
 	public void changeScore(Mob pMob) {
 		mScore.changeScore(pMob);
@@ -63,14 +64,6 @@ public class Player {
 
 	public void removeLife() {
 		mLives--;
-	}
-
-	/**
-	 * TODO kanske kan ta bort...
-	 * @param mCurrentTrackScore
-	 */
-	public void setCurrentTrackScore(double mCurrentTrackScore) {
-		this.mCurrentTrackScore = mCurrentTrackScore;
 	}
 
 	public double getCurrentTrackScore() {

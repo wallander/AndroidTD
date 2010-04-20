@@ -39,13 +39,21 @@ public class Highscore {
 		mCurrentTrackScore =  pScore;
 	}
 	
-	public double[] loadScore(int pTracks) {
+	public double[] loadScore() {
 		
-		double[] loadedScores = new double[pTracks];
+		double[] loadedScores = new double[mSavedScore.size()];
 		
+		if(mSavedScore == null) {
+			return null;
+		} else {
 		
+			for(int i = 0; i < loadedScores.length; ++i) {
+				
+				loadedScores[i] = mSavedScore.get(i+1);
+			}
+		}
 		
-		return null;
+		return loadedScores;
 	}
 	
 	public void saveScore() {
