@@ -46,8 +46,9 @@ public class Highscore {
 			return false;
 		} else {
 			
-			for(int i = 0; i < mSavedScore.size(); ++i) {
-				mTrackScore[i] = mSavedScore.get(i+1);
+			for(int i = 1; i <= mSavedScore.size(); ++i) {
+				mTrackScore[i-1] = mSavedScore.get(i);
+				Log.v("Highscore","Score for track " + i + " is " + mSavedScore.get(i));
 			}
 			
 			return true;
@@ -91,8 +92,8 @@ public class Highscore {
 	}
 	
 	public double getTrackScore(int pTrack) {
-		//return mTrackScore[pTrack - 1];
-		return 1.0;
+		return mTrackScore[pTrack - 1];
+//		return 1.0;
 	}
 	
 	public double getTotalScore() {
@@ -151,7 +152,7 @@ public class Highscore {
 			mReader = getReader();
 			
 			String 		readLine = "";
-			String[] 	input = new String[2];
+			String[] 	input = new String[3];
 			int			track = 0;
 			
 			try {
@@ -162,23 +163,25 @@ public class Highscore {
 					
 					input = readLine.split(" ");
 					
-					Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] " + input[1]);
+					Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] = " + input[1]);
 					
 					if(input[0].equals("Track")) {
 						Log.v("Highscore.constructor", "Read track... track is " + String.valueOf(input[1]));
 						track = Integer.parseInt(input[1]);
 						
-					} else if(input[0].equals("Score")) {
-						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
+					} else if(input[1].equals("Score")) {
+						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[2]));
 													
-						mSavedScore.put(track, Integer.parseInt(input[1]));
+						mSavedScore.put(track, Integer.parseInt(String.valueOf(input[2])));
+						
 					}
-				}								
+				}
+				Log.v("Highscore.constructor","mSavedScore.size() = " + mSavedScore.size());
+
 				
 			} catch (IOException e) {
 				
 				Log.v("Highscore.constructor", "IOEXCEPTION!!" + e.getMessage());
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
