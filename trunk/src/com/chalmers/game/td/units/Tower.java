@@ -254,7 +254,7 @@ public abstract class Tower extends Unit {
     	switch(mLevel) {
 	    	case 1: return 130;
 	    	case 2: return 320;
-	    	default: return 780; //case 3 that is
+	    	default: return 760; //case 3 that is
     	}	
     }
 

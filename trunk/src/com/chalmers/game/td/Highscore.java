@@ -37,6 +37,7 @@ public class Highscore {
 	
 	private void setCurrentTrackScore(double pScore) {
 		mCurrentTrackScore =  pScore;
+		
 	}
 	
 	public boolean loadScore() {
@@ -90,7 +91,8 @@ public class Highscore {
 	}
 	
 	public double getTrackScore(int pTrack) {
-		return mTrackScore[pTrack - 1];
+		//return mTrackScore[pTrack - 1];
+		return 1.0;
 	}
 	
 	public double getTotalScore() {

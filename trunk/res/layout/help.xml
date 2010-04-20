@@ -17,11 +17,11 @@ android:layout_marginLeft="2px" android:layout_marginTop="2px">
 
 <ScrollView android:id="@+id/ScrollView01"
  android:layout_width="fill_parent"
- android:layout_marginLeft="10px" android:layout_marginRight="10px" android:layout_marginTop="120px" android:layout_height="100px">
+ android:layout_marginLeft="10px" android:layout_marginRight="10px" android:layout_marginTop="120px" android:layout_height="150px">
  <TextView android:id="@+id/TEXT_VIEW"
  android:layout_width="wrap_content"
  android:layout_height="wrap_content"
- android:text="Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! " android:textColor="@color/black"/>
+ android:text="Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! " android:textColor="@color/black" android:textSize="16px"/>
  </ScrollView>
 
 
