@@ -135,17 +135,18 @@ public final class R {
         public static final int water3=0x7f02006d;
     }
     public static final class id {
-        public static final int Continue=0x7f07000a;
+        public static final int CheatCheckBox=0x7f070009;
+        public static final int CheckBox01=0x7f07000a;
+        public static final int Continue=0x7f07000b;
         public static final int Credits=0x7f070006;
         public static final int Exit=0x7f070007;
         public static final int Help=0x7f070004;
-        public static final int LinearLayout01=0x7f07000c;
+        public static final int LinearLayout01=0x7f07000d;
+        public static final int MusicCheckBox=0x7f070008;
         public static final int Options=0x7f070005;
-        public static final int Restart=0x7f07000b;
+        public static final int Restart=0x7f07000c;
         public static final int StartGame=0x7f070002;
         public static final int TextView01=0x7f070001;
-        public static final int ToggleButton01=0x7f070008;
-        public static final int ToggleMusicButton=0x7f070009;
         public static final int widget28=0x7f070003;
         public static final int widget32=0x7f070000;
     }

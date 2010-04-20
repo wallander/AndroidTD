@@ -39,6 +39,8 @@ public class GameModel {
 //	public static int mWaveNr;
 	public static Player currentPlayer;
 	public static int	sSelectedTrack = 1;
+	static boolean sMusicEnabled = true;
+	static boolean sCheatEnabled = false;
 	
 
 	/** Size of "game tiles" */
@@ -183,6 +185,14 @@ public class GameModel {
 	
 	public static int getTrack() {
 		return sSelectedTrack;
+	}
+
+	public static void setMusicEnabled(boolean isChecked) {
+		sMusicEnabled = isChecked;
+	}
+
+	public static void setCheatEnabled(boolean isChecked) {
+		sCheatEnabled = isChecked;
 	}
 }
 

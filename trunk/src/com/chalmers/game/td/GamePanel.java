@@ -180,12 +180,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	public void updateSounds() {
 		switch (GAME_STATE) {
 		case STATE_RUNNING:
-			if (musicEnabled) {
-				pauseMusic(mainMusic);
-				playMusic(fastMusic);
-			} else{
-				pauseMusic(fastMusic);
-				playMusic(mainMusic);
+			if (GameModel.sMusicEnabled) {
+				if (fastf) {
+					pauseMusic(mainMusic);
+					playMusic(fastMusic);
+				} else {
+					pauseMusic(fastMusic);
+					playMusic(mainMusic);
+				}
 			}
 		break;
 		default:
@@ -209,11 +211,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public static final void releaseSounds() {
 //	    if (!soundEnabled) return;
+		if (sounds == null)
+			return;
 	    sounds.release();
-	    fastMusic.stop();
-	    fastMusic.release();
-	    mainMusic.stop();
-	    mainMusic.release();
+	    if (fastMusic.isPlaying() && fastMusic != null) {
+	    	fastMusic.stop();
+	    	fastMusic.release();
+	    }
+	    if (mainMusic.isPlaying() && mainMusic != null) {
+	    	mainMusic.stop();
+	    	mainMusic.release();
+	    }
 	}
 
 	
@@ -486,11 +494,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
-									musicEnabled = false;
 								} else {
 									GamePanel.setSpeedMultiplier(3);	
 									fastf = true;
-									musicEnabled = true;
 								}
 								
 							}
