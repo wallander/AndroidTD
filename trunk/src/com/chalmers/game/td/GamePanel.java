@@ -88,6 +88,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	private int mWateranimation = 0;
 	private boolean mSplash = false;
+	
+	private int menuPic = 0;
 
 
 	/** Keeps track of the delay between creation of Mobs in waves */
@@ -118,6 +120,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final Paint sPaintTransparentBox = new Paint();
 	private static final Paint sPaintText = new Paint();
 	private static final Paint sPaintTextWhite = new Paint();
+	private static final Paint sPaintTextBlack = new Paint();
 	private static final Paint rangeIndicationPaint = new Paint();
 	private static final Paint noRangeIndicationPaint = new Paint();
 	private static final Paint gridpaint = new Paint();
@@ -180,12 +183,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	public void updateSounds() {
 		switch (GAME_STATE) {
 		case STATE_RUNNING:
-			if (musicEnabled) {
-				pauseMusic(mainMusic);
-				playMusic(fastMusic);
-			} else{
-				pauseMusic(fastMusic);
-				playMusic(mainMusic);
+			if (GameModel.sMusicEnabled) {
+				if (fastf) {
+					pauseMusic(mainMusic);
+					playMusic(fastMusic);
+				} else {
+					pauseMusic(fastMusic);
+					playMusic(mainMusic);
+				}
 			}
 		break;
 		default:
@@ -209,11 +214,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public static final void releaseSounds() {
 //	    if (!soundEnabled) return;
+		if (sounds == null)
+			return;
 	    sounds.release();
-	    fastMusic.stop();
-	    fastMusic.release();
-	    mainMusic.stop();
-	    mainMusic.release();
+	    if (fastMusic.isPlaying() && fastMusic != null) {
+	    	fastMusic.stop();
+	    	fastMusic.release();
+	    }
+	    if (mainMusic.isPlaying() && mainMusic != null) {
+	    	mainMusic.stop();
+	    	mainMusic.release();
+	    }
 	}
 
 	
@@ -385,7 +396,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.menutop, BitmapFactory.decodeResource(getResources(), R.drawable.menutop));
 		mBitMapCache.put(R.drawable.menumid, BitmapFactory.decodeResource(getResources(), R.drawable.menumid));
 		mBitMapCache.put(R.drawable.menubot, BitmapFactory.decodeResource(getResources(), R.drawable.menubot));
-
+		mBitMapCache.put(R.drawable.menutop2, BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
+		mBitMapCache.put(R.drawable.menumid2, BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
+		mBitMapCache.put(R.drawable.menubot2, BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
 	}
 
 	/**
@@ -486,11 +499,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								if(fastf){
 									GamePanel.setSpeedMultiplier(1);
 									fastf = false;
-									musicEnabled = false;
 								} else {
 									GamePanel.setSpeedMultiplier(3);	
 									fastf = true;
-									musicEnabled = true;
 								}
 								
 							}
@@ -536,6 +547,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 								if (GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs)) {
 									mAllowBuild = true;
 								}
+								
+								if (GameModel.sCheatEnabled)
+									mAllowBuild = true;
+								
 								mCurrentSnowball = new Snowball(mTx,mTy);
 								mShowTooltip = true;
 							}
@@ -598,7 +613,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						}
 						mCurrentSnowball = null;
 					}
-					//GamePanel.setSpeedMultiplier(1);
 					break;
 				}
 				break;
@@ -607,19 +621,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 
-					if(sBtnRestart.contains(event.getX(), event.getY())){
+
+					break;
+				case MotionEvent.ACTION_MOVE:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						menuPic = 1;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						menuPic = 2;
+					} else {
+						menuPic = 0;
+					}
+					
+					break;
+				case MotionEvent.ACTION_UP:
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						startTrack(GameModel.getTrack());						
 						GAME_STATE = STATE_RUNNING;		
 						mMobFactory.resetWaveNr(); // Resets the wave counter 
 					}
-					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
-					break;
-				case MotionEvent.ACTION_MOVE:
-					break;
-				case MotionEvent.ACTION_UP:
+					menuPic = 0;
 					break;
 				}
 				break;
@@ -629,19 +655,40 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				
 				case MotionEvent.ACTION_DOWN:
 
-					if(sBtnRestart.contains(event.getX(), event.getY())){
+
+					break;
+				case MotionEvent.ACTION_MOVE:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						menuPic = 1;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						menuPic = 2;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						menuPic = 3;
+					} else {
+						menuPic = 0;
+					}
+					
+					break;
+				case MotionEvent.ACTION_UP:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						//NEXT LEVEL TODO!
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						startTrack(GameModel.getTrack());												
 						GAME_STATE = STATE_RUNNING;
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
-					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
-					break;
-				case MotionEvent.ACTION_MOVE:
-					break;
-				case MotionEvent.ACTION_UP:
+
+					menuPic = 0;
+					
 					break;
 				}
 				break;
@@ -654,6 +701,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 
+
+					
+					break;
+				case MotionEvent.ACTION_MOVE:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						menuPic = 1;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						menuPic = 2;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						menuPic = 3;
+					} else {
+						menuPic = 0;
+					}
+					break;
+				case MotionEvent.ACTION_UP:
 					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						GAME_STATE = STATE_RUNNING;
 					}
@@ -666,10 +731,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
-					break;
-				case MotionEvent.ACTION_MOVE:
-					break;
-				case MotionEvent.ACTION_UP:
+					menuPic = 0;
 					break;
 				}
 				break;
@@ -914,38 +976,97 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			break;
 
 		case STATE_GAMEOVER: // loser screen TODO make it look good
-			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			canvas.drawText("YOU LOSE! SUCKER!",100,80 ,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnRestart,5,5,mBtnPaint);
-			canvas.drawText("restart",155,95+45,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
-			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
+			
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
+			
+			if(menuPic == 1){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36,null);				
+			} else if(menuPic == 2){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36,null);	
+			} else {
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36,null);	
+			}
+			
+			canvas.drawText("Try again!", 171,80+20+2,sPaintTextBlack);
+			canvas.drawText("Restart",181,80+34+20+2,sPaintTextBlack);
+			canvas.drawText("Exit",181,80+34+36+20+2,sPaintTextBlack);
+			
+			canvas.drawText("Try again!", 170,80+20,sPaintTextWhite);
+			canvas.drawText("Restart",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Exit",180,80+34+36+20,sPaintTextWhite);
+			
 			break;
 
 		case STATE_WIN: // winner screen TODO make it look good
-			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			canvas.drawText("YOU ARE WINRAR!",100,80,sPaintBoxText);
+			
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
+			if(menuPic == 1){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);				
+			} else if(menuPic == 2){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}  else if(menuPic == 3){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36,null);	
+			} else {
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}
 
-			canvas.drawRoundRect(sBtnRestart,5,5,mBtnPaint);
-			canvas.drawText("restart",155,95+45,sPaintBoxText);
 
-			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
-			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
+			canvas.drawText("Level complete!", 156,80+20+2,sPaintTextBlack);
+			canvas.drawText("Next",181,80+34+20+2,sPaintTextBlack);
+			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
+			canvas.drawText("Exit", 181, 80+34+36+36+20+2, sPaintTextBlack);
+			
+			canvas.drawText("Level complete!", 155,80+20,sPaintTextWhite);
+			canvas.drawText("Next",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
+			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
+			
 			break;
 
 		case STATE_PAUSED: // pause screen
+			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);
+			if(menuPic == 1){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);				
+			} else if(menuPic == 2){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}  else if(menuPic == 3){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36,null);	
+			} else {
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}
+
+
+			canvas.drawText("GAME PAUSED!", 156,80+20+2,sPaintTextBlack);
+			canvas.drawText("Resume",181,80+34+20+2,sPaintTextBlack);
+			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
+			canvas.drawText("Exit", 181, 80+34+36+36+20+2, sPaintTextBlack);
 			
 			canvas.drawText("GAME PAUSED!", 155,80+20,sPaintTextWhite);
 			canvas.drawText("Resume",180,80+34+20,sPaintTextWhite);
 			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
 			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
 			
+
 			break;
 		}
 	}
@@ -1193,10 +1314,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower1),432,205,paintalfa);
 
 		if(GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs)) {
-			paintalfa.setAlpha(100);
-		} else {
 			paintalfa.setAlpha(255);
+		} else {
+			paintalfa.setAlpha(100);
 		}
+		
+		if (GameModel.sCheatEnabled)
+			paintalfa.setAlpha(255);
+		
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,265,paintalfa);
 
 
@@ -1402,7 +1527,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Typeface font2 = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
 		sPaintTextWhite.setTypeface(font2);
 		sPaintTextWhite.setAntiAlias(true);
+		
+		
 
+		sPaintTextBlack.setTextSize(16);
+		sPaintTextBlack.setARGB(255, 0, 0, 0);
+		Typeface font3 = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+		sPaintTextBlack.setTypeface(font3);
+		sPaintTextBlack.setAntiAlias(true);
+		
 		// set color of the selected tower box
 		sPaintTransparentBox.setARGB(90, 51, 51, 51);
 
