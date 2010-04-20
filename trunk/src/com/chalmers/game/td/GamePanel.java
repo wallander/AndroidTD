@@ -1193,9 +1193,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower1),432,205,paintalfa);
 
 		if(GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs)) {
-			paintalfa.setAlpha(100);
-		} else {
 			paintalfa.setAlpha(255);
+		} else {
+			paintalfa.setAlpha(100);
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,265,paintalfa);
 
