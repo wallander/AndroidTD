@@ -625,10 +625,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
-					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						menuPic = 1;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						menuPic = 2;
 					} else {
 						menuPic = 0;
@@ -636,12 +636,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					
 					break;
 				case MotionEvent.ACTION_UP:
-					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						startTrack(GameModel.getTrack());						
 						GAME_STATE = STATE_RUNNING;		
 						mMobFactory.resetWaveNr(); // Resets the wave counter 
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
@@ -659,13 +659,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
-					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						menuPic = 1;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						menuPic = 2;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						menuPic = 3;
 					} else {
 						menuPic = 0;
@@ -674,15 +674,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_UP:
 					
-					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						//NEXT LEVEL TODO!
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						startTrack(GameModel.getTrack());												
 						GAME_STATE = STATE_RUNNING;
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
@@ -706,28 +706,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
-					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						menuPic = 1;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						menuPic = 2;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						menuPic = 3;
 					} else {
 						menuPic = 0;
 					}
 					break;
 				case MotionEvent.ACTION_UP:
-					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						GAME_STATE = STATE_RUNNING;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						startTrack(GameModel.getTrack());											
 						GAME_STATE = STATE_RUNNING;			
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
-					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
