@@ -113,6 +113,8 @@ public abstract class Tower extends Unit {
 		mCost = i;
 		// ta bort kostnad från spelarens konto?
 	}
+	
+	public abstract int getUpgradeCost();
 
 
     /**
@@ -236,6 +238,8 @@ public abstract class Tower extends Unit {
 	public int getCost() {
 		return mCost;
 	}
+	
+	
 
 	public int getLevel() {
 		return mLevel;
@@ -244,19 +248,6 @@ public abstract class Tower extends Unit {
     public void setLevel(int pLevel) {
 		mLevel = pLevel;
 	}
-
-	/**
-	 * Returns upgrade cost.
-	 * @return Uppgraderingskostnaden
-	 */
-    public int getUpgradeCost() {
-
-    	switch(mLevel) {
-	    	case 1: return 130;
-	    	case 2: return 320;
-	    	default: return 780; //case 3 that is
-    	}	
-    }
 
 	/**
 	 * @param mDescription the mDescription to set
