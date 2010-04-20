@@ -4,34 +4,7 @@
 	<array name="mobs_track_1">
         
         <item>NORMAL 20 10</item>
-        <item>NORMAL 20 40</item>
-        <item>NORMAL 20 60</item>
-        <item>AIR 20 80</item>
-        <item>NORMAL 20 100</item>
         
-        <item>FAST 20 100</item>
-        <item>NORMAL 20 140</item>
-        <item>NORMAL 20 160</item>
-        <item>IMMUNE 20 190</item>
-        <item>NORMAL 20 230</item>
-        
-        <item>HEALTHY 1 4000</item>
-		<item>NORMAL 20 280</item>
-        <item>FAST 20 250</item>
-        <item>AIR 20 250</item>
-        <item>NORMAL 20 390</item>
-        
-        <item>NORMAL 20 440</item>
-        <item>NORMAL 20 580</item>
-        <item>NORMAL 20 900</item>
-        <item>FAST 20 900</item>
-        <item>NORMAL 20 1400</item>
-        
-        <item>IMMUNE 20 1300</item>
-        <item>AIR 20 1100</item>
-        <item>NORMAL 20 1700</item>
-        <item>NORMAL 20 2100</item>
-        <item>HEALTHY 1 17000</item>
                                              
 
     </array>
