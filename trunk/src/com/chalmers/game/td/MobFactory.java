@@ -246,7 +246,11 @@ public class MobFactory {
 					Log.v("INIT MOBS", "MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
 					
 					mHealth = Integer.parseInt(mMobInfo[2]);
-					mMobTypeList.add(mMobInfo[0]);
+					
+					if(i == GameModel.getTrack() - 1) {
+						mMobTypeList.add(mMobInfo[0]);
+					}
+					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 						// k == nr of mobs
 						if(mMobInfo[0].equals("NORMAL")) {
