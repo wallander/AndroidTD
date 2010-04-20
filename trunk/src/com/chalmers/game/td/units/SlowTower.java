@@ -78,13 +78,6 @@ public class SlowTower extends Tower {
     	}
 	}
 	
-	public int getAttackSpeed(int pLevel){
-		if (pLevel >= 1)
-			return 100/sCoolDown[pLevel-1];
-		else
-			return -1;
-	}
-	
     /**
      * returns the current upgrade cost
      */

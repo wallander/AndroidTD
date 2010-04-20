@@ -77,13 +77,6 @@ public class SplashTower extends Tower {
 
 	    	return true;
     	}
-	}	
-	
-	public int getAttackSpeed(int pLevel){
-		if (pLevel >= 1)
-			return 100/sCoolDown[pLevel-1];
-		else
-			return -1;
 	}
     
     /**

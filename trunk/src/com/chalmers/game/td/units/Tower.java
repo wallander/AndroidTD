@@ -30,10 +30,6 @@ public abstract class Tower extends Unit {
 	public static final int BASIC=1, SPLASH=2, SLOW=3, AIR=4;
 	private int mType;
 	
-	private static int[] sCoolDown;
-	public static int[] sDamage;
-	public static int[] sRange;
-	
 	private int mImage;
 	
 	//List<Projectile> mProjectiles;
@@ -93,7 +89,7 @@ public abstract class Tower extends Unit {
 	//higher value = better
 	//TODO add this value to tower tool tip
 	public int getAttackSpeed(){
-		return 100/mCoolDown;
+		return 1000/mCoolDown;
 	}
 	
 //	public int getAttackSpeed(int pLevel){
@@ -102,8 +98,6 @@ public abstract class Tower extends Unit {
 //		else
 //			return -1;
 //	}
-	
-	public abstract int getAttackSpeed(int pLevel);
 	
 	//Should be implemented so it takes the level of the tower as argument and sets the image 
 	//to the drawable that corresponds to that level.
@@ -226,13 +220,6 @@ public abstract class Tower extends Unit {
 	public int getRange() {
     	return mRange;
     }
-	
-	public int getRange(int pLevel) {
-		if (pLevel >= 1)
-			return sRange[pLevel-1];
-		else
-			return -1;
-    }
       
     /**
      * returns amount of money you get when you sell this tower
@@ -249,13 +236,6 @@ public abstract class Tower extends Unit {
 
 	public int getDamage() {
 		return mDamage;
-	}
-	
-	public int getDamage(int pLevel){
-		if (pLevel >= 1)
-			return sDamage[pLevel-1];
-		else
-			return -1;
 	}
 
 	public int getCost() {
