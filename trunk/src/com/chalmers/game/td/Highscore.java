@@ -32,8 +32,8 @@ public class Highscore {
 		return mCurrentTrackScore;
 	}
 	
-	public void setCurrentTrackScore(double pScore) {
-		mCurrentTrackScore +=  pScore;
+	private void setCurrentTrackScore(double pScore) {
+		mCurrentTrackScore =  pScore;
 	}
 	
 	public void saveScore() {
@@ -48,7 +48,7 @@ public class Highscore {
 			
 			for(int i = 0; i < mTrackScore.length; ++i) {
 				
-				mWriter.write("Track: " + i + "\n Score: " + mTrackScore[i] + "\n");
+				mWriter.write("Track: " + String.valueOf(i+1) + "\n Score: " + String.valueOf((int)mTrackScore[i]) + "\n");
 				Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
 			
 			}
@@ -118,6 +118,8 @@ public class Highscore {
 			
 			mFile = new File(Environment.getExternalStorageDirectory() + "/tddata.txt");
 			mFileIS = new FileInputStream(mFile);
+			
+			// TODO get food, and THEEEEEN read from file...
 			
 		// If the file is not found, create it
 		} catch(FileNotFoundException fnf) {

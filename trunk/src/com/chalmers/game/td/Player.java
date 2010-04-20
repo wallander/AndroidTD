@@ -74,6 +74,6 @@ public class Player {
 	}
 
 	public double getCurrentTrackScore() {
-		return mCurrentTrackScore;
+		return mScore.getCurrentTrackScore();
 	}
 }
