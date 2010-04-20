@@ -32,7 +32,7 @@ public class SplashTower extends Tower {
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Eskimo");
-		setDescription("Trows snowballs damaging multiple targets");
+		setDescription("Throws snowballs damaging multiple targets");
 		resetCoolDown();
 		setCost(100);
 

@@ -80,7 +80,6 @@ public class SlowTower extends Tower {
     	}
 	}
 	
-	
     /**
      * returns the current upgrade cost
      */

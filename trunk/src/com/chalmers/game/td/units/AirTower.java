@@ -13,6 +13,11 @@ import com.chalmers.game.td.units.Mob.MobType;
 
 public class AirTower extends Tower {
 
+	public static final int[] sCoolDown = new int[]{30,30,30,30};
+	public static final int[] sDamage = new int[]{25,35,50,80};
+	public static final int[] sRange = new int[]{60,70,70,80};
+	
+
 	
 	public AirTower(int mX, int mY) {
 		super(mX, mY);
@@ -68,7 +73,7 @@ public class AirTower extends Tower {
 		else
 			return null;
 	}
-	
+
 	public boolean upgrade() {
     	//TODO change values
     	if (!canUpgrade())					//return false if tower can't be upgraded
