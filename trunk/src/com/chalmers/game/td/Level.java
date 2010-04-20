@@ -14,6 +14,8 @@ import com.chalmers.game.td.units.Mob;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
+
+//TODO används den här klassen överhuvudtaget?
 public class Level {
 	
 	private Bitmap 		mMap;

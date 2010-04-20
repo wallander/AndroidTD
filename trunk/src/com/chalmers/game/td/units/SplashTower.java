@@ -26,11 +26,13 @@ public class SplashTower extends Tower {
 	public static final int[] sRange = new int[]{60,70,70,80};
 	public static final int[] sSplash = new int[]{2,3,4,5};
 	public static final int[] sSplashRadius = new int[]{50,60,80,90};
+	
+	public static final int[] sUpgradeCost = new int[]{150,330,800};
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Eskimo");
-		setDescription("Trows snowballs damaging multiple targets");
+		setDescription("Throws snowballs damaging multiple targets");
 		resetCoolDown();
 		setCost(100);
 
@@ -68,19 +70,20 @@ public class SplashTower extends Tower {
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
-    		setLevel(getLevel()+1);			//increment tower level by one
-    		setImageByLevel(getLevel());	//set image according to the new level
+    		int newLvl = getLevel()+1;
     		
-    		setCoolDown(sCoolDown[getLevel()-1]);
-			setDamage(sDamage[getLevel()-1]);
-			setRange(sRange[getLevel()-1]);
-			setSplash(sSplash[getLevel()-1]);
-			setSplashRadius(sSplashRadius[getLevel()-1]);
+    		setLevel(newLvl);			//increment tower level by one
+    		setImageByLevel(newLvl);	//set image according to the new level
+    		
+    		setCoolDown(sCoolDown[newLvl-1]);
+			setDamage(sDamage[newLvl-1]);
+			setRange(sRange[newLvl-1]);
+			setSplash(sSplash[newLvl-1]);
+			setSplashRadius(sSplashRadius[newLvl-1]);
 
 	    	return true;
     	}
-	}
-				
+	}		
     
     /**
      * Sets the splash effect (int 1-5) for the tower
@@ -107,16 +110,9 @@ public class SplashTower extends Tower {
     	return mSplash;
     }
 
-    
+    //returns the cost to level from current level to current level +1
 	public int getUpgradeCost() {
-
-		switch(getLevel()) {
-		case 1: return 150;
-		case 2: return 330;
-		case 3: return 800;
-		}
-		return 0; 	//default, not gonna happen
+		return sUpgradeCost[getLevel()-1];
 	}
-
 
 }
