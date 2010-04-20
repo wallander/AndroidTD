@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class MenuOptions extends Activity {
     /** Called when the activity is first created. */
@@ -30,6 +34,29 @@ public class MenuOptions extends Activity {
         		finish();
         	}
         });
+        
+        CheckBox toggleMusic = (CheckBox)findViewById(R.id.MusicCheckBox);
+        toggleMusic.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				GameModel.setMusicEnabled(isChecked);
+			}
+		});
+        
+        toggleMusic.setChecked(GameModel.sMusicEnabled);
+        toggleMusic.setText("Toggle Music");
+        
+        CheckBox toggleCheat = (CheckBox)findViewById(R.id.CheatCheckBox);
+        toggleCheat.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				GameModel.setCheatEnabled(isChecked);
+			}
+		});
+        
+        toggleCheat.setChecked(GameModel.sCheatEnabled);
+        toggleCheat.setText("Toggle Infinite Snowballs");
+        
     }
     
 }

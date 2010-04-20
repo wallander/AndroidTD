@@ -6,7 +6,9 @@ import com.chalmers.game.td.R;
 
 public class BasicTower extends Tower {
 
-	
+	public static final int[] sDamage = new int[]{6,16,40,120};
+	public static final int[] sCoolDown = new int[]{20,20,20,20};
+	public static final int[] sRange = new int[]{100,105,110,120};
 	
 	public BasicTower(int pX, int pY) {
 		super(pX, pY);
@@ -16,7 +18,6 @@ public class BasicTower extends Tower {
     	setDescription("Throws spears with good range and speed");
     	setDamage(7);
 	}
-	
 	
 	public void setImageByLevel(int pLevel) {
 		
@@ -33,42 +34,16 @@ public class BasicTower extends Tower {
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
+    		
     		setLevel(getLevel()+1);			//increment tower level by one
     		setImageByLevel(getLevel());	//set image according to the new level
     		
-    		switch (getLevel()){			//set damage and range according to the new level
-    		case 1:
-    	    	setDamage(6);			//default
-    	    	setCoolDown(20);
-    			setRange(100);
-    		case 2:
-    			setDamage(16);
-        		setRange(105);
-        		break;
-    		case 3:
-    			setDamage(40);
-        		setRange(110);
-        		break;
-    		case 4:
-    			setDamage(120);
-        		setRange(120);
-        		break;
-    		}
-    		
-    		//Old values, kept for reference
-//    		switch (getLevel()){			//set damage and range according to the new level
-//    		case 2:
-//    			setDamage(16);
-//        		setRange(110);
-//    		case 3:
-//    			setDamage(40);
-//        		setRange(125);
-//    		case 4:
-//    			setDamage(120);
-//        		setRange(140);
-//    		}
+    		setDamage(sDamage[getLevel()-1]);
+    		setCoolDown(sCoolDown[getLevel()-1]);
+    		setRange(sRange[getLevel()-1]);
+
+        	return true;
     	}
-    	return true;
 	}
 
 	public Projectile createProjectile(Mob pTarget) {
