@@ -10,7 +10,7 @@ android:id="@+id/StartGame"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:background="@drawable/startgame_button"
-android:layout_marginLeft="160pt" android:layout_marginTop="120pt">
+android:layout_marginLeft="2px" android:layout_marginTop="2px">
 </Button>
 
 <CheckBox 
