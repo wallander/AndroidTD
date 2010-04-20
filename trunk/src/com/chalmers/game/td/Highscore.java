@@ -60,8 +60,8 @@ public class Highscore {
 		if(mTrackScore[GameModel.getTrack() - 1] < mCurrentTrackScore) {
 			
 			mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
-					
-			// TODO write to file below...
+			mSavedScore.put(new Integer(GameModel.getTrack()), new Integer((int)mCurrentTrackScore));
+
 			try {
 				
 				mWriter = getWriter();
@@ -69,7 +69,7 @@ public class Highscore {
 				for(int i = 0; i < mTrackScore.length; ++i) {
 									
 					mWriter.write("Track " + String.valueOf(i+1) + "\n Score " + String.valueOf((int)mTrackScore[i]) + "\n");
-					Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
+					Log.v("HIGHSCORE.saveScore", "Wrote to file:" + "Score " + String.valueOf((int)mTrackScore[i]));
 				
 				}
 				

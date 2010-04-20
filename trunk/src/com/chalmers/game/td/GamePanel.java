@@ -183,16 +183,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	public void updateSounds() {
 		switch (GAME_STATE) {
 		case STATE_RUNNING:
-			if (GameModel.sMusicEnabled) {
-				if (fastf) {
-					pauseMusic(mainMusic);
-					playMusic(fastMusic);
-				} else {
-					pauseMusic(fastMusic);
-					playMusic(mainMusic);
+			
+			try {
+				if (GameModel.sMusicEnabled) {
+					if (fastf) {
+						pauseMusic(mainMusic);
+						playMusic(fastMusic);
+					} else {
+						pauseMusic(fastMusic);
+						playMusic(mainMusic);
+					}
 				}
+			} catch (IllegalStateException ise) {
+				loadSound(getContext());
 			}
-		break;
+			break;
 		default:
 			pauseMusic(fastMusic);
 			pauseMusic(mainMusic);
@@ -675,7 +680,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_UP:
 					
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
-						//NEXT LEVEL TODO!
+						// TODO restart with new level
+						if (GameModel.getTrack() < 5) {
+							startTrack(GameModel.getTrack()+1);												
+							GAME_STATE = STATE_RUNNING;
+							mMobFactory.resetWaveNr(); // Resets the wave counter
+						}
+							
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						startTrack(GameModel.getTrack());												
