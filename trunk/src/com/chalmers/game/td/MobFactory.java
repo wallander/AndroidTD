@@ -247,9 +247,9 @@ public class MobFactory {
 					
 					mHealth = Integer.parseInt(mMobInfo[2]);
 					
-					if(i == GameModel.getTrack() - 1) {
+					//if(i == GameModel.getTrack() - 1) {
 						mMobTypeList.add(mMobInfo[0]);
-					}
+					//}
 					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 						// k == nr of mobs
