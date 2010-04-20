@@ -106,10 +106,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final RectF sBtn3 = new RectF(420,15+120,475,65+120);
 	private static final RectF sBtn4 = new RectF(420,15+180,475,65+180);
 	private static final RectF sBtn5 = new RectF(420,15+240,475,65+240);
-	private static final RectF sBtnPause = new RectF(10,10,50,30);
-	private static final RectF sBtnPlay = new RectF(10,50,90,30);
-	private static final String sBtnPauseLabel = "PAUSE";
-	private static final RectF sBtnResume = new RectF(140, 90, 200, 120);
+//	private static final RectF sBtnPause = new RectF(10,10,50,30);
+//	private static final RectF sBtnPlay = new RectF(10,50,90,30);
+//	private static final String sBtnPauseLabel = "PAUSE";
+//	private static final RectF sBtnResume = new RectF(140, 90, 200, 120);
 	private static final RectF sBtnRestart = new RectF(140, 90+45, 200, 120+45);
 	private static final RectF sBtnPauseExit = new RectF(140, 90+90, 200, 120+90);
 
@@ -147,18 +147,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean mAccelerometerSupported;
 	private boolean mShowTooltip;
 	private boolean mAllowBuild;
-
-
+	
 	private Tower mTower1 = new BasicTower(0,0);
 	private Tower mTower2 = new SplashTower(0,0);
 	private Tower mTower3 = new SlowTower(0,0);
 	private Tower mTower4 = new AirTower(0,0);
 	
 	private Snowball mSnowball = new Snowball(0,0);
+	private static final int mSnowballTreshold = 1500;
+	private int mUsedSnowballs;
+	
 	private AudioManager mAudioManager;
-
-
 	private static SoundPool sounds;
+	
 	private static int explosionSound;
 	private static MediaPlayer fastMusic,mainMusic;
 	private static boolean soundEnabled = false;
@@ -320,6 +321,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 	};
+	
 
 	/**
 	 * Fill the bitmap cache.
@@ -386,7 +388,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.menutop, BitmapFactory.decodeResource(getResources(), R.drawable.menutop));
 		mBitMapCache.put(R.drawable.menumid, BitmapFactory.decodeResource(getResources(), R.drawable.menumid));
 		mBitMapCache.put(R.drawable.menubot, BitmapFactory.decodeResource(getResources(), R.drawable.menubot));
-
+		mBitMapCache.put(R.drawable.menutop2, BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
+		mBitMapCache.put(R.drawable.menumid2, BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
+		mBitMapCache.put(R.drawable.menubot2, BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
 	}
 
 	/**
@@ -532,27 +536,46 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							//button 5
 						} else if(sBtn5.contains(event.getX(),event.getY())) {
 
-							if (mAccelerometerSupported)
+							if (mAccelerometerSupported) {
+								
+								if (GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs)) {
+									mAllowBuild = true;
+								}
 								mCurrentSnowball = new Snowball(mTx,mTy);
-						
-
+								mShowTooltip = true;
+							}
 						} 
 					}
 
 					break;
 				case MotionEvent.ACTION_MOVE:
-
+					
+					mShowTooltip =  event.getX() > 410;
+					
+					// if a tower is being bought
 					if(mCurrentTower != null){
-						mShowTooltip = sBtnGroup.contains(event.getX(),event.getY()) || mTx > 410;
-						if(!mShowTooltip && !mAllowBuild) {
-							mCurrentTower = null;
+						
+						// if building isn't allowed,
+						if(!mAllowBuild) {
+							// remove current tower
+//							mCurrentTower = null;
 						} else  {
+							// else update positions
 							mCurrentTower.setX(mTx);
 							mCurrentTower.setY(mTy);
 						}
+						
 					} else if (mCurrentSnowball != null) {
-						mCurrentSnowball.setX(mTx);
-						mCurrentSnowball.setY(mTy);
+						
+						// if building isn't allowed,
+						if(!mAllowBuild) {
+							// remove current snowball
+//							mCurrentSnowball = null;
+						} else  {
+							// else update positions
+							mCurrentSnowball.setX(mTx);
+							mCurrentSnowball.setY(mTy);
+						}
 					}
 					break;
 
@@ -560,7 +583,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) &&!sBtnGroup.contains(event.getX(), event.getY()) && mAllowBuild && mTx < 410) {
+						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && mTx < 410) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
@@ -574,8 +597,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
-						GameModel.mSnowballs.add(mCurrentSnowball);
-						GameModel.currentPlayer.setMoney(0); // TODO
+						if (mAllowBuild && mTx < 410) {
+							GameModel.mSnowballs.add(mCurrentSnowball);
+							mUsedSnowballs++;
+						}
 						mCurrentSnowball = null;
 					}
 					//GamePanel.setSpeedMultiplier(1);
@@ -587,19 +612,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 
-					if(sBtnRestart.contains(event.getX(), event.getY())){
+
+					break;
+				case MotionEvent.ACTION_MOVE:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						menuPic = 1;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						menuPic = 2;
+					} else {
+						menuPic = 0;
+					}
+					
+					break;
+				case MotionEvent.ACTION_UP:
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						startTrack(GameModel.getTrack());						
 						GAME_STATE = STATE_RUNNING;		
 						mMobFactory.resetWaveNr(); // Resets the wave counter 
 					}
-					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
-					break;
-				case MotionEvent.ACTION_MOVE:
-					break;
-				case MotionEvent.ACTION_UP:
+					menuPic = 0;
 					break;
 				}
 				break;
@@ -609,31 +646,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				
 				case MotionEvent.ACTION_DOWN:
 
-					if(sBtnRestart.contains(event.getX(), event.getY())){
-						startTrack(GameModel.getTrack());												
-						GAME_STATE = STATE_RUNNING;
-						mMobFactory.resetWaveNr(); // Resets the wave counter
-					}
-					else if(sBtnPauseExit.contains(event.getX(), event.getY())){
-						// close the parent activity (go to main menu)
-						((Activity) getContext()).finish();
-					}
+
 					break;
 				case MotionEvent.ACTION_MOVE:
-					break;
-				case MotionEvent.ACTION_UP:
-					break;
-				}
-				break;
-
-			case STATE_PAUSED:
-				//TODO handle input when in "PAUSE" state
-				//two buttons? "New Game" and "exit" maybe? yes? no? yes?
-	
-
-				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-
+					
 					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						menuPic = 1;
 					}
@@ -647,7 +663,51 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					}
 					
 					break;
+				case MotionEvent.ACTION_UP:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						//NEXT LEVEL TODO!
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						startTrack(GameModel.getTrack());												
+						GAME_STATE = STATE_RUNNING;
+						mMobFactory.resetWaveNr(); // Resets the wave counter
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						// close the parent activity (go to main menu)
+						((Activity) getContext()).finish();
+					}
+
+					menuPic = 0;
+					
+					break;
+				}
+				break;
+
+			case STATE_PAUSED:
+				//TODO handle input when in "PAUSE" state
+				//two buttons? "New Game" and "exit" maybe? yes? no? yes?
+	
+
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+
+
+					
+					break;
 				case MotionEvent.ACTION_MOVE:
+					
+					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						menuPic = 1;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						menuPic = 2;
+					}
+					else if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						menuPic = 3;
+					} else {
+						menuPic = 0;
+					}
 					break;
 				case MotionEvent.ACTION_UP:
 					if(event.getX() >= 100 && event.getX() <= 244 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
@@ -662,6 +722,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// close the parent activity (go to main menu)
 						((Activity) getContext()).finish();
 					}
+					menuPic = 0;
 					break;
 				}
 				break;
@@ -886,19 +947,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		case STATE_RUNNING:
 			// if a tower is being bought
 			// draw either the tooltip for it, or how it would be placed.
-			if (mCurrentTower != null) {
+			if (mCurrentTower != null || mCurrentSnowball != null) {
 				if (mShowTooltip)
 					drawTooltip(canvas);
-				else
+				else if (mCurrentTower != null && mAllowBuild)
 					drawCurrentTower(canvas);
-			}
-
-			// draw current snowball
-			if (mCurrentSnowball != null) {
-				canvas.drawCircle(
-						(int)mCurrentSnowball.getX(),
-						(int)mCurrentSnowball.getY(),
-						10 + mCurrentSnowball.getCharges(),snowPaint);
+				else if (mCurrentSnowball != null && mAllowBuild) {
+					canvas.drawCircle(
+							(int)mCurrentSnowball.getX(),
+							(int)mCurrentSnowball.getY(),
+							10 + mCurrentSnowball.getCharges(),snowPaint);
+				}
 			}
 
 			// if a tower is selected for upgrades and such and such
@@ -907,34 +966,86 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			break;
 
-		case STATE_GAMEOVER: // loser screen
-			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			canvas.drawText("YOU LOSE! SUCKER!",100,80 ,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnRestart,5,5,mBtnPaint);
-			canvas.drawText("restart",155,95+45,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
-			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
+		case STATE_GAMEOVER: // loser screen TODO make it look good
+			
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
+			
+			if(menuPic == 1){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36,null);				
+			} else if(menuPic == 2){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36,null);	
+			} else {
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36,null);	
+			}
+			
+			canvas.drawText("Try again!", 171,80+20+2,sPaintTextBlack);
+			canvas.drawText("Restart",181,80+34+20+2,sPaintTextBlack);
+			canvas.drawText("Exit",181,80+34+36+20+2,sPaintTextBlack);
+			
+			canvas.drawText("Try again!", 170,80+20,sPaintTextWhite);
+			canvas.drawText("Restart",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Exit",180,80+34+36+20,sPaintTextWhite);
+			
 			break;
 
-		case STATE_WIN: // winner screen
-			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			canvas.drawText("YOU ARE WINRAR!",100,80,sPaintBoxText);
+		case STATE_WIN: // winner screen TODO make it look good
+			
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
+			if(menuPic == 1){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);				
+			} else if(menuPic == 2){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}  else if(menuPic == 3){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36,null);	
+			} else {
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}
 
-			canvas.drawRoundRect(sBtnRestart,5,5,mBtnPaint);
-			canvas.drawText("restart",155,95+45,sPaintBoxText);
 
-			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
-			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
+			canvas.drawText("Level complete!", 156,80+20+2,sPaintTextBlack);
+			canvas.drawText("Next",181,80+34+20+2,sPaintTextBlack);
+			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
+			canvas.drawText("Exit", 181, 80+34+36+36+20+2, sPaintTextBlack);
+			
+			canvas.drawText("Level complete!", 155,80+20,sPaintTextWhite);
+			canvas.drawText("Next",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
+			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
+			
 			break;
 
 		case STATE_PAUSED: // pause screen
 			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);
+			if(menuPic == 1){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);				
+			} else if(menuPic == 2){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}  else if(menuPic == 3){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36,null);	
+			} else {
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}
+
 
 			canvas.drawText("GAME PAUSED!", 156,80+20+2,sPaintTextBlack);
 			canvas.drawText("Resume",181,80+34+20+2,sPaintTextBlack);
@@ -947,21 +1058,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
 			
 
-	
-			
-			/*
-			canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-			canvas.drawText("GAME PAUSED!",100,80,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnResume,5,5,mBtnPaint);
-			canvas.drawText("resume",155,95,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnRestart,5,5,mBtnPaint);
-			canvas.drawText("restart",155,95+45,sPaintBoxText);
-
-			canvas.drawRoundRect(sBtnPauseExit,5,5,mBtnPaint);
-			canvas.drawText("exit", 155, 95+90, sPaintBoxText);
-			 */
 			break;
 		}
 	}
@@ -1005,8 +1101,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("" + (int)GameModel.currentPlayer.getMoney(), 105, 20, sPaintText);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 160, 3, null);
 		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
-		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText); //TODO: Count the wave
-		canvas.drawText("Score: " + (int)GameModel.currentPlayer.getCurrentTrackScore(), 290, 20, sPaintText); //TODO: Count score
+		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText);
+		canvas.drawText("Score: " + (int)GameModel.currentPlayer.getCurrentTrackScore(), 290, 20, sPaintText);
 		
 		int mWaveTime = mMobFactory.getWaveTime(); 
 		
@@ -1126,15 +1222,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw tooltip for the current tower
 		canvas.drawRoundRect(sTransparentBox,10,10, sPaintTransparentBox);
 
-		canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80,null);
 
-		canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
-		canvas.drawText(""+mCurrentTower.getDescription(), 160, 117, sPaintBoxText);
-		canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
-		canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
-		canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
+		// if a tower is being bought
+		if (mCurrentTower != null) {
+			canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80,null);
+			canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
+			canvas.drawText(""+mCurrentTower.getDescription(), 160, 117, sPaintBoxText);
+			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
+			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
+			canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
+			canvas.drawText("Drag to buy this tower!", 100, 210, sPaintBoxText);
+		} else {
+		// if a snowball is being bought
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball), 100, 80,null);
+			canvas.drawText("Snowball", 160, 90, boxTextPaintTitle);
+			canvas.drawText("Run over your enemies!", 160, 117, sPaintBoxText);
+			canvas.drawText("Control the snowball by", 160, 139, sPaintBoxText);
+			canvas.drawText("  tilting your phone!", 160, 161, sPaintBoxText);
+//			canvas.drawText("", 160, 183, sPaintBoxText);
+			canvas.drawText("Available every "+ mSnowballTreshold+" scorepoints.", 100, 210, sPaintBoxText);
+			
+			
+			
+		}
 		
-		canvas.drawText("Drag to buy this tower!", 100, 210, sPaintBoxText);
+		
 	}
 
 	private void drawButtons(Canvas canvas) {
@@ -1192,26 +1304,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower1),432,205,paintalfa);
 
-		if(mSnowball.getCost() >= GameModel.currentPlayer.getMoney()) {
-			paintalfa.setAlpha(100);
-		} else {
+		if(GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs)) {
 			paintalfa.setAlpha(255);
+		} else {
+			paintalfa.setAlpha(100);
 		}
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball),432,265,paintalfa);
 
 
-		
-		
-		//canvas.drawLine(432, 270, 442, 280, sPaintLine);
-		//canvas.drawLine(442, 280, 432, 290, sPaintLine);
-
-		//canvas.drawLine(447, 270, 457, 280, sPaintLine);
-		//canvas.drawLine(457, 280, 447, 290, sPaintLine);
-
-		//		canvas.drawBitmap(mBitMapCache.get(R.drawable.penguinmob), 437,270,null);
-
 	}
 
+	/**
+	 * Draws all projectiles currently on the gamefield
+	 * @param canvas
+	 */
 	private void drawProjectiles(Canvas canvas) {
 		// draw all projectiles
 		for (int i = 0; i < GameModel.mProjectiles.size(); i++) {
@@ -1229,6 +1335,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	/**
+	 * Draws any active towers on the gamefield
+	 * @param canvas
+	 */
 	private void drawTowers(Canvas canvas) {
 		// draw all towers
 		for (int i = 0; i < GameModel.mTowers.size(); i++) {
@@ -1237,6 +1347,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	/**
+	 * Draws any active snowballs currently on the gamefield
+	 * @param canvas
+	 */
 	private void drawSnowballs(Canvas canvas) {
 		// draw snowballs
 		for (int i = 0; i < GameModel.mSnowballs.size(); i++) {
@@ -1247,20 +1361,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	/**
+	 * Draws all active mobs on the gamefield
+	 * @param canvas
+	 */
 	private void drawMobs(Canvas canvas) {
-		// draw all mobs
+		// for all mobs
 		for (int i = GameModel.mMobs.size()-1; i >= 0; i--) {
 			Mob m = GameModel.mMobs.get(i);
 
-			
+			// get the mob's image
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
 			Matrix matrix = new Matrix();
+			
+			// if the mob is of type HEALTHY,
 			if (m.getType() == MobType.HEALTHY) {
 				
-				int mMultiplier;
-				mMultiplier = 3;
+				int mMultiplier = 3;
 
-				// rotate the Bitmap ackording to animation frame
+				// rotate the Bitmap according to animation frame
 				switch(m.nextAnimation(12)) {
 					case 0: matrix.postRotate((float) (0)); break;
 					case 1: matrix.postRotate((float) (1*mMultiplier)); break;
@@ -1275,12 +1394,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					case 10: matrix.postRotate((float) (-2*mMultiplier)); break;
 					case 11: matrix.postRotate((float) (-1*mMultiplier)); break;
 				}
-
- 
 			}
-			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0, mobImage.getWidth(), mobImage.getHeight(), matrix, true);
 			
+			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0,
+					mobImage.getWidth(), mobImage.getHeight(), matrix, true);
 
+			// create offsets for AIR type mobs. they fly higher than other animals
 			int mOffset,mOffset2;
 			if(m.getType() == Mob.MobType.AIR) {
 				mOffset = 25;
@@ -1318,7 +1437,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	/**
 	 * Draws the background map and such.
 	 * 
-	 * TODO: add maps for other tracks
+	 * Uses different background images depending on what track is played
 	 * 
 	 * @param canvas
 	 */
@@ -1339,15 +1458,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.map4), 0 , 0, null); break;
 			
 		case 5: //track 5
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.map5), 0 , 0, null); break;
-		 
-		
-		
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map5), 0 , 0, null); break;		
 		}
+		
 		//draw the "end-point-base"
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.basee),403,0,null);
 	}
 	
+	/**
+	 * Draws the rewards that are showed when mobs die.
+	 * @param canvas
+	 */
 	private void drawRewardsAfterDeadMob(Canvas canvas){
 		for (int i = 0; i < GameModel.mShowRewardForMob.size(); i++) {
 			canvas.drawText("" +GameModel.mShowRewardForMob.get(i).getReward(),
