@@ -1129,9 +1129,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 160, sPaintBoxText);
 		
 		if (mSelectedTower.getType() == Tower.SLOW)
-			canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 160, sPaintBoxText);
+			canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 176, sPaintBoxText);
 		else if (mSelectedTower.getType() == Tower.SPLASH)
-			canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 160, sPaintBoxText);
+			canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 176, sPaintBoxText);
 
 		if(mSelectedTower.canUpgrade()) {
 			//find values for next level of depending on tower type
@@ -1160,18 +1160,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 225, 128, p);
 				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 225, 144, p);
 				canvas.drawText(" -> " + SlowTower.sRange[lvl], 225, 160, p);
-				canvas.drawText(" -> " + SlowTower.sSlow[lvl], 225, 171, p);
+				canvas.drawText(" -> " + SlowTower.sSlow[lvl], 225, 176, p);
 				break;
 			case Tower.SPLASH:
 				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 225, 128, p);
 				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 225, 144, p);
 				canvas.drawText(" -> " + SplashTower.sRange[lvl], 225, 160, p);
-				canvas.drawText(" -> " + SplashTower.sSplash[lvl], 225, 171, p);
+				canvas.drawText(" -> " + SplashTower.sSplash[lvl], 225, 176, p);
 				break;
 			}
 		}
 		
-		//Adds sell button TODO add sell price
+		//Adds sell button. TODO add sell price
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
 		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
 
@@ -1251,14 +1251,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// if a tower is being bought
 		if (mCurrentTower != null) {
 			canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80, null);
-			canvas.drawText(mCurrentTower.getName(), 160, 90, boxTextPaintTitle);
-			//TODO uncomment again and fix position
-			//canvas.drawText("" + mCurrentTower.getDescription(), 160, 117, sPaintBoxText);
-			canvas.drawText("Attack speed: " + mCurrentTower.getAttackSpeed(), 160, 117, sPaintBoxText);
-			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 139, sPaintBoxText);
-			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 161, sPaintBoxText);
-			canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 183, sPaintBoxText);
-			canvas.drawText("Drag to buy this tower!", 100, 210, sPaintBoxText);
+			canvas.drawText(mCurrentTower.getName(), 160, 89, boxTextPaintTitle);
+			
+			canvas.drawText("Speed: " + mCurrentTower.getAttackSpeed(), 160, 110, sPaintBoxText);
+			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 130, sPaintBoxText);
+			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 150, sPaintBoxText);
+			canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 170, sPaintBoxText);
+			
+			if (mCurrentTower.getType() == Tower.SLOW)
+				canvas.drawText("Slow: " + mCurrentTower.getSlow(), 160, 190, sPaintBoxText);
+			else if (mCurrentTower.getType() == Tower.SPLASH)
+				canvas.drawText("Splash: " + mCurrentTower.getSplash(), 160, 190, sPaintBoxText);
+
+			canvas.drawText(mCurrentTower.getDescription(), 100, 210, sPaintBoxText);
+			canvas.drawText("Drag to buy this tower!", 100, 230, sPaintBoxText);
 		} else {
 		// if a snowball is being bought
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball), 100, 80,null);

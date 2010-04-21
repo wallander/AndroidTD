@@ -367,31 +367,31 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 //		}
 		
 		// draw buttons that shows the players progress
-		if (GameModel.currentPlayer.getTrackScore(1) == 0) {
+		if (GameModel.currentPlayer.getTrackScore(1) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(2) == 0) {
+		} else if (GameModel.currentPlayer.getTrackScore(2) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(3) == 0) {
+		} else if (GameModel.currentPlayer.getTrackScore(3) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(4) == 0) {
+		} else if (GameModel.currentPlayer.getTrackScore(4) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(5) == 0) {
+		} else if (GameModel.currentPlayer.getTrackScore(5) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
@@ -460,12 +460,16 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 
 				
 				canvas.drawText(trackName, 166,80+20+2,sPaintTextBlack);
-				canvas.drawText("Highscore: " + Highscore.getInstance().getTrackScore(1),171,80+34+20+2,sPaintTextBlack);
+
+				canvas.drawText("Highscore: " + (int)Highscore.getInstance().getTrackScore(trackPic),
+						171,80+34+20+2,sPaintTextBlack);
+
 				canvas.drawText("Start Level",171,80+34+36+20+2,sPaintTextBlack);
 				canvas.drawText("Cancel", 171, 80+34+36+36+20+2, sPaintTextBlack);
 				
 				canvas.drawText(trackName, 165,80+20,sPaintTextWhite);
-				canvas.drawText("Highscore: 0",170,80+34+20,sPaintTextWhite);
+				canvas.drawText("Highscore: " + (int)Highscore.getInstance().getTrackScore(trackPic),
+						170,80+34+20,sPaintTextWhite);
 				canvas.drawText("Start Level",170,80+34+36+20,sPaintTextWhite);
 				canvas.drawText("Cancel", 170, 80+34+36+36+20, sPaintTextWhite);
 
