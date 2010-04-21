@@ -14,6 +14,8 @@ public class SlowTower extends Tower {
 	public static final int[] sCoolDown = new int[]{30,30,30,25};
 	public static final int[] sDamage = new int[]{15,20,25,30};
 	public static final int[] sRange = new int[]{60,75,75,75};
+	
+	//Slow is given in percent. If a mob is slowed by 30% it's new speed is 70% of original speed. 
 	public static final int[] sSlow = new int[]{30,40,50,60};
 	
 	public static final int[] sUpgradeCost = new int[]{200,200,200};
@@ -55,7 +57,7 @@ public class SlowTower extends Tower {
      */
 	@Override
 	public Projectile createProjectile(Mob pTarget) {
-    	return new SlowProjectile(pTarget, this);
+    	return new SlowProjectile(pTarget, this, 1-(mSlow/100.0));
     }
 
 	@Override

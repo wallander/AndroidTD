@@ -99,7 +99,7 @@ public abstract class Projectile extends Unit{
 		//return true if the projectile has collided, else return false
 		if (sqrDist < GamePanel.getSpeedMultiplier()*getSpeed())
 			return true;
-		return false;
+		return false;	
 	}
     
     /**
