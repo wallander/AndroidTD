@@ -104,7 +104,6 @@ public class Highscore {
 	
 	public double getTrackScore(int pTrack) {
 		return mSavedScore.get(pTrack-1);
-//		return 1.0;
 	}
 	
 	public double getTotalScore() {
@@ -158,6 +157,12 @@ public class Highscore {
 		mCurrentTrackScore = 0;	
 		mSavedScore = new ArrayList<Double>();
 		
+		mSavedScore.add(0,0.0);
+		mSavedScore.add(1,0.0);
+		mSavedScore.add(2,0.0);
+		mSavedScore.add(3,0.0);
+		mSavedScore.add(4,0.0);
+		
 		// At first try to load data.score		
 		try {
 		
@@ -187,13 +192,11 @@ public class Highscore {
 					} else if(input[1].equals("Score")) {
 						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[2]));
 													
-						mSavedScore.add(Double.parseDouble(String.valueOf(input[2])));
+						mSavedScore.add(track,Double.parseDouble(String.valueOf(input[2])));
 						
 					}
 				}
-				Log.v("Highscore.constructor","mSavedScore.size() = " + mSavedScore.size());
 
-				
 			} catch (IOException e) {
 				
 				Log.v("Highscore.constructor", "IOEXCEPTION!!" + e.getMessage());
@@ -210,6 +213,11 @@ public class Highscore {
 				
 				mWriter = getWriter();
 				mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
+				mWriter.write("Track 1\n Score 0.0\n");
+				mWriter.write("Track 2\n Score 0.0\n");
+				mWriter.write("Track 3\n Score 0.0\n");
+				mWriter.write("Track 4\n Score 0.0\n");
+				mWriter.write("Track 5\n Score 0.0\n");
 				mWriter.close();
 				
 				Log.v("HIGHSCORE CONSTRUCTOR", "File created.");
