@@ -148,8 +148,12 @@ public class Highscore {
 		return mWriter;		
 	}
 	
-	public Highscore() {
-					
+	private Highscore() {
+		initiateHighscore();
+	
+	}
+	
+	private void initiateHighscore() {
 		mCurrentTrackScore = 0;	
 		mSavedScore = new HashMap<Integer, Integer>();
 		
@@ -214,6 +218,14 @@ public class Highscore {
 				Log.v("HIGHSCORE CONSTRUCTOR", "Creating file failed.");
 			}
 		}
+	}
+	
+	/**
+	 * Removes the "tddata.txt"-file from the SD-card, reseting the highscores.
+	 */
+	public static void resetHighscore() {
+		new File(Environment.getExternalStorageDirectory() + "/tddata.txt").delete();
+		getInstance().initiateHighscore();
 	}
 	
 	public static Highscore getInstance() {

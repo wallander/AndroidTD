@@ -28,9 +28,12 @@ android:layout_below="@+id/MusicCheckBox"
 android:text="@+id/CheckBox01" android:layout_marginLeft="60pt">
 </CheckBox>
 
-
-
-
-
-<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/CheatCheckBox" android:text="@+id/Button01" android:id="@+id/Button01" android:layout_marginLeft="60pt"></Button>
+<Button 
+android:layout_height="wrap_content" 
+android:layout_width="wrap_content" 
+android:layout_below="@+id/CheatCheckBox" 
+android:text="@+id/Button01" 
+android:id="@+id/resetHighscoreButton" 
+android:layout_marginLeft="60pt">
+</Button>
 </RelativeLayout>
