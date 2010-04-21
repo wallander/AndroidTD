@@ -280,6 +280,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mMobFactory = MobFactory.getInstance(); 
 		mMobFactory.setContext(getContext()); 
 		GameModel.initialize(getContext());
+		GameModel.currentPlayer.setCurrentScore(0);
 		Path.getInstance().setTrackPath(track);
 		fastf = false;
 		setSpeedMultiplier(1);
