@@ -109,6 +109,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	// Paints
 	private static final Paint sPaintBtnBox = new Paint();
 	private static final Paint sPaintBoxText = new Paint();
+	private static final Paint sPaintBoxRed = new Paint();
+	private static final Paint sPaintBoxGreen = new Paint();
 	private static final Paint sPaintLine = new Paint();
 	private static final Paint sPaintTransparentBox = new Paint();
 	private static final Paint sPaintText = new Paint();
@@ -1111,61 +1113,62 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// draw box for the selected tower
 		canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
 
-		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80,null);
-
-		//find values for next level of depending on tower type
-		//TODO fix how it looks when the tower is max upgraded
+		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80, null);
+		
+		//Draw general info
 		int lvl = mSelectedTower.getLevel();
-		int atkSpd = 0;
-		int dmg = 0;
-		int rng = 0;
-		String extra = "";
-		
-		if (mSelectedTower.canUpgrade()){
-			switch (mSelectedTower.getType()) {
-			case Tower.BASIC:
-				atkSpd = 1000/BasicTower.sCoolDown[lvl];
-				dmg = BasicTower.sDamage[lvl];
-				rng = BasicTower.sRange[lvl];
-				break;
-			case Tower.AIR:
-				atkSpd = 1000/AirTower.sCoolDown[lvl];
-				dmg = AirTower.sDamage[lvl];
-				rng = AirTower.sRange[lvl];
-				break;
-			case Tower.SLOW:
-				atkSpd = 1000/SlowTower.sCoolDown[lvl];
-				dmg = SlowTower.sDamage[lvl];
-				rng = SlowTower.sRange[lvl];
-				extra = "Slow: " + mSelectedTower.getSlow() + " -> " + SlowTower.sSlow[lvl];;
-				break;
-			case Tower.SPLASH:
-				atkSpd = 1000/SplashTower.sCoolDown[lvl];
-				dmg = SplashTower.sDamage[lvl];
-				rng = SplashTower.sRange[lvl];
-				extra = "Splash: " + mSelectedTower.getSplash() + " -> " + SplashTower.sSplash[lvl];
-				break;
-			}
-		}
-		//Add text to the upgrade window
-		
 		//name
 		canvas.drawText(mSelectedTower.getName(), 150, 90, boxTextPaintTitle);
 		//level
-		canvas.drawText("Level " + (lvl) + 
-				" -> " + (lvl+1), 140, 112, sPaintBoxText);
+		canvas.drawText("Level " + (lvl), 140, 112, sPaintBoxText);
 		//attack speed
-		canvas.drawText("Attack speed: " + mSelectedTower.getAttackSpeed() + 
-				" -> " + atkSpd, 140, 128, sPaintBoxText);
+		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 140, 128, sPaintBoxText);
 		//damage
-		canvas.drawText("Damage: " + mSelectedTower.getDamage() + 
-				" -> " + dmg, 140, 144, sPaintBoxText);
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 140, 144, sPaintBoxText);
 		//range
-		canvas.drawText("Range: " + mSelectedTower.getRange() +
-				" -> " + rng, 140, 160, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 160, sPaintBoxText);
 		
-		if (extra != ""){
-			canvas.drawText(extra, 176, 171, sPaintBoxText);
+		if (mSelectedTower.getType() == Tower.SLOW)
+			canvas.drawText("Slow: " + mSelectedTower.getSlow(), 140, 160, sPaintBoxText);
+		else if (mSelectedTower.getType() == Tower.SPLASH)
+			canvas.drawText("Splash: " + mSelectedTower.getSplash(), 140, 160, sPaintBoxText);
+
+		if(mSelectedTower.canUpgrade()) {
+			//find values for next level of depending on tower type
+			//TODO fix how it looks when the tower is max upgraded
+			//Draw upgrade info
+			Paint p;
+			if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost())
+				p = sPaintBoxGreen;
+			else
+				p = sPaintBoxRed;
+			
+			canvas.drawText(" -> " + (lvl+1), 225, 112, p);
+
+			switch (mSelectedTower.getType()) {
+			case Tower.BASIC:
+				canvas.drawText(" -> " + 1000/BasicTower.sCoolDown[lvl], 225, 128, p);
+				canvas.drawText(" -> " + BasicTower.sDamage[lvl], 225, 144, p);
+				canvas.drawText(" -> " + BasicTower.sRange[lvl], 225, 160, p);
+				break;
+			case Tower.AIR:
+				canvas.drawText(" -> " + 1000/AirTower.sCoolDown[lvl], 225, 128, p);
+				canvas.drawText(" -> " + AirTower.sDamage[lvl], 225, 144, p);
+				canvas.drawText(" -> " + AirTower.sRange[lvl], 225, 160, p);
+				break;
+			case Tower.SLOW:
+				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 225, 128, p);
+				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 225, 144, p);
+				canvas.drawText(" -> " + SlowTower.sRange[lvl], 225, 160, p);
+				canvas.drawText(" -> " + SlowTower.sSlow[lvl], 225, 171, p);
+				break;
+			case Tower.SPLASH:
+				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 225, 128, p);
+				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 225, 144, p);
+				canvas.drawText(" -> " + SplashTower.sRange[lvl], 225, 160, p);
+				canvas.drawText(" -> " + SplashTower.sSplash[lvl], 225, 171, p);
+				break;
+			}
 		}
 		
 		//Adds sell button TODO add sell price
@@ -1543,6 +1546,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// set text size and color of the text in selected tower box
 		sPaintBoxText.setARGB(255, 255, 255, 255);
 		sPaintBoxText.setTextSize(14);
+		
+		sPaintBoxGreen.setARGB(255, 20, 190, 30);
+		sPaintBoxGreen.setTextSize(14);
+		sPaintBoxRed.setARGB(255, 170, 30, 20);
+		sPaintBoxRed.setTextSize(14);
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
 		boxTextPaintTitle.setTextSize(22);
