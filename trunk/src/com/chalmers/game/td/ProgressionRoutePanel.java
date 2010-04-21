@@ -460,7 +460,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 
 				
 				canvas.drawText(trackName, 166,80+20+2,sPaintTextBlack);
-				canvas.drawText("Highscore: " + Highscore.getInstance().getTrackScore(trackPic),171,80+34+20+2,sPaintTextBlack);
+//				canvas.drawText("Highscore: " + Highscore.getInstance().getTrackScore(1),171,80+34+20+2,sPaintTextBlack);
 				canvas.drawText("Start Level",171,80+34+36+20+2,sPaintTextBlack);
 				canvas.drawText("Cancel", 171, 80+34+36+36+20+2, sPaintTextBlack);
 				
