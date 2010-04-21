@@ -24,6 +24,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private Activity mActivity;
 	private int tooltip = 0;
 	
+	private int trackPic = 0;
+	
 	private final RectF mButtonTrack1 = new RectF(45, 200, 100, 240);
 	
 	public ProgressionRoutePanel(Context context) {
@@ -44,6 +46,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		mBitMapCache.put(R.drawable.progdone, BitmapFactory.decodeResource(getResources(), R.drawable.progdone));
 		mBitMapCache.put(R.drawable.prognotdone, BitmapFactory.decodeResource(getResources(), R.drawable.prognotdone));
 		mBitMapCache.put(R.drawable.prognext, BitmapFactory.decodeResource(getResources(), R.drawable.prognext));
+		mBitMapCache.put(R.drawable.progmapchoose, BitmapFactory.decodeResource(getResources(), R.drawable.progmapchoose));
 
 	}
 	
@@ -56,8 +59,40 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 			case MotionEvent.ACTION_DOWN:
 				tooltip = 0;
 				break;
-			
-				case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_MOVE:
+				
+				if (event.getX() > 35 && event.getX() < 35+80 &&
+						event.getY() > 40 && event.getY() < 40+90) {
+						
+					trackPic = 1;
+					
+				} else if (event.getX() > 30 && event.getX() < 30+110 &&
+						event.getY() > 200 && event.getY() < 200+70) {
+					
+					trackPic = 2;
+					
+				} else if (event.getX() > 205 && event.getX() < 205+115 &&
+						event.getY() > 210 && event.getY() < 210+70) {
+
+					trackPic = 3;
+					
+				} else if (event.getX() > 200 && event.getX() < 200+100 &&
+						event.getY() > 80 && event.getY() < 80+75) {
+					
+					trackPic = 4;
+					
+				} else if (event.getX() > 350 && event.getX() < 100+350 &&
+						event.getY() > 150 && event.getY() < 150+120) {
+
+					trackPic = 5;
+				} else {
+					trackPic = 0;
+				}
+				
+				//-------------------
+				
+				break; 
+			case MotionEvent.ACTION_UP:
 					
 					Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
 										
@@ -80,7 +115,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for second level pressed
 						
-						if (GameModel.currentPlayer.getTrackScore(2) != 0) {
+						// TODO may have missunderstood but i think it should be 1 rather than 2 here...
+						if (GameModel.currentPlayer.getTrackScore(1) != 0) {
 							GameModel.setTrack(2);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
 							thread.setRunning(false);
@@ -97,7 +133,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for third level pressed
 						
-						if (GameModel.currentPlayer.getTrackScore(3) != 0) {
+						if (GameModel.currentPlayer.getTrackScore(2) != 0) {
 							GameModel.setTrack(3);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
 							thread.setRunning(false);
@@ -113,7 +149,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for fourth level pressed
 
-						if (GameModel.currentPlayer.getTrackScore(4) != 0) {
+						if (GameModel.currentPlayer.getTrackScore(3) != 0) {
 							GameModel.setTrack(4);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
 							thread.setRunning(false);
@@ -129,7 +165,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						
 						// Button for fifth level pressed
 						
-						if (GameModel.currentPlayer.getTrackScore(5) != 0) {
+						if (GameModel.currentPlayer.getTrackScore(4) != 0) {
 							GameModel.setTrack(5);
 							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
 							thread.setRunning(false);
@@ -231,6 +267,20 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 420, 140,null);
+		}
+		
+		if(trackPic == 1){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 40, 50,null);
+		} else if(trackPic == 2){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 50, 190,null);
+		} else if(trackPic == 3){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 230, 210,null);
+		} else if(trackPic == 4){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 220, 80,null);
+		} else if(trackPic == 5){
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.progmapchoose), 360, 160,null);
+		} else {
+			
 		}
 
 

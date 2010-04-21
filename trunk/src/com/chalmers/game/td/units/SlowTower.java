@@ -18,6 +18,7 @@ public class SlowTower extends Tower {
 	public static final int[] sRange = new int[]{60,75,75,75};
 	public static final int[] sSlow = new int[]{30,40,50,60};
 	
+	public static final int[] sUpgradeCost = new int[]{200,200,200};
 	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
@@ -65,30 +66,26 @@ public class SlowTower extends Tower {
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
-    		setLevel(getLevel()+1);			//increment tower level by one
-    		setImageByLevel(getLevel());	//set image according to the new level
+    		int newLvl = getLevel()+1;
     		
-    		setCoolDown(sCoolDown[getLevel()-1]);
-			setDamage(sDamage[getLevel()-1]);
-			setRange(sRange[getLevel()-1]);
-			setSlow(sSlow[getLevel()-1]);
+    		setLevel(newLvl);			//increment tower level by one
+    		setImageByLevel(newLvl);	//set image according to the new level
     		
+    		setCoolDown(sCoolDown[newLvl-1]);
+			setDamage(sDamage[newLvl-1]);
+			setRange(sRange[newLvl-1]);
+			setSlow(sSlow[newLvl-1]);
+			
+	    	return true;
     	}
-    	return true;
 	}
-	
 	
     /**
      * returns the current upgrade cost
      */
 	@Override
 	public int getUpgradeCost() {
-		//TODO ändra till ökande kostnader
-		switch(getLevel()) {
-		case 1: return 200;
-		case 2: return 200;
-		default: return 200; //case 3
-		}
+		return sUpgradeCost[getLevel()-1];
 	}
 
 	@Override
@@ -115,5 +112,4 @@ public class SlowTower extends Tower {
 		else
 			return null;
 	}
-
 }
