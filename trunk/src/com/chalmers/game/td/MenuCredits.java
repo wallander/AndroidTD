@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,6 +14,8 @@ public class MenuCredits extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("MenuCredits","onCreate()");
+        
         setContentView(R.layout.credits);      
         
         // Set the screen orientation to Portrait
@@ -33,5 +36,45 @@ public class MenuCredits extends Activity {
         	}
     	});
               
+    }
+    
+    @Override
+    public void onRestart() {
+    	Log.i("MenuCredits","onRestart()");
+    	super.onRestart();
+    }
+    
+    @Override
+    public void onStart() {
+    	Log.i("MenuCredits","onStart()");
+    	super.onStart();
+    }
+    
+    @Override
+    public void onResume() {
+    	Log.i("MenuCredits","onResume()");
+    	super.onResume();
+    
+    }
+    
+    @Override
+    public void onPause() {
+    	Log.i("MenuCredits","onPause()");
+    	super.onPause();
+    
+    }
+    
+    @Override
+    public void onStop() {
+    	Log.i("MenuCredits","onStop()");
+    	super.onStop();
+    	
+    }
+    
+    @Override
+    public void onDestroy() {
+       	Log.i("MenuCredits","onDestroy()");
+    	super.onDestroy();
+ 
     }
 }

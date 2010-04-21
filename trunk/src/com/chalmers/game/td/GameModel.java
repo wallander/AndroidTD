@@ -1,17 +1,12 @@
 package com.chalmers.game.td;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.List;
-import java.util.Set;
+
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.media.SoundPool;
-import android.util.Log;
 
 import com.chalmers.game.td.units.*;
 import com.chalmers.game.td.Path;

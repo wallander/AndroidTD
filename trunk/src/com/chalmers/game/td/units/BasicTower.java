@@ -1,6 +1,5 @@
 package com.chalmers.game.td.units;
 
-import android.util.Log;
 
 import com.chalmers.game.td.R;
 
@@ -17,6 +16,7 @@ public class BasicTower extends Tower {
 
     	setCost(70);
     	setName("Eskimo");
+    	setType(BASIC);
     	setDescription("Throws spears with good range and speed");
     	setDamage(7);
 	}
@@ -60,5 +60,4 @@ public class BasicTower extends Tower {
     public int getUpgradeCost() {
     	return sUpgradeCost[getLevel()-1];
     }
-
 }

@@ -2,11 +2,9 @@ package com.chalmers.game.td.units;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GamePanel;
 
 import com.chalmers.game.td.R;
 
@@ -22,7 +20,7 @@ public class SlowTower extends Tower {
 	
 	public SlowTower(int mX, int mY) {
 		super(mX, mY);
-
+		setType(SLOW);
 		setName("Snowman");
 		setCost(200);
 		setDescription("Low damage. Slows down units.");

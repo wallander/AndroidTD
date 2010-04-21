@@ -9,7 +9,6 @@ public class Player {
 	private String 			mName;
 	private final double	STARTING_MONEY = 400;
 	private double 			mMoney;
-	private double			mCurrentTrackScore;	
 	
 	private Highscore		mScore;
 	

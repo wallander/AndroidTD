@@ -1,13 +1,6 @@
 package com.chalmers.game.td.units;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.chalmers.game.td.Coordinate;
-import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GamePanel;
-
 import com.chalmers.game.td.R;
 
 /**
@@ -33,6 +26,7 @@ public class SplashTower extends Tower {
 		super(pX, pY);
 		setName("Splash Eskimo");
 		setDescription("Throws snowballs damaging multiple targets");
+		setType(SPLASH);
 		resetCoolDown();
 		setCost(100);
 
@@ -83,7 +77,7 @@ public class SplashTower extends Tower {
 
 	    	return true;
     	}
-	}		
+	}
     
     /**
      * Sets the splash effect (int 1-5) for the tower
