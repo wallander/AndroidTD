@@ -150,9 +150,6 @@ public class Mob extends Unit{
         		setReward(50);
         	}
     	} 
-    	
-    	
-
     }
 	
 	

@@ -23,7 +23,7 @@ public class SlowTower extends Tower {
 		setType(SLOW);
 		setName("Snowman");
 		setCost(200);
-		setDescription("Low damage. Slows down units.");
+		setDescription("Slows down mobs!");
     	resetCoolDown();
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}

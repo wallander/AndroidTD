@@ -18,18 +18,22 @@ public class Player {
 		setName("Mr. Awesome");
 		setMoney(STARTING_MONEY);		
 		mScore = Highscore.getInstance();
-		mScore.setTracks(pTracks);
-		boolean b = mScore.loadScore();
+//		mScore.setTracks(pTracks);
+//		boolean b = mScore.loadScore();
 		
-		if(b) {
-			Log.v("PLAYER KONSTRUKTOR", "Lyckades ladda från fil");
-		} else {
-			Log.v("PLAYER KONSTRUKTOR", "Lyckades INTE ladda från fil");
-		}
+//		if(b) {
+//			Log.v("PLAYER KONSTRUKTOR", "Lyckades ladda från fil");
+//		} else {
+//			Log.v("PLAYER KONSTRUKTOR", "Lyckades INTE ladda från fil");
+//		}
 	}		
 	
 	public void changeScore(Mob pMob) {
 		mScore.changeScore(pMob);
+	}
+	
+	public void setCurrentScore(double score) {
+		mScore.setCurrentTrackScore(score);
 	}
 	
 	public void saveCurrentTrackScore() {		
