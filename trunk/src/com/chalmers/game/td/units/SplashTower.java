@@ -25,7 +25,7 @@ public class SplashTower extends Tower {
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Eskimo");
-		setDescription("Throws snowballs damaging multiple targets");
+		setDescription("Can hit many mobs at once!");
 		setType(SPLASH);
 		resetCoolDown();
 		setCost(100);
