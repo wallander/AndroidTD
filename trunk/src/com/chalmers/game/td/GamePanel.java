@@ -285,6 +285,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Path.getInstance().setTrackPath(track);
 		fastf = false;
 		setSpeedMultiplier(1);
+		GAME_STATE = STATE_RUNNING;
 	}
 
 	/**
@@ -312,7 +313,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case TelephonyManager.CALL_STATE_RINGING: 
 				Log.d("PhoneState", "ringing"); 
 				// TODO handle incoming calls
-				// maybe pause and such and such
+				GAME_STATE = STATE_PAUSED;
 				break; 
 
 			case TelephonyManager.CALL_STATE_IDLE: 
