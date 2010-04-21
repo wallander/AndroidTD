@@ -64,10 +64,7 @@ public class GameModel {
 		mPath.setContext(context);
 		mPath.setTrackPath(getTrack());
 		mOccupiedTilePositions = new HashSet<Point>();
-		
 		currentPlayer = new Player(mPath.getNumberOfTracks());
-		
-		// TODO read highscores and such from XML file to the Player object
 				
 		
 		// add a "frame" of occupied tiles around the game field
@@ -82,9 +79,26 @@ public class GameModel {
 			mOccupiedTilePositions.add(new Point(31, i));
 		}
 		
+		// add occupied tiles under the pause- and fastforward buttons
+		mOccupiedTilePositions.add(new Point(0,0));
+		mOccupiedTilePositions.add(new Point(1,0));
+		mOccupiedTilePositions.add(new Point(2,0));
+		mOccupiedTilePositions.add(new Point(3,0));
+		mOccupiedTilePositions.add(new Point(0,1));
+		mOccupiedTilePositions.add(new Point(1,1));
+		mOccupiedTilePositions.add(new Point(2,1));
+		mOccupiedTilePositions.add(new Point(3,1));
+		mOccupiedTilePositions.add(new Point(0,19));
+		mOccupiedTilePositions.add(new Point(1,19));
+		mOccupiedTilePositions.add(new Point(2,19));
+		mOccupiedTilePositions.add(new Point(3,19));
+		mOccupiedTilePositions.add(new Point(0,18));
+		mOccupiedTilePositions.add(new Point(1,18));
+		mOccupiedTilePositions.add(new Point(2,18));
+		mOccupiedTilePositions.add(new Point(3,18));
 		
 		
-		// calculate where towers can be placed.
+		// calculate where towers can be placed depending on the Path
 		for (int i = 0; i < mPath.getSize()-1; i++) {
 			Coordinate c1 = mPath.getCoordinate(i);			
 			Coordinate c2 = mPath.getCoordinate(i+1);
@@ -133,22 +147,15 @@ public class GameModel {
 		
 	}
 	
-//	public static int getWaveNr() {
-//		return mWaveNr;
-//	}
-
-//	public static void setWaveNr(int pWaveNr) {
-//		mWaveNr = pWaveNr;
-//	}
-
+	/**
+	 * Returns whether a tower can be placed on the gamefield with it's current coordinates
+	 */
 	public static boolean canAddTower(Tower tower) {
 		
 		int tx = (int) (tower.getX() / GAME_TILE_SIZE);
 		int ty = (int) (tower.getY() / GAME_TILE_SIZE);
 		
-		
 		for (int i = 0; i < tower.getWidth(); i++) {
-			
 			for (int j = 0; j < tower.getHeight(); j++) {
 				if (mOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
 					return false;

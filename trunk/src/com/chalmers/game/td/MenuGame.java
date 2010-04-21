@@ -40,6 +40,10 @@ public class MenuGame extends Activity {
         setContentView(progressMap);        
     }
     
+    public void startGamePanel() {
+    	
+    }
+    
     /**
      * Method called upon application closure.
      */
@@ -49,6 +53,7 @@ public class MenuGame extends Activity {
     	Log.i("MenuGame","onStop()");
     	
     	GamePanel.releaseSounds();
+    	finish();
     }
     
     @Override

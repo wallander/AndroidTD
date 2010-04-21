@@ -27,15 +27,25 @@ public class Highscore {
 	private BufferedReader	 		mReader;
 	private Map<Integer, Integer>	mSavedScore;
 	
+	/**
+	 * Adds score when a mob is killed. Higher score is given if the mob hasn't walked very far.
+	 * @param pMob
+	 */
 	public void changeScore(Mob pMob) {
-		setCurrentTrackScore(getCurrentTrackScore() + (pMob.getMaxHealth() / 10));
+		if (pMob.getDistanceWalked() < 500) {
+			setCurrentTrackScore(getCurrentTrackScore() +
+					(pMob.getMaxHealth() / 10) * (1 - 0.75*pMob.getDistanceWalked()/500 ));
+		}
+		else {
+			
+		}
 	}
 	
 	public double getCurrentTrackScore() {
 		return mCurrentTrackScore;
 	}
 	
-	private void setCurrentTrackScore(double pScore) {
+	public void setCurrentTrackScore(double pScore) {
 		mCurrentTrackScore =  pScore;
 		
 	}
@@ -138,8 +148,12 @@ public class Highscore {
 		return mWriter;		
 	}
 	
-	public Highscore() {
-					
+	private Highscore() {
+		initiateHighscore();
+	
+	}
+	
+	private void initiateHighscore() {
 		mCurrentTrackScore = 0;	
 		mSavedScore = new HashMap<Integer, Integer>();
 		
@@ -204,6 +218,14 @@ public class Highscore {
 				Log.v("HIGHSCORE CONSTRUCTOR", "Creating file failed.");
 			}
 		}
+	}
+	
+	/**
+	 * Removes the "tddata.txt"-file from the SD-card, reseting the highscores.
+	 */
+	public static void resetHighscore() {
+		new File(Environment.getExternalStorageDirectory() + "/tddata.txt").delete();
+		getInstance().initiateHighscore();
 	}
 	
 	public static Highscore getInstance() {

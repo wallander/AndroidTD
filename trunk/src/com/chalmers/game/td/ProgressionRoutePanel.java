@@ -29,7 +29,6 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 	private Activity mActivity;
 	private int tooltip = 0;
-	
 	private int trackPic = 0;
 	private String trackName = "";
 	private int menuPic = 0;
