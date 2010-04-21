@@ -281,7 +281,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private void startTrack(int track){
 		mMobFactory = MobFactory.getInstance(); 
 		mMobFactory.setContext(getContext()); 
+		GameModel.setTrack(track);
 		GameModel.initialize(getContext());
+		GameModel.currentPlayer.setCurrentScore(0);
 		Path.getInstance().setTrackPath(track);
 		fastf = false;
 		setSpeedMultiplier(1);
@@ -766,6 +768,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			// If the player has 0 or less lives remaining, change game state
 			if (GameModel.currentPlayer.getRemainingLives() <= 0) {
+				mSelectedTower = null;
+				mCurrentSnowball = null;
+				mCurrentTower = null;
+				mShowTooltip = false;
 				GAME_STATE = STATE_GAMEOVER;
 				fastf = false;
 				setSpeedMultiplier(1);
@@ -774,6 +780,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			// if the player has won (no more mobs and all mobs dead)
 			if (mMobFactory.hasMoreMobs() == false && GameModel.mMobs.isEmpty()) {
+				mSelectedTower = null;
+				mCurrentSnowball = null;
+				mCurrentTower = null;
+				mShowTooltip = false;
 				GAME_STATE = STATE_WIN;
 				fastf = false;
 				setSpeedMultiplier(1);

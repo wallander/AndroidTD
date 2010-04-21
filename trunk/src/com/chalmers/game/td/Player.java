@@ -32,6 +32,10 @@ public class Player {
 		mScore.changeScore(pMob);
 	}
 	
+	public void setCurrentScore(double score) {
+		mScore.setCurrentTrackScore(score);
+	}
+	
 	public void saveCurrentTrackScore() {		
 		mScore.saveScore();
 	}
