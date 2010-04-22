@@ -209,6 +209,10 @@ public abstract class Tower extends Unit {
     	return 0;
     }
     
+    public int getSplashRadius(){
+    	return 0;
+    }
+    
     public boolean canUpgrade() {
     	return (mLevel < 4);
     }
