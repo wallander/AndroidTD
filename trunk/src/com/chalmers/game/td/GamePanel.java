@@ -69,19 +69,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	/** Thread which contains our game loop. */
 	private GameThread mGameThread;
 
-	private MobFactory	mMobFactory;
+	private MobFactory mMobFactory;
 
 	/** Cache variable for all used images. */
 	private Map<Integer, Bitmap> mBitMapCache = new HashMap<Integer, Bitmap>();
 
 
-	/** Current x and y cord. for the touched tower. */
+	/** Current x coordinate for the touched tower. */
 	private int mTx;
+	/** Current y coordinate for the touched tower. */
 	private int mTy;
 	
-	private boolean fastf = false;
+	/** Indicates if fast forward is activated or not. */
+	private boolean mFastf = false;
 
+	/** */
 	private Tower mCurrentTower;
+	
+	/** */
 	private Tower mSelectedTower;
 	private Snowball mCurrentSnowball;
 
@@ -187,9 +192,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			try {
 				if (GameModel.sMusicEnabled) {
-					if (fastf) {
+					if (mFastf) {
 						SoundManager.pauseMusic(playTrackMusic(GameModel.getTrack()));
 						SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
+
 					} else {
 						SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
 						SoundManager.playMusic(playTrackMusic(GameModel.getTrack()));
@@ -216,7 +222,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		// makes sure the screen can't turn off while playing
 		setKeepScreenOn(true);
-
 
 		debug = new TDDebug();
 		debug.InitGameTime();
@@ -264,7 +269,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		GameModel.initialize(getContext());
 		GameModel.currentPlayer.setCurrentScore(0);
 		Path.getInstance().setTrackPath(track);
-		fastf = false;
+		mFastf = false;
 		setSpeedMultiplier(1);
 		GAME_STATE = STATE_RUNNING;
 	}
@@ -430,7 +435,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							}
 						} else if (sBtnSell.contains(event.getX(), event.getY()) ) {
 							// Sell button pressed
-							GameModel.currentPlayer.changeMoney(mSelectedTower.sell());
+							GameModel.currentPlayer.changeMoney(mSelectedTower.sellPrice());
 							GameModel.removeTower(mSelectedTower);
 							mSelectedTower = null;
 						} else 
@@ -459,12 +464,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							}
 							
 							if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
-								if(fastf){
+								if(mFastf){
 									GamePanel.setSpeedMultiplier(1);
-									fastf = false;
+									mFastf = false;
 								} else {
 									GamePanel.setSpeedMultiplier(3);	
-									fastf = true;
+									mFastf = true;
 								}
 								
 							}
@@ -753,7 +758,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mCurrentTower = null;
 				mShowTooltip = false;
 				GAME_STATE = STATE_GAMEOVER;
-				fastf = false;
+				mFastf = false;
 				setSpeedMultiplier(1);
 				return;
 			}
@@ -765,7 +770,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mCurrentTower = null;
 				mShowTooltip = false;
 				GAME_STATE = STATE_WIN;
-				fastf = false;
+				mFastf = false;
 				setSpeedMultiplier(1);
 				GameModel.currentPlayer.saveCurrentTrackScore();
 				return;
@@ -1274,7 +1279,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),20,5,null);
 				
-		if(fastf)
+		if(mFastf)
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),20,285,null);
 		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),20,285,null);
