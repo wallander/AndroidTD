@@ -1050,20 +1050,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mWateranimation++;
 			} else if(mWateranimation >= 10 && mWateranimation < 15){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water3),x,y,null);
-				mWateranimation++;
+				// To prevent latency that distorts the sound
+				// just play the sound one time
+				if(mWateranimation == 11) { 
+					SoundManager.playSound(SoundManager.getWaterSplashSound());
+				}
+				mWateranimation++;				
 			} else if(mWateranimation >= 15 && mWateranimation < 20){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water2),x,y,null);
 				mWateranimation++;
 			} else if(mWateranimation >= 20 && mWateranimation < 25){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water),x,y,null);
 				mWateranimation++;
-			} 
+			}						
 		}
 
-		if(mWateranimation >= 25){ 
+		if(mWateranimation >= 25){ 		
 			mWateranimation = 0;
-			mSplash = false;
-		}
+			mSplash = false;			
+		}				
 	}
 
 	private void drawStatisticsText(Canvas canvas) {
