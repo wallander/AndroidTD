@@ -3,6 +3,7 @@ package com.chalmers.game.td;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 
 /**
@@ -25,6 +26,7 @@ public class MenuGame extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("MenuGame","onCreate()");
         
         // Set the screen orientation to Portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -38,13 +40,52 @@ public class MenuGame extends Activity {
         setContentView(progressMap);        
     }
     
+    public void startGamePanel() {
+    	
+    }
+    
     /**
      * Method called upon application closure.
      */
     @Override
     public void onStop() {
     	super.onStop();
-    	//progressMap.stopThread();
+    	Log.i("MenuGame","onStop()");
+    	
     	GamePanel.releaseSounds();
+    	finish();
+    }
+    
+    @Override
+    public void onRestart() {
+    	Log.i("MenuGame","onRestart()");
+    	super.onRestart();
+    }
+    
+    @Override
+    public void onStart() {
+    	Log.i("MenuGame","onStart()");
+    	super.onStart();
+    }
+    
+    @Override
+    public void onResume() {
+    	Log.i("MenuGame","onResume()");
+    	super.onResume();
+    
+    }
+    
+    @Override
+    public void onPause() {
+    	Log.i("MenuGame","onPause()");
+    	super.onPause();
+    
+    }
+    
+    @Override
+    public void onDestroy() {
+       	Log.i("MenuGame","onDestroy()");
+    	super.onDestroy();
+ 
     }
 }

@@ -1,7 +1,5 @@
 package com.chalmers.game.td;
 
-import android.util.Log;
-
 public class TDDebug {
 
 	

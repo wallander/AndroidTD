@@ -6,7 +6,7 @@ public class Player {
 
 	private String 			mName;
 	private final double	STARTING_MONEY = 400;
-	private double 			mMoney;	
+	private double 			mMoney;
 	private Highscore		mScore;
 	
 	private int mLives = 50;
@@ -15,12 +15,14 @@ public class Player {
 		setName("Mr. Awesome");
 		setMoney(STARTING_MONEY);		
 		mScore = Highscore.getInstance();
-		mScore.setTracks(pTracks);
-		mScore.loadScore();
 	}		
 	
 	public void changeScore(Mob pMob) {
 		mScore.changeScore(pMob);
+	}
+	
+	public void setCurrentScore(double score) {
+		mScore.setCurrentTrackScore(score);
 	}
 	
 	public void saveCurrentTrackScore() {		
@@ -28,7 +30,8 @@ public class Player {
 	}
 	
 	public double getTrackScore(int pTrack) {
-		return mScore.getTrackScore(pTrack);
+		//return mScore.getTrackScore(pTrack);
+		return 1.1;
 	}
 	
 	public double getTotalScore() {		

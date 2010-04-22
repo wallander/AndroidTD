@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,8 +38,9 @@ public class Menu extends Activity implements OnClickListener{
     /** Called when the activity is first created. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
     	super.onCreate(savedInstanceState);
+    	Log.i("Menu","onCreate()");
+    	
         setContentView(R.layout.main);
         
         // Set the screen orientation to Portrait
@@ -64,10 +66,46 @@ public class Menu extends Activity implements OnClickListener{
         	String value = b.getString("msg");
         	Toast.makeText(this, "Value : " + value, Toast.LENGTH_LONG).show();
         }
-        /*  
-        if (savedInstanceState != null) {
-            Toast.makeText(this, "onCreate() : " + savedInstanceState.getString("TO_REMEMBER"), Toast.LENGTH_LONG).show();
-        }
-        */
+       
+        
+    }
+    @Override
+    public void onRestart() {
+    	Log.i("Menu","onRestart()");
+    	super.onRestart();
+    }
+    
+    @Override
+    public void onStart() {
+    	Log.i("Menu","onStart()");
+    	super.onStart();
+    }
+    
+    @Override
+    public void onResume() {
+    	Log.i("Menu","onResume()");
+    	super.onResume();
+    
+    }
+    
+    @Override
+    public void onPause() {
+    	Log.i("Menu","onPause()");
+    	super.onPause();
+    
+    }
+    
+    @Override
+    public void onStop() {
+    	Log.i("Menu","onStop()");
+    	super.onStop();
+    	
+    }
+    
+    @Override
+    public void onDestroy() {
+       	Log.i("Menu","onDestroy()");
+    	super.onDestroy();
+ 
     }
 }

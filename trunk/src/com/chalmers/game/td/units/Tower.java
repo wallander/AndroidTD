@@ -1,12 +1,10 @@
 package com.chalmers.game.td.units;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GamePanel;
-import com.chalmers.game.td.R;
 
 /**
  * Class which contains tower specific information
@@ -37,18 +35,16 @@ public abstract class Tower extends Unit {
 	//List<Projectile> mProjectiles;
 	/**
      * Constructor called to create a tower
-     * 
      * Currently hardcoded. TODO
      * 
      * @param 
 	 */
     public Tower(int pX, int pY){
-    	setCoordinates(new Coordinate(pX, pY)); //gäller alla
+    	setCoordinates(new Coordinate(pX, pY));
     	setLevel(0);
     	upgrade();
-    	setSize(2);				//gäller alla torn?
-    	setImageByLevel(mLevel);	//gäller för alla torn
-    	setDescription("");
+    	setSize(2);
+    	setImageByLevel(mLevel);
     }
     
 	public void setName(String pName) {
@@ -93,8 +89,15 @@ public abstract class Tower extends Unit {
 	//higher value = better
 	//TODO add this value to tower tool tip
 	public int getAttackSpeed(){
-		return 100/mCoolDown;
+		return 1000/mCoolDown;
 	}
+	
+//	public int getAttackSpeed(int pLevel){
+//		if (pLevel >= 1)
+//			return 100/sCoolDown[pLevel-1];
+//		else
+//			return -1;
+//	}
 	
 	//Should be implemented so it takes the level of the tower as argument and sets the image 
 	//to the drawable that corresponds to that level.
@@ -111,8 +114,10 @@ public abstract class Tower extends Unit {
 	
 	public void setCost(int i) {
 		mCost = i;
-		// ta bort kostnad från spelarens konto?
+		// TODO ta bort kostnad från spelarens konto?
 	}
+	
+	public abstract int getUpgradeCost();
 
 
     /**
@@ -204,6 +209,10 @@ public abstract class Tower extends Unit {
     	return 0;
     }
     
+    public int getSplashRadius(){
+    	return 0;
+    }
+    
     public boolean canUpgrade() {
     	return (mLevel < 4);
     }
@@ -235,7 +244,7 @@ public abstract class Tower extends Unit {
 
 	public int getCost() {
 		return mCost;
-	}
+	}	
 
 	public int getLevel() {
 		return mLevel;
@@ -246,25 +255,11 @@ public abstract class Tower extends Unit {
 	}
 
 	/**
-	 * Returns upgrade cost.
-	 * @return Uppgraderingskostnaden
-	 */
-    public int getUpgradeCost() {
-
-    	switch(mLevel) {
-	    	case 1: return 130;
-	    	case 2: return 320;
-	    	default: return 760; //case 3 that is
-    	}	
-    }
-
-	/**
 	 * @param mDescription the mDescription to set
 	 */
 	public void setDescription(String mDescription) {
 		this.mDescription = mDescription;
 	}
-
 
 	/**
 	 * @return the mDescription
@@ -280,13 +275,10 @@ public abstract class Tower extends Unit {
 		mType = pType;
 	}
 
-
 	/**
 	 * @return the TowerType
 	 */
 	public int getType() {
 		return mType;
 	}
-	
-	
 }

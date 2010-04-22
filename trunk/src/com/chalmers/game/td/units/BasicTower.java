@@ -1,6 +1,5 @@
 package com.chalmers.game.td.units;
 
-import android.util.Log;
 
 import com.chalmers.game.td.R;
 
@@ -10,12 +9,15 @@ public class BasicTower extends Tower {
 	public static final int[] sCoolDown = new int[]{20,22,24,26};
 	public static final int[] sRange = new int[]{100,105,110,110};
 	
+	public static final int[] sUpgradeCost = new int[]{130,320,780};
+	
 	public BasicTower(int pX, int pY) {
 		super(pX, pY);
 
     	setCost(70);
     	setName("Eskimo");
-    	setDescription("Throws spears with good range and speed");
+    	setType(BASIC);
+    	setDescription("Throws spears with good range!");
     	setDamage(7);
 	}
 	
@@ -29,6 +31,7 @@ public class BasicTower extends Tower {
 		}	
 	}
 	
+	@Override
 	public boolean upgrade() {
     	
     	if (!canUpgrade())					//return false if tower can't be upgraded
@@ -50,6 +53,11 @@ public class BasicTower extends Tower {
     	return new BasicProjectile(pTarget, this);
     }
 
-
-
+	/**
+	 * Returns upgrade cost.
+	 * @return the cost to upgrade from current to next level
+	 */
+    public int getUpgradeCost() {
+    	return sUpgradeCost[getLevel()-1];
+    }
 }

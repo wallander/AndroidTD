@@ -10,7 +10,6 @@ import android.content.res.Resources.NotFoundException;
 import android.util.Log;
 
 import com.chalmers.game.td.units.Mob;
-import com.chalmers.game.td.units.Mob.MobType;
 
 
 /**
@@ -26,30 +25,36 @@ import com.chalmers.game.td.units.Mob.MobType;
 public class MobFactory {
 
 	// Instance variables	
-	private static final MobFactory	INSTANCE = new MobFactory();
-	private int						mWaveDelayI,
-									mWaveNr,
-									mMaxWaveDelay;
-	private Context					mContext;
-	private Path					mPath;
-	private Queue<Mob>				mMobs;
-	private Queue<Queue<Mob>>		mWaves;
-	private List<Queue<Queue<Mob>>>	mTrackWaves;
-	private List<Integer>			mWaveNumbers;
-	private List<String> 			mMobTypeList;
+	private static final MobFactory		INSTANCE = new MobFactory();
+	private int							mWaveDelayI,
+										mWaveNr,
+										mMaxWaveDelay,
+										mMobNr,
+										mTrackNr;
+	private Context						mContext;
+	private Path						mPath;
+	
+	private ArrayList<ArrayList<Mob>>	mTrackWaves;
+	private List<Integer>				mWaveNumbers;
+	private List<String> 				mMobTypeList;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
 	 */
 	private MobFactory() {
-		mWaves = null;
-		mTrackWaves = null;
+		//mWaves = null;
+		
+		
 		mContext = null;		
-		mMobs = null;
+		//mMobs = null;
 		mWaveDelayI = 0;
 		mWaveNr = 0;
-		mWaveNumbers = new ArrayList<Integer>();
+		mMobNr = 0;
+		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
+		mTrackWaves = new ArrayList<ArrayList<Mob>>();
+		//mWaveNumbers = new ArrayList<Integer>();
 		mMaxWaveDelay = 10;
+
 	}
 
 	/**
@@ -59,7 +64,7 @@ public class MobFactory {
 	 * @return		the current wave number
 	 */
 	public int getWaveNr() {
-		return mWaveNr;
+		return mWaveNr+1;
 	}
 	
 	public int getWaveMaxDelay() {
@@ -84,7 +89,8 @@ public class MobFactory {
 	 * @return		total number of waves
 	 */
 	public int getTotalNrOfWaves() {
-		return mWaveNumbers.get(GameModel.getTrack() - 1);
+		//return mWaveNumbers.get(GameModel.getTrack() - 1);
+		return mTrackWaves.size();
 	}
 
 	/**
@@ -95,17 +101,18 @@ public class MobFactory {
 	 * @return		true if there are mobs left, false otherwise
 	 */
 	public boolean hasMoreMobs() {
+
 		
-		if(mWaveNr < mWaveNumbers.get(GameModel.getTrack() - 1)) {
-					
-			if(mWaves != null && !mWaves.isEmpty()) {
+		
+		//If not on last wave = Mobs left
+		if(mWaveNr < mTrackWaves.size()-1) {
+			return true;
+		} else if(mWaveNr == mTrackWaves.size()-1) {
+			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
+				//If we are on the last wave, but there still are mobs left
 				return true;
 			} else {
-				if(mMobs != null && !mMobs.isEmpty()) {
-					return true;
-				} else {					
-					return false;
-				}
+				return false;
 			}
 		} else {
 			return false;
@@ -126,74 +133,64 @@ public class MobFactory {
 	public Mob getNextMob() {	
 
 		Mob mMob = null;
-
-		if(mWaveNr <= mWaveNumbers.get(GameModel.getTrack() - 1)) {
 			
-			if(mWaves == null) {
-				mWaves = mTrackWaves.get(GameModel.getTrack());
-			} else if(mWaves.isEmpty()) {
-				mWaves = null;
-				return null;
-			}
+		// If the track is not ended
+		if(mWaveNr < mTrackWaves.size()) {
+	
 			
-			if(mWaves != null) {
-	
-				if(mMobs == null || mMobs.isEmpty()) {
-	
-					if (mWaveDelayI >= mMaxWaveDelay) {
-						mWaveDelayI = 0;		
-						
-						mMobs = mWaves.poll();
-					
-						if(mMobs != null)
-							++mWaveNr;
-					} else {
-						//mWaveDelayI += GamePanel.getSpeedMultiplier();
-						mWaveDelayI++;
-					}
-				}
-	
-				
-				
-				if(mMobs != null) {
-	
-					mMob = mMobs.poll();
-	
-					if(mMob != null) {
-	
-						mPath.setTrackPath(GameModel.getTrack());
-						mMob.setPath(mPath);
-						
-						switch(mMob.getType()) {
-						case FAST:
-							mMaxWaveDelay = 10;
-							Log.v("Delay","FAST");
-							break;
-						case HEALTHY:
-							mMaxWaveDelay = 30;
-							Log.v("Delay","HEALTHY");
-							break;
-						default:
-							mMaxWaveDelay = 10;
-							Log.v("Delay","STANDARD");
-							break;
-						}
-	
-						//Log.v("GET NEXT MOB", "New Mob initialized with path..");
-					}
-				}
-	
-			} else {
-				//Log.v("GET NEXT MOB", "No more waves to send!");
-				mWaveNr = 0;
-			}
-	
-			if(mMob != null)
-				Log.v("GET NEXT MOB", "Mob is now: " + mMob.toString() + " and of type: " + mMob.getType());
-			else
-				Log.v("GET NEXT MOB", "Mob is now NULL");
-		}
 		
+			// If the wave is not ended
+			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
+			
+					mWaveDelayI = 0; // Reset delay		
+					
+					// Add the mob
+					mMob = mTrackWaves.get(mWaveNr).get(mMobNr);
+					mMobNr++;
+					
+					Log.i("INFO","mMob/mWave/mTrack"+mMobNr + "/" + mWaveNr + "/" + mTrackNr);
+					Log.i("INFO","WaveSize/MobSize" + mTrackWaves.size() + "/" + mTrackWaves.get(mWaveNr).size());
+					
+					mPath.setTrackPath(GameModel.getTrack());
+					mMob.setPath(mPath);
+					
+					switch(mMob.getType()) {
+					case Mob.FAST:
+						mMaxWaveDelay = 10;
+						Log.i("Delay","FAST");
+						break;
+					case Mob.HEALTHY:
+						mMaxWaveDelay = 30;
+						Log.i("Delay","HEALTHY");
+						break;
+					default:
+						mMaxWaveDelay = 10;
+						Log.i("Delay","STANDARD");
+						break;
+					}
+
+				} else {
+					// If the wave has no more mobs
+					// If the delay is up send next wave, otherwise delay
+					if (mWaveDelayI >= mMaxWaveDelay) {
+						
+						mWaveNr++;
+						mWaveDelayI = 0;
+						mMobNr = 0;
+						Log.i("Wave","Delay ended, start over");
+						
+					} else {
+						// If the delay has not reached max yet
+						mWaveDelayI++;
+					} 
+					return null;
+				}
+			
+		} else {
+			// If the track has no more waves
+			// No need to increase, mTrackNr, handled by hasMoreMobs
+			return null;
+		}
 		return mMob;						
 	}
 
@@ -215,21 +212,27 @@ public class MobFactory {
 	 * TODO Somehow solve which track to load waves to
 	 */
 	private void initWaves() {
-
+		ArrayList<Mob>		mMobs;
+		ArrayList<ArrayList<Mob>>		mWaves;
 		String		mTrackNumber;
 		String[]	mAllMobs,
 		mMobInfo;
 		int			mTrackIdentifier,
 		mHealth;
+		mMobNr = 0;
+		mWaveNr = 0;
+		mTrackNr = GameModel.getTrack();
 
-		mWaves = new LinkedList<Queue<Mob>>();
-		mTrackWaves = new ArrayList<Queue<Queue<Mob>>>();
-		mMobTypeList = new ArrayList<String>();
+		
+		//mTrackWaves = new ArrayList<ArrayList<ArrayList<Mob>>>();
+		//mMobTypeList = new ArrayList<String>();
 		
 		for(int i = 0; ; ++i) {						
 			// i == track number
 			try {
-
+				
+				mWaves = new ArrayList<ArrayList<Mob>>();
+				
 				mTrackNumber = "mobs_track_" + String.valueOf(i+1);
 				mTrackIdentifier = mContext.getResources().getIdentifier(mTrackNumber, "array", mContext.getPackageName());
 				mAllMobs = mContext.getResources().getStringArray(mTrackIdentifier);
@@ -239,59 +242,65 @@ public class MobFactory {
 				for( ; j < mAllMobs.length; ++j) {
 					// j == nr of waves
 					
-					mMobs = new LinkedList<Mob>();
-
+					mMobs = new ArrayList<Mob>();
 					mMobInfo = mAllMobs[j].split(" ");
-
-					Log.v("INIT MOBS", "MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
+					Log.i("INIT MOBS", "Wave:" + i + "/" + j + " MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
+					
+					
 					
 					mHealth = Integer.parseInt(mMobInfo[2]);
 					
-					//if(i == GameModel.getTrack() - 1) {
-						mMobTypeList.add(mMobInfo[0]);
-					//}
 					
 					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
 						// k == nr of mobs
 						if(mMobInfo[0].equals("NORMAL")) {
 
-							mMobs.add(new Mob(MobType.NORMAL, mHealth));
+							mMobs.add(new Mob(Mob.NORMAL, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type NORMAL");
 
 						} else if(mMobInfo[0].equals("AIR")) {
 
-							mMobs.add(new Mob(MobType.AIR, mHealth));
+							mMobs.add(new Mob(Mob.AIR, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type AIR");
 
 						} else if(mMobInfo[0].equals("FAST")) {
 
-							mMobs.add(new Mob(MobType.FAST, mHealth));
+							mMobs.add(new Mob(Mob.FAST, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type FAST");
 
 						} else if(mMobInfo[0].equals("HEALTHY")) {
 
-							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
+							mMobs.add(new Mob(Mob.HEALTHY, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
-						}											
+						}
+						
+				
+						
 					}									
 					
 					mWaves.add(mMobs);
 					Log.v("INIT MOBS", "New wave added!");
 					
 				}
+				if(i+1 == GameModel.getTrack()) {
+					mTrackWaves = mWaves;
+					Log.i("Finished","with wave initiation of "+i+1);
+					Log.i("Waves","Amount"+mWaves.size());
+				}
+			
 				
-				mWaveNumbers.add(j);
-				mTrackWaves.add(mWaves);
+				//Log.i("INFO","mMob/mWave/mTrack"+mMobNr + "/" + mWaveNr + "/" + mTrackNr);
+				//Log.i("INFO","WaveSize/MobSize" + mTrackWaves.size() + "/" + mTrackWaves.get(mWaveNr).size());
 
 			} catch(NullPointerException npe) {
-				Log.v("INITIATION", "Mobs initiation complete.");
+				Log.i("INITIATION", "Mobs initiation complete.");
 				// Reset mMobs so it will be able to be used at getNextMob()
-				mMobs = null;
+				mMobNr = 0;
 				break;
 			} catch(NotFoundException nfe) {
-				Log.v("INITIATION", "Mobs initiation complete. No more mobs to load.");
+				Log.i("INITIATION", "Mobs initiation complete. No more mobs to load.");
 				// Reset mMobs so it will be able to be used at getNextMob()
-				mMobs = null;
+				mMobNr = 0;
 				break;
 			}						 
 		}
@@ -304,10 +313,11 @@ public class MobFactory {
 	 * @return Type of the next mob
 	 */
 	public String getWaveType() {
-		if(mMobTypeList.size() > getWaveNr()) {
-			return "" + mMobTypeList.get(getWaveNr());
-		}
-		return "-";
+			if (mTrackWaves.size() > mWaveNr + 1) {
+				return "" + mTrackWaves.get(mWaveNr + 1).get(0).getType();
+			} else {
+				return "-";
+			}
 	}
 	
 	/**

@@ -1,7 +1,6 @@
 package com.chalmers.game.td;
 
 import android.graphics.Canvas;
-import android.view.animation.Animation;
 
 
 /**

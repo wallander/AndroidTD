@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,54 +22,53 @@ public class Highscore {
 
 	private static final Highscore	INSTANCE = new Highscore();
 	private double					mCurrentTrackScore;
-	private double[]				mTrackScore;
 	private File					mFile;
 	private BufferedWriter			mWriter;
 	private BufferedReader	 		mReader;
-	private Map<Integer, Integer>	mSavedScore;
+	private ArrayList<Double>	mSavedScore;
 	
+	/**
+	 * Adds score when a mob is killed. Higher score is given if the mob hasn't walked very far.
+	 * @param pMob
+	 */
 	public void changeScore(Mob pMob) {
-		setCurrentTrackScore(getCurrentTrackScore() + (pMob.getMaxHealth() / 10));
+		if (pMob.getDistanceWalked() < 500) {
+			setCurrentTrackScore(getCurrentTrackScore() +
+					(pMob.getMaxHealth() / 10) * (1 - 0.75*pMob.getDistanceWalked()/500 ));
+		}
+		else {
+			
+		}
 	}
 	
 	public double getCurrentTrackScore() {
 		return mCurrentTrackScore;
 	}
 	
-	private void setCurrentTrackScore(double pScore) {
+	public void setCurrentTrackScore(double pScore) {
 		mCurrentTrackScore =  pScore;
 		
 	}
-	
-	public boolean loadScore() {
-		
-		if(mSavedScore == null) {
-			return false;
-		} else {
-			
-			for(int i = 0; i < mSavedScore.size(); ++i) {
-				mTrackScore[i] = mSavedScore.get(i+1);
-			}
-			
-			return true;
-		}
-	}
-	
+
 	public void saveScore() {
 		
-		if(mTrackScore[GameModel.getTrack() - 1] < mCurrentTrackScore) {
+		if(mSavedScore.get(GameModel.getTrack() - 1) < mCurrentTrackScore) {
 			
-			mTrackScore[GameModel.getTrack() - 1] = mCurrentTrackScore;
-					
-			// TODO write to file below...
+
+			mSavedScore.add(GameModel.getTrack()-1, mCurrentTrackScore);
+
 			try {
 				
 				mWriter = getWriter();
 				
-				for(int i = 0; i < mTrackScore.length; ++i) {
-									
-					mWriter.write("Track " + String.valueOf(i+1) + "\n Score " + String.valueOf((int)mTrackScore[i]) + "\n");
-					Log.v("HIGHSCORE.saveScore", "Wrote score to file.");
+				for(int i = 0; i < mSavedScore.size(); ++i) {
+																		
+					mWriter.write("Track " + String.valueOf(i+1));
+					mWriter.write("\n");
+					mWriter.write("Score " + String.valueOf((mSavedScore.get(i))));
+					mWriter.write("\n");
+					
+					Log.v("HIGHSCORE.saveScore", "Wrote to file:" + "Score " + String.valueOf(mSavedScore.get(i)));
 				
 				}
 				
@@ -82,25 +82,16 @@ public class Highscore {
 		mCurrentTrackScore = 0;
 	}
 	
-	public void setTracks(int pTracks) {
-		mTrackScore = new double[pTracks];				
-					
-		for(int i = 0; i < mTrackScore.length; ++i) {
-			mTrackScore[i] = 0;
-		}		
-	}
-	
 	public double getTrackScore(int pTrack) {
-		//return mTrackScore[pTrack - 1];
-		return 1.0;
+		return mSavedScore.get(pTrack-1);
 	}
 	
 	public double getTotalScore() {
 		
 		double totalScore = 0;
 		
-		for(int i = 0; i < mTrackScore.length; ++i) {
-			totalScore += mTrackScore[i];
+		for(int i = 0; i < mSavedScore.size(); ++i) {
+			totalScore += mSavedScore.get(i);
 		}
 		
 		return totalScore;
@@ -137,10 +128,20 @@ public class Highscore {
 		return mWriter;		
 	}
 	
-	public Highscore() {
-					
+	private Highscore() {
+		initiateHighscore();
+	
+	}
+	
+	private void initiateHighscore() {
 		mCurrentTrackScore = 0;	
-		mSavedScore = new HashMap<Integer, Integer>();
+		mSavedScore = new ArrayList<Double>();
+		
+		mSavedScore.add(0,0.0);
+		mSavedScore.add(1,0.0);
+		mSavedScore.add(2,0.0);
+		mSavedScore.add(3,0.0);
+		mSavedScore.add(4,0.0);
 		
 		// At first try to load data.score		
 		try {
@@ -162,7 +163,7 @@ public class Highscore {
 					
 					input = readLine.split(" ");
 					
-					Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] " + input[1]);
+					Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] = " + input[1]);
 					
 					if(input[0].equals("Track")) {
 						Log.v("Highscore.constructor", "Read track... track is " + String.valueOf(input[1]));
@@ -171,14 +172,14 @@ public class Highscore {
 					} else if(input[0].equals("Score")) {
 						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
 													
-						mSavedScore.put(track, Integer.parseInt(input[1]));
+						mSavedScore.add(track,Double.parseDouble(String.valueOf(input[1])));
+						
 					}
-				}								
-				
+				}
+
 			} catch (IOException e) {
 				
 				Log.v("Highscore.constructor", "IOEXCEPTION!!" + e.getMessage());
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -192,6 +193,11 @@ public class Highscore {
 				
 				mWriter = getWriter();
 				mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
+				mWriter.write("Track 1\n Score 0.0\n");
+				mWriter.write("Track 2\n Score 0.0\n");
+				mWriter.write("Track 3\n Score 0.0\n");
+				mWriter.write("Track 4\n Score 0.0\n");
+				mWriter.write("Track 5\n Score 0.0\n");
 				mWriter.close();
 				
 				Log.v("HIGHSCORE CONSTRUCTOR", "File created.");
@@ -201,6 +207,14 @@ public class Highscore {
 				Log.v("HIGHSCORE CONSTRUCTOR", "Creating file failed.");
 			}
 		}
+	}
+	
+	/**
+	 * Removes the "tddata.txt"-file from the SD-card, reseting the highscores.
+	 */
+	public static void resetHighscore() {
+		new File(Environment.getExternalStorageDirectory() + "/tddata.txt").delete();
+		getInstance().initiateHighscore();
 	}
 	
 	public static Highscore getInstance() {

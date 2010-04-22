@@ -2,12 +2,9 @@ package com.chalmers.game.td.units;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GamePanel;
-
 import com.chalmers.game.td.R;
 
 /**
@@ -24,16 +21,20 @@ public class SplashTower extends Tower {
 	public static final int[] sCoolDown = new int[]{50,50,50,50};
 	public static final int[] sDamage = new int[]{6,24,50,80};
 	public static final int[] sRange = new int[]{60,70,70,80};
+	
+	//TODO sSplash is currently not used, it's set to 5 regardless
 	public static final int[] sSplash = new int[]{2,3,4,5};
 	public static final int[] sSplashRadius = new int[]{50,60,80,90};
+	
+	public static final int[] sUpgradeCost = new int[]{150,330,800};
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
 		setName("Splash Eskimo");
-		setDescription("Trows snowballs damaging multiple targets");
+		setDescription("Can hit many mobs at once!");
+		setType(Tower.SPLASH);
 		resetCoolDown();
 		setCost(100);
-
 	}
 	
 	
@@ -57,30 +58,52 @@ public class SplashTower extends Tower {
      */
     
     public Projectile createProjectile(Mob pTarget) {
-    	switch(pTarget.getType()) {
-    		case AIR: return null;
-    		default: return new SplashProjectile(pTarget, this);
-    	}
+    	return new SplashProjectile(pTarget, this, mSplashRadius);
     }
+    
+    public Projectile shoot() {
+
+		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
+
+		// loop through the list of mobs
+		for (int i=0; i < GameModel.mMobs.size(); i++) {
+
+			Mob m = GameModel.mMobs.get(i);
+
+			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+
+			// if the mob is in range, add it to list
+			if (sqrDist < getRange() && m.getType() != Mob.AIR)
+				mobsInRange.add(m);
+		}
+
+		//if there are any mobs available to shoot, return a projectile on the first of them, 
+		//else return null
+		if (!mobsInRange.isEmpty())
+			return createProjectile(firstMob(mobsInRange));
+		else
+			return null;
+	}
 
 	public boolean upgrade() {
     	//TODO change values
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
-    		setLevel(getLevel()+1);			//increment tower level by one
-    		setImageByLevel(getLevel());	//set image according to the new level
+    		int newLvl = getLevel()+1;
     		
-    		setCoolDown(sCoolDown[getLevel()-1]);
-			setDamage(sDamage[getLevel()-1]);
-			setRange(sRange[getLevel()-1]);
-			setSplash(sSplash[getLevel()-1]);
-			setSplashRadius(sSplashRadius[getLevel()-1]);
+    		setLevel(newLvl);			//increment tower level by one
+    		setImageByLevel(newLvl);	//set image according to the new level
+    		
+    		setCoolDown(sCoolDown[newLvl-1]);
+			setDamage(sDamage[newLvl-1]);
+			setRange(sRange[newLvl-1]);
+			setSplash(sSplash[newLvl-1]);
+			setSplashRadius(sSplashRadius[newLvl-1]);
 
 	    	return true;
     	}
 	}
-				
     
     /**
      * Sets the splash effect (int 1-5) for the tower
@@ -107,16 +130,9 @@ public class SplashTower extends Tower {
     	return mSplash;
     }
 
-    
+    //returns the cost to level from current level to current level +1
 	public int getUpgradeCost() {
-
-		switch(getLevel()) {
-		case 1: return 150;
-		case 2: return 330;
-		case 3: return 800;
-		}
-		return 0; 	//default, not gonna happen
+		return sUpgradeCost[getLevel()-1];
 	}
-
 
 }

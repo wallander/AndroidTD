@@ -1,6 +1,5 @@
 package com.chalmers.game.td.units;
 
-import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.R;
 
 public class BasicProjectile extends Projectile {
@@ -14,16 +13,10 @@ public class BasicProjectile extends Projectile {
 	 * TODO slow more when higher level
 	 */
 	public void inflictDmg() {
-		//switch(getTarget().getType()) {
-		//case AIR:
-		getTarget().setHealth(getTarget().getHealth() - getDamage());
-		//break;
-		//default: getTarget().setHealth((int) (getTarget().getHealth() - getDamage()*0.7));
-		//}
+		getTarget().takeDamage(getDamage());
 	}
 	
 	public int getProjImage(){
-		
 		return R.drawable.snowball_small;
 	}
 	
