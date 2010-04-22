@@ -184,13 +184,12 @@ public final class R {
         public static final int fast_forward_music=0x7f040000;
         public static final int menu_music=0x7f040001;
         public static final int progression_route_music=0x7f040002;
-        public static final int something=0x7f040003;
-        public static final int track_1_music=0x7f040004;
-        public static final int track_2_music=0x7f040005;
-        public static final int track_3_music=0x7f040006;
-        public static final int track_4_music=0x7f040007;
-        public static final int track_5_music=0x7f040008;
-        public static final int water_splash=0x7f040009;
+        public static final int track_1_music=0x7f040003;
+        public static final int track_2_music=0x7f040004;
+        public static final int track_3_music=0x7f040005;
+        public static final int track_4_music=0x7f040006;
+        public static final int track_5_music=0x7f040007;
+        public static final int water_splash=0x7f040008;
     }
     public static final class string {
         public static final int app_name=0x7f060000;

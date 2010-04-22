@@ -17,6 +17,7 @@ public class SoundManager {
 								sTrackFiveMusic;
 	private static SoundPool	sSounds;
 	private static int			sWaterSplashSound;
+	
 	/**
 	 * Constructor
 	 */
@@ -90,6 +91,10 @@ public class SoundManager {
 	    	getProgressionRouteMusic().stop();
 	    	getProgressionRouteMusic().release();
 	    }
+	    if(getMenuMusic().isPlaying() && getMenuMusic() != null) {
+	    	getMenuMusic().stop();
+	    	getMenuMusic().release();
+	    }
 	}
 	
 	/**
@@ -113,6 +118,7 @@ public class SoundManager {
 		setTrackThreeMusic(MediaPlayer.create(pContext, R.raw.track_3_music));
 		setTrackFourMusic(MediaPlayer.create(pContext, R.raw.track_4_music));
 		setTrackFiveMusic(MediaPlayer.create(pContext, R.raw.track_5_music));
+		
 	}
 
 	public static void setWaterSplashSound(int pWaterSplashSound) {
