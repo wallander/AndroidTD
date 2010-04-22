@@ -13,11 +13,10 @@ public class BasicProjectile extends Projectile {
 	 * TODO slow more when higher level
 	 */
 	public void inflictDmg() {
-		getTarget().setHealth(getTarget().getHealth() - getDamage());
+		getTarget().takeDamage(getDamage());
 	}
 	
 	public int getProjImage(){
-		
 		return R.drawable.snowball_small;
 	}
 	

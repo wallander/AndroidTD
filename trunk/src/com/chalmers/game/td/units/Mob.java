@@ -82,7 +82,9 @@ public class Mob extends Unit{
     	setHealth(pHealth);
     	setMaxHealth(pHealth);
     	mAnimation = 0;
-    	if(pType == Mob.NORMAL){
+    	
+    	switch (pType){
+    	case Mob.NORMAL:
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.penguinmob);
@@ -99,7 +101,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.penguinmob);
         		setReward(50);
         	}    		
-    	} else if (pType == Mob.AIR){
+    	case Mob.AIR:
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.flyingpenguin);
@@ -116,8 +118,8 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.flyingpenguin);
         		setReward(50);
         	}
-    	} else if (pType == Mob.FAST){
-        	if (pHealth <= 110) {
+    	case Mob.FAST:
+    		if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.bear);
         	} else if(pHealth <= 790) {
@@ -133,7 +135,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.icebear);
         		setReward(50);
         	}
-    	} else if (pType == Mob.HEALTHY){
+    	case Mob.HEALTHY:
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.walrus);
@@ -266,8 +268,8 @@ public class Mob extends Unit{
 	/**
 	 * @param mHealth the mHealth to set
 	 */
-	public void setHealth(int mHealth) {
-		this.mHealth = mHealth;
+	public void setHealth(int pHealth) {
+		mHealth = pHealth;
 	}
 
 	/**
@@ -275,6 +277,10 @@ public class Mob extends Unit{
 	 */
 	public int getHealth() {
 		return mHealth;
+	}
+	
+	public void takeDamage(int pDamage){
+		mHealth -= pDamage;
 	}
 	
 	/**

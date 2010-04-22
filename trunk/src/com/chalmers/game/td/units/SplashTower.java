@@ -22,6 +22,7 @@ public class SplashTower extends Tower {
 	public static final int[] sDamage = new int[]{6,24,50,80};
 	public static final int[] sRange = new int[]{60,70,70,80};
 	
+	//TODO sSplash is currently not used, it's set to 5 regardless
 	public static final int[] sSplash = new int[]{2,3,4,5};
 	public static final int[] sSplashRadius = new int[]{50,60,80,90};
 	
@@ -31,7 +32,7 @@ public class SplashTower extends Tower {
 		super(pX, pY);
 		setName("Splash Eskimo");
 		setDescription("Can hit many mobs at once!");
-		setType(SPLASH);
+		setType(Tower.SPLASH);
 		resetCoolDown();
 		setCost(100);
 	}
@@ -57,7 +58,7 @@ public class SplashTower extends Tower {
      */
     
     public Projectile createProjectile(Mob pTarget) {
-    	return new SplashProjectile(pTarget, this);
+    	return new SplashProjectile(pTarget, this, mSplashRadius);
     }
     
     public Projectile shoot() {
@@ -72,7 +73,7 @@ public class SplashTower extends Tower {
 			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, add it to list
-			if (sqrDist < getRange() && m.getType() != Mob.AIR);
+			if (sqrDist < getRange() && m.getType() != Mob.AIR)
 				mobsInRange.add(m);
 		}
 

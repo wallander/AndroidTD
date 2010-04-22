@@ -9,13 +9,10 @@ public class SplashProjectile extends Projectile {
 
 	private Coordinate mTargetCoordinate;
 	private int mSplashRadius;
-
-	//tal mellan 1-5, hur stor effect splashen har
-	private int mSplashEffect;
 	
 	private int mImage = R.drawable.projsplash_big;
 
-	public SplashProjectile(Mob pTarget, SplashTower pTower) {
+	public SplashProjectile(Mob pTarget, SplashTower pTower, int pSplashRadius) {
 		super(pTarget, pTower);
 
 		mTargetCoordinate = new Coordinate(getTarget().getX() + getTarget().getWidth()/2, 
@@ -23,25 +20,24 @@ public class SplashProjectile extends Projectile {
 
 		setAngle(Coordinate.getAngle(this.getCoordinates(), mTargetCoordinate));
 
-		mSplashRadius = pTower.getSplashRadius(); //50;
-		mSplashEffect = 5; //pTower.getSplash(); //tal mellan 1-5, hur stor effect splashen har
+		mSplashRadius = pSplashRadius;
 	}
 
 	/**
 	 * Inflicts damage to all nearby mobs.
 	 */
 	public void inflictDmg() {
-		getTarget().setHealth(getTarget().getHealth() - getDamage());
-		// hit every mob within a certain radius of the target coordinate for
-		// a certain amount of damage.
-		for (int i = 0; i < GameModel.mMobs.size(); i++) {
-			Mob m = GameModel.mMobs.get(i);
-
+		// hit every mob within a certain radius from the target coordinate for
+		// a certain amount of damage, depending on distance from center of splash
+		for (Mob m: GameModel.mMobs){
+			
 			double sqrDist = Coordinate.getSqrDistance(mTargetCoordinate, m.getCoordinates());
 
-			if (getTarget() != m && sqrDist <= mSplashRadius) {
-				m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() 
-						* (1 - (sqrDist/mSplashRadius/2))/5*mSplashEffect));
+			if (sqrDist <= mSplashRadius) {
+				//calculates the damage based on distance from explosion.
+				m.takeDamage((int)
+						(mTower.getDamage() * (1 - (sqrDist/mSplashRadius/2)))
+				);
 			}
 		}
 	}
@@ -52,9 +48,8 @@ public class SplashProjectile extends Projectile {
 	 * This is NOT a homing projectile, it keeps the same coordinate as target.
 	 */
 	public void updatePosition() {
-
-		setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle()) ));
-		setY(getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle()) ));
+		setX( getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY( getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 	}
 
 	public boolean hasCollided() {
