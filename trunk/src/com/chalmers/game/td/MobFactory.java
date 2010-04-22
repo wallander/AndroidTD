@@ -273,6 +273,10 @@ public class MobFactory {
 
 							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
+						} else if(mMobInfo[0].equals("IMMUNE")) {
+
+							mMobs.add(new Mob(MobType.IMMUNE, mHealth));
+							//Log.v("INIT MOBS", "Created mob of type IMMUNE");
 						}
 						
 				
