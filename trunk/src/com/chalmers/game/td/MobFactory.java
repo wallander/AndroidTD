@@ -25,18 +25,18 @@ import com.chalmers.game.td.units.Mob;
 public class MobFactory {
 
 	// Instance variables	
-	private static final MobFactory	INSTANCE = new MobFactory();
-	private int						mWaveDelayI,
-									mWaveNr,
-									mMaxWaveDelay,
-									mMobNr,
-									mTrackNr;
-	private Context					mContext;
-	private Path					mPath;
+	private static final MobFactory		INSTANCE = new MobFactory();
+	private int							mWaveDelayI,
+										mWaveNr,
+										mMaxWaveDelay,
+										mMobNr,
+										mTrackNr;
+	private Context						mContext;
+	private Path						mPath;
 	
 	private ArrayList<ArrayList<Mob>>	mTrackWaves;
-	private List<Integer>			mWaveNumbers;
-	private List<String> 			mMobTypeList;
+	private List<Integer>				mWaveNumbers;
+	private List<String> 				mMobTypeList;
 	
 	/**
 	 * Should not be used, call getInstance() instead.
@@ -50,7 +50,7 @@ public class MobFactory {
 		mWaveDelayI = 0;
 		mWaveNr = 0;
 		mMobNr = 0;
-		mTrackNr = GameModel.getTrack(); //1-5, vilken bana vi är på
+		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
 		mTrackWaves = new ArrayList<ArrayList<Mob>>();
 		//mWaveNumbers = new ArrayList<Integer>();
 		mMaxWaveDelay = 10;
@@ -104,12 +104,12 @@ public class MobFactory {
 
 		
 		
-		//Om vi inte är på sista vågen = Mobs kvar
+		//If not on last wave = Mobs left
 		if(mWaveNr < mTrackWaves.size()-1) {
 			return true;
 		} else if(mWaveNr == mTrackWaves.size()-1) {
 			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
-				//Om vi är på sista vågen, men det finns mobs kvar
+				//If we are on the last wave, but there still are mobs left
 				return true;
 			} else {
 				return false;
@@ -134,17 +134,17 @@ public class MobFactory {
 
 		Mob mMob = null;
 			
-		// Om banan inte är slut 
+		// If the track is not ended
 		if(mWaveNr < mTrackWaves.size()) {
 	
 			
 		
-			//Om waven inte är slut
+			// If the wave is not ended
 			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
 			
-					mWaveDelayI = 0; //Nollställ delayen		
+					mWaveDelayI = 0; // Reset delay		
 					
-					// Lägg till mobben
+					// Add the mob
 					mMob = mTrackWaves.get(mWaveNr).get(mMobNr);
 					mMobNr++;
 					
@@ -170,25 +170,25 @@ public class MobFactory {
 					}
 
 				} else {
-					//Om vågen är slut på mobs
-					//Om delayen är slut, gå till nästa wave. annars delaya
+					// If the wave has no more mobs
+					// If the delay is up send next wave, otherwise delay
 					if (mWaveDelayI >= mMaxWaveDelay) {
 						
 						mWaveNr++;
 						mWaveDelayI = 0;
 						mMobNr = 0;
-						Log.i("Våg","Delay slut börja om");
+						Log.i("Wave","Delay ended, start over");
 						
 					} else {
-						//Om Delayen _inte_ är slut
+						// If the delay has not reached max yet
 						mWaveDelayI++;
 					} 
 					return null;
 				}
 			
 		} else {
-			//Om banan är slut på waves
-			//behöver inte öka, mTrackNr, denna koll sköts av hasMoreMobs tydligen
+			// If the track has no more waves
+			// No need to increase, mTrackNr, handled by hasMoreMobs
 			return null;
 		}
 		return mMob;						
@@ -244,7 +244,7 @@ public class MobFactory {
 					
 					mMobs = new ArrayList<Mob>();
 					mMobInfo = mAllMobs[j].split(" ");
-					Log.i("INIT MOBS", "Vag:" + i + "/" + j + " MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
+					Log.i("INIT MOBS", "Wave:" + i + "/" + j + " MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
 					
 					
 					
@@ -284,8 +284,8 @@ public class MobFactory {
 				}
 				if(i+1 == GameModel.getTrack()) {
 					mTrackWaves = mWaves;
-					Log.i("Klar","med våginläsning av "+i+1);
-					Log.i("Vågor","Antal"+mWaves.size());
+					Log.i("Finished","with wave initiation of "+i+1);
+					Log.i("Waves","Amount"+mWaves.size());
 				}
 			
 				
