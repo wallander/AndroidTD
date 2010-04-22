@@ -1,6 +1,10 @@
 package com.chalmers.game.td.units;
 
 
+import java.util.ArrayList;
+
+import com.chalmers.game.td.Coordinate;
+import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.R;
 
 /**
@@ -53,11 +57,32 @@ public class SplashTower extends Tower {
      */
     
     public Projectile createProjectile(Mob pTarget) {
-    	switch(pTarget.getType()) {
-    		case AIR: return null;
-    		default: return new SplashProjectile(pTarget, this);
-    	}
+    	return new SplashProjectile(pTarget, this);
     }
+    
+    public Projectile shoot() {
+
+		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
+
+		// loop through the list of mobs
+		for (int i=0; i < GameModel.mMobs.size(); i++) {
+
+			Mob m = GameModel.mMobs.get(i);
+
+			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+
+			// if the mob is in range, add it to list
+			if (sqrDist < getRange() && m.getType() != Mob.AIR);
+				mobsInRange.add(m);
+		}
+
+		//if there are any mobs available to shoot, return a projectile on the first of them, 
+		//else return null
+		if (!mobsInRange.isEmpty())
+			return createProjectile(firstMob(mobsInRange));
+		else
+			return null;
+	}
 
 	public boolean upgrade() {
     	//TODO change values

@@ -8,10 +8,12 @@ import com.chalmers.game.td.R;
 public class SplashProjectile extends Projectile {
 
 	private Coordinate mTargetCoordinate;
-	private int mBlastRadius;
+	private int mSplashRadius;
 
 	//tal mellan 1-5, hur stor effect splashen har
-	private int mBlastEffect;
+	private int mSplashEffect;
+	
+	private int mImage = R.drawable.projsplash_big;
 
 	public SplashProjectile(Mob pTarget, SplashTower pTower) {
 		super(pTarget, pTower);
@@ -21,16 +23,13 @@ public class SplashProjectile extends Projectile {
 
 		setAngle(Coordinate.getAngle(this.getCoordinates(), mTargetCoordinate));
 
-		mBlastRadius = pTower.getSplashRadius(); //50;
-		mBlastEffect = 5; //pTower.getSplash(); //tal mellan 1-5, hur stor effect slashen har
+		mSplashRadius = pTower.getSplashRadius(); //50;
+		mSplashEffect = 5; //pTower.getSplash(); //tal mellan 1-5, hur stor effect splashen har
 	}
-
 
 	/**
 	 * Inflicts damage to all nearby mobs.
 	 */
-
-
 	public void inflictDmg() {
 		getTarget().setHealth(getTarget().getHealth() - getDamage());
 		// hit every mob within a certain radius of the target coordinate for
@@ -40,8 +39,9 @@ public class SplashProjectile extends Projectile {
 
 			double sqrDist = Coordinate.getSqrDistance(mTargetCoordinate, m.getCoordinates());
 
-			if (getTarget() != m && sqrDist <= mBlastRadius) {
-				m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() * (1 - (sqrDist/mBlastRadius/2))/5*mBlastEffect));
+			if (getTarget() != m && sqrDist <= mSplashRadius) {
+				m.setHealth(m.getHealth() - (int)((double)mTower.getDamage() 
+						* (1 - (sqrDist/mSplashRadius/2))/5*mSplashEffect));
 			}
 		}
 	}
@@ -68,8 +68,7 @@ public class SplashProjectile extends Projectile {
 	}
 	
 	public int getProjImage(){
-		
-		return R.drawable.projsplash_big;
+		return mImage;
 	}
 
 }

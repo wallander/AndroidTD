@@ -10,7 +10,6 @@ import android.content.res.Resources.NotFoundException;
 import android.util.Log;
 
 import com.chalmers.game.td.units.Mob;
-import com.chalmers.game.td.units.Mob.MobType;
 
 
 /**
@@ -156,11 +155,11 @@ public class MobFactory {
 					mMob.setPath(mPath);
 					
 					switch(mMob.getType()) {
-					case FAST:
+					case Mob.FAST:
 						mMaxWaveDelay = 10;
 						Log.i("Delay","FAST");
 						break;
-					case HEALTHY:
+					case Mob.HEALTHY:
 						mMaxWaveDelay = 30;
 						Log.i("Delay","HEALTHY");
 						break;
@@ -256,22 +255,22 @@ public class MobFactory {
 						// k == nr of mobs
 						if(mMobInfo[0].equals("NORMAL")) {
 
-							mMobs.add(new Mob(MobType.NORMAL, mHealth));
+							mMobs.add(new Mob(Mob.NORMAL, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type NORMAL");
 
 						} else if(mMobInfo[0].equals("AIR")) {
 
-							mMobs.add(new Mob(MobType.AIR, mHealth));
+							mMobs.add(new Mob(Mob.AIR, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type AIR");
 
 						} else if(mMobInfo[0].equals("FAST")) {
 
-							mMobs.add(new Mob(MobType.FAST, mHealth));
+							mMobs.add(new Mob(Mob.FAST, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type FAST");
 
 						} else if(mMobInfo[0].equals("HEALTHY")) {
 
-							mMobs.add(new Mob(MobType.HEALTHY, mHealth));
+							mMobs.add(new Mob(Mob.HEALTHY, mHealth));
 							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
 						}
 						

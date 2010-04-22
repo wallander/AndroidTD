@@ -14,7 +14,6 @@ import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashTower;
-import com.chalmers.game.td.units.Mob.MobType;
 
 import android.app.Activity;
 import android.content.Context;
@@ -1404,7 +1403,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			Matrix matrix = new Matrix();
 			
 			// if the mob is of type HEALTHY,
-			if (m.getType() == MobType.HEALTHY) {
+			if (m.getType() == Mob.HEALTHY) {
 				int mMultiplier = 3;
 				
 				// rotate the Bitmap according to animation frame
@@ -1429,7 +1428,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			// create offsets for AIR type mobs. they fly higher than other animals
 			int mOffset,mOffset2;
-			if(m.getType() == Mob.MobType.AIR) {
+			if(m.getType() == Mob.AIR) {
 				mOffset = 25;
 				mOffset2 = 2;
 			} else {

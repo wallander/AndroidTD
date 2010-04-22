@@ -41,8 +41,13 @@ public class Mob extends Unit{
 	// how much money you get when you kill this mob
 	private int mReward;
 	
+	/**
+	 * Enum for the mob type. One for each type of mob.
+	 */
+	public static final int HEALTHY=0, AIR=1, FAST=2, NORMAL=3, IMMUNE=4;
+	
 	/** Mob type (Ground, air or invisible) */
-	private MobType mType;	
+	private int mType;	
 	
 	/** Path Checkpoint */
 	private int mCheckpoint;
@@ -65,10 +70,6 @@ public class Mob extends Unit{
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
 	
-	/**
-	 * Enum for the mob type. One for each type of mob.
-	 */
-	public enum MobType { HEALTHY, AIR, FAST, NORMAL, IMMUNE}
   
     /**
      * Extra constructor for Mobs, used for setting health directly from xml-file
@@ -76,12 +77,12 @@ public class Mob extends Unit{
      * (2010-04-06) by Jonas
      * @param pType
      */
-    public Mob(MobType pType, int pHealth) {
+    public Mob(int pType, int pHealth) {
     	this(pType);		//anropar den andra kontruktorn
     	setHealth(pHealth);
     	setMaxHealth(pHealth);
     	mAnimation = 0;
-    	if(pType == MobType.NORMAL){
+    	if(pType == Mob.NORMAL){
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.penguinmob);
@@ -98,7 +99,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.penguinmob);
         		setReward(50);
         	}    		
-    	} else if (pType == MobType.AIR){
+    	} else if (pType == Mob.AIR){
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.flyingpenguin);
@@ -115,7 +116,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.flyingpenguin);
         		setReward(50);
         	}
-    	} else if (pType == MobType.FAST){
+    	} else if (pType == Mob.FAST){
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.bear);
@@ -132,7 +133,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.icebear);
         		setReward(50);
         	}
-    	} else if (pType == MobType.HEALTHY){
+    	} else if (pType == Mob.HEALTHY){
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.walrus);
@@ -158,7 +159,7 @@ public class Mob extends Unit{
      * (2010-03-24)
      * @param pType
      */
-    public Mob(MobType pType) {
+    public Mob(int pType) {
     	mType = pType;
     	    	
         setSpeed(1.2);      
@@ -170,9 +171,9 @@ public class Mob extends Unit{
         // TODO: fix dynamic size
         setSize(24);
         
-        if(pType == MobType.HEALTHY) {
+        if(pType == Mob.HEALTHY) {
     		setSpeed(0.5);
-    	} else if(pType == MobType.FAST) {
+    	} else if(pType == Mob.FAST) {
     		setSpeed(1.6);
     	}
     }
@@ -251,14 +252,14 @@ public class Mob extends Unit{
     /**
      * @param
      */
-    public void setType(MobType pType) {
+    public void setType(int pType) {
         mType = pType;
     }
 
     /**
      * @return The type of the instance.
      */
-    public MobType getType() {
+    public int getType() {
         return mType;
     }
 
