@@ -37,7 +37,6 @@ public class SplashTower extends Tower {
 		setCost(100);
 	}
 	
-	
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
 
