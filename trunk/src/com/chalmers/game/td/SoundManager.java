@@ -19,8 +19,7 @@ public class SoundManager {
 	private static int			sWaterSplashSound,
 								sWalkingPenguinSound,
 								sFlyingPenguinSound,
-								sSeaLionTauntSound,
-								sSeaLionSound;
+								sSeaLionTauntSound;
 	/**
 	 * Constructor
 	 */
@@ -105,8 +104,7 @@ public class SoundManager {
 		setWaterSplashSound(sSounds.load(pContext, R.raw.water_splash, 1));
 		setWalkingPenguinSound(sSounds.load(pContext, R.raw.walking_penguin, 1));
 		setFlyingPenguinSound(sSounds.load(pContext, R.raw.flying_penguin, 1));
-		setSeaLionTauntSound(sSounds.load(pContext, R.raw.sealion_taunt, 1));
-		setSeaLionSound(sSounds.load(pContext, R.raw.sealion, 1)); // TODO Disturbing sound :P also it stacks... so even when all mobs are dead the sound still plays until all have been played
+		setSeaLionTauntSound(sSounds.load(pContext, R.raw.sealion_taunt, 1));		
 		
 		// Initialize the music
 		setMenuMusic(MediaPlayer.create(pContext, R.raw.menu_music));
@@ -117,14 +115,6 @@ public class SoundManager {
 		setTrackThreeMusic(MediaPlayer.create(pContext, R.raw.track_3_music));
 		setTrackFourMusic(MediaPlayer.create(pContext, R.raw.track_4_music));
 		setTrackFiveMusic(MediaPlayer.create(pContext, R.raw.track_5_music));
-	}
-
-	public static void setSeaLionSound(int pSeaLionSound) {
-		SoundManager.sSeaLionSound = pSeaLionSound;
-	}
-
-	public static int getSeaLionSound() {
-		return sSeaLionSound;
 	}
 
 	public static void setSeaLionTauntSound(int pSeaLionTauntSound) {
