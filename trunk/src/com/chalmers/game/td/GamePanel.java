@@ -149,28 +149,38 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final int mSnowballTreshold = 1500;
 	private int mUsedSnowballs;
 	
-	private AudioManager mAudioManager;
-	private static SoundPool sounds;
+	private AudioManager mAudioManager; // TODO Move to SoundManager?
 	
-	private static int explosionSound;
-	private static MediaPlayer fastMusic,mainMusic;
-
-	
-	public static void loadSound(Context context) {
-//	    sound = SilhouPreferences.sound(context); // should there be sound?
-	    sounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-	    // three ref. to the sounds I need in the application
-	    explosionSound = sounds.load(context, R.raw.explosion, 1);
-	    // the music that is played at the beginning and when there is only 10 seconds left in a game
-	    fastMusic = MediaPlayer.create(context, R.raw.doom_1);
-	    mainMusic = MediaPlayer.create(context, R.raw.main);
+	/**
+	 * Returns the MediaPlayer for which ever track is active
+	 * 
+	 * @param pTrack
+	 */
+	public MediaPlayer playTrackMusic(int pTrack) {
+		
+		switch(pTrack) {
+		
+			case 1:
+				return SoundManager.getTrackOneMusic();
+			
+			case 2:
+				return SoundManager.getTrackTwoMusic();
+			
+			case 3:
+				return SoundManager.getTrackThreeMusic();
+			
+			case 4:
+				return SoundManager.getTrackFourMusic();
+			
+			case 5:
+				return SoundManager.getTrackFiveMusic();
+			
+		}
+		
+		return null;
 	}
 	
-	public static void playSound(int file) {
-//	    if (!sound) return; // if sound is turned off no need to continue
-	    sounds.play(file, 1, 1, 1, 0, 1);
-	}
-	
+	// TODO track support
 	public void updateSounds() {
 		switch (GAME_STATE) {
 		case STATE_RUNNING:
@@ -178,51 +188,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			try {
 				if (GameModel.sMusicEnabled) {
 					if (fastf) {
-						pauseMusic(mainMusic);
-						playMusic(fastMusic);
+						SoundManager.pauseMusic(playTrackMusic(GameModel.getTrack()));
+						SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
 					} else {
-						pauseMusic(fastMusic);
-						playMusic(mainMusic);
+						SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
+						SoundManager.playMusic(playTrackMusic(GameModel.getTrack()));
 					}
 				}
 			} catch (IllegalStateException ise) {
-				loadSound(getContext());
+				SoundManager.initializeSound(getContext());
 			}
 			break;
 		default:
-			pauseMusic(fastMusic);
-			pauseMusic(mainMusic);
+			SoundManager.pauseMusic(playTrackMusic(GameModel.getTrack()));
+			SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
 			break;
 		}
 	}
-	
-	public static final void playMusic(MediaPlayer file) {
-	    if (!file.isPlaying()) {
-	    file.seekTo(0);
-	    file.start();
-	    }
-	}
-	
-	public static final void pauseMusic(MediaPlayer file) {
-//	    if (!sound) return;
-	    if (file.isPlaying()) file.pause();
-	}
-	
-	public static final void releaseSounds() {
-//	    if (!soundEnabled) return;
-		if (sounds == null)
-			return;
-	    sounds.release();
-	    if (fastMusic.isPlaying() && fastMusic != null) {
-	    	fastMusic.stop();
-	    	fastMusic.release();
-	    }
-	    if (mainMusic.isPlaying() && mainMusic != null) {
-	    	mainMusic.stop();
-	    	mainMusic.release();
-	    }
-	}
-
 	
 	/**
 	 * Constructor called on instantiation.
@@ -241,10 +223,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		startTrack(GameModel.getTrack());
 		
-
-		loadSound(context);
-
-		
+		SoundManager.initializeSound(context);
+			
 		fillBitmapCache();
 		getHolder().addCallback(this);
 		mGameThread = new GameThread(this);
@@ -840,7 +820,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				// if the projectile's target is dead, remove the projectile
-				if (p.getTarget().getHealth() <= 0) {
+				if (p.getTarget().getHealth() <= 0) {					
 					GameModel.mProjectiles.remove(p);	
 					++removed;
 				}
@@ -896,6 +876,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					GameModel.currentPlayer.changeScore(m);					
 					GameModel.mShowRewardForMob.add(m);
 					GameModel.mMobs.remove(m);
+					// TODO determine which mobtype, then find a good sound
 					++removed;
 				}
 			}
