@@ -22,7 +22,6 @@ public class Highscore {
 
 	private static final Highscore	INSTANCE = new Highscore();
 	private double					mCurrentTrackScore;
-//	private double[]				mTrackScore;
 	private File					mFile;
 	private BufferedWriter			mWriter;
 	private BufferedReader	 		mReader;
@@ -50,22 +49,7 @@ public class Highscore {
 		mCurrentTrackScore =  pScore;
 		
 	}
-	
-//	public boolean loadScore() {
-//		
-//		if(mSavedScore == null) {
-//			return false;
-//		} else {
-//			
-//			for(int i = 1; i <= mSavedScore.size(); ++i) {
-//				mTrackScore[i-1] = mSavedScore.get(i);
-//				Log.v("Highscore","Score for track " + i + " is " + mSavedScore.get(i));
-//			}
-//			
-//			return true;
-//		}
-//	}
-	
+
 	public void saveScore() {
 		
 		if(mSavedScore.get(GameModel.getTrack() - 1) < mCurrentTrackScore) {
@@ -78,8 +62,12 @@ public class Highscore {
 				mWriter = getWriter();
 				
 				for(int i = 0; i < mSavedScore.size(); ++i) {
-									
-					mWriter.write("Track " + String.valueOf(i+1) + "\n Score " + String.valueOf((mSavedScore.get(i))) + "\n");
+																		
+					mWriter.write("Track " + String.valueOf(i+1));
+					mWriter.write("\n");
+					mWriter.write("Score " + String.valueOf((mSavedScore.get(i))));
+					mWriter.write("\n");
+					
 					Log.v("HIGHSCORE.saveScore", "Wrote to file:" + "Score " + String.valueOf(mSavedScore.get(i)));
 				
 				}
@@ -93,14 +81,6 @@ public class Highscore {
 		
 		mCurrentTrackScore = 0;
 	}
-	
-//	public void setTracks(int pTracks) {
-//		mTrackScore = new double[pTracks];				
-//					
-//		for(int i = 0; i < mTrackScore.length; ++i) {
-//			mTrackScore[i] = 0;
-//		}		
-//	}
 	
 	public double getTrackScore(int pTrack) {
 		return mSavedScore.get(pTrack-1);
@@ -172,7 +152,7 @@ public class Highscore {
 			mReader = getReader();
 			
 			String 		readLine = "";
-			String[] 	input = new String[3];
+			String[] 	input = new String[2];
 			int			track = 0;
 			
 			try {
@@ -189,10 +169,10 @@ public class Highscore {
 						Log.v("Highscore.constructor", "Read track... track is " + String.valueOf(input[1]));
 						track = Integer.parseInt(input[1]);
 						
-					} else if(input[1].equals("Score")) {
-						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[2]));
+					} else if(input[0].equals("Score")) {
+						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
 													
-						mSavedScore.add(track,Double.parseDouble(String.valueOf(input[2])));
+						mSavedScore.add(track,Double.parseDouble(String.valueOf(input[1])));
 						
 					}
 				}

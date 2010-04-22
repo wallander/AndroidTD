@@ -7,7 +7,6 @@ import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 
 import com.chalmers.game.td.R;
-import com.chalmers.game.td.units.Mob.MobType;
 
 public class AirTower extends Tower {
 
@@ -62,7 +61,7 @@ public class AirTower extends Tower {
 			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, and is a air mob, add it to list
-			if (sqrDist < getRange() && m.getType()== MobType.AIR)
+			if (sqrDist < getRange() && m.getType()== Mob.AIR)
 				mobsInRange.add(m);
 		}
 

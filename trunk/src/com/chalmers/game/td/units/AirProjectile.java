@@ -3,6 +3,8 @@ package com.chalmers.game.td.units;
 import com.chalmers.game.td.R;
 
 public class AirProjectile extends Projectile {
+	
+	private int mImage =  R.drawable.snowball_small;
 
 	public AirProjectile(Mob pTarget, AirTower pTower) {
 		super(pTarget, pTower);
@@ -16,12 +18,12 @@ public class AirProjectile extends Projectile {
 	 * TODO slow more when higher level
 	 */
 	public void inflictDmg() {
-		getTarget().setHealth(getTarget().getHealth() - getDamage());
+		getTarget().takeDamage(getDamage());
 	}
 	
 	public int getProjImage(){
 		
-		return R.drawable.snowball_small;
+		return mImage;
 	}
 	
 }

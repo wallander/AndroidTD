@@ -1,6 +1,10 @@
 package com.chalmers.game.td.units;
 
 
+import java.util.ArrayList;
+
+import com.chalmers.game.td.Coordinate;
+import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.R;
 
 /**
@@ -18,6 +22,7 @@ public class SplashTower extends Tower {
 	public static final int[] sDamage = new int[]{6,24,50,80};
 	public static final int[] sRange = new int[]{60,70,70,80};
 	
+	//TODO sSplash is currently not used, it's set to 5 regardless
 	public static final int[] sSplash = new int[]{2,3,4,5};
 	public static final int[] sSplashRadius = new int[]{50,60,80,90};
 	
@@ -27,11 +32,10 @@ public class SplashTower extends Tower {
 		super(pX, pY);
 		setName("Splash Eskimo");
 		setDescription("Can hit many mobs at once!");
-		setType(SPLASH);
+		setType(Tower.SPLASH);
 		resetCoolDown();
 		setCost(100);
 	}
-	
 	
 	// Temporary changes images up to 4 upgrades.
 	public void setImageByLevel(int pLevel) {
@@ -53,11 +57,32 @@ public class SplashTower extends Tower {
      */
     
     public Projectile createProjectile(Mob pTarget) {
-    	switch(pTarget.getType()) {
-    		case AIR: return null;
-    		default: return new SplashProjectile(pTarget, this);
-    	}
+    	return new SplashProjectile(pTarget, this, mSplashRadius);
     }
+    
+    public Projectile shoot() {
+
+		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
+
+		// loop through the list of mobs
+		for (int i=0; i < GameModel.mMobs.size(); i++) {
+
+			Mob m = GameModel.mMobs.get(i);
+
+			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+
+			// if the mob is in range, add it to list
+			if (sqrDist < getRange() && m.getType() != Mob.AIR)
+				mobsInRange.add(m);
+		}
+
+		//if there are any mobs available to shoot, return a projectile on the first of them, 
+		//else return null
+		if (!mobsInRange.isEmpty())
+			return createProjectile(firstMob(mobsInRange));
+		else
+			return null;
+	}
 
 	public boolean upgrade() {
     	//TODO change values

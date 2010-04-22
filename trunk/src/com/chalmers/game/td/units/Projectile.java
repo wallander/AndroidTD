@@ -63,8 +63,6 @@ public abstract class Projectile extends Unit{
 		//setAngle(a2 - Math.asin(getMob().getSpeed()/getSpeed()*Math.sin(Math.PI - a2 + getMob().getAngle())));
     }
     
-
-    
     public double getAngle() {
 		return mAngle;
 	}

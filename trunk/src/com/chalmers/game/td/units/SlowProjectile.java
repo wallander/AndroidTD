@@ -6,6 +6,8 @@ import com.chalmers.game.td.R;
 public class SlowProjectile extends Projectile {
 
 	private double mSlowEffect; //amount of slow - percent of original speed
+	
+	private int mImage = R.drawable.projslow;
 
 	public SlowProjectile(Mob pTarget, SlowTower pTower, double pSlow) {
 		super(pTarget, pTower);	
@@ -18,13 +20,13 @@ public class SlowProjectile extends Projectile {
 	 */
 	public void inflictDmg() {
 
-		getTarget().setHealth(getTarget().getHealth() - getDamage());
+		getTarget().takeDamage(getDamage());
 
 		switch (getTarget().getType()) {
-		case HEALTHY:		// if HEALTHY/BOSS = less slow
+		case Mob.HEALTHY:		// if HEALTHY/BOSS = less slow
 			getTarget().setSlowed(50,1-(1-mSlowEffect)/3);
 			break;
-		case IMMUNE:
+		case Mob.IMMUNE:
 			break;
 		default: getTarget().setSlowed(200,mSlowEffect);
 		break;
@@ -32,6 +34,6 @@ public class SlowProjectile extends Projectile {
 	}
 	
 	public int getProjImage(){
-		return R.drawable.projslow;
+		return mImage;
 	}
 }
