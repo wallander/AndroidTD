@@ -436,7 +436,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					} else { // if the user has NOT selected a tower, or if the user selected a tower but touched outside the upgrade window.
 
 						mSelectedTower = null; //deselect any selected tower
-
 						mAllowBuild = false;
 
 						// game field touched
@@ -447,11 +446,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						else 
 							onTouchRightButtonsEvent(event);
 					}
-
 					break;
+					
 				case MotionEvent.ACTION_MOVE:
 					
-					mShowTooltip =  mTx > mButtonBorder;
+					mShowTooltip =  mTx > mButtonBorder; //show tooltip if tower is on the button menu
 					// if a tower is being bought
 					if(mCurrentTower != null){
 						
