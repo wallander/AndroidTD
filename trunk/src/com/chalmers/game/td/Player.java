@@ -29,6 +29,7 @@ public class Player {
 		mScore.saveScore();
 	}
 	
+	// TODO remove these comments! this is for debug only
 	public double getTrackScore(int pTrack) {
 		//return mScore.getTrackScore(pTrack);
 		return 1.1;
