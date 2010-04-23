@@ -64,7 +64,11 @@ public class MobFactory {
 	 * @return	the current wave number
 	 */
 	public int getWaveNr() {
-		return mWaveNr+1;
+		if(mWaveNr > getTotalNrOfWaves()) {
+			return mWaveNr;
+		} else {
+			return mWaveNr+1;
+		}
 	}
 	
 	public int getWaveMaxDelay() {
@@ -137,7 +141,7 @@ public class MobFactory {
 	
 			// If the delay is up send next wave, otherwise delay
 			if (mWaveDelayI >= mMaxWaveDelay) {
-		
+				mWaveNr++;
 				// If the wave is not ended
 				if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
 				
@@ -170,7 +174,7 @@ public class MobFactory {
 	
 				} else { //if the wave is over
 					mWaveDelayI = 0; // Reset delay
-					mWaveNr++;
+				
 					mMobNr = 0;
 					Log.i("Wave","Delay ended, start over");
 				}
@@ -315,11 +319,15 @@ public class MobFactory {
 	 */
 	public String getWaveType() {
 			if (mTrackWaves.size() > mWaveNr + 1) {
-				return "" + mTrackWaves.get(mWaveNr + 1).get(0).getType();
+				return "" + mTrackWaves.get(mWaveNr + 1).get(0).toString();
 			} else {
 				return "-";
 			}
 	}
+	
+	/**
+	 * Same as getWaveType but returns
+	 */
 	
 	/**
 	 * 

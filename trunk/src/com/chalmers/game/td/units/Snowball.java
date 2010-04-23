@@ -113,13 +113,11 @@ public class Snowball extends Unit {
 		setSpeedY(getSpeedY() + y / 45);
 		
 		if ((getX() < 0 && getSpeedX() < 0)	|| (getX() > 480 && getSpeedX() > 0)) {
-			setSpeedX(-getSpeedX() * 0.5);
-			mCharges--;
+			setSpeedX(-getSpeedX() * 0.3);
 		}
 		
 		if ((getY() < 0 && getSpeedY() < 0) || (getY() > 320 && getSpeedY() > 0)) {
-			setSpeedY(-getSpeedY() * 0.5);
-			mCharges--;
+			setSpeedY(-getSpeedY() * 0.3);
 		}
 		
 		// if the snowball is slowed, move slower
