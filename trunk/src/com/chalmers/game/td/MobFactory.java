@@ -319,10 +319,10 @@ public class MobFactory {
 	 * @return Type of the next mob
 	 */
 	public String getWaveType() {
-			if (mTrackWaves.size() > mWaveNr + 1) {
+			if (mTrackWaves.size() > mWaveNr) {
 				return "" + mTrackWaves.get(mWaveNr).get(0).toString();
 			} else {
-				return "-";
+				return "";
 			}
 	}
 	
