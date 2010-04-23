@@ -57,6 +57,7 @@ class ProgressionThread extends Thread {
                // synchronized (mProgressionPanel.getHolder()) {
                 	c = mProgressionPanel.getHolder().lockCanvas(null);
                     mProgressionPanel.onDraw(c);
+                    mProgressionPanel.updateSound();
                 //}
                 
                 sleep(5);

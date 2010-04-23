@@ -66,7 +66,6 @@ public class Menu extends Activity implements OnClickListener{
         	String value = b.getString("msg");
         	Toast.makeText(this, "Value : " + value, Toast.LENGTH_LONG).show();
         }
-       
         
     }
     @Override
@@ -99,7 +98,6 @@ public class Menu extends Activity implements OnClickListener{
     public void onStop() {
     	Log.i("Menu","onStop()");
     	super.onStop();
-    	
     }
     
     @Override

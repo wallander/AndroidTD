@@ -18,30 +18,48 @@ import com.chalmers.game.td.GamePanel;
  */
 public abstract class Tower extends Unit {
 
-	private int mDamage;		// Tower damage
-	private int mRange;			// Tower shoot range
-	private int mCost;			// Tower cost
-	private int mLevel;			// Tower level
-	private int mCoolDownLeft;	// Tower shoot delay
-	private int mCoolDown;		// Tower constant shoot speed
-	private String mDescription; // Tower description
+	/** Tower damage.*/
+	private int mDamage;
 	
+	/** Tower shoot range.*/
+	private int mRange;
+	
+	/** The cost to buy the tower.*/
+	private int mCost;
+	
+	/** The tower's current level.*/
+	private int mLevel=0;
+	
+	/** The time between each shot.*/
+	private int mCoolDown;		// Tower constant shoot speed
+	
+	/** The time left until next shot is fired.*/
+	private int mCoolDownLeft;	// Tower shoot delay
+	
+	/** Text description of the tower. Will be displayed in the tower´s tooltip.*/
+	private String mDescription; // Tower description
+
+	/** The tower name. Will be displayed in the tower´s tooltip.*/
 	private String mName;
+	
+	/** Constants representing different tower types.*/
 	public static final int BASIC=1, SPLASH=2, SLOW=3, AIR=4;
+	
+	/** The tower type stored as one of the constants BASIC, SPLASH, SLOW, AIR.*/
 	private int mType;
 	
+	/** The current image for the tower.*/
 	private int mImage;
 	
-	//List<Projectile> mProjectiles;
 	/**
-     * Constructor called to create a tower
-     * Currently hardcoded. TODO
+     * Constructor called when a tower is created.
      * 
-     * @param 
+     * @param pX X-coordinate where the created tower should be placed.
+     * @param pY Y-coordinate where the created tower should be placed.
+     * 
 	 */
     public Tower(int pX, int pY){
     	setCoordinates(new Coordinate(pX, pY));
-    	setLevel(0);
     	upgrade();
     	setSize(2);
     	setImageByLevel(mLevel);
@@ -72,111 +90,99 @@ public abstract class Tower extends Unit {
 		return mCoolDownLeft > 0;
 	}
 	
-	//called by GamePanel in UpdateModel() so that the cool down is decreased 
-	// by the game speed multiplier every time the model is updated
-	public void decCoolDownLeft(int pGameSpeed){
-		mCoolDownLeft -=  pGameSpeed;
+	/** 
+	 * Decreases the time left until next shot is fired by the tower.
+	 * Will be called each time that the game model is updated unless the tower shoots.
+	 * 
+	 * @param pSpeed The current speed multiplier of the game.
+	 */
+	public void decCoolDownLeft(int pSpeed){
+		mCoolDownLeft -=  pSpeed;
 	}
 	
-	//public boolean isInRange()
-	
-	//called after the tower has shot, reset CD
+	/** 
+	 * Resets the time remaining until next shot. 
+	 * Called when the tower has fired a shot. 
+	 */
 	public void resetCoolDown(){
 		mCoolDownLeft = mCoolDown;
 	}
 	
-	//Attack speed is another way to express cool down, that is more intuitive to the user
-	//higher value = better
-	//TODO add this value to tower tool tip
+	
+	/** Attack speed is another way to express cooldown, that is more intuitive to the user.
+	 * A higher attack speed means that the tower is faster.
+	 */
 	public int getAttackSpeed(){
 		return 1000/mCoolDown;
 	}
 	
-//	public int getAttackSpeed(int pLevel){
-//		if (pLevel >= 1)
-//			return 100/sCoolDown[pLevel-1];
-//		else
-//			return -1;
-//	}
-	
 	//Should be implemented so it takes the level of the tower as argument and sets the image 
 	//to the drawable that corresponds to that level.
+	
+	/** 
+	 * Sets the image corresponding to the tower's level.
+	 * @param pLevel The level of the tower
+	 */
 	public abstract void setImageByLevel(int pLevel);
 	
-    // Changes the tower images to the image specified by pImage.
+	/** 
+	 * Sets the image of the tower to a given image.
+	 * @param pImage The image to use for the tower.
+	 */
 	public void setImage(int pImage) {
 		mImage = pImage;
 	}
-	//returns the integer mImage
+	
 	public int getImage() {
 		return mImage;
 	}
 	
 	public void setCost(int i) {
 		mCost = i;
-		// TODO ta bort kostnad från spelarens konto?
 	}
 	
 	public abstract int getUpgradeCost();
 
-
     /**
-     * Method that returns a Projectile set to target the first mob
-     * in the given list of mobs that the tower can reach.
+     * The tower tries to shoot at something. 
+     * If a shot is fired the tower's cooldown will be reset. If the tower is on cooldown the 
+     * cooldown that is left until next shot will be decreased appropriately.
      * 
-     * @param mobs List of mobs for the tower to target
-     * @return Projectile set to target the first mob the tower can reach.
+     * @return Projectile A projectile specific for the tower type, targeting the first valid
+     * mob within the tower's range. It will be null if the tower is on cooldown, or if
+     * no mobs (that the tower is allowed to shoot at) are in range of the tower.
      */
-	
 	public Projectile tryToShoot(){
+		Projectile p = null;
 
 		if (!isOnCoolDown()){
-			Projectile p = shoot();
+			p = shoot(); 		//can be null (if there are no valid mobs to shoot at)
 			if(p != null)		//reset the cooldown if the tower actually shoots
 				resetCoolDown();
-			return p;	//return the projectile regardless of if it is null or not	
-		}else {
+		} else
 			decCoolDownLeft(GamePanel.getSpeedMultiplier());
-			return null;
-		}
+
+		return p;
 	}
 
-	public Projectile shoot() {
-
-		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
-
-		// loop through the list of mobs
-		for (int i=0; i < GameModel.mMobs.size(); i++) {
-
-			Mob m = GameModel.mMobs.get(i);
-
-			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
-
-			// if the mob is in range, add it to list
-			if (sqrDist < getRange())
-				mobsInRange.add(m);
-		}
-
-		//if there are any mobs available to shoot, return a projectile on the first of them, 
-		//else return null
-		if (!mobsInRange.isEmpty())
-			return createProjectile(firstMob(mobsInRange));
-		else
-			return null;
-	}
+	/**
+	 * Creates a projectile that targets a mob that is in the tower's range, and is a valid target of the
+	 * tower. If no such mob exists returns null. Called from tryToShoot if the tower is off cooldown.
+	 */
+	public abstract Projectile shoot();
 
 	public Mob firstMob(ArrayList<Mob> pMobs) {
 		Mob first = pMobs.get(0);
-
-		//if only one mob, return it
-		if (pMobs.size()==1)
-			return first;
-
-		//otherwise loop through to find and return first
-		for (Mob m : pMobs){
-			if (m.isBefore(first))
-				first = m;
+		
+		//if only one mob, return it no need to change
+		if (pMobs.size()>1){
+			//otherwise loop through to find and return first
+			for (Mob m : pMobs){
+				if (m.isBefore(first))
+					first = m;
+			}
 		}
+		
 		return first;
 	}
 
@@ -185,36 +191,55 @@ public abstract class Tower extends Unit {
     /**
      * Returns whether this tower is located at the given position (x,y)
      * 
-     * @param x
-     * @param y
-     * @return
+     * @param x The x-coordinate for the tower's position.
+     * @param y The y-coordinate for the tower's position.
+     * 
+     * @return Returns true if the tower occupies the given coordinate.
      */
     public boolean selectTower(double pXpos, double pYpos) {
-
+    	
     	return (getX() <= pXpos && pXpos < getX()+(getWidth()*GameModel.GAME_TILE_SIZE) &&
     			getY() <= pYpos && pYpos < getY()+(getHeight()*GameModel.GAME_TILE_SIZE));	
     }
     
     /**
-     * Upgrade tower to next level
+     * Upgrade tower to next level. Upgrades the stats accordingly.
      */
-    
     public abstract boolean upgrade();
     
+    /**
+     * Dummy method for tower types that do not have slow. Should never be called.
+     * 
+     * @return Always returns 0
+     */
     public int getSlow() {
     	return 0;
     }
-    
-    public int getSplash() {
+
+    /**
+     * Dummy method for tower types that do not have splash. Should never be called.
+     * 
+     * @return Always returns 0
+     */
+    public int getSplashRadius(){
     	return 0;
     }
-    
+    /**
+     * If the tower can be upgraded. 
+     * 
+     * @return Returns true if the tower is not max level, else false.
+     */
     public boolean canUpgrade() {
     	return (mLevel < 4);
     }
     
-    public void setRange(int i) {
-		mRange = i;
+    /**
+     * 
+     * 
+     * @param pRange
+     */
+    public void setRange(int pRange) {
+		mRange = pRange;
 	}
 
 	public int getRange() {
@@ -222,11 +247,11 @@ public abstract class Tower extends Unit {
     }
       
     /**
-     * returns amount of money you get when you sell this tower
+     * Returns amount of money you get when you sell this tower.
      * 
-     * @return
+     * @return The sell price for the tower.
      */
-    public double sell(){
+    public double sellPrice(){
     	return 0.5*getCost() + (getCost()*0.05*getLevel());
     }
 
@@ -241,20 +266,27 @@ public abstract class Tower extends Unit {
 	public int getCost() {
 		return mCost;
 	}	
-
+ 
 	public int getLevel() {
 		return mLevel;
 	}
-    
-    public void setLevel(int pLevel) {
-		mLevel = pLevel;
+	
+	/**
+	 * Increments the tower level by one.
+	 * 
+	 * @return True if the level was successfully incremented, else false.
+	 */
+	public boolean incLevel(){
+		if (canUpgrade())
+			mLevel++;
+		return (canUpgrade());
 	}
 
 	/**
-	 * @param mDescription the mDescription to set
+	 * @param pDescription A short description of the tower type.
 	 */
-	public void setDescription(String mDescription) {
-		this.mDescription = mDescription;
+	public void setDescription(String pDescription) {
+		mDescription = pDescription;
 	}
 
 	/**
@@ -263,7 +295,7 @@ public abstract class Tower extends Unit {
 	public String getDescription() {
 		return mDescription;
 	}
-	
+
 	/**
 	 * @param mType the TowerType to set
 	 */

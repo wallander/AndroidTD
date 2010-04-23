@@ -63,8 +63,6 @@ public abstract class Projectile extends Unit{
 		//setAngle(a2 - Math.asin(getMob().getSpeed()/getSpeed()*Math.sin(Math.PI - a2 + getMob().getAngle())));
     }
     
-
-    
     public double getAngle() {
 		return mAngle;
 	}
@@ -99,7 +97,7 @@ public abstract class Projectile extends Unit{
 		//return true if the projectile has collided, else return false
 		if (sqrDist < GamePanel.getSpeedMultiplier()*getSpeed())
 			return true;
-		return false;
+		return false;	
 	}
     
     /**

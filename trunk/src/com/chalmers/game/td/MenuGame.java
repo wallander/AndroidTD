@@ -34,6 +34,7 @@ public class MenuGame extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         GameModel.initialize(this);
+        SoundManager.initializeSound(this);
         
         // Bring up the progression route view
         progressMap = new ProgressionRoutePanel(this);
@@ -52,7 +53,7 @@ public class MenuGame extends Activity {
     	super.onStop();
     	Log.i("MenuGame","onStop()");
     	
-    	GamePanel.releaseSounds();
+    	SoundManager.releaseSounds();
     	finish();
     }
     

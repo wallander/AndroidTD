@@ -42,7 +42,6 @@ public class GameActivity extends Activity {
              			
              			finish();
                 	}
-             		
                 }
             }
         };
