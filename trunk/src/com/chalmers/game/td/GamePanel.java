@@ -518,6 +518,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						menuPic = 2;
+					}else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						menuPic = 3;
 					} else {
 						menuPic = 0;
 					}
@@ -536,6 +538,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
+					}
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						// go back to main menu
+						mGameThread.setRunning(false);
+						getHolder().removeCallback(this);
+						Activity parent = (Activity) getContext();
+						parent.finish();
 					}
 					menuPic = 0;
 					break;
@@ -567,25 +576,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_UP:
 					
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
-						// restart with new level
-						if (GameModel.getTrack() < 5) {
-							startTrack(GameModel.getTrack()+1);												
-							GAME_STATE = STATE_RUNNING;
-							mMobFactory.resetWaveNr(); // Resets the wave counter
-						}
-							
-					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
-						startTrack(GameModel.getTrack());												
-						GAME_STATE = STATE_RUNNING;
-						mMobFactory.resetWaveNr(); // Resets the wave counter
-					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to progression route
 						mGameThread.setRunning(false);
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
+							
+					}
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						// restart level
+						startTrack(GameModel.getTrack());												
+						GAME_STATE = STATE_RUNNING;
+						mMobFactory.resetWaveNr(); // Resets the wave counter
+					}
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						// go back to main menu
+						mGameThread.setRunning(false);
+						getHolder().removeCallback(this);
+						Activity parent = (Activity) getContext();
+						parent.finish();
 					}
 
 					menuPic = 0;
@@ -603,13 +612,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						menuPic = 1;
-					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						menuPic = 2;
-					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						menuPic = 3;
-					} else {
+					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+						menuPic = 4;
+					}
+					else {
 						menuPic = 0;
 					}
 					break;
@@ -628,6 +638,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
+					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+						// go back to progression route
+						mGameThread.setRunning(false);
+						getHolder().removeCallback(this);
+						Activity parent = (Activity) getContext();
+						parent.finish();
 					}
 					menuPic = 0;
 					break;
@@ -1012,25 +1028,34 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		case STATE_GAMEOVER: // loser screen
 			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
-			
 			if(menuPic == 1){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36,null);				
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);				
 			} else if(menuPic == 2){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36,null);	
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+			}  else if(menuPic == 3){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36,null);	
 			} else {
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36,null);	
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
 			}
+					
 			
-			canvas.drawText("Try again!", 171,80+20+2,sPaintTextBlack);
+			canvas.drawText("Game over!", 171,80+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+20+2,sPaintTextBlack);
-			canvas.drawText("Exit",181,80+34+36+20+2,sPaintTextBlack);
+			canvas.drawText("Go to map",181,80+34+36+20+2,sPaintTextBlack);
+			canvas.drawText("Exit", 181, 80+34+36+36+20+2, sPaintTextBlack);
 			
-			canvas.drawText("Try again!", 170,80+20,sPaintTextWhite);
+			canvas.drawText("Game over!", 171,80+20,sPaintTextWhite);
 			canvas.drawText("Restart",180,80+34+20,sPaintTextWhite);
-			canvas.drawText("Exit",180,80+34+36+20,sPaintTextWhite);
+			canvas.drawText("Go to map",180,80+34+36+20,sPaintTextWhite);
+			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
 			
 			break;
 
@@ -1057,12 +1082,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
 			canvas.drawText("Level complete!", 156,80+20+2,sPaintTextBlack);
-			canvas.drawText("Next",181,80+34+20+2,sPaintTextBlack);
+			canvas.drawText("Go to map",181,80+34+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
 			canvas.drawText("Exit", 181, 80+34+36+36+20+2, sPaintTextBlack);
 			
 			canvas.drawText("Level complete!", 155,80+20,sPaintTextWhite);
-			canvas.drawText("Next",180,80+34+20,sPaintTextWhite);
+			canvas.drawText("Go to map",180,80+34+20,sPaintTextWhite);
 			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
 			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
 			
@@ -1074,32 +1099,42 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			if(menuPic == 1){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34,null);
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);				
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36+36,null);				
 			} else if(menuPic == 2){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36+36,null);	
 			}  else if(menuPic == 3){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36,null);	
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid2),100,80+34+36+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36+36,null);	
+			} else if (menuPic == 4){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot2),100,80+34+36+36+36,null);	
 			} else {
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34,null);
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,80+34+36+36,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36+36,null);
 			}
 
 
 			canvas.drawText("GAME PAUSED!", 156,80+20+2,sPaintTextBlack);
 			canvas.drawText("Resume",181,80+34+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
-			canvas.drawText("Exit", 181, 80+34+36+36+20+2, sPaintTextBlack);
+			canvas.drawText("Go to map", 181, 80+34+36+36+20+2, sPaintTextBlack);
+			canvas.drawText("Exit", 181, 80+34+36+36+36+20+2, sPaintTextBlack);
 			
 			canvas.drawText("GAME PAUSED!", 155,80+20,sPaintTextWhite);
 			canvas.drawText("Resume",180,80+34+20,sPaintTextWhite);
 			canvas.drawText("Restart",180,80+34+36+20,sPaintTextWhite);
-			canvas.drawText("Exit", 180, 80+34+36+36+20, sPaintTextWhite);
-			
+			canvas.drawText("Go to map", 180, 80+34+36+36+20, sPaintTextWhite);
+			canvas.drawText("Exit", 180, 80+34+36+36+36+20, sPaintTextWhite);
 
 			break;
 		}
