@@ -24,9 +24,8 @@ public class Snowball extends Unit {
 	private SensorEvent lastUpdate;
 	private int mCost;
 
-	private int mCharges;
+	private int mCharges, mStartCharge;
 	private boolean mSlowed;
-
 
 	/**
 	 * Constructor.
@@ -38,9 +37,13 @@ public class Snowball extends Unit {
 
 		setSpeedX(0);
 		setSpeedY(0);
-		setCharges(10);
+		mStartCharge = 300;
+		setCharges(mStartCharge);
 					//set cost
 
+	}
+	public int getStartCharge() {
+		return mStartCharge;
 	}
 	
 	public double getCost() {
