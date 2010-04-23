@@ -134,7 +134,7 @@ public class MobFactory {
 	 * @return
 	 */
 	public Mob getNextMob() {	
-
+		//Log.i("TESTJONAS","mWaveNr/mWaveDelayI/mMaxWaveDelay/MobNr/maxMobNr: "+ mWaveNr + "/" + mWaveDelayI + "/" + mMaxWaveDelay + "/" + mMobNr + "/" + mTrackWaves.get(mWaveNr).size());
 		Mob mMob = null;
 			
 		// If the track is not ended
@@ -168,7 +168,9 @@ public class MobFactory {
 						mMaxWaveDelay = 10;
 						Log.i("Delay","STANDARD");
 						break;
-					} return mMob;
+					}
+					mWaveDelayI = mMaxWaveDelay;
+					return mMob;
 	
 				} else { //if the wave is over
 					mWaveDelayI = 0; // Reset delay
