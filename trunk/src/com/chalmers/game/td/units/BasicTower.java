@@ -25,6 +25,7 @@ public class BasicTower extends Tower {
     	setDamage(7);
 	}
 	
+	@Override
 	public void setImageByLevel(int pLevel) {
 		
 		switch (pLevel) {
@@ -42,17 +43,20 @@ public class BasicTower extends Tower {
     		return false;
     	else {
     		
-    		setLevel(getLevel()+1);			//increment tower level by one
-    		setImageByLevel(getLevel());	//set image according to the new level
+    		incLevel();			//increment tower level by one
     		
-    		setDamage(sDamage[getLevel()-1]);
-    		setCoolDown(sCoolDown[getLevel()-1]);
-    		setRange(sRange[getLevel()-1]);
+    		int newLvl = getLevel();
+    		setImageByLevel(newLvl);	//set image according to the new level
+    		
+    		setDamage(sDamage[newLvl-1]);
+    		setCoolDown(sCoolDown[newLvl-1]);
+    		setRange(sRange[newLvl-1]);
 
         	return true;
     	}
 	}
 	
+	@Override
 	public Projectile shoot() {
 
 		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
@@ -77,6 +81,7 @@ public class BasicTower extends Tower {
 			return null;
 	}
 
+	@Override
 	public Projectile createProjectile(Mob pTarget) {
     	return new BasicProjectile(pTarget, this);
     }
@@ -85,7 +90,8 @@ public class BasicTower extends Tower {
 	 * Returns upgrade cost.
 	 * @return the cost to upgrade from current to next level
 	 */
-    public int getUpgradeCost() {
+    @Override
+	public int getUpgradeCost() {
     	return sUpgradeCost[getLevel()-1];
     }
 }

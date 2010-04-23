@@ -29,6 +29,7 @@ public class AirTower extends Tower {
 
 
 	// Temporary changes images up to 4 upgrades.
+	@Override
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
 		case 1: setImage(R.drawable.airtower1); break;
@@ -45,10 +46,12 @@ public class AirTower extends Tower {
      * @param mobs List of mobs for the tower to target
      * @return Projectile set to target the first mob the tower can reach.
      */
+	@Override
 	public Projectile createProjectile(Mob pTarget) {
 		return new AirProjectile(pTarget, this);    	
     }
 
+	@Override
 	public Projectile shoot() {
 
 		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
@@ -73,18 +76,20 @@ public class AirTower extends Tower {
 			return null;
 	}
 
+	@Override
 	public boolean upgrade() {
-		
+
 		if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
+    		incLevel();						//increment tower level by one
     		
-    		setLevel(getLevel()+1);			//increment tower level by one
-    		setImageByLevel(getLevel());	//set image according to the new level
+    		int newLvl = getLevel();
+    		setImageByLevel(newLvl);		//set image according to the new level
     		
-    		setDamage(sDamage[getLevel()-1]);
-    		setCoolDown(sCoolDown[getLevel()-1]);
-    		setRange(sRange[getLevel()-1]);
+    		setDamage(sDamage[newLvl-1]);
+    		setCoolDown(sCoolDown[newLvl-1]);
+    		setRange(sRange[newLvl-1]);
 
         	return true;
     	}
@@ -93,6 +98,7 @@ public class AirTower extends Tower {
     /**
      * returns the current upgrade cost
      */
+	@Override
 	public int getUpgradeCost() {
 		return sUpgradeCost[getLevel()-1];
 	}

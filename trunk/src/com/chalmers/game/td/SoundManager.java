@@ -16,10 +16,8 @@ public class SoundManager {
 								sTrackFourMusic,
 								sTrackFiveMusic;
 	private static SoundPool	sSounds;
-	private static int			sWaterSplashSound,
-								sWalkingPenguinSound,
-								sFlyingPenguinSound,
-								sSeaLionTauntSound;
+	private static int			sWaterSplashSound;
+	
 	/**
 	 * Constructor
 	 */
@@ -89,6 +87,14 @@ public class SoundManager {
 	    	getTrackFiveMusic().stop();
 	    	getTrackFiveMusic().release();
 	    }
+	    if(getProgressionRouteMusic().isPlaying() && getProgressionRouteMusic() != null) {
+	    	getProgressionRouteMusic().stop();
+	    	getProgressionRouteMusic().release();
+	    }
+	    if(getMenuMusic().isPlaying() && getMenuMusic() != null) {
+	    	getMenuMusic().stop();
+	    	getMenuMusic().release();
+	    }
 	}
 	
 	/**
@@ -101,10 +107,7 @@ public class SoundManager {
 		sSounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 		
 		// Initialize the sound effects
-		setWaterSplashSound(sSounds.load(pContext, R.raw.water_splash, 1));
-		setWalkingPenguinSound(sSounds.load(pContext, R.raw.walking_penguin, 1));
-		setFlyingPenguinSound(sSounds.load(pContext, R.raw.flying_penguin, 1));
-		setSeaLionTauntSound(sSounds.load(pContext, R.raw.sealion_taunt, 1));		
+		setWaterSplashSound(sSounds.load(pContext, R.raw.water_splash, 1));	
 		
 		// Initialize the music
 		setMenuMusic(MediaPlayer.create(pContext, R.raw.menu_music));
@@ -115,30 +118,7 @@ public class SoundManager {
 		setTrackThreeMusic(MediaPlayer.create(pContext, R.raw.track_3_music));
 		setTrackFourMusic(MediaPlayer.create(pContext, R.raw.track_4_music));
 		setTrackFiveMusic(MediaPlayer.create(pContext, R.raw.track_5_music));
-	}
-
-	public static void setSeaLionTauntSound(int pSeaLionTauntSound) {
-		SoundManager.sSeaLionTauntSound = pSeaLionTauntSound;
-	}
-
-	public static int getSeaLionTauntSound() {
-		return sSeaLionTauntSound;
-	}
-
-	public static void setFlyingPenguinSound(int pFlyingPenguinSound) {
-		SoundManager.sFlyingPenguinSound = pFlyingPenguinSound;
-	}
-
-	public static int getFlyingPenguinSound() {
-		return sFlyingPenguinSound;
-	}
-
-	public static void setWalkingPenguinSound(int pWalkingPenguinSound) {
-		SoundManager.sWalkingPenguinSound = pWalkingPenguinSound;
-	}
-
-	public static int getWalkingPenguinSound() {
-		return sWalkingPenguinSound;
+		
 	}
 
 	public static void setWaterSplashSound(int pWaterSplashSound) {
