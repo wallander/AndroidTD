@@ -10,6 +10,7 @@ import com.chalmers.game.td.R;
 
 public class SlowTower extends Tower {
 
+	/** How many percentages of the mob's speed that will be lost if it's hit by the tower.*/
 	private int mSlow;
 	public static final int[] sCoolDown = new int[]{30,30,30,25};
 	public static final int[] sDamage = new int[]{15,20,25,30};
@@ -30,10 +31,10 @@ public class SlowTower extends Tower {
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}
 
-	public void setSlow(int i) {
-		mSlow = i;
-	}
-
+	/**
+	 * Sets the amount of slow that this tower inflicts on mobs.
+	 * @return How many percentages of the mob's speed that will be lost if it's hit by the tower.
+	 */
 	@Override
 	public int getSlow() {
 		return mSlow;
@@ -43,7 +44,7 @@ public class SlowTower extends Tower {
 	@Override
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
-			case 1: setImage(R.drawable.slowtower);		break;//called from the constructor
+			case 1: setImage(R.drawable.slowtower);		break; //called from the constructor
 			case 2: setImage(R.drawable.slowtower2);	break;
 			case 3: setImage(R.drawable.slowtower3);	break;
 			case 4: setImage(R.drawable.slowtower4);	break;
@@ -66,10 +67,10 @@ public class SlowTower extends Tower {
 	public boolean upgrade() {
 		
     	if (canUpgrade()) {
-    		incLevel();					//increment tower level by one
+    		incLevel();							//increment tower level by one
     		
     		int newLvl = getLevel();
-    		setImageByLevel(newLvl);	//set image according to the new level
+    		setImageByLevel(newLvl);			//set image according to the new level
     		
     		setCoolDown(sCoolDown[newLvl-1]); 	//set CD according to new level
 			setDamage(sDamage[newLvl-1]);		//set damage according to new level
@@ -82,12 +83,13 @@ public class SlowTower extends Tower {
     		return false;				//return false if tower can't be upgraded
 	}
 	
-    /**
-     * returns the current upgrade cost
-     */
 	@Override
 	public int getUpgradeCost() {
 		return sUpgradeCost[getLevel()-1];
+	}
+	
+	private void setSlow(int pSlow){
+		mSlow = pSlow;
 	}
 
 	@Override

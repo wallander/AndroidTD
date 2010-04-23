@@ -24,7 +24,7 @@ import com.chalmers.game.td.units.Mob;
  */
 public class MobFactory {
 
-	// Instance variables	
+	// Instance variables
 	private static final MobFactory		INSTANCE = new MobFactory();
 	private int							mWaveDelayI,
 										mWaveNr,
@@ -61,7 +61,7 @@ public class MobFactory {
 	 * Returns the number of the wave the player
 	 * currently is facing.
 	 * 
-	 * @return		the current wave number
+	 * @return	the current wave number
 	 */
 	public int getWaveNr() {
 		return mWaveNr+1;
@@ -101,8 +101,6 @@ public class MobFactory {
 	 * @return		true if there are mobs left, false otherwise
 	 */
 	public boolean hasMoreMobs() {
-
-		
 		
 		//If not on last wave = Mobs left
 		if(mWaveNr < mTrackWaves.size()-1) {
@@ -327,7 +325,5 @@ public class MobFactory {
 	public static MobFactory getInstance() {
 		return INSTANCE;
 	}
-
-
 
 }
