@@ -135,23 +135,24 @@ public class MobFactory {
 		// If the track is not ended
 		if(mWaveNr < mTrackWaves.size()) {
 	
-			
+			// If the delay is up send next wave, otherwise delay
+			if (mWaveDelayI >= mMaxWaveDelay) {
 		
-			// If the wave is not ended
-			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
-			
-					mWaveDelayI = 0; // Reset delay		
-					
+				// If the wave is not ended
+				if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
+				
+						
+						
 					// Add the mob
 					mMob = mTrackWaves.get(mWaveNr).get(mMobNr);
 					mMobNr++;
-					
+						
 					Log.i("INFO","mMob/mWave/mTrack"+mMobNr + "/" + mWaveNr + "/" + mTrackNr);
 					Log.i("INFO","WaveSize/MobSize" + mTrackWaves.size() + "/" + mTrackWaves.get(mWaveNr).size());
-					
+						
 					mPath.setTrackPath(GameModel.getTrack());
 					mMob.setPath(mPath);
-					
+						
 					switch(mMob.getType()) {
 					case Mob.FAST:
 						mMaxWaveDelay = 10;
@@ -165,31 +166,27 @@ public class MobFactory {
 						mMaxWaveDelay = 10;
 						Log.i("Delay","STANDARD");
 						break;
-					}
-
-				} else {
-					// If the wave has no more mobs
-					// If the delay is up send next wave, otherwise delay
-					if (mWaveDelayI >= mMaxWaveDelay) {
-						
-						mWaveNr++;
-						mWaveDelayI = 0;
-						mMobNr = 0;
-						Log.i("Wave","Delay ended, start over");
-						
-					} else {
-						// If the delay has not reached max yet
-						mWaveDelayI++;
-					} 
-					return null;
+					} return mMob;
+	
+				} else { //if the wave is over
+					mWaveDelayI = 0; // Reset delay
+					mWaveNr++;
+					mMobNr = 0;
+					Log.i("Wave","Delay ended, start over");
 				}
+			} else { // the delay if running
+				// If the delay has not reached max yet
+				mWaveDelayI++;
+				
+			} 
+			//return null;
 			
 		} else {
 			// If the track has no more waves
 			// No need to increase, mTrackNr, handled by hasMoreMobs
-			return null;
+			//return null;
 		}
-		return mMob;						
+		return null;
 	}
 
 	/**
@@ -217,9 +214,11 @@ public class MobFactory {
 		mMobInfo;
 		int			mTrackIdentifier,
 		mHealth;
-		mMobNr = 0;
+		mWaveDelayI = 0;
 		mWaveNr = 0;
-		mTrackNr = GameModel.getTrack();
+		mMobNr = 0;
+		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
+		mMaxWaveDelay = 10;
 
 		
 		//mTrackWaves = new ArrayList<ArrayList<ArrayList<Mob>>>();

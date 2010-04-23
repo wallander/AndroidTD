@@ -81,7 +81,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private int mTy;
 	
 	/** Indicates if fast forward is activated or not. */
-	private boolean mFastf = false;
+	private boolean mFast = false;
 
 	/** */
 	private Tower mCurrentTower;
@@ -191,6 +191,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			try {
 				if (GameModel.sMusicEnabled) {
+
 					SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
 					SoundManager.playMusic(playTrackMusic(GameModel.getTrack()));
 				}
@@ -264,8 +265,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mMobFactory.setContext(getContext()); 
 		
 		GameModel.currentPlayer.setCurrentScore(0);
-		mFastf = false;
-		setSpeedMultiplier(1);
+		
+		setFast(false);
+
 		GAME_STATE = STATE_RUNNING;
 	}
 
@@ -459,14 +461,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							}
 							
 							if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
-								if(mFastf){
-									GamePanel.setSpeedMultiplier(1);
-									mFastf = false;
-								} else {
-									GamePanel.setSpeedMultiplier(3);	
-									mFastf = true;
-								}
-								
+								toggleFast();
 							}
 
 						} else if(sBtn1.contains(event.getX(),event.getY())) {
@@ -709,18 +704,51 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		return true;
 	}
-
+	
+	/** 
+	 * Activates or deactivates fast forward by changing the game's speed
+	 * multiplier.
+	 * 
+	 * @param setFast True sets the game in fast forward mode, false sets the game to 
+	 * normal speed.
+	 */
+	private void setFast(boolean setFast){
+		
+		//if fast forward is already in the requested mode, nothing needs to be done
+		if (setFast != mFast) { 
+			
+			if (setFast)
+				GamePanel.setSpeedMultiplier(3);
+			else
+				GamePanel.setSpeedMultiplier(1);
+			mFast = setFast;
+		}
+	}
+	
+	/** 
+	 * Toggles fast forward by changing the game's speed
+	 * multiplier to the opposite of what it was before.
+	 * 
+	 */
+	private void toggleFast(){
+		if (mFast)
+			GamePanel.setSpeedMultiplier(1);
+		else
+			GamePanel.setSpeedMultiplier(3);
+		
+		mFast = !mFast;
+	}
 
 	/**
 	 * This class is called each frame. 
-	 * It keeps track of the creation of the mobs from the waves of the current map
-	 * Called from updateModel 
+	 * It keeps track of the creation of the mobs from the waves of the current map.
+	 * Called from updateModel.
 	 */
 	private Mob createMobs() {  	    	    	    	        	    	    	
 
 		int track = GameModel.getTrack();
 		
-		if (mMobDelayI >= MOB_DELAY_MAX) {
+		if (mMobDelayI >= MOB_DELAY_MAX) { //if it's time to get next mob
 			mMobDelayI = 0;
 			
 			if(track > 0) {
@@ -744,7 +772,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		debug.UpdateFPS();
 
-		if (GAME_STATE == STATE_RUNNING) {
+		if (GAME_STATE == STATE_RUNNING) { //Only update if running
 
 			// If the player has 0 or less lives remaining, change game state
 			if (GameModel.currentPlayer.getRemainingLives() <= 0) {
@@ -752,9 +780,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mCurrentSnowball = null;
 				mCurrentTower = null;
 				mShowTooltip = false;
+				setFast(false);
 				GAME_STATE = STATE_GAMEOVER;
-				mFastf = false;
-				setSpeedMultiplier(1);
 				return;
 			}
 
@@ -764,10 +791,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mCurrentSnowball = null;
 				mCurrentTower = null;
 				mShowTooltip = false;
-				GAME_STATE = STATE_WIN;
-				mFastf = false;
-				setSpeedMultiplier(1);
+				setFast(false);
 				GameModel.currentPlayer.saveCurrentTrackScore();
+				GAME_STATE = STATE_WIN;
 				return;
 			}
 
@@ -1280,7 +1306,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),20,5,null);
 				
-		if(mFastf)
+		if(mFast)
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),20,285,null);
 		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),20,285,null);
