@@ -406,5 +406,14 @@ public class Mob extends Unit{
 		return mAnimation; 
 	}
 
-
+	public String toString() {
+		switch(mType) {
+		case HEALTHY: return "Healthy";
+		case AIR: return "Air";
+		case NORMAL: return "Normal";
+		case FAST: return "Fast";
+		case IMMUNE: return "Immune";
+		default: return "-";
+		}
+	}
 }
