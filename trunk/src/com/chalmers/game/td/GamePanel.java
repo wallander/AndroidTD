@@ -184,23 +184,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		return null;
 	}
-	
-	// TODO track support
+
 	public void updateSounds() {
 		switch (GAME_STATE) {
 		case STATE_RUNNING:
-			
+
 			try {
 				if (GameModel.sMusicEnabled) {
-					if (mFastf) {
-						SoundManager.pauseMusic(playTrackMusic(GameModel.getTrack()));
-						SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
-
-					} else {
-						SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
-						SoundManager.playMusic(playTrackMusic(GameModel.getTrack()));
-					}
+					SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
+					SoundManager.playMusic(playTrackMusic(GameModel.getTrack()));
 				}
+
 			} catch (IllegalStateException ise) {
 				SoundManager.initializeSound(getContext());
 			}
@@ -211,7 +205,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			break;
 		}
 	}
-	
+
 	/**
 	 * Constructor called on instantiation.
 	 * @param context Context of calling activity.
@@ -263,12 +257,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * Resets the gamefield to the given track
 	 */
 	private void startTrack(int track){
-		mMobFactory = MobFactory.getInstance(); 
-		mMobFactory.setContext(getContext()); 
 		GameModel.setTrack(track);
 		GameModel.initialize(getContext());
+		
+		mMobFactory = MobFactory.getInstance(); 
+		mMobFactory.setContext(getContext()); 
+		
 		GameModel.currentPlayer.setCurrentScore(0);
-		Path.getInstance().setTrackPath(track);
 		mFastf = false;
 		setSpeedMultiplier(1);
 		GAME_STATE = STATE_RUNNING;
