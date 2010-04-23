@@ -104,6 +104,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	// Graphic elements used in the GUI
 	private static final RectF sBtnSell = new RectF(90,180,150,230);
 	private static final RectF sBtnUpgrade = new RectF(165,180,300,230);
+	
+	//box with options on. Used for tooltip and upgrade window
 	private static final RectF sTransparentBox = new RectF(70,50,320,240);
 	private static final RectF sBtn1 = new RectF(420,15,475,65);
 	private static final RectF sBtn2 = new RectF(420,15+60,475,65+60);
@@ -423,26 +425,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					//If the user has selected a Tower
-					if (mSelectedTower != null) {
+					
+					//If the user has selected a Tower and is touching the upgrade window
+					if (mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
 						
-						// Upgrade button pressed, and selected tower is upgradeable
-						if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
-							if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
-								GameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
-								mSelectedTower.upgrade();
-							}
-						} else if (sBtnSell.contains(event.getX(), event.getY()) ) {
-							// Sell button pressed
-							GameModel.currentPlayer.changeMoney(mSelectedTower.sellPrice());
-							GameModel.removeTower(mSelectedTower);
-							mSelectedTower = null;
-						} else 
-							mSelectedTower = null;
+						//call method for handling touch events when a tower is selected
+						onTouchUpgradeWindowEvent(event);
 
-					} else { // if the user has NOT selected a tower
+					} else { // if the user has NOT selected a tower, or if the user selected a tower but touched outside the upgrade window.
 
+						mSelectedTower = null; //deselect any selected tower
+						
 						mAllowBuild = false;
+						
 						// game field clicked
 						if (mTx < mButtonBorder) {
 							mShowTooltip = false;
@@ -705,6 +700,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		}
 
 		return true;
+	}
+	
+	//called by onTouchEvent if the uppgrade window is touched
+	private void onTouchUpgradeWindowEvent(MotionEvent event){
+		// Upgrade button pressed, and selected tower is upgradeable
+		if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
+			if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
+				GameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
+				mSelectedTower.upgrade();
+			}
+		} else if (sBtnSell.contains(event.getX(), event.getY()) ) {
+			// Sell button pressed
+			GameModel.currentPlayer.changeMoney(mSelectedTower.sellPrice());
+			GameModel.removeTower(mSelectedTower);
+			mSelectedTower = null;
+		} else 
+			mSelectedTower = null;
 	}
 	
 	/** 
