@@ -35,10 +35,8 @@ public class Mob extends Unit{
 	/** Mob movement angle */
 	private double mAngle;
 	
-	/** Mob armor */
-	private int mArmor;
 	
-	// how much money you get when you kill this mob
+	/** Amount of money recieved when killing this mob */
 	private int mReward;
 	
 	/**
@@ -191,10 +189,8 @@ public class Mob extends Unit{
         setSpeed(1.2);      
         setHealth(20);
         setMaxHealth(20);
-        setArmor(20);
         setReward(10);                
         
-        // TODO: fix dynamic size
         setSize(24);
         
         if(pType == Mob.HEALTHY) {
@@ -238,14 +234,6 @@ public class Mob extends Unit{
      */
 	private void setSpeed(double d) {
 		mSpeed = d;
-	}
-
-	/**
-	 * Setter for mob armor
-	 * @param i
-	 */
-	private void setArmor(int i) {
-		mArmor = i;
 	}
 
     /**
@@ -334,7 +322,6 @@ public class Mob extends Unit{
 			setCheckpoint(getCheckpoint()+1);
 
 			if (mPath.getCoordinate(getCheckpoint()) == null) {
-				Log.v("MOB EVENT","NEXT COORDINATE IS NULL"); // TODO Kan ta bort efter debug
 				return false;
 			}
 			updateAngle();

@@ -74,6 +74,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	private void fillBitmapCache() {
+		mBitMapCache = new HashMap<Integer, Bitmap>();
 		mBitMapCache.put(R.drawable.progressionroute, BitmapFactory.decodeResource(getResources(), R.drawable.progressionroute));
 		mBitMapCache.put(R.drawable.progdone, BitmapFactory.decodeResource(getResources(), R.drawable.progdone));
 		mBitMapCache.put(R.drawable.prognotdone, BitmapFactory.decodeResource(getResources(), R.drawable.prognotdone));
@@ -472,8 +473,10 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 
 				
 				canvas.drawText(trackName, 166,80+20+2,sPaintTextBlack);
+
 				canvas.drawText("Highscore: " + (int)Highscore.getInstance().getTrackScore(trackPic),
 						171,80+34+20+2,sPaintTextBlack);
+
 				canvas.drawText("Start Level",171,80+34+36+20+2,sPaintTextBlack);
 				canvas.drawText("Cancel", 171, 80+34+36+36+20+2, sPaintTextBlack);
 				

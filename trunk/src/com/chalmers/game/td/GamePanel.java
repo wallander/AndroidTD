@@ -31,7 +31,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -102,10 +101,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private int mMobDelayI = 0;
 
 	// Graphic elements used in the GUI
-	private static final RectF sBtnSell = new RectF(90,180,150,230);
-	private static final RectF sBtnUpgrade = new RectF(165,180,300,230);
-	
+
+	private static final RectF sBtnSell = new RectF(110,185,180,230);
+	private static final RectF sBtnUpgrade = new RectF(195,185,330,230);
+
 	//box with options on. Used for tooltip and upgrade window
+
 	private static final RectF sTransparentBox = new RectF(70,50,320,240);
 	private static final RectF sBtn1 = new RectF(420,15,475,65);
 	private static final RectF sBtn2 = new RectF(420,15+60,475,65+60);
@@ -319,6 +320,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * Fill the bitmap cache.
 	 */
 	private void fillBitmapCache() {
+		mBitMapCache = new HashMap<Integer, Bitmap>();
 		mBitMapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
 		mBitMapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
 		mBitMapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
@@ -535,6 +537,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
@@ -542,6 +545,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.finish();
@@ -578,6 +582,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
@@ -592,6 +597,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.finish();
@@ -624,6 +630,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					}
 					break;
 				case MotionEvent.ACTION_UP:
+					
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+						menuPic = 1;
+					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						menuPic = 2;
+					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						menuPic = 3;
+					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+						menuPic = 4;
+					}
+					else {
+						menuPic = 0;
+					}
+					
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						GAME_STATE = STATE_RUNNING;
 					}
@@ -635,12 +655,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.finish();
@@ -993,8 +1015,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		drawBackground(canvas);
 		drawSplashWater(canvas);
-		drawMobs(canvas);
 		drawTowers(canvas);
+		drawMobs(canvas);
 		drawSnowballs(canvas);
 		drawProjectiles(canvas);
 		drawButtons(canvas);
@@ -1203,27 +1225,52 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mSelectedTower.getRange(), rangeIndicationPaint);
 
 		// draw box for the selected tower
-		canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
+		//canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
 
-		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 100, 80, null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,60,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34+36,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34+36+36,null);
+		canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,60+34+36+36+36,null);
+		
+		canvas.drawBitmap(mBitMapCache.get(mSelectedTower.getImage()), 110, 70, null);
 		
 		//Draw general info
 		int lvl = mSelectedTower.getLevel();
 		//name
-		canvas.drawText(mSelectedTower.getName(), 150, 90, boxTextPaintTitle);
+		canvas.drawText(mSelectedTower.getName(), 161, 90+2, sPaintTextBlack);
 		//level
-		canvas.drawText("Level " + (lvl), 140, 112, sPaintBoxText);
+		canvas.drawText("Level " + (lvl), 151, 112+2, sPaintTextBlack);
 		//attack speed
-		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 140, 128, sPaintBoxText);
+		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 151, 128+2, sPaintTextBlack);
 		//damage
-		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 140, 144, sPaintBoxText);
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 151, 144+2, sPaintTextBlack);
 		//range
-		canvas.drawText("Range: " + mSelectedTower.getRange(), 140, 160, sPaintBoxText);
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 151, 160+2, sPaintTextBlack);
 		
 		if (mSelectedTower.getType() == Tower.SLOW)
-			canvas.drawText("Slow: " + mSelectedTower.getSlow() + "%", 140, 176, sPaintBoxText);
+			canvas.drawText("Slow: " + mSelectedTower.getSlow() + "%", 151, 176+2, sPaintTextBlack);
 		else if (mSelectedTower.getType() == Tower.SPLASH)
-			canvas.drawText("Splash: " + mSelectedTower.getSplashRadius(), 140, 176, sPaintBoxText);
+			canvas.drawText("Splash: " + mSelectedTower.getSplashRadius(), 151, 176+2, sPaintTextBlack);
+		
+		
+		//name white
+		canvas.drawText(mSelectedTower.getName(), 160, 90, sPaintTextWhite);
+		//level white
+		canvas.drawText("Level " + (lvl), 150, 112, sPaintTextWhite);
+		//attack speed white
+ 		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 150, 128, sPaintTextWhite);
+		//damage white
+		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 150, 144, sPaintTextWhite);
+		//range white
+		canvas.drawText("Range: " + mSelectedTower.getRange(), 150, 160, sPaintTextWhite);
+		
+		if (mSelectedTower.getType() == Tower.SLOW)
+			canvas.drawText("Slow: " + mSelectedTower.getSlow() + "%", 150, 176, sPaintTextWhite);
+		else if (mSelectedTower.getType() == Tower.SPLASH)
+			canvas.drawText("Splash: " + mSelectedTower.getSplashRadius(), 150, 176, sPaintTextWhite);
+		
+		
 
 		if(mSelectedTower.canUpgrade()) {
 			//find values for next level of depending on tower type
@@ -1235,48 +1282,70 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			else
 				p = sPaintBoxRed;
 			
-			canvas.drawText(" -> " + (lvl+1), 225, 112, p);
+			canvas.drawText(" -> " + (lvl+1), 256, 112+2, sPaintTextBlack);
+			canvas.drawText(" -> " + (lvl+1), 255, 112, p);
 
 			switch (mSelectedTower.getType()) {
 			case Tower.BASIC:
-				canvas.drawText(" -> " + 1000/BasicTower.sCoolDown[lvl], 225, 128, p);
-				canvas.drawText(" -> " + BasicTower.sDamage[lvl], 225, 144, p);
-				canvas.drawText(" -> " + BasicTower.sRange[lvl], 225, 160, p);
+				canvas.drawText(" -> " + 1000/BasicTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + BasicTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
+				canvas.drawText(" -> " + BasicTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
+				
+				canvas.drawText(" -> " + 1000/BasicTower.sCoolDown[lvl], 255, 128, p);
+				canvas.drawText(" -> " + BasicTower.sDamage[lvl], 255, 144, p);
+				canvas.drawText(" -> " + BasicTower.sRange[lvl], 255, 160, p);
 				break;
 			case Tower.AIR:
-				canvas.drawText(" -> " + 1000/AirTower.sCoolDown[lvl], 225, 128, p);
-				canvas.drawText(" -> " + AirTower.sDamage[lvl], 225, 144, p);
-				canvas.drawText(" -> " + AirTower.sRange[lvl], 225, 160, p);
+				canvas.drawText(" -> " + 1000/AirTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + AirTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
+				canvas.drawText(" -> " + AirTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
+				
+				canvas.drawText(" -> " + 1000/AirTower.sCoolDown[lvl], 255, 128, p);
+				canvas.drawText(" -> " + AirTower.sDamage[lvl], 255, 144, p);
+				canvas.drawText(" -> " + AirTower.sRange[lvl], 255, 160, p);
 				break;
 			case Tower.SLOW:
-				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 225, 128, p);
-				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 225, 144, p);
-				canvas.drawText(" -> " + SlowTower.sRange[lvl], 225, 160, p);
-				canvas.drawText(" -> " + SlowTower.sSlow[lvl] + "%", 225, 176, p);
+				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SlowTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SlowTower.sSlow[lvl] + "%", 256, 176+2, sPaintTextBlack);
+				
+				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 255, 128, p);
+				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 255, 144, p);
+				canvas.drawText(" -> " + SlowTower.sRange[lvl], 255, 160, p);
+				canvas.drawText(" -> " + SlowTower.sSlow[lvl] + "%", 255, 176, p);
 				break;
 			case Tower.SPLASH:
-				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 225, 128, p);
-				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 225, 144, p);
-				canvas.drawText(" -> " + SplashTower.sRange[lvl], 225, 160, p);
-				canvas.drawText(" -> " + SplashTower.sSplashRadius[lvl], 225, 176, p);
+				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SplashTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SplashTower.sSplashRadius[lvl], 256, 176+2, sPaintTextBlack);
+				
+				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 255, 128, p);
+				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 255, 144, p);
+				canvas.drawText(" -> " + SplashTower.sRange[lvl], 255, 160, p);
+				canvas.drawText(" -> " + SplashTower.sSplashRadius[lvl], 255, 176, p);
 				break;
 			}
 		}
 		
 		//Adds sell button. TODO add sell price
 		canvas.drawRoundRect(sBtnSell,10,10,sPaintBtnBox);
-		canvas.drawText("Sell", sBtnSell.left+10, sBtnSell.top+(sBtnSell.height()/2), sPaintBoxText);
-
+		canvas.drawText("Sell", sBtnSell.left+18, sBtnSell.top+(sBtnSell.height()/2)+7, sPaintTextBlack);
+		canvas.drawText("Sell", sBtnSell.left+17, sBtnSell.top+(sBtnSell.height()/2)+5, sPaintTextWhite);
+		
 		// if the tower is not fully upgraded and the player affords it
 		if (mSelectedTower.canUpgrade() && 
 				GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
 
 			Paint paint = new Paint();
-			paint.setARGB(255, 0, 255, 0);
+			paint.setARGB(255, 0, 230, 0);
 
 			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
 			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
-					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+					sBtnUpgrade.left+16, sBtnUpgrade.top+(sBtnSell.height()/2)+6, sPaintTextBlack);
+			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
+					sBtnUpgrade.left+15, sBtnUpgrade.top+(sBtnSell.height()/2)+4, sPaintTextWhite);
 
 			// if the tower is not fully upgraded, but the player can't afford upgrading
 		} else if (mSelectedTower.canUpgrade() && 
@@ -1287,7 +1356,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
 			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
-					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+					sBtnUpgrade.left+16, sBtnUpgrade.top+(sBtnSell.height()/2)+6, sPaintTextBlack);
+			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
+					sBtnUpgrade.left+15, sBtnUpgrade.top+(sBtnSell.height()/2)+4, sPaintTextWhite);
 
 			// if the tower is fully upgraded
 		} else if (mSelectedTower.canUpgrade() == false) {
@@ -1297,7 +1368,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			canvas.drawRoundRect(sBtnUpgrade,6,6,paint);
 			canvas.drawText("Fully upgraded!",
-					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2), sPaintBoxText);
+					sBtnUpgrade.left+10, sBtnUpgrade.top+(sBtnSell.height()/2)+6, sPaintTextBlack);
+			canvas.drawText("Fully upgraded!",
+					sBtnUpgrade.left+9, sBtnUpgrade.top+(sBtnSell.height()/2)+4, sPaintTextWhite);
 		}
 	}
 
@@ -1343,28 +1416,47 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// if a tower is being bought
 		if (mCurrentTower != null) {
 			canvas.drawBitmap(mBitMapCache.get(mCurrentTower.getImage()), 100, 80, null);
-			canvas.drawText(mCurrentTower.getName(), 160, 89, boxTextPaintTitle);
+			canvas.drawText(mCurrentTower.getName(), 161, 89+2, sPaintTextBlack);
+			canvas.drawText(mCurrentTower.getName(), 160, 89, sPaintTextWhite);
 			
-			canvas.drawText("Speed: " + mCurrentTower.getAttackSpeed(), 160, 110, sPaintBoxText);
-			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 130, sPaintBoxText);
-			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 150, sPaintBoxText);
-			canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 170, sPaintBoxText);
+			canvas.drawText("Speed: " + mCurrentTower.getAttackSpeed(), 161, 110+2, sPaintTextBlack);
+			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 161, 130+2, sPaintTextBlack);
+			canvas.drawText("Range: " + mCurrentTower.getRange(), 161, 150+2, sPaintTextBlack);
+			canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 170+2, sPaintTextBlack);
 			
-			if (mCurrentTower.getType() == Tower.SLOW)
-				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 160, 190, sPaintBoxText);
-			else if (mCurrentTower.getType() == Tower.SPLASH)
-				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 160, 190, sPaintBoxText);
+			canvas.drawText("Speed: " + mCurrentTower.getAttackSpeed(), 160, 110, sPaintTextWhite);
+			canvas.drawText("Damage: " + mCurrentTower.getDamage(), 160, 130, sPaintTextWhite);
+			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 150, sPaintTextWhite);
+			canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 170, sPaintTextWhite);
+			
+			if (mCurrentTower.getType() == Tower.SLOW){
+				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 161, 190+2, sPaintTextBlack);
+				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 160, 190, sPaintTextWhite);
+			}
+			else if (mCurrentTower.getType() == Tower.SPLASH){
+				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 161, 190+2, sPaintTextBlack);
+				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 160, 190, sPaintTextWhite);
+			}
 
-			canvas.drawText(mCurrentTower.getDescription(), 100, 210, sPaintBoxText);
-			canvas.drawText("Drag to buy this tower!", 100, 230, sPaintBoxText);
+			canvas.drawText(mCurrentTower.getDescription(), 101, 210+2, sPaintTextBlack);
+			canvas.drawText(mCurrentTower.getDescription(), 100, 210, sPaintTextWhite);
+			
+			canvas.drawText("Drag to buy this tower!", 101, 230+2, sPaintTextBlack);
+			canvas.drawText("Drag to buy this tower!", 100, 230, sPaintTextWhite);
 		} else {
 		// if a snowball is being bought
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball), 100, 80,null);
-			canvas.drawText("Snowball", 160, 90, boxTextPaintTitle);
-			canvas.drawText("Run over your enemies!", 160, 117, sPaintBoxText);
-			canvas.drawText("Control the snowball by", 160, 139, sPaintBoxText);
-			canvas.drawText("  tilting your phone!", 160, 161, sPaintBoxText);
-			canvas.drawText("Available every "+ mSnowballTreshold+" scorepoints.", 100, 210, sPaintBoxText);
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.bigsnowball), 90, 80,null);
+			canvas.drawText("Snowball", 151, 90+2, sPaintTextBlack);
+			canvas.drawText("Run over your enemies!", 131, 117+2, sPaintTextBlack);
+			canvas.drawText("Control the snowball by", 131, 139+2, sPaintTextBlack);
+			canvas.drawText("tilting your phone!", 131, 161+2, sPaintTextBlack);
+			canvas.drawText("Available at "+ mSnowballTreshold+" points.", 101, 210+2, sPaintTextBlack);
+			
+			canvas.drawText("Snowball", 150, 90, sPaintTextWhite);
+			canvas.drawText("Run over your enemies!", 130, 117, sPaintTextWhite);
+			canvas.drawText("Control the snowball by", 130, 139, sPaintTextWhite);
+			canvas.drawText("tilting your phone!", 130, 161, sPaintTextWhite);
+			canvas.drawText("Available at "+ mSnowballTreshold+" points.", 100, 210, sPaintTextWhite);
 		}
 
 	}
@@ -1636,7 +1728,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		sPaintTextBlack.setAntiAlias(true);
 		
 		// set color of the selected tower box
-		sPaintTransparentBox.setARGB(90, 51, 51, 51);
+		sPaintTransparentBox.setARGB(180, 51, 51, 51);
 
 		// set color of the upgrade- and sell buttons in the selected tower box
 		sPaintBtnBox.setARGB(255, 51, 51, 51);
@@ -1645,10 +1737,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		sPaintBoxText.setARGB(255, 255, 255, 255);
 		sPaintBoxText.setTextSize(14);
 		
+		sPaintBoxGreen.setTextSize(16);
 		sPaintBoxGreen.setARGB(255, 20, 190, 30);
-		sPaintBoxGreen.setTextSize(14);
-		sPaintBoxRed.setARGB(255, 170, 30, 20);
-		sPaintBoxRed.setTextSize(14);
+		sPaintBoxGreen.setTypeface(font3);
+		sPaintBoxGreen.setAntiAlias(true);
+		
+		sPaintBoxRed.setTextSize(16);
+		sPaintBoxRed.setARGB(255, 255, 30, 20);
+		sPaintBoxRed.setTypeface(font3);
+		sPaintBoxRed.setAntiAlias(true);
 
 		boxTextPaintTitle.setARGB(255, 255, 255, 255);
 		boxTextPaintTitle.setTextSize(22);
