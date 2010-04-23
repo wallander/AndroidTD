@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.chalmers.game.td.units.Mob;
 
@@ -55,7 +53,7 @@ public class Highscore {
 		if(mSavedScore.get(GameModel.getTrack() - 1) < mCurrentTrackScore) {
 			
 
-			mSavedScore.add(GameModel.getTrack()-1, mCurrentTrackScore);
+			mSavedScore.set(GameModel.getTrack()-1, mCurrentTrackScore);
 
 			try {
 				

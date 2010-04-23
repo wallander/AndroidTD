@@ -46,7 +46,10 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	public ProgressionRoutePanel(Context context) {
-		super(context);				
+		super(context);			
+		
+		Log.v("ProgressionRoutePanel","Constructor");
+		
 		fillBitmapCache();		
 	
 		mActivity = (Activity) context;		
@@ -238,8 +241,6 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 								event.getY() > 200 && event.getY() < 200+70) {
 							
 							// Button for second level pressed
-							
-							// TODO may have missunderstood but i think it should be 1 rather than 2 here...
 							if (GameModel.currentPlayer.getTrackScore(1) != 0) {
 								GameModel.setTrack(2);
 								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");

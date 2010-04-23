@@ -64,7 +64,11 @@ public class MobFactory {
 	 * @return	the current wave number
 	 */
 	public int getWaveNr() {
-		return mWaveNr+1;
+		if(hasMoreMobs()) {
+			return mWaveNr+1;
+		} else {
+			return mWaveNr;
+		}
 	}
 	
 	public int getWaveMaxDelay() {
@@ -103,10 +107,11 @@ public class MobFactory {
 	public boolean hasMoreMobs() {
 		
 		//If not on last wave = Mobs left
-		if(mWaveNr < mTrackWaves.size()-1) {
+		if(mWaveNr < mTrackWaves.size()) {
 			return true;
-		} else if(mWaveNr == mTrackWaves.size()-1) {
+		} else if(mWaveNr-1 == mTrackWaves.size()) {
 			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
+				Log.d("Jonas2","mMobNr"+mMobNr);
 				//If we are on the last wave, but there still are mobs left
 				return true;
 			} else {
@@ -137,18 +142,15 @@ public class MobFactory {
 	
 			// If the delay is up send next wave, otherwise delay
 			if (mWaveDelayI >= mMaxWaveDelay) {
-		
+	
 				// If the wave is not ended
 				if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
 				
 						
-						
+					Log.d("Jonas","Ny Mob" + mMobNr);	
 					// Add the mob
 					mMob = mTrackWaves.get(mWaveNr).get(mMobNr);
 					mMobNr++;
-						
-					Log.i("INFO","mMob/mWave/mTrack"+mMobNr + "/" + mWaveNr + "/" + mTrackNr);
-					Log.i("INFO","WaveSize/MobSize" + mTrackWaves.size() + "/" + mTrackWaves.get(mWaveNr).size());
 						
 					mPath.setTrackPath(GameModel.getTrack());
 					mMob.setPath(mPath);
@@ -177,14 +179,17 @@ public class MobFactory {
 			} else { // the delay if running
 				// If the delay has not reached max yet
 				mWaveDelayI++;
+				Log.d("Jonas","Delay"+mWaveDelayI);
 				
 			} 
 			//return null;
 			
 		} else {
+			Log.d("Jonas","Track Ended");
 			// If the track has no more waves
 			// No need to increase, mTrackNr, handled by hasMoreMobs
 			//return null;
+			mMobNr = 10000;
 		}
 		return null;
 	}
@@ -314,12 +319,16 @@ public class MobFactory {
 	 * @return Type of the next mob
 	 */
 	public String getWaveType() {
-			if (mTrackWaves.size() > mWaveNr + 1) {
-				return "" + mTrackWaves.get(mWaveNr + 1).get(0).getType();
+			if (mTrackWaves.size() > mWaveNr) {
+				return "" + mTrackWaves.get(mWaveNr).get(0).toString();
 			} else {
-				return "-";
+				return "";
 			}
 	}
+	
+	/**
+	 * Same as getWaveType but returns
+	 */
 	
 	/**
 	 * 
