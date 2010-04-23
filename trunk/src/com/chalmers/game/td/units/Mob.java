@@ -146,15 +146,34 @@ public class Mob extends Unit{
         		setReward(20);
         		setMobImage(R.drawable.walrus);
         	} else if(pHealth <= 1200) {
-        		setReward(30);
+        		setReward(50);
         		setMobImage(R.drawable.walrus);
         	} else if(pHealth <= 2000) {
-        		setReward(40);
+        		setReward(100);
         		setMobImage(R.drawable.walrus);
         	} else  {
         		setMobImage(R.drawable.walrus);
-        		setReward(50);
+        		setReward(200);
         	}
+     	case Mob.IMMUNE:
+        	if (pHealth <= 110) {
+        		setReward(15);
+        		setMobImage(R.drawable.penguinmob);
+        	} else if(pHealth <= 790) {
+        		setReward(25);
+        		setMobImage(R.drawable.penguinmob);
+        	} else if(pHealth <= 1200) {
+        		setReward(45);
+        		setMobImage(R.drawable.penguinmob);
+        	} else if(pHealth <= 2000) {
+        		setReward(50);
+        		setMobImage(R.drawable.penguinmob);
+        	} else  {
+        		setMobImage(R.drawable.penguinmob);
+        		setReward(60);
+        	}    	
+        	break;
+   
     	}
     	
     }

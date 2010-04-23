@@ -9,7 +9,7 @@ public class Player {
 	private double 			mMoney;
 	private Highscore		mScore;
 	
-	private int mLives = 50;
+	private int mLives = 30;
 	
 	public Player(int pTracks) {
 		setName("Mr. Awesome");
