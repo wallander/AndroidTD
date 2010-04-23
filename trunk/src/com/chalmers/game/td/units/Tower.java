@@ -28,7 +28,7 @@ public abstract class Tower extends Unit {
 	private int mCost;
 	
 	/** The tower's current level.*/
-	private int mLevel;
+	private int mLevel=0;
 	
 	/** The time between each shot.*/
 	private int mCoolDown;		// Tower constant shoot speed
@@ -60,7 +60,6 @@ public abstract class Tower extends Unit {
 	 */
     public Tower(int pX, int pY){
     	setCoordinates(new Coordinate(pX, pY));
-    	setLevel(0);
     	upgrade();
     	setSize(2);
     	setImageByLevel(mLevel);
@@ -248,9 +247,9 @@ public abstract class Tower extends Unit {
     }
       
     /**
-     * returns amount of money you get when you sell this tower
+     * Returns amount of money you get when you sell this tower.
      * 
-     * @return
+     * @return The sell price for the tower.
      */
     public double sellPrice(){
     	return 0.5*getCost() + (getCost()*0.05*getLevel());
@@ -267,17 +266,24 @@ public abstract class Tower extends Unit {
 	public int getCost() {
 		return mCost;
 	}	
-
+ 
 	public int getLevel() {
 		return mLevel;
 	}
-    
-    public void setLevel(int pLevel) {
-		mLevel = pLevel;
+	
+	/**
+	 * Increments the tower level by one.
+	 * 
+	 * @return True if the level was successfully incremented, else false.
+	 */
+	public boolean incLevel(){
+		if (canUpgrade())
+			mLevel++;
+		return (canUpgrade());
 	}
 
 	/**
-	 * @param mDescription the mDescription to set
+	 * @param pDescription A short description of the tower type.
 	 */
 	public void setDescription(String pDescription) {
 		mDescription = pDescription;

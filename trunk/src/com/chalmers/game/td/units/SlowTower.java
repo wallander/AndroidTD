@@ -34,11 +34,13 @@ public class SlowTower extends Tower {
 		mSlow = i;
 	}
 
+	@Override
 	public int getSlow() {
 		return mSlow;
 	}
 
 	// Temporary changes images up to 4 upgrades.
+	@Override
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
 			case 1: setImage(R.drawable.slowtower);		break;//called from the constructor
@@ -62,22 +64,22 @@ public class SlowTower extends Tower {
 
 	@Override
 	public boolean upgrade() {
-    	//TODO change values
-    	if (!canUpgrade())					//return false if tower can't be upgraded
-    		return false;
-    	else {
-    		int newLvl = getLevel()+1;
+		
+    	if (canUpgrade()) {
+    		incLevel();					//increment tower level by one
     		
-    		setLevel(newLvl);			//increment tower level by one
+    		int newLvl = getLevel();
     		setImageByLevel(newLvl);	//set image according to the new level
     		
-    		setCoolDown(sCoolDown[newLvl-1]);
-			setDamage(sDamage[newLvl-1]);
-			setRange(sRange[newLvl-1]);
-			setSlow(sSlow[newLvl-1]);
+    		setCoolDown(sCoolDown[newLvl-1]); 	//set CD according to new level
+			setDamage(sDamage[newLvl-1]);		//set damage according to new level
+			setRange(sRange[newLvl-1]);			//set range according to new level
+			setSlow(sSlow[newLvl-1]);			//set slow according to new level
 			
 	    	return true;
     	}
+    	else
+    		return false;				//return false if tower can't be upgraded
 	}
 	
     /**
