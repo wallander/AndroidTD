@@ -100,7 +100,8 @@ public class Mob extends Unit{
         	} else  {
         		setMobImage(R.drawable.penguinmob);
         		setReward(50);
-        	}    		
+        	}    	
+        	break;
     	case Mob.AIR:
         	if (pHealth <= 110) {
         		setReward(10);
@@ -118,6 +119,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.flyingpenguin);
         		setReward(50);
         	}
+        	break;
     	case Mob.FAST:
     		if (pHealth <= 110) {
         		setReward(10);
@@ -135,6 +137,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.icebear);
         		setReward(50);
         	}
+    		break;
     	case Mob.HEALTHY:
         	if (pHealth <= 110) {
         		setReward(10);
@@ -152,7 +155,8 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.walrus);
         		setReward(50);
         	}
-    	} 
+    	}
+    	
     }
 	
 	
