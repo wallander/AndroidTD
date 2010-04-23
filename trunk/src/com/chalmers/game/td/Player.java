@@ -30,8 +30,8 @@ public class Player {
 	}
 	
 	public double getTrackScore(int pTrack) {
-		//return mScore.getTrackScore(pTrack);
-		return 1.1;
+		return mScore.getTrackScore(pTrack);
+		//return 1.1;
 	}
 	
 	public double getTotalScore() {		

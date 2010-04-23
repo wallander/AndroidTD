@@ -81,7 +81,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private int mTy;
 	
 	/** Indicates if fast forward is activated or not. */
-	private boolean mFastf = false;
+	private boolean mFast = false;
 
 	/** */
 	private Tower mCurrentTower;
@@ -95,6 +95,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private int menuPic = 0;
 
+	private int mButtonBorder = 385;
 
 	/** Keeps track of the delay between creation of Mobs in waves */
 	private static final int MOB_DELAY_MAX = 30;
@@ -103,6 +104,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	// Graphic elements used in the GUI
 	private static final RectF sBtnSell = new RectF(90,180,150,230);
 	private static final RectF sBtnUpgrade = new RectF(165,180,300,230);
+	
+	//box with options on. Used for tooltip and upgrade window
 	private static final RectF sTransparentBox = new RectF(70,50,320,240);
 	private static final RectF sBtn1 = new RectF(420,15,475,65);
 	private static final RectF sBtn2 = new RectF(420,15+60,475,65+60);
@@ -154,7 +157,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private static final int mSnowballTreshold = 1500;
 	private int mUsedSnowballs;
 	
-	private AudioManager mAudioManager; // TODO Move to SoundManager?
+	private AudioManager mAudioManager; // Move to SoundManager? No, it is used to control volume
 	
 	/**
 	 * Returns the MediaPlayer for which ever track is active
@@ -191,6 +194,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			try {
 				if (GameModel.sMusicEnabled) {
+
 					SoundManager.pauseMusic(SoundManager.getFastForwardMusic());
 					SoundManager.playMusic(playTrackMusic(GameModel.getTrack()));
 				}
@@ -264,8 +268,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mMobFactory.setContext(getContext()); 
 		
 		GameModel.currentPlayer.setCurrentScore(0);
-		mFastf = false;
-		setSpeedMultiplier(1);
+		
+		setFast(false);
+
 		GAME_STATE = STATE_RUNNING;
 	}
 
@@ -293,7 +298,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			switch (state){ 
 			case TelephonyManager.CALL_STATE_RINGING: 
 				Log.d("PhoneState", "ringing"); 
-				// TODO handle incoming calls
+				// handle incoming calls
 				GAME_STATE = STATE_PAUSED;
 				break; 
 
@@ -307,6 +312,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 	};
+	
 	
 
 	/**
@@ -385,11 +391,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_MENU:
-			// TODO Handle hardware menu button
+			// Handle hardware menu button
 			GAME_STATE = STATE_PAUSED;			
 			break;
 		case KeyEvent.KEYCODE_BACK:
-			// TODO Handle hardware "back" button
+			// Handle hardware "back" button
 			GAME_STATE = STATE_PAUSED;
 			break;
 		case KeyEvent.KEYCODE_VOLUME_UP:
@@ -419,28 +425,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					//If the user has selected a Tower
-					if (mSelectedTower != null) {
+					
+					//If the user has selected a Tower and is touching the upgrade window
+					if (mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
 						
-						// Upgrade button pressed, and selected tower is upgradeable
-						if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
-							if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
-								GameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
-								mSelectedTower.upgrade();
-							}
-						} else if (sBtnSell.contains(event.getX(), event.getY()) ) {
-							// Sell button pressed
-							GameModel.currentPlayer.changeMoney(mSelectedTower.sellPrice());
-							GameModel.removeTower(mSelectedTower);
-							mSelectedTower = null;
-						} else 
-							mSelectedTower = null;
+						//call method for handling touch events when a tower is selected
+						onTouchUpgradeWindowEvent(event);
 
-					} else { // if the user has NOT selected a tower
+					} else { // if the user has NOT selected a tower, or if the user selected a tower but touched outside the upgrade window.
 
+						mSelectedTower = null; //deselect any selected tower
+						
 						mAllowBuild = false;
+						
 						// game field clicked
-						if (event.getX() < 410) {
+						if (mTx < mButtonBorder) {
 							mShowTooltip = false;
 
 							// if a tower was clicked, mark it as selected
@@ -459,14 +458,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							}
 							
 							if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
-								if(mFastf){
-									GamePanel.setSpeedMultiplier(1);
-									mFastf = false;
-								} else {
-									GamePanel.setSpeedMultiplier(3);	
-									mFastf = true;
-								}
-								
+								toggleFast();
 							}
 
 						} else if(sBtn1.contains(event.getX(),event.getY())) {
@@ -523,14 +515,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
-					mShowTooltip =  event.getX() > 410;
+					mShowTooltip =  mTx > mButtonBorder;
 					// if a tower is being bought
 					if(mCurrentTower != null){
 						
 						// if building isn't allowed,
 						if(!mAllowBuild) {
 							// remove current tower
-//							mCurrentTower = null;
+							mCurrentTower = null;
 						} else  {
 							// else update positions
 							mCurrentTower.setX(mTx);
@@ -542,7 +534,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// if building isn't allowed,
 						if(!mAllowBuild) {
 							// remove current snowball
-//							mCurrentSnowball = null;
+							mCurrentSnowball = null;
 						} else  {
 							// else update positions
 							mCurrentSnowball.setX(mTx);
@@ -555,7 +547,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && mTx < 410) {
+						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && mTx < mButtonBorder) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
@@ -569,7 +561,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
-						if (mAllowBuild && mTx < 410) {
+						if (mAllowBuild && mTx < mButtonBorder) {
 							GameModel.mSnowballs.add(mCurrentSnowball);
 							mUsedSnowballs++;
 						}
@@ -582,8 +574,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case STATE_GAMEOVER:
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-
-
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
@@ -598,6 +588,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					
 					break;
 				case MotionEvent.ACTION_UP:
+					// Restart button
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						startTrack(GameModel.getTrack());						
 						GAME_STATE = STATE_RUNNING;		
@@ -637,7 +628,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_UP:
 					
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
-						// TODO restart with new level
+						// restart with new level
 						if (GameModel.getTrack() < 5) {
 							startTrack(GameModel.getTrack()+1);												
 							GAME_STATE = STATE_RUNNING;
@@ -700,7 +691,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		
-		// TODO why is this here? what purpose does it serve?
+		
+		// sleep for 16 milliseconds, to avoid being flooded by onTouchEvents
 		try {
 			Thread.sleep(16);
 		} catch (InterruptedException e) {
@@ -709,18 +701,68 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		return true;
 	}
-
+	
+	//called by onTouchEvent if the uppgrade window is touched
+	private void onTouchUpgradeWindowEvent(MotionEvent event){
+		// Upgrade button pressed, and selected tower is upgradeable
+		if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
+			if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
+				GameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
+				mSelectedTower.upgrade();
+			}
+		} else if (sBtnSell.contains(event.getX(), event.getY()) ) {
+			// Sell button pressed
+			GameModel.currentPlayer.changeMoney(mSelectedTower.sellPrice());
+			GameModel.removeTower(mSelectedTower);
+			mSelectedTower = null;
+		} else 
+			mSelectedTower = null;
+	}
+	
+	/** 
+	 * Activates or deactivates fast forward by changing the game's speed
+	 * multiplier.
+	 * 
+	 * @param setFast True sets the game in fast forward mode, false sets the game to 
+	 * normal speed.
+	 */
+	private void setFast(boolean setFast){
+		
+		//if fast forward is already in the requested mode, nothing needs to be done
+		if (setFast != mFast) { 
+			
+			if (setFast)
+				GamePanel.setSpeedMultiplier(3);
+			else
+				GamePanel.setSpeedMultiplier(1);
+			mFast = setFast;
+		}
+	}
+	
+	/** 
+	 * Toggles fast forward by changing the game's speed
+	 * multiplier to the opposite of what it was before.
+	 * 
+	 */
+	private void toggleFast(){
+		if (mFast)
+			GamePanel.setSpeedMultiplier(1);
+		else
+			GamePanel.setSpeedMultiplier(3);
+		
+		mFast = !mFast;
+	}
 
 	/**
 	 * This class is called each frame. 
-	 * It keeps track of the creation of the mobs from the waves of the current map
-	 * Called from updateModel 
+	 * It keeps track of the creation of the mobs from the waves of the current map.
+	 * Called from updateModel.
 	 */
 	private Mob createMobs() {  	    	    	    	        	    	    	
 
 		int track = GameModel.getTrack();
 		
-		if (mMobDelayI >= MOB_DELAY_MAX) {
+		if (mMobDelayI >= MOB_DELAY_MAX) { //if it's time to get next mob
 			mMobDelayI = 0;
 			
 			if(track > 0) {
@@ -744,7 +786,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		debug.UpdateFPS();
 
-		if (GAME_STATE == STATE_RUNNING) {
+		if (GAME_STATE == STATE_RUNNING) { //Only update if running
 
 			// If the player has 0 or less lives remaining, change game state
 			if (GameModel.currentPlayer.getRemainingLives() <= 0) {
@@ -752,9 +794,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mCurrentSnowball = null;
 				mCurrentTower = null;
 				mShowTooltip = false;
+				setFast(false);
 				GAME_STATE = STATE_GAMEOVER;
-				mFastf = false;
-				setSpeedMultiplier(1);
 				return;
 			}
 
@@ -764,10 +805,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mCurrentSnowball = null;
 				mCurrentTower = null;
 				mShowTooltip = false;
-				GAME_STATE = STATE_WIN;
-				mFastf = false;
-				setSpeedMultiplier(1);
+				setFast(false);
 				GameModel.currentPlayer.saveCurrentTrackScore();
+				GAME_STATE = STATE_WIN;
 				return;
 			}
 
@@ -867,6 +907,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					GameModel.mMobs.remove(m);
 					++removed;
 					GameModel.currentPlayer.removeLife();
+					mVibrator.vibrate(50);
 				}
 				
 				
@@ -937,7 +978,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			break;
 
-		case STATE_GAMEOVER: // loser screen TODO make it look good
+		case STATE_GAMEOVER: // loser screen
 			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
 			
@@ -962,7 +1003,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			
 			break;
 
-		case STATE_WIN: // winner screen TODO make it look good
+		case STATE_WIN: // winner screen
 			
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,80,null);
 			if(menuPic == 1){
@@ -1279,7 +1320,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.pause),20,5,null);
 				
-		if(mFastf)
+		if(mFast)
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward2),20,285,null);
 		else
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.fastforward),20,285,null);
