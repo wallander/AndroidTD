@@ -595,8 +595,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mMobFactory.resetWaveNr(); // Resets the wave counter 
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
-						// close the parent activity (go to main menu)
-						((Activity) getContext()).finish();
+						// go back to progression route map
+						Activity parent = (Activity) getContext();
+						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					}
 					menuPic = 0;
 					break;
@@ -642,8 +643,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
-						// close the parent activity (go to main menu)
-						((Activity) getContext()).finish();
+						// go back to progression route map
+						Activity parent = (Activity) getContext();
+						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					}
 
 					menuPic = 0;
@@ -702,7 +704,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 	
-	//called by onTouchEvent if the uppgrade window is touched
+	//called by onTouchEvent if the upgrade window is touched
 	private void onTouchUpgradeWindowEvent(MotionEvent event){
 		// Upgrade button pressed, and selected tower is upgradeable
 		if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
@@ -1644,6 +1646,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		while (retry) {
 			try {
 				mGameThread.join();
+				Log.v("GamePanel","test");
 				retry = false;
 			} catch (InterruptedException e) {
 				// we will try it again and again...

@@ -46,7 +46,10 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	public ProgressionRoutePanel(Context context) {
-		super(context);				
+		super(context);			
+		
+		Log.v("ProgressionRoutePanel","Constructor");
+		
 		fillBitmapCache();		
 	
 		mActivity = (Activity) context;		
