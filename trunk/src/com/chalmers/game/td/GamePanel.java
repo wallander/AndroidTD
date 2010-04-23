@@ -417,6 +417,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	public boolean onTouchEvent(MotionEvent event) {
 
 		synchronized (getHolder()) {
+			
 			switch (GAME_STATE) {
 			case STATE_RUNNING:
 				// store the coordinates of the event, the x coordinate with an offset of -60 pixels
@@ -424,92 +425,27 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				mTy = (int) event.getY();
 
 				switch (event.getAction()) {
+				
 				case MotionEvent.ACTION_DOWN:
-					
-					//If the user has selected a Tower and is touching the upgrade window
+
+					// If the user has selected a Tower and is touching the upgrade window
 					if (mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
-						
-						//call method for handling touch events when a tower is selected
+
 						onTouchUpgradeWindowEvent(event);
 
 					} else { // if the user has NOT selected a tower, or if the user selected a tower but touched outside the upgrade window.
 
 						mSelectedTower = null; //deselect any selected tower
-						
+
 						mAllowBuild = false;
-						
-						// game field clicked
-						if (mTx < mButtonBorder) {
-							mShowTooltip = false;
 
-							// if a tower was clicked, mark it as selected
-							int size = GameModel.mTowers.size();
-							for (int i = 0; i < size; i++){
-								Tower t = GameModel.mTowers.get(i);
+						// game field touched
+						if (mTx < mButtonBorder)
+							onTouchGameFieldEvent(event);
 
-								if (t.selectTower(event.getX(), event.getY())){
-									mSelectedTower = t;
-									break;
-								}
-							}
-
-							if (event.getX() > 0 && event.getX() < 40 && event.getY() > 0 && event.getY() < 50){
-								GAME_STATE = STATE_PAUSED;
-							}
-							
-							if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
-								toggleFast();
-							}
-
-						} else if(sBtn1.contains(event.getX(),event.getY())) {
-							// button 1
-							if (mTower1.getCost() <= GameModel.currentPlayer.getMoney()) {
-								mAllowBuild = true;
-							}	
-							mCurrentTower = new BasicTower(mTx ,mTy);
-							mShowTooltip = true;
-
-						} else if(sBtn2.contains(event.getX(),event.getY())) {
-							// button 2
-							if (mTower2.getCost() <= GameModel.currentPlayer.getMoney()) {
-								mAllowBuild = true;
-							}	
-
-							mCurrentTower = new SplashTower(mTx ,mTy);
-							mShowTooltip = true;
-
-						} else if(sBtn3.contains(event.getX(),event.getY())) {
-							// button 3
-							if (mTower3.getCost() <= GameModel.currentPlayer.getMoney()) {
-								mAllowBuild = true;
-							}	
-							mCurrentTower = new SlowTower(mTx ,mTy);
-							mShowTooltip = true;
-
-						} else if(sBtn4.contains(event.getX(),event.getY())) {
-							// button 4
-							if (mTower4.getCost() <= GameModel.currentPlayer.getMoney()) {
-								mAllowBuild = true;
-							}	
-							mCurrentTower = new AirTower(mTx ,mTy);
-							mShowTooltip = true;
-
-							//button 5
-						} else if(sBtn5.contains(event.getX(),event.getY())) {
-
-							if (mAccelerometerSupported) {
-								
-								if (GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs)) {
-									mAllowBuild = true;
-								}
-								
-								if (GameModel.sCheatEnabled)
-									mAllowBuild = true;
-								
-								mCurrentSnowball = new Snowball(mTx,mTy);
-								mShowTooltip = true;
-							}
-						} 
+						// The buttons on right side of the screen were touched
+						else 
+							onTouchRightButtonsEvent(event);
 					}
 
 					break;
@@ -595,8 +531,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mMobFactory.resetWaveNr(); // Resets the wave counter 
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
-						// close the parent activity (go to main menu)
-						((Activity) getContext()).finish();
+						// go back to progression route
+						mGameThread.setRunning(false);
+						getHolder().removeCallback(this);
+						Activity parent = (Activity) getContext();
+						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					}
 					menuPic = 0;
 					break;
@@ -642,8 +581,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
-						// close the parent activity (go to main menu)
-						((Activity) getContext()).finish();
+						// go back to progression route
+						mGameThread.setRunning(false);
+						getHolder().removeCallback(this);
+						Activity parent = (Activity) getContext();
+						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					}
 
 					menuPic = 0;
@@ -681,8 +623,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mMobFactory.resetWaveNr(); // Resets the wave counter
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
-						// close the parent activity (go to main menu)
-						((Activity) getContext()).finish();
+						// go back to progression route
+						mGameThread.setRunning(false);
+						getHolder().removeCallback(this);
+						Activity parent = (Activity) getContext();
+						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					}
 					menuPic = 0;
 					break;
@@ -702,7 +647,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 	
-	//called by onTouchEvent if the uppgrade window is touched
+	//called by onTouchEvent if the upgrade window is touched
 	private void onTouchUpgradeWindowEvent(MotionEvent event){
 		// Upgrade button pressed, and selected tower is upgradeable
 		if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
@@ -717,6 +662,92 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			mSelectedTower = null;
 		} else 
 			mSelectedTower = null;
+	}
+	
+	
+	//method called by onTouchEvent if the game field have been touched
+	private void onTouchGameFieldEvent(MotionEvent event){
+		mShowTooltip = false;
+
+		// if a tower was touched, mark it as selected
+		int size = GameModel.mTowers.size();
+		for (int i = 0; i < size; i++){
+			Tower t = GameModel.mTowers.get(i);
+
+			if (t.selectTower(event.getX(), event.getY())){
+				mSelectedTower = t;
+				break;
+			}
+		}
+
+		// if pause button was touched, pause the game
+		if (event.getX() > 0 && event.getX() < 40 && event.getY() > 0 && event.getY() < 50){
+			GAME_STATE = STATE_PAUSED;
+		}
+		
+		// if fast forward was touched, toggle fast forward
+		if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
+			toggleFast();
+		}
+	}
+	
+	
+	//method called by onTouchEvent if the menu of buttons on the right side of the screen
+	//has been touched.
+	private void onTouchRightButtonsEvent(MotionEvent event){
+		
+		// button 1
+		if(sBtn1.contains(event.getX(),event.getY())) {
+			
+			if (mTower1.getCost() <= GameModel.currentPlayer.getMoney())
+				mAllowBuild = true;
+	
+			mCurrentTower = new BasicTower(mTx ,mTy);
+			mShowTooltip = true;
+			
+			// button 2
+		} else if(sBtn2.contains(event.getX(),event.getY())) {
+			
+			if (mTower2.getCost() <= GameModel.currentPlayer.getMoney())
+				mAllowBuild = true;	
+
+			mCurrentTower = new SplashTower(mTx ,mTy);
+			mShowTooltip = true;
+
+			// button 3
+		} else if(sBtn3.contains(event.getX(),event.getY())) {
+			
+			if (mTower3.getCost() <= GameModel.currentPlayer.getMoney())
+				mAllowBuild = true;
+
+			mCurrentTower = new SlowTower(mTx ,mTy);
+			mShowTooltip = true;
+
+			// button 4
+		} else if(sBtn4.contains(event.getX(),event.getY())) {
+			
+			if (mTower4.getCost() <= GameModel.currentPlayer.getMoney())
+				mAllowBuild = true;
+
+			mCurrentTower = new AirTower(mTx ,mTy);
+			mShowTooltip = true;
+
+			//button 5
+		} else if(sBtn5.contains(event.getX(),event.getY())) {
+
+			if (mAccelerometerSupported) {
+
+				if (GameModel.currentPlayer.getCurrentTrackScore() 
+						>= mSnowballTreshold*(1+mUsedSnowballs))
+					mAllowBuild = true;
+
+				if (GameModel.sCheatEnabled)
+					mAllowBuild = true;
+
+				mCurrentSnowball = new Snowball(mTx,mTy);
+				mShowTooltip = true;
+			}
+		} 
 	}
 	
 	/** 
@@ -1644,6 +1675,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		while (retry) {
 			try {
 				mGameThread.join();
+				Log.v("GamePanel","test");
 				retry = false;
 			} catch (InterruptedException e) {
 				// we will try it again and again...

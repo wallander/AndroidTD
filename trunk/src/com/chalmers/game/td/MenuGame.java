@@ -18,7 +18,7 @@ import android.view.Window;
  */
 public class MenuGame extends Activity {
     
-	private ProgressionRoutePanel progressMap;
+	public ProgressionRoutePanel progressMap;
 	
     /**
      * Method called on application start.
