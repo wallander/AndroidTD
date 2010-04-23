@@ -155,6 +155,7 @@ public class Mob extends Unit{
         		setMobImage(R.drawable.walrus);
         		setReward(200);
         	}
+        	break;
      	case Mob.IMMUNE:
         	if (pHealth <= 110) {
         		setReward(15);
