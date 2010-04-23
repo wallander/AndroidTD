@@ -33,6 +33,17 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private String trackName = "";
 	private int menuPic = 0;
 	
+	public void updateSound() {
+		
+		try {
+			if (GameModel.sMusicEnabled) {
+				
+				SoundManager.playMusic(SoundManager.getProgressionRouteMusic());				
+			}
+		} catch (IllegalStateException ise) {
+			SoundManager.initializeSound(getContext());
+		}
+	}
 	
 	public ProgressionRoutePanel(Context context) {
 		super(context);				

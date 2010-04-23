@@ -35,7 +35,7 @@ public class MenuOptions extends Activity {
         	public void onClick(View v) {
         		Intent GoToMenu = new Intent(MenuOptions.this, Menu.class);
         		Bundle b = new Bundle();
-        		b.putString("msg", "Hej! Jag kommer från Options!");
+        		b.putString("msg", "Hej! Jag kommer from Options!");
         		GoToMenu.putExtras(b);
                 startActivity(GoToMenu);
         		finish();
