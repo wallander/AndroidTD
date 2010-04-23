@@ -1152,7 +1152,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		int mWaveTime = mMobFactory.getWaveTime(); 
 		
-		if(mWaveTime < mMobFactory.getWaveMaxDelay() && mMobFactory.hasMoreMobs()) {
+		if(mWaveTime < mMobFactory.getWaveMaxDelay() && mMobFactory.hasMoreMobs() && mWaveTime != 0) {
 			canvas.drawText("Next wave: " + mMobFactory.getWaveType() + "("+ mWaveTime + ")", 260, 300, sPaintText);
 		}
 
