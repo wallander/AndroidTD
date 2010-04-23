@@ -74,6 +74,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	private void fillBitmapCache() {
+		mBitMapCache = new HashMap<Integer, Bitmap>();
 		mBitMapCache.put(R.drawable.progressionroute, BitmapFactory.decodeResource(getResources(), R.drawable.progressionroute));
 		mBitMapCache.put(R.drawable.progdone, BitmapFactory.decodeResource(getResources(), R.drawable.progdone));
 		mBitMapCache.put(R.drawable.prognotdone, BitmapFactory.decodeResource(getResources(), R.drawable.prognotdone));

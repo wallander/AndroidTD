@@ -31,7 +31,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -321,6 +320,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * Fill the bitmap cache.
 	 */
 	private void fillBitmapCache() {
+		mBitMapCache = new HashMap<Integer, Bitmap>();
 		mBitMapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
 		mBitMapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
 		mBitMapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
@@ -537,6 +537,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
@@ -544,6 +545,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.finish();
@@ -580,6 +582,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
@@ -594,6 +597,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.finish();
@@ -651,12 +655,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRoutePanel(getContext()));
 					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
 						// go back to progression route
 						mGameThread.setRunning(false);
+						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.finish();
