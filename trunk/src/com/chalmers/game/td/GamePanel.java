@@ -460,7 +460,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// if building isn't allowed,
 						if(!mAllowBuild) {
 							// remove current tower
-							mCurrentTower = null;
+//							mCurrentTower = null;
 						} else  {
 							// else update positions
 							mCurrentTower.setX(mTx);
@@ -472,7 +472,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// if building isn't allowed,
 						if(!mAllowBuild) {
 							// remove current snowball
-							mCurrentSnowball = null;
+//							mCurrentSnowball = null;
 						} else  {
 							// else update positions
 							mCurrentSnowball.setX(mTx);
