@@ -22,7 +22,7 @@ public class AirTower extends Tower {
 		setName("Igloo Canon");		
 		setCost(130);
 		setType(AIR);
-		setDescription("Can only damage flying mobs.");
+		setDescription("Only damages flying mobs.");
     	resetCoolDown();
 		// TODO Set appropriate values to range, damage, attack speed and such
 	}

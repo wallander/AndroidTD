@@ -21,7 +21,7 @@ public class BasicTower extends Tower {
     	setCost(70);
     	setName("Eskimo");
     	setType(BASIC);
-    	setDescription("Throws spears with good range!");
+    	setDescription("Good range and speed!");
     	setDamage(7);
 	}
 	

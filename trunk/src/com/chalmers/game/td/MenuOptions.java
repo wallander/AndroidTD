@@ -34,9 +34,6 @@ public class MenuOptions extends Activity {
         	
         	public void onClick(View v) {
         		Intent GoToMenu = new Intent(MenuOptions.this, Menu.class);
-        		Bundle b = new Bundle();
-        		b.putString("msg", "Hej! Jag kommer from Options!");
-        		GoToMenu.putExtras(b);
                 startActivity(GoToMenu);
         		finish();
         	}
@@ -73,12 +70,12 @@ public class MenuOptions extends Activity {
 
         	public void onClick(View v) {
         		AlertDialog.Builder builder = new AlertDialog.Builder(MenuOptions.this);
-        		builder.setMessage("Are you sure you want to reset highscores?");
+        		builder.setMessage("Are you sure you want to reset highscores?\n\n" + 
+        				           "            This will reset your progress!");
         		builder.setCancelable(false);
         		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
         			public void onClick(DialogInterface dialog, int id) {
-        				// TODO reset highscore
         				Highscore.resetHighscore();
         			}       
         		})      

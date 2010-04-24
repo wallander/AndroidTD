@@ -9,7 +9,7 @@ public class Player {
 	private double 			mMoney;
 	private Highscore		mScore;
 	
-	private int mLives = 50;
+	private int mLives = 30;
 	
 	public Player(int pTracks) {
 		setName("Mr. Awesome");
@@ -29,6 +29,7 @@ public class Player {
 		mScore.saveScore();
 	}
 	
+	// TODO remove these comments! this is for debug only
 	public double getTrackScore(int pTrack) {
 		return mScore.getTrackScore(pTrack);
 		//return 1.1;
