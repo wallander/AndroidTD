@@ -97,7 +97,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private int mButtonBorder = 385;
 
 	/** Keeps track of the delay between creation of Mobs in waves */
-	private static final int MOB_DELAY_MAX = 30;
+	public static final int MOB_DELAY_MAX = 30;
 	private int mMobDelayI = 0;
 
 	// Graphic elements used in the GUI
@@ -529,8 +529,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					// Restart button
 					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
 						startTrack(GameModel.getTrack());						
-						GAME_STATE = STATE_RUNNING;		
-						mMobFactory.resetWaveNr(); // Resets the wave counter 
+						GAME_STATE = STATE_RUNNING;	
+						mMobFactory.resetWaveIndex(); // Resets the wave counter 
+						mMobFactory.resetMobIndex();
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
 						// go back to progression route
@@ -557,7 +558,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				switch (event.getAction()) {								
 				
 				case MotionEvent.ACTION_DOWN:
-
 
 					break;
 				case MotionEvent.ACTION_MOVE:
@@ -590,7 +590,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						// restart level
 						startTrack(GameModel.getTrack());												
 						GAME_STATE = STATE_RUNNING;
-						mMobFactory.resetWaveNr(); // Resets the wave counter
+						mMobFactory.resetWaveIndex(); // Resets the wave counter
+						mMobFactory.resetMobIndex();
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
@@ -646,9 +647,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						GAME_STATE = STATE_RUNNING;
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						// restart
 						startTrack(GameModel.getTrack());											
 						GAME_STATE = STATE_RUNNING;			
-						mMobFactory.resetWaveNr(); // Resets the wave counter
+						mMobFactory.resetWaveIndex(); // Resets the wave counter
+						mMobFactory.resetMobIndex();
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to progression route
@@ -845,11 +848,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if (mMobDelayI >= MOB_DELAY_MAX) { //if it's time to get next mob
 			mMobDelayI = 0;
 			
-			if(track > 0) {
+			if(track > 0)
 				return mMobFactory.getNextMob();
-			} else {
+			else
 				return null;
-			}
+			
 		} else {
 			mMobDelayI += GamePanel.getSpeedMultiplier();
 			return null;
@@ -880,7 +883,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 			// if the player has won (no more mobs and all mobs dead)
-			if (mMobFactory.hasMoreMobs() == false && GameModel.mMobs.isEmpty()) {
+			if (!mMobFactory.hasMoreMobs() && GameModel.mMobs.isEmpty()) {
 				mSelectedTower = null;
 				mCurrentSnowball = null;
 				mCurrentTower = null;
@@ -1217,15 +1220,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("" + (int)GameModel.currentPlayer.getMoney(), 105, 20, sPaintText);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 160, 3, null);
 		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
-		canvas.drawText(mMobFactory.getWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText);
+		canvas.drawText(mMobFactory.getNextWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText);
 		canvas.drawText("Score: " + (int)GameModel.currentPlayer.getCurrentTrackScore(), 290, 20, sPaintText);
 		
-		int mWaveTime = mMobFactory.getWaveTime(); 
-		
-		
-		if(mWaveTime < mMobFactory.getWaveMaxDelay() && mMobFactory.hasMoreMobs() && mWaveTime != 0){
-			canvas.drawText("Next wave: " + mMobFactory.getWaveType() + 
-					"(" + mWaveTime + ")", 250, 300, sPaintText);
+		if(!mMobFactory.lastWaveHasEntered()){
+			int mWaveTime = mMobFactory.getWaveTime(); 
+
+			canvas.drawText("Next wave: " + mMobFactory.getNextWaveType() + 
+					"(" + mWaveTime + ")", 230, 300, sPaintText);
 		}
 	}
 

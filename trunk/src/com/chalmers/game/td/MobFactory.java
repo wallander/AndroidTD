@@ -10,6 +10,7 @@ import android.content.res.Resources.NotFoundException;
 import android.util.Log;
 
 import com.chalmers.game.td.units.Mob;
+import com.chalmers.game.td.units.Tower;
 
 
 /**
@@ -27,9 +28,13 @@ public class MobFactory {
 	// Instance variables
 	private static final MobFactory		INSTANCE = new MobFactory();
 	private int							mWaveDelayI;
-	private int							mWaveNr,		//first wave is number 1?
-										mMaxWaveDelay,
-										mMobNr,			//first mob is number 1?
+	
+	/**
+	 * The index of the current wave. First wave has index 0.
+	 */
+	private int							mWaveIndex;
+	private int							mMaxWaveDelay,
+										mMobIndex,
 										mTrackNr;
 	private Context						mContext;
 	private Path						mPath;
@@ -64,6 +69,8 @@ public class MobFactory {
 	 */
 	private int							mTrackID;
 	
+	private boolean						lastMobSent = false;
+	
 	
 	/**
 	 * Should not be used, call getInstance() instead.
@@ -74,8 +81,8 @@ public class MobFactory {
 		mContext = null;		
 		//mMobs = null;
 		mWaveDelayI = 0;
-		mWaveNr = 0;
-		mMobNr = 0;
+		mWaveIndex = 0;
+		mMobIndex = 0;
 		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
 		mTrackWaves = new ArrayList<ArrayList<Mob>>();
 		//mWaveNumbers = new ArrayList<Integer>();
@@ -90,11 +97,7 @@ public class MobFactory {
 	 * @return	The current wave number
 	 */
 	public int getWaveNr() {
-		if(hasMoreMobs()) {
-			return mWaveNr+1;
-		} else {
-			return mWaveNr;
-		}
+		return mWaveIndex+1;
 	}
 	
 	public int getWaveMaxDelay() {
@@ -108,19 +111,79 @@ public class MobFactory {
 	 * @return
 	 */
 	public int getWaveTime() {
-		return (mMaxWaveDelay - mWaveDelayI);
+		int time = 0;
+		if (waveInProgress())
+			time += mMaxWaveDelay+numberOfMobsLeftThisWave();
+		else if (mWaveDelayI < mMaxWaveDelay)
+			time += mMaxWaveDelay-mWaveDelayI;
+		return time;
+	}
+	
+	/**
+	 * Can only be called if there is at least one wave left after the current wave!
+	 * 
+	 * @return
+	 */
+	public String getNextWaveType(){
+		int iType;
+		if (waveInProgress()) //return type of next wave
+			iType = mTrackWaves.get(mWaveIndex+1).get(0).getType();
+		else //return type of current wave
+			iType = mTrackWaves.get(mWaveIndex).get(0).getType();
+		
+		String sType;
+		
+		switch (iType){
+		case Mob.AIR:
+			sType="Air";
+			break;
+		case Mob.FAST:
+			sType="Fast";
+			break;
+		case Mob.HEALTHY:
+			sType="Healthy";
+			break;
+		case Mob.IMMUNE:
+			sType="Immune";
+			break;
+		default:
+			sType="Normal";
+			break;
+		}
+		return sType;
+	}
+	
+	private boolean waveInProgress(){
+		//if the delaycounter is "ready" it means that a wave is in progress
+		return (mWaveDelayI >= mMaxWaveDelay);
 	}
 
 	/**
 	 *  Returns the total amount of waves
 	 *  on the track the player is currently
 	 *  playing.
-	 *  TODO FIX WITH ARRAY 
+	 *  
 	 * @return		total number of waves
 	 */
 	public int getTotalNrOfWaves() {
-		//return mWaveNumbers.get(GameModel.getTrack() - 1);
 		return mTrackWaves.size();
+	}
+	
+	/**
+	 * 
+	 * @return The number of the last wave that entered the game field.
+	 */
+	public int getNextWaveNr(){
+		int number=getWaveNr();
+		if (!waveInProgress())
+			number = getWaveNr()-1;
+		return number;
+	}
+	
+	private int numberOfMobsLeftThisWave(){
+		int mobsInWave = mTrackWaves.get(mWaveIndex).size();
+		int mobsLeft = mobsInWave-mMobIndex+1;
+		return mobsLeft;
 	}
 
 	/**
@@ -128,106 +191,96 @@ public class MobFactory {
 	 * send out. Used to check for completion
 	 * of a track.
 	 * 
-	 * @return		true if there are mobs left, false otherwise
+	 * @return	true if there are mobs left, false otherwise
 	 */
 	public boolean hasMoreMobs() {
 		
 		boolean hasMoreMobs;
 		
-		//If not on the last wave = Mobs left
-		if(mWaveNr < mTrackWaves.size())
+		//If current wave is not the last wave. 
+		//(The last wave will have index mTrackWaves.size()-1)
+		if(hasMoreWaves())
 			hasMoreMobs = true;
 		
-		//If on the last wave
-		else if(mWaveNr-1 == mTrackWaves.size()) {
+		//If current wave IS the last wave
+		else {
 			
 			//If the current mob is not the last mob in the wave
-			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
-				//TODO remove this log message when done with it
-				Log.d("Jonas2","mMobNr"+mMobNr);
-				hasMoreMobs = true;
-				
-			//the current mob IS the last mob in the wave	
-			} else
+			//(The last mob will have index (mTrackWaves.get(mWaveIndex).size()-1)
+			
+			if(mMobIndex < mTrackWaves.get(mWaveIndex).size()-1)
+				hasMoreMobs = true;	
+			//If the current mob IS the last mob in the wave	
+			else
 				hasMoreMobs = false;
-		} else
-			hasMoreMobs = false;
-		
+		}
+	
 		return hasMoreMobs;
 	}
 	
-	public void resetWaveNr() {
-		mWaveNr = 0;
+	public void resetWaveIndex() {
+		mWaveIndex = 0;
+	}
+	
+	public void resetMobIndex(){
+		mMobIndex = 0;
+	}
+	
+	public boolean lastWaveHasEntered(){
+		//if there are no more waves after the current and the delay-counter
+		//is "ready", that means the last wave has started to enter. 
+		return (!hasMoreWaves() && mWaveDelayI >= mMaxWaveDelay);
 	}
 	
 	/**
-	 * Returns the next mob on top of the queue, 
-	 * given the track number.
+	 * Returns whether there are more waves after the current wave or not. 
+	 */
+	public boolean hasMoreWaves(){
+		if (mWaveIndex < mTrackWaves.size()-1)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Returns the next mob on top of the queue, given the track number.
 	 * 
-	 * @param	pTrack	TODO make sure the track number is used for waves correctly
-	 * @return
+	 * @return the next mob to send out. First mob on the track
+	 * will be mob 0 of wave 0.
 	 */
 	public Mob getNextMob() {	
-		//Log.i("TESTJONAS","mWaveNr/mWaveDelayI/mMaxWaveDelay/MobNr/maxMobNr: "+ mWaveNr + "/" + mWaveDelayI + "/" + mMaxWaveDelay + "/" + mMobNr + "/" + mTrackWaves.get(mWaveNr).size());
+
 		Mob mMob = null;
+
+		//If the last mob of the track has not been sent already and the delay is done
+		if (!lastMobSent && mWaveDelayI >= mMaxWaveDelay) {
+
+			mMob = mTrackWaves.get(mWaveIndex).get(mMobIndex);
+
+			//if this was the last mob
+			if (!hasMoreMobs())
+				lastMobSent = true;
+
+			//else if there are more mobs, but mMob was the last mob in the current wave
+			else if (mMobIndex == mTrackWaves.get(mWaveIndex).size()-1){
+				if(mMob.getType()==Mob.HEALTHY)
+					mMaxWaveDelay = 20;
+				else
+					mMaxWaveDelay = 10;
+				mWaveIndex++;
+				mMobIndex = 0;
+				mWaveDelayI = 0;
+				//else if mMob was NOT the last mob in the current wave
+			}else
+				mMobIndex++;
+
+			mPath.setTrackPath(GameModel.getTrack());
+			mMob.setPath(mPath);
 			
-		// If the track is not ended
-		if(mWaveNr < mTrackWaves.size()) {
-	
-			// If the delay is up send next wave, otherwise delay
-			if (mWaveDelayI >= mMaxWaveDelay) {
-	
-				// If the wave is not ended
-				if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
-				
-						
-					Log.d("Jonas","Ny Mob" + mMobNr);	
-					// Add the mob
-					mMob = mTrackWaves.get(mWaveNr).get(mMobNr);
-					mMobNr++;
-						
-					mPath.setTrackPath(GameModel.getTrack());
-					mMob.setPath(mPath);
-						
-					switch(mMob.getType()) {
-					case Mob.FAST:
-						mMaxWaveDelay = 10;
-						Log.i("Delay","FAST");
-						break;
-					case Mob.HEALTHY:
-						mMaxWaveDelay = 30;
-						Log.i("Delay","HEALTHY");
-						break;
-					default:
-						mMaxWaveDelay = 10;
-						Log.i("Delay","STANDARD");
-						break;
-					}
-					mWaveDelayI = mMaxWaveDelay;
-					return mMob;
-	
-				} else { //if the wave is over
-					mWaveDelayI = 0; // Reset delay
-					mWaveNr++;
-					mMobNr = 0;
-					Log.i("Wave","Delay ended, start over");
-				}
-			} else { // the delay if running
-				// If the delay has not reached max yet
-				mWaveDelayI++;
-				Log.d("Jonas","Delay"+mWaveDelayI);
-				
-			} 
-			//return null;
-			
-		} else {
-			Log.d("Jonas","Track Ended");
-			// If the track has no more waves
-			// No need to increase, mTrackNr, handled by hasMoreMobs
-			//return null;
-			mMobNr = 10000;
-		}
-		return null;
+		} else
+			mWaveDelayI++; 
+
+		return mMob;
 	}
 
 	/**
@@ -238,9 +291,9 @@ public class MobFactory {
 	 */
 	public void setContext(Context pContext) {
 		mContext = pContext;
-		mPath = Path.getInstance();		
+		mPath = Path.getInstance();
 		mPath.setContext(pContext);
-		initWaves();				
+		initWaves();
 	}
 
 	/**
@@ -250,17 +303,14 @@ public class MobFactory {
 	private void initWaves() {
 			
 		mWaveDelayI = 0;
-		mWaveNr = 0;
-		mMobNr = 0;
+		mWaveIndex = 0;
+		mMobIndex = 0;
 		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
 		mMaxWaveDelay = 10;
-
-		
-		//mTrackWaves = new ArrayList<ArrayList<ArrayList<Mob>>>();
-		//mMobTypeList = new ArrayList<String>();
-		
+		lastMobSent = false;
+				
 		//loops through the tracks, number of tracks is unknown, so it will loop until "break"
-		for(int trackNr = 1; true; trackNr++) {
+		for(int trackNr = 1; ; trackNr++) {
 
 			try {
 				
@@ -283,8 +333,6 @@ public class MobFactory {
 					//Break up the info of this wave in a separate string array
 					mMobInfo = mAllWaves[waveIndex].split(" ");
 					
-					/*Log.i("INIT MOBS", "Wave:" + trackNr + "/" + waveIndex + " MobInfo = " 
-							+ mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);*/
 					
 					String sType = mMobInfo[0];
 					int iType;
@@ -308,9 +356,10 @@ public class MobFactory {
 						mMobs.add(new Mob(iType, health));							
 					
 					mWaves.add(mMobs);
-					//Log.v("INIT MOBS", "New wave added!");
 					
 				}
+				
+				//if last track is reached
 				if(trackNr == GameModel.getTrack()) {
 					mTrackWaves = mWaves;
 					Log.i("Finished","with wave initiation of "+trackNr);
@@ -318,23 +367,21 @@ public class MobFactory {
 				}
 			
 				
-				//Log.i("INFO","mMob/mWave/mTrack"+mMobNr + "/" + mWaveNr + "/" + mTrackNr);
-				//Log.i("INFO","WaveSize/MobSize" + mTrackWaves.size() + "/" + mTrackWaves.get(mWaveNr).size());
-
 			} catch(NullPointerException npe) {
 				Log.i("INITIATION", "Mobs initiation complete.");
 				// Reset mMobs so it will be able to be used at getNextMob()
-				mMobNr = 0;
+				mMobIndex = 0;
 				break;
 			} catch(NotFoundException nfe) {
 				Log.i("INITIATION", "Mobs initiation complete. No more mobs to load.");
 				// Reset mMobs so it will be able to be used at getNextMob()
-				mMobNr = 0;
+				mMobIndex = 0;
 				break;
 			}						 
 		}
 		
 	}
+	
 
 	/** 
 	 * Peeks the Queue of Mobs to see what the type of the next wave is
@@ -342,16 +389,11 @@ public class MobFactory {
 	 * @return Type of the next mob
 	 */
 	public String getWaveType() {
-			if (mTrackWaves.size() > mWaveNr) {
-				return "" + mTrackWaves.get(mWaveNr).get(0).toString();
-			} else {
+			if (mWaveIndex < mTrackWaves.size())
+				return "" + mTrackWaves.get(mWaveIndex).get(0).toString();
+			else
 				return "";
-			}
 	}
-	
-	/**
-	 * Same as getWaveType but returns
-	 */
 	
 	/**
 	 * 

@@ -10,7 +10,7 @@
         <item>AIR 20 50</item>
         <item>NORMAL 20 70</item>
         
-        <item>FAST 20 70</item>
+   		<item>FAST 20 70</item>
         <item>NORMAL 20 100</item>
         <item>NORMAL 20 130</item>
         <item>IMMUNE 20 100</item>
@@ -32,7 +32,7 @@
         <item>AIR 20 400</item>
         <item>NORMAL 20 500</item>
         <item>NORMAL 20 650</item>
-        <item>HEALTHY 1 8000</item>                                         
+        <item>HEALTHY 1 8000</item>                                  
                                  
 
     </array>

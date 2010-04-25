@@ -319,7 +319,6 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 						break;
 					}
 
-					
 				break;
 			}
 			
@@ -337,7 +336,6 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 
-		
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
