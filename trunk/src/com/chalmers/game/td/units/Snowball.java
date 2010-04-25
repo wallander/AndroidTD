@@ -20,6 +20,8 @@ public class Snowball extends Unit {
 	/** movement speed */
 	protected double mSpeedX;
 	protected double mSpeedY;
+	
+	private int mMeltI, mMelt;
 
 	private SensorEvent lastUpdate;
 	private int mCost;
@@ -35,9 +37,11 @@ public class Snowball extends Unit {
 	public Snowball(int pXPos, int pYPos) {
 		setCoordinates(new Coordinate(pXPos,pYPos));
 
+		mMelt = 10;
+		mMeltI = 0;
 		setSpeedX(0);
 		setSpeedY(0);
-		mStartCharge = 300;
+		mStartCharge = 100;
 		setCharges(mStartCharge);
 					//set cost
 
@@ -79,7 +83,7 @@ public class Snowball extends Unit {
 
 			double distance = Coordinate.getSqrDistance(this.getCoordinates(), mobCoordinate);
 
-			if (distance < 10 + getCharges() + m.getHeight()/2) {
+			if (distance < 10 + getCharges()/getStartCharge()*10 + m.getHeight()/2) {
 				deadMobs.add(m);
 				setCharges(getCharges() - 1);
 			}
@@ -89,7 +93,9 @@ public class Snowball extends Unit {
 	}
 
 
-
+	public float getRadius() {
+		return 10 + (float) this.getCharges()/ (float) this.getStartCharge()*10;
+	}
 
 	private void setSpeedX(double i) {
 		mSpeedX = i;
@@ -133,6 +139,13 @@ public class Snowball extends Unit {
 		}
 			
 		lastUpdate = s;
+		
+		mMeltI++;
+		if (mMeltI >= mMelt) {
+			mCharges--;
+			mMeltI=0;
+		}
+		
 	}
 
 	public void setCharges(int mCharges) {

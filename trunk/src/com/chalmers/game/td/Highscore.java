@@ -77,7 +77,7 @@ public class Highscore {
 			}
 		}
 		
-		mCurrentTrackScore = 0;
+		//mCurrentTrackScore = 0;
 	}
 	
 	public double getTrackScore(int pTrack) {

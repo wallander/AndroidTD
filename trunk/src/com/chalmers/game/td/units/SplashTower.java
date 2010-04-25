@@ -19,12 +19,12 @@ public class SplashTower extends Tower {
 	private int mSplashRadius;
 
 	public static final int[] sCoolDown = new int[]{50,50,50,50};
-	public static final int[] sDamage = new int[]{6,24,50,80};
+	public static final int[] sDamage = new int[]{10,30,80,200};
 	public static final int[] sRange = new int[]{60,70,70,80};
 	
-	public static final int[] sSplashRadius = new int[]{50,60,80,90};
+	public static final int[] sSplashRadius = new int[]{50,60,70,70};
 	
-	public static final int[] sUpgradeCost = new int[]{150,330,800};
+	public static final int[] sUpgradeCost = new int[]{150,330,700};
 
 	public SplashTower(int pX, int pY) {
 		super(pX, pY);
@@ -32,7 +32,7 @@ public class SplashTower extends Tower {
 		setDescription("Can hit many mobs at once!");
 		setType(Tower.SPLASH);
 		resetCoolDown();
-		setCost(100);
+		setCost(80);
 	}
 	
 	// Temporary changes images up to 4 upgrades.

@@ -338,7 +338,6 @@ public class MobFactory {
 					//Break up the info of this wave in a separate string array
 					mMobInfo = mAllWaves[waveIndex].split(" ");
 					
-					
 					String sType = mMobInfo[0];
 					int iType;
 					

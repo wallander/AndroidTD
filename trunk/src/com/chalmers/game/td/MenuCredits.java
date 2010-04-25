@@ -21,8 +21,8 @@ public class MenuCredits extends Activity {
         // Set the screen orientation to Portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
-        Button StartGameButton = (Button)findViewById(R.id.StartGame);
-        StartGameButton.setOnClickListener(new OnClickListener() {
+        Button GoBack = (Button)findViewById(R.id.GoBack);
+        GoBack.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
         		Intent GoToMenu = new Intent(MenuCredits.this, Menu.class);

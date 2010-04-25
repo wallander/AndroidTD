@@ -31,8 +31,8 @@ public class Player {
 	
 	// TODO remove these comments! this is for debug only
 	public double getTrackScore(int pTrack) {
-		return mScore.getTrackScore(pTrack);
-		//return 1.1;
+		//return mScore.getTrackScore(pTrack);
+		return 1.1;
 	}
 	
 	public double getTotalScore() {		
@@ -64,8 +64,10 @@ public class Player {
 		return mLives;
 	}
 
-	public void removeLife() {
-		mLives--;
+	public void removeLife(int n) {
+		mLives -= n;
+		if (mLives < 0) 
+			mLives = 0;
 	}
 
 	public double getCurrentTrackScore() {
