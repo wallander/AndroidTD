@@ -180,9 +180,14 @@ public class MobFactory {
 		return number;
 	}
 	
+	/**
+	 * 
+	 * @return number of mobs in the current wave that has not yet entered the
+	 * game field.
+	 */
 	private int numberOfMobsLeftThisWave(){
 		int mobsInWave = mTrackWaves.get(mWaveIndex).size();
-		int mobsLeft = mobsInWave-mMobIndex+1;
+		int mobsLeft = mobsInWave-mMobIndex;
 		return mobsLeft;
 	}
 
