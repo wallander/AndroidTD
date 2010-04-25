@@ -963,7 +963,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob deadMob = deadMobs.get(k);
-					deadMob.setHealth((int) (0.95 * deadMob.getHealth()));
+					deadMob.setHealth((int) (0.90 * deadMob.getHealth()));
 				}
 
 				// if the snowball is out of charges, remove it
@@ -1049,7 +1049,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					canvas.drawCircle(
 							(int)mCurrentSnowball.getX(),
 							(int)mCurrentSnowball.getY(),
-							10 + mCurrentSnowball.getCharges()/mCurrentSnowball.getStartCharge()*10,snowPaint);
+							mCurrentSnowball.getRadius(),snowPaint);
 				}
 			}
 
@@ -1616,11 +1616,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void drawSnowballs(Canvas canvas) {
 		// draw snowballs
+		float radius;
 		for (int i = 0; i < GameModel.mSnowballs.size(); i++) {
 			Snowball s = GameModel.mSnowballs.get(i);
+			radius = s.getRadius();
+			
+			canvas.drawCircle((float)s.getX(), (float)s.getY(), radius, snowPaint);
+			canvas.drawCircle((float)s.getX(), (float)s.getY(), radius, borderPaint);
 
-			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges()/s.getStartCharge()*10, snowPaint);
-			canvas.drawCircle((float)s.getX(), (float)s.getY(), 10 + s.getCharges()/s.getStartCharge()*10, borderPaint);
+			
 		}
 	}
 

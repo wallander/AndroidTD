@@ -37,7 +37,7 @@ public class Snowball extends Unit {
 
 		setSpeedX(0);
 		setSpeedY(0);
-		mStartCharge = 300;
+		mStartCharge = 150;
 		setCharges(mStartCharge);
 					//set cost
 
@@ -79,7 +79,7 @@ public class Snowball extends Unit {
 
 			double distance = Coordinate.getSqrDistance(this.getCoordinates(), mobCoordinate);
 
-			if (distance < 10 + getCharges() + m.getHeight()/2) {
+			if (distance < 10 + getCharges()/getStartCharge()*10 + m.getHeight()/2) {
 				deadMobs.add(m);
 				setCharges(getCharges() - 1);
 			}
@@ -89,7 +89,9 @@ public class Snowball extends Unit {
 	}
 
 
-
+	public float getRadius() {
+		return 10 + (float) this.getCharges()/ (float) this.getStartCharge()*10;
+	}
 
 	private void setSpeedX(double i) {
 		mSpeedX = i;
