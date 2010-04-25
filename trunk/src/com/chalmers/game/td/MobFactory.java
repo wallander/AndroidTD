@@ -26,24 +26,50 @@ public class MobFactory {
 
 	// Instance variables
 	private static final MobFactory		INSTANCE = new MobFactory();
-	private int							mWaveDelayI,
-										mWaveNr,
+	private int							mWaveDelayI;
+	private int							mWaveNr,		//first wave is number 1?
 										mMaxWaveDelay,
-										mMobNr,
+										mMobNr,			//first mob is number 1?
 										mTrackNr;
 	private Context						mContext;
 	private Path						mPath;
 	
-	private ArrayList<ArrayList<Mob>>	mTrackWaves;
-	private List<Integer>				mWaveNumbers;
+	private ArrayList<ArrayList<Mob>>	mTrackWaves;	//all the waves of a track
+//	private List<Integer>				mWaveNumbers;
 	private List<String> 				mMobTypeList;
+	
+	/**
+	 * Array containing mobs for a specific wave.
+	 */
+	private	ArrayList<Mob>				mMobs;
+	
+	/**
+	 * One ArrayList with mobs for each wave in the current track.
+	 */
+	private ArrayList<ArrayList<Mob>>	mWaves;
+	private String						mTrackName;
+	
+	/**
+	 * Will contain one string with info for each wave.
+	 */
+	private String[]					mAllWaves;
+	
+	/**
+	 * String array containing info of the mobs in a specific wave. Will contain three strings. 
+	 * MobInfo[0]: mob type, MobInfo[1]: number of mobs in this wave, MobInfo[2]: mob health
+	 */
+	private String[]					mMobInfo;
+	/**
+	 * ID for current track, used to find the track info in the xml-file
+	 */
+	private int							mTrackID;
+	
 	
 	/**
 	 * Should not be used, call getInstance() instead.
 	 */
 	private MobFactory() {
 		//mWaves = null;
-		
 		
 		mContext = null;		
 		//mMobs = null;
@@ -61,7 +87,7 @@ public class MobFactory {
 	 * Returns the number of the wave the player
 	 * currently is facing.
 	 * 
-	 * @return	the current wave number
+	 * @return	The current wave number
 	 */
 	public int getWaveNr() {
 		if(hasMoreMobs()) {
@@ -106,20 +132,28 @@ public class MobFactory {
 	 */
 	public boolean hasMoreMobs() {
 		
-		//If not on last wave = Mobs left
-		if(mWaveNr < mTrackWaves.size()) {
-			return true;
-		} else if(mWaveNr-1 == mTrackWaves.size()) {
+		boolean hasMoreMobs;
+		
+		//If not on the last wave = Mobs left
+		if(mWaveNr < mTrackWaves.size())
+			hasMoreMobs = true;
+		
+		//If on the last wave
+		else if(mWaveNr-1 == mTrackWaves.size()) {
+			
+			//If the current mob is not the last mob in the wave
 			if(mMobNr < mTrackWaves.get(mWaveNr).size()) {
+				//TODO remove this log message when done with it
 				Log.d("Jonas2","mMobNr"+mMobNr);
-				//If we are on the last wave, but there still are mobs left
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+				hasMoreMobs = true;
+				
+			//the current mob IS the last mob in the wave	
+			} else
+				hasMoreMobs = false;
+		} else
+			hasMoreMobs = false;
+		
+		return hasMoreMobs;
 	}
 	
 	public void resetWaveNr() {
@@ -214,13 +248,7 @@ public class MobFactory {
 	 * TODO Somehow solve which track to load waves to
 	 */
 	private void initWaves() {
-		ArrayList<Mob>		mMobs;
-		ArrayList<ArrayList<Mob>>		mWaves;
-		String		mTrackNumber;
-		String[]	mAllMobs,
-		mMobInfo;
-		int			mTrackIdentifier,
-		mHealth;
+			
 		mWaveDelayI = 0;
 		mWaveNr = 0;
 		mMobNr = 0;
@@ -231,68 +259,61 @@ public class MobFactory {
 		//mTrackWaves = new ArrayList<ArrayList<ArrayList<Mob>>>();
 		//mMobTypeList = new ArrayList<String>();
 		
-		for(int i = 0; ; ++i) {						
-			// i == track number
+		//loops through the tracks, number of tracks is unknown, so it will loop until "break"
+		for(int trackNr = 1; true; trackNr++) {
+
 			try {
 				
 				mWaves = new ArrayList<ArrayList<Mob>>();
 				
-				mTrackNumber = "mobs_track_" + String.valueOf(i+1);
-				mTrackIdentifier = mContext.getResources().getIdentifier(mTrackNumber, "array", mContext.getPackageName());
-				mAllMobs = mContext.getResources().getStringArray(mTrackIdentifier);
-
-				int j = 0;
+				//The name of the current track as found in the xml-file initwaves.xml
+				mTrackName = "mobs_track_" + trackNr;
 				
-				for( ; j < mAllMobs.length; ++j) {
-					// j == nr of waves
+				mTrackID = mContext.getResources().getIdentifier(mTrackName, 
+						"array", mContext.getPackageName());
+				
+				mAllWaves = mContext.getResources().getStringArray(mTrackID);
+				
+				//loop through all waves in the xml
+				for(int waveIndex = 0; waveIndex < mAllWaves.length; waveIndex++) {
 					
+					//make sure mMobs is empty
 					mMobs = new ArrayList<Mob>();
-					mMobInfo = mAllMobs[j].split(" ");
-					Log.i("INIT MOBS", "Wave:" + i + "/" + j + " MobInfo = " + mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);
 					
+					//Break up the info of this wave in a separate string array
+					mMobInfo = mAllWaves[waveIndex].split(" ");
 					
+					/*Log.i("INIT MOBS", "Wave:" + trackNr + "/" + waveIndex + " MobInfo = " 
+							+ mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);*/
 					
-					mHealth = Integer.parseInt(mMobInfo[2]);
+					String sType = mMobInfo[0];
+					int iType;
 					
+					if(sType.equals("NORMAL"))
+						iType = Mob.NORMAL;
+					else if (sType.equals("AIR"))
+						iType = Mob.AIR;
+					else if (sType.equals("FAST"))
+						iType = Mob.FAST;
+					else if (sType.equals("HEALTHY"))
+						iType = Mob.HEALTHY;
+					else // if (sType.equals("IMMUNE"))
+						iType = Mob.IMMUNE;
 					
-					for(int k = 0; k < Integer.parseInt(mMobInfo[1]); ++k) {
-						// k == nr of mobs
-						if(mMobInfo[0].equals("NORMAL")) {
-
-							mMobs.add(new Mob(Mob.NORMAL, mHealth));
-							//Log.v("INIT MOBS", "Created mob of type NORMAL");
-
-						} else if(mMobInfo[0].equals("AIR")) {
-
-							mMobs.add(new Mob(Mob.AIR, mHealth));
-							//Log.v("INIT MOBS", "Created mob of type AIR");
-
-						} else if(mMobInfo[0].equals("FAST")) {
-
-							mMobs.add(new Mob(Mob.FAST, mHealth));
-							//Log.v("INIT MOBS", "Created mob of type FAST");
-
-						} else if(mMobInfo[0].equals("HEALTHY")) {
-
-							mMobs.add(new Mob(Mob.HEALTHY, mHealth));
-							//Log.v("INIT MOBS", "Created mob of type HEALTHY");
-						} else if(mMobInfo[0].equals("IMMUNE")) {
-
-							mMobs.add(new Mob(Mob.IMMUNE, mHealth));
-							//Log.v("INIT MOBS", "Created mob of type IMMUNE");
-						}
-						
-				
-						
-					}									
+					int numberOfMobsInWave = Integer.parseInt(mMobInfo[1]);
+					int health = Integer.parseInt(mMobInfo[2]);
+					
+					//add mobs for this wave to mMobs, using the info about type, number of mobs and health 
+					for(int mobNr = 0; mobNr < numberOfMobsInWave; mobNr++)
+						mMobs.add(new Mob(iType, health));							
 					
 					mWaves.add(mMobs);
-					Log.v("INIT MOBS", "New wave added!");
+					//Log.v("INIT MOBS", "New wave added!");
 					
 				}
-				if(i+1 == GameModel.getTrack()) {
+				if(trackNr == GameModel.getTrack()) {
 					mTrackWaves = mWaves;
-					Log.i("Finished","with wave initiation of "+i+1);
+					Log.i("Finished","with wave initiation of "+trackNr);
 					Log.i("Waves","Amount"+mWaves.size());
 				}
 			
