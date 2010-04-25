@@ -6,11 +6,9 @@ android:layout_height="fill_parent"
 xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/optionsbg">
 
 <Button
-android:id="@+id/StartGame"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:background="@drawable/startgame_button"
-android:layout_marginLeft="2px" android:layout_marginTop="2px">
+android:layout_marginLeft="2px" android:layout_marginTop="2px" android:background="@drawable/back_button" android:id="@+id/GoBack">
 </Button>
 
 <CheckBox 
