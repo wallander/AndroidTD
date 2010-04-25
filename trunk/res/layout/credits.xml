@@ -7,9 +7,8 @@ android:layout_height="fill_parent"
 android:background="@drawable/creditsbg">
 
 <Button
-android:id="@+id/StartGame"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:layout_marginLeft="2px" android:layout_marginTop="2px" android:background="@drawable/startgame_button"/>
+android:layout_marginLeft="2px" android:layout_marginTop="2px" android:background="@drawable/back_button" android:id="@+id/GoBack"/>
 
 </LinearLayout>
