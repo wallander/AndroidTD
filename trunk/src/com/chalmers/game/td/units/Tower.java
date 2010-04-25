@@ -251,8 +251,8 @@ public abstract class Tower extends Unit {
      * 
      * @return The sell price for the tower.
      */
-    public double sellPrice(){
-    	return (int)0.5*getCost() + (getCost()*0.05*getLevel());
+    public int sellPrice(){
+    	return (int)(0.5*getCost() + (getCost()*0.05*getLevel()));
     }
 
 	public void setDamage(int pDamage) {
