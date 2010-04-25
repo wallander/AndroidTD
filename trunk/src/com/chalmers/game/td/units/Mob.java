@@ -194,7 +194,7 @@ public class Mob extends Unit{
         setSize(24);
         
         if(pType == Mob.HEALTHY) {
-    		setSpeed(0.5);
+    		setSpeed(0.6);
     	} else if(pType == Mob.FAST) {
     		setSpeed(1.6);
     	}

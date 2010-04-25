@@ -283,6 +283,7 @@ public class MobFactory {
 					//Break up the info of this wave in a separate string array
 					mMobInfo = mAllWaves[waveIndex].split(" ");
 					
+					
 					/*Log.i("INIT MOBS", "Wave:" + trackNr + "/" + waveIndex + " MobInfo = " 
 							+ mMobInfo[0] + " " + mMobInfo[1] + " health:"+mMobInfo[2]);*/
 					

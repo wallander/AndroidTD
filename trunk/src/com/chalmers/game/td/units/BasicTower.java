@@ -9,20 +9,20 @@ import com.chalmers.game.td.R;
 
 public class BasicTower extends Tower {
 
-	public static final int[] sDamage = new int[]{6,16,35,100};
-	public static final int[] sCoolDown = new int[]{20,22,24,26};
-	public static final int[] sRange = new int[]{100,105,110,110};
+	public static final int[] sDamage = new int[]{5,15,35,95};
+	public static final int[] sCoolDown = new int[]{24,24,24,24};
+	public static final int[] sRange = new int[]{80,90,100,100};
 	
-	public static final int[] sUpgradeCost = new int[]{130,320,780};
+	public static final int[] sUpgradeCost = new int[]{130,320,760};
 	
 	public BasicTower(int pX, int pY) {
 		super(pX, pY);
 
-    	setCost(70);
+    	setCost(80);
     	setName("Eskimo");
     	setType(BASIC);
     	setDescription("Good range and speed!");
-    	setDamage(7);
+    	
 	}
 	
 	@Override

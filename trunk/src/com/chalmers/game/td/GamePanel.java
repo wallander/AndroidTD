@@ -155,7 +155,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private Tower mTower3 = new SlowTower(0,0);
 	private Tower mTower4 = new AirTower(0,0);
 	
-	private static final int mSnowballTreshold = 1500;
+	private static final int mSnowballTreshold = 4000;
 	private int mUsedSnowballs;
 	
 	private AudioManager mAudioManager; // Move to SoundManager? No, it is used to control volume
@@ -963,7 +963,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob deadMob = deadMobs.get(k);
-					deadMob.setHealth((int) (0.90 * deadMob.getHealth()));
+					switch(deadMob.getType()) {
+						case Mob.HEALTHY:	deadMob.setHealth((int) (0.990 * deadMob.getHealth())); break;
+						default:deadMob.setHealth((int) (0.85 * deadMob.getHealth())); break;
+					}
 				}
 
 				// if the snowball is out of charges, remove it
@@ -985,9 +988,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
 					mSplash = true;
+					
+					switch (m.getType()) {
+						case Mob.HEALTHY:	GameModel.currentPlayer.removeLife(5); break;
+						default: 	GameModel.currentPlayer.removeLife(1); break;
+					}
+					
 					GameModel.mMobs.remove(m);
 					++removed;
-					GameModel.currentPlayer.removeLife();
 					mVibrator.vibrate(50);
 				}
 				

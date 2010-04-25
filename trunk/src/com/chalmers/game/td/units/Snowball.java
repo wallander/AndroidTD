@@ -20,6 +20,8 @@ public class Snowball extends Unit {
 	/** movement speed */
 	protected double mSpeedX;
 	protected double mSpeedY;
+	
+	private int mMeltI, mMelt;
 
 	private SensorEvent lastUpdate;
 	private int mCost;
@@ -35,9 +37,11 @@ public class Snowball extends Unit {
 	public Snowball(int pXPos, int pYPos) {
 		setCoordinates(new Coordinate(pXPos,pYPos));
 
+		mMelt = 10;
+		mMeltI = 0;
 		setSpeedX(0);
 		setSpeedY(0);
-		mStartCharge = 150;
+		mStartCharge = 100;
 		setCharges(mStartCharge);
 					//set cost
 
@@ -135,6 +139,13 @@ public class Snowball extends Unit {
 		}
 			
 		lastUpdate = s;
+		
+		mMeltI++;
+		if (mMeltI >= mMelt) {
+			mCharges--;
+			mMeltI=0;
+		}
+		
 	}
 
 	public void setCharges(int mCharges) {
