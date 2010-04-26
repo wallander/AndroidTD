@@ -382,6 +382,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.menutop2, BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
 		mBitMapCache.put(R.drawable.menumid2, BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
 		mBitMapCache.put(R.drawable.menubot2, BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
+		mBitMapCache.put(R.drawable.line, BitmapFactory.decodeResource(getResources(), R.drawable.line));
+
 	}
 
 	/**
@@ -1091,6 +1093,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
 			}
 					
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34,null);
+
 			
 			canvas.drawText("Game over!", 171,80+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+20+2,sPaintTextBlack);
@@ -1126,6 +1130,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34,null);
+			
 			canvas.drawText("Level complete!", 156,80+20+2,sPaintTextBlack);
 			canvas.drawText("Go to map",181,80+34+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
@@ -1168,6 +1174,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36+36,null);
 			}
 
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34,null);
 
 			canvas.drawText("GAME PAUSED!", 156,80+20+2,sPaintTextBlack);
 			canvas.drawText("Resume",181,80+34+20+2,sPaintTextBlack);
