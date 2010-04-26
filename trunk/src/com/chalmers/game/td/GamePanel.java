@@ -881,6 +881,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				GAME_STATE = STATE_GAMEOVER;
 				return;
 			}
+			
+			Mob mNewMob = createMobs();
+			if (mNewMob != null) {
+				GameModel.mMobs.add(mNewMob);
+//				Log.v("GAME MOBS", "Added new mob of type: "
+//						+ mNewMob.getType().toString());
+			}
 
 			// if the player has won (no more mobs and all mobs dead)
 			if (!mMobFactory.hasMoreMobs() && GameModel.mMobs.isEmpty()) {
@@ -894,13 +901,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				return;
 			}
 
-			Mob mNewMob = createMobs();
-			if (mNewMob != null) {
-				GameModel.mMobs.add(mNewMob);
-//				Log.v("GAME MOBS", "Added new mob of type: "
-//						+ mNewMob.getType().toString());
-			}
-
+			
 			/*
 			 * for every tower:
 			 * 	create a new Projectile set to a Mob that the Tower can reach
@@ -919,9 +920,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					newProjectile = t.tryToShoot();
 
 				//if a projectile was returned, add it to the game model
-				if (newProjectile != null) {
+				if (newProjectile != null)
 					GameModel.mProjectiles.add(newProjectile);
-				}
 				
 			}
 
@@ -1232,7 +1232,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("Score: " + (int)GameModel.currentPlayer.getCurrentTrackScore(), 290, 20, sPaintText);
 		
 		if(!mMobFactory.lastWaveHasEntered()){
-			int mWaveTime = mMobFactory.getWaveTime(); 
+			int mWaveTime = mMobFactory.getWaveTime();
 
 			canvas.drawText("Next wave: " + mMobFactory.getNextWaveType() + 
 					"(" + mWaveTime + ")", 230, 300, sPaintText);

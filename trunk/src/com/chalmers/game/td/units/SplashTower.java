@@ -91,10 +91,10 @@ public class SplashTower extends Tower {
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
-    		incLevel();			//increment tower level by one
+    		incLevel();						//increment tower level by one
     		
     		int newLvl = getLevel();
-    		setImageByLevel(newLvl);	//set image according to the new level
+    		setImageByLevel(newLvl);		//set image according to the new level
     		
     		setCoolDown(sCoolDown[newLvl-1]);
 			setDamage(sDamage[newLvl-1]);

@@ -9,6 +9,18 @@ package com.chalmers.game.td;
 
 public final class R {
     public static final class array {
+        /**  <item>NORMAL 20 300</item>
+        <item>NORMAL 20 350</item>
+        <item>NORMAL 20 410</item>
+        <item>FAST 20 410</item>
+        <item>NORMAL 20 500</item>
+        
+        <item>IMMUNE 20 400</item>
+        <item>AIR 20 400</item>
+        <item>NORMAL 20 500</item>
+        <item>NORMAL 20 650</item>
+        <item>HEALTHY 1 8000</item>     
+         */
         public static final int mobs_track_1=0x7f050005;
         public static final int mobs_track_2=0x7f050006;
         public static final int mobs_track_3=0x7f050007;
