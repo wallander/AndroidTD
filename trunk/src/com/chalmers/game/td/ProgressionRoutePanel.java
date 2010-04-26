@@ -32,6 +32,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private int trackPic = 0;
 	private String trackName = "";
 	private int menuPic = 0;
+	private int chosenTrack;
 	
 	public void updateSound() {
 		
@@ -86,6 +87,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		mBitMapCache.put(R.drawable.menutop2, BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
 		mBitMapCache.put(R.drawable.menumid2, BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
 		mBitMapCache.put(R.drawable.menubot2, BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
+		mBitMapCache.put(R.drawable.line, BitmapFactory.decodeResource(getResources(), R.drawable.line));
+
 	}
 	
 	@Override
@@ -231,10 +234,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 								event.getY() > 40 && event.getY() < 40+90) {
 							
 							// Button for first level pressed
-							
-							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 1");
-						
-							GameModel.setTrack(1);
+					
+							chosenTrack = 1;
 							trackName = "North Pole";
 							STATE_PROGSTATE = STATE_STARTTRACK;
 							
@@ -243,9 +244,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							
 							// Button for second level pressed
 							if (GameModel.currentPlayer.getTrackScore(1) != 0) {
-								GameModel.setTrack(2);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
-								trackName = "North Pole";
+								chosenTrack = 2;
+								trackName = "Ice Flow";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 	
 							} else {
@@ -260,8 +260,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							// Button for third level pressed
 							
 							if (GameModel.currentPlayer.getTrackScore(2) != 0) {
-								GameModel.setTrack(3);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
+								chosenTrack = 3;
+								trackName = "I see green";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 
 							} else {
@@ -275,8 +275,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							// Button for fourth level pressed
 
 							if (GameModel.currentPlayer.getTrackScore(3) != 0) {
-								GameModel.setTrack(4);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
+								chosenTrack = 4;
+								trackName = "Almost there";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 
 							} else {
@@ -290,8 +290,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							// Button for fifth level pressed
 							
 							if (GameModel.currentPlayer.getTrackScore(4) != 0) {
-								GameModel.setTrack(5);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
+								chosenTrack = 5;
+								trackName = "The sun";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 
 							} else {
@@ -328,6 +328,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	public void beforeEnteringLevel(){
+		GameModel.setTrack(chosenTrack);
 		thread.setRunning(false);
 		getHolder().removeCallback(this);
 		mActivity.setContentView(new GamePanel(getContext()));
@@ -475,6 +476,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 				canvas.drawText("Highscore: " + (int)Highscore.getInstance().getTrackScore(trackPic),
 						171,80+34+20+2,sPaintTextBlack);
 
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34+36,null);
 				canvas.drawText("Start Level",171,80+34+36+20+2,sPaintTextBlack);
 				canvas.drawText("Cancel", 171, 80+34+36+36+20+2, sPaintTextBlack);
 				
