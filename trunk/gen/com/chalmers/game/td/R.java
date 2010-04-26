@@ -9,18 +9,6 @@ package com.chalmers.game.td;
 
 public final class R {
     public static final class array {
-        /**  <item>NORMAL 20 300</item>
-        <item>NORMAL 20 350</item>
-        <item>NORMAL 20 410</item>
-        <item>FAST 20 410</item>
-        <item>NORMAL 20 500</item>
-        
-        <item>IMMUNE 20 400</item>
-        <item>AIR 20 400</item>
-        <item>NORMAL 20 500</item>
-        <item>NORMAL 20 650</item>
-        <item>HEALTHY 1 8000</item>     
-         */
         public static final int mobs_track_1=0x7f050005;
         public static final int mobs_track_2=0x7f050006;
         public static final int mobs_track_3=0x7f050007;
@@ -96,75 +84,76 @@ public final class R {
         public static final int icebear=0x7f020037;
         public static final int icon=0x7f020038;
         public static final int iconpsd=0x7f020039;
-        public static final int lives=0x7f02003a;
-        public static final int man=0x7f02003b;
-        public static final int man2=0x7f02003c;
-        public static final int map1=0x7f02003d;
-        public static final int map2=0x7f02003e;
-        public static final int map3=0x7f02003f;
-        public static final int map4=0x7f020040;
-        public static final int map5=0x7f020041;
-        public static final int menubot=0x7f020042;
-        public static final int menubot2=0x7f020043;
-        public static final int menumid=0x7f020044;
-        public static final int menumid2=0x7f020045;
-        public static final int menutop=0x7f020046;
-        public static final int menutop2=0x7f020047;
-        public static final int money=0x7f020048;
-        public static final int options=0x7f020049;
-        public static final int options_button=0x7f02004a;
-        public static final int options_highlighted=0x7f02004b;
-        public static final int options_pressed=0x7f02004c;
-        public static final int optionsbg=0x7f02004d;
-        public static final int optionsbgpsd=0x7f02004e;
-        public static final int paper=0x7f02004f;
-        public static final int pause=0x7f020050;
-        public static final int pause2=0x7f020051;
-        public static final int penguinmob=0x7f020052;
-        public static final int penguinmob2=0x7f020053;
-        public static final int progchoose=0x7f020054;
-        public static final int progdone=0x7f020055;
-        public static final int progmapchoose=0x7f020056;
-        public static final int prognext=0x7f020057;
-        public static final int prognotdone=0x7f020058;
-        public static final int progressionroute=0x7f020059;
-        public static final int progstatus=0x7f02005a;
-        public static final int projslow=0x7f02005b;
-        public static final int projsplash_big=0x7f02005c;
-        public static final int rock=0x7f02005d;
-        public static final int rock2=0x7f02005e;
-        public static final int rudolftower=0x7f02005f;
-        public static final int santatower=0x7f020060;
-        public static final int scissors=0x7f020061;
-        public static final int slowtower=0x7f020062;
-        public static final int slowtower2=0x7f020063;
-        public static final int slowtower3=0x7f020064;
-        public static final int slowtower4=0x7f020065;
-        public static final int small=0x7f020066;
-        public static final int smaller=0x7f020067;
-        public static final int snowball=0x7f020068;
-        public static final int snowball_small=0x7f020069;
-        public static final int snowballpsd=0x7f02006a;
-        public static final int snowmap=0x7f02006b;
-        public static final int snowmap_old=0x7f02006c;
-        public static final int splashtower=0x7f02006d;
-        public static final int splashtower2=0x7f02006e;
-        public static final int splashtower3=0x7f02006f;
-        public static final int splashtower4=0x7f020070;
-        public static final int startgame=0x7f020071;
-        public static final int startgame_button=0x7f020072;
-        public static final int startgame_highlighted=0x7f020073;
-        public static final int startgame_pressed=0x7f020074;
-        public static final int track1=0x7f020075;
-        public static final int track2=0x7f020076;
-        public static final int track2b=0x7f020077;
-        public static final int upgrade=0x7f020078;
-        public static final int upgradetower=0x7f020079;
-        public static final int wallpaper=0x7f02007a;
-        public static final int walrus=0x7f02007b;
-        public static final int water=0x7f02007c;
-        public static final int water2=0x7f02007d;
-        public static final int water3=0x7f02007e;
+        public static final int line=0x7f02003a;
+        public static final int lives=0x7f02003b;
+        public static final int man=0x7f02003c;
+        public static final int man2=0x7f02003d;
+        public static final int map1=0x7f02003e;
+        public static final int map2=0x7f02003f;
+        public static final int map3=0x7f020040;
+        public static final int map4=0x7f020041;
+        public static final int map5=0x7f020042;
+        public static final int menubot=0x7f020043;
+        public static final int menubot2=0x7f020044;
+        public static final int menumid=0x7f020045;
+        public static final int menumid2=0x7f020046;
+        public static final int menutop=0x7f020047;
+        public static final int menutop2=0x7f020048;
+        public static final int money=0x7f020049;
+        public static final int options=0x7f02004a;
+        public static final int options_button=0x7f02004b;
+        public static final int options_highlighted=0x7f02004c;
+        public static final int options_pressed=0x7f02004d;
+        public static final int optionsbg=0x7f02004e;
+        public static final int optionsbgpsd=0x7f02004f;
+        public static final int paper=0x7f020050;
+        public static final int pause=0x7f020051;
+        public static final int pause2=0x7f020052;
+        public static final int penguinmob=0x7f020053;
+        public static final int penguinmob2=0x7f020054;
+        public static final int progchoose=0x7f020055;
+        public static final int progdone=0x7f020056;
+        public static final int progmapchoose=0x7f020057;
+        public static final int prognext=0x7f020058;
+        public static final int prognotdone=0x7f020059;
+        public static final int progressionroute=0x7f02005a;
+        public static final int progstatus=0x7f02005b;
+        public static final int projslow=0x7f02005c;
+        public static final int projsplash_big=0x7f02005d;
+        public static final int rock=0x7f02005e;
+        public static final int rock2=0x7f02005f;
+        public static final int rudolftower=0x7f020060;
+        public static final int santatower=0x7f020061;
+        public static final int scissors=0x7f020062;
+        public static final int slowtower=0x7f020063;
+        public static final int slowtower2=0x7f020064;
+        public static final int slowtower3=0x7f020065;
+        public static final int slowtower4=0x7f020066;
+        public static final int small=0x7f020067;
+        public static final int smaller=0x7f020068;
+        public static final int snowball=0x7f020069;
+        public static final int snowball_small=0x7f02006a;
+        public static final int snowballpsd=0x7f02006b;
+        public static final int snowmap=0x7f02006c;
+        public static final int snowmap_old=0x7f02006d;
+        public static final int splashtower=0x7f02006e;
+        public static final int splashtower2=0x7f02006f;
+        public static final int splashtower3=0x7f020070;
+        public static final int splashtower4=0x7f020071;
+        public static final int startgame=0x7f020072;
+        public static final int startgame_button=0x7f020073;
+        public static final int startgame_highlighted=0x7f020074;
+        public static final int startgame_pressed=0x7f020075;
+        public static final int track1=0x7f020076;
+        public static final int track2=0x7f020077;
+        public static final int track2b=0x7f020078;
+        public static final int upgrade=0x7f020079;
+        public static final int upgradetower=0x7f02007a;
+        public static final int wallpaper=0x7f02007b;
+        public static final int walrus=0x7f02007c;
+        public static final int water=0x7f02007d;
+        public static final int water2=0x7f02007e;
+        public static final int water3=0x7f02007f;
     }
     public static final class id {
         public static final int Button01=0x7f08000d;

@@ -32,10 +32,11 @@ public class Highscore {
 	public void changeScore(Mob pMob) {
 		if (pMob.getDistanceWalked() < 500) {
 			setCurrentTrackScore(getCurrentTrackScore() +
-					(pMob.getMaxHealth() / 10) * (1 - 0.75*pMob.getDistanceWalked()/500 ));
+					(pMob.getMaxHealth() / 10) * (1 - 0.5*pMob.getDistanceWalked()/500 ));
 		}
 		else {
-			
+			setCurrentTrackScore(getCurrentTrackScore() +
+					(pMob.getMaxHealth() / 10) * 0.5);
 		}
 	}
 	

@@ -2,7 +2,6 @@
 <resources>
 
 	<array name="mobs_track_1">
-        
 
         <item>NORMAL 20 10</item>
         <item>NORMAL 20 30</item>
@@ -16,35 +15,21 @@
         <item>IMMUNE 20 100</item>
         <item>NORMAL 20 160</item>
         
-        <item>HEALTHY 1 3000</item>
+        <item>HEALTHY 1 2700</item>
 		<item>NORMAL 20 200</item>
         <item>FAST 20 200</item>
         <item>AIR 20 170</item>
         <item>NORMAL 20 250</item>
-        
+
         <item>IMMUNE 20 300</item>
         <item>AIR 20 300</item>
         <item>NORMAL 20 400</item>
         <item>NORMAL 20 450</item>
-        <item>HEALTHY 1 7000</item>
-        
-   <!-- <item>NORMAL 20 300</item>
-        <item>NORMAL 20 350</item>
-        <item>NORMAL 20 410</item>
-        <item>FAST 20 410</item>
-        <item>NORMAL 20 500</item>
-        
-        <item>IMMUNE 20 400</item>
-        <item>AIR 20 400</item>
-        <item>NORMAL 20 500</item>
-        <item>NORMAL 20 650</item>
-        <item>HEALTHY 1 8000</item>     -->
+        <item>HEALTHY 1 7500</item>
 
     </array>
     
     <array name="mobs_track_2">
-                
-        
 
         <item>NORMAL 20 10</item>
         <item>NORMAL 20 30</item>
@@ -74,9 +59,9 @@
         <item>AIR 20 400</item>
         <item>NORMAL 20 500</item>
         <item>NORMAL 20 650</item>
-        <item>HEALTHY 1 8000</item>                                         
-                      
-    </array>        
+        <item>HEALTHY 1 8000</item>
+    </array>
+
     <array name="mobs_track_3">
         <item>NORMAL 20 40</item>
         <item>AIR 20 50</item>
@@ -106,8 +91,7 @@
         <item>AIR 20 550</item>
         <item>NORMAL 20 660</item>
         <item>NORMAL 20 790</item>
-        <item>HEALTHY 1 10000</item>                      
-                       
+        <item>HEALTHY 1 10000</item>
     </array>
     
        <array name="mobs_track_4">

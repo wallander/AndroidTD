@@ -125,32 +125,11 @@ public class MobFactory {
 	 * @return
 	 */
 	public String getNextWaveType(){
-		int iType;
+
 		if (waveInProgress()) //return type of next wave
-			iType = mTrackWaves.get(mWaveIndex+1).get(0).getType();
+			return mTrackWaves.get(mWaveIndex+1).get(0).toString();
 		else //return type of current wave
-			iType = mTrackWaves.get(mWaveIndex).get(0).getType();
-		
-		String sType;
-		
-		switch (iType){
-		case Mob.AIR:
-			sType="Air";
-			break;
-		case Mob.FAST:
-			sType="Fast";
-			break;
-		case Mob.HEALTHY:
-			sType="Healthy";
-			break;
-		case Mob.IMMUNE:
-			sType="Immune";
-			break;
-		default:
-			sType="Normal";
-			break;
-		}
-		return sType;
+			return mTrackWaves.get(mWaveIndex).get(0).toString();
 	}
 	
 	private boolean waveInProgress(){
@@ -227,7 +206,10 @@ public class MobFactory {
 	
 	public boolean lastWaveHasEntered(){
 		//if there are no more waves after the current and the delay-counter
-		//is "ready", that means the last wave has started to enter.
+
+		//is "ready", that means the last wave has started to enter. 
+		Log.i("LASTWAVE",""+!hasMoreWaves() + "&&" + mWaveDelayI +">="+ mMaxWaveDelay);
+
 		return (!hasMoreWaves() && mWaveDelayI >= mMaxWaveDelay);
 	}
 	

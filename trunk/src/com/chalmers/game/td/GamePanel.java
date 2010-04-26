@@ -382,6 +382,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.menutop2, BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
 		mBitMapCache.put(R.drawable.menumid2, BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
 		mBitMapCache.put(R.drawable.menubot2, BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
+		mBitMapCache.put(R.drawable.line, BitmapFactory.decodeResource(getResources(), R.drawable.line));
+
 	}
 
 	/**
@@ -490,7 +492,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 									(int)mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
 									(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
 							GameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
-
 
 						}
 						mCurrentTower = null;
@@ -967,8 +968,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob deadMob = deadMobs.get(k);
 					switch(deadMob.getType()) {
-						case Mob.HEALTHY:	deadMob.setHealth((int) (0.990 * deadMob.getHealth())); break;
-						default:deadMob.setHealth((int) (0.85 * deadMob.getHealth())); break;
+						case Mob.HEALTHY:	deadMob.setHealth((int) (0.992 * deadMob.getHealth())); break;
+						default:deadMob.setHealth((int) (0.97 * deadMob.getHealth())); break;
 					}
 				}
 
@@ -1091,6 +1092,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36,null);	
 			}
 					
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34,null);
+
 			
 			canvas.drawText("Game over!", 171,80+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+20+2,sPaintTextBlack);
@@ -1126,6 +1129,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34,null);
+			
 			canvas.drawText("Level complete!", 156,80+20+2,sPaintTextBlack);
 			canvas.drawText("Go to map",181,80+34+20+2,sPaintTextBlack);
 			canvas.drawText("Restart",181,80+34+36+20+2,sPaintTextBlack);
@@ -1168,6 +1173,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.menubot),100,80+34+36+36+36,null);
 			}
 
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.line),100,80+34,null);
 
 			canvas.drawText("GAME PAUSED!", 156,80+20+2,sPaintTextBlack);
 			canvas.drawText("Resume",181,80+34+20+2,sPaintTextBlack);
@@ -1247,9 +1253,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getY() / GameModel.GAME_TILE_SIZE + (mSelectedTower.getHeight()/2)),
 				mSelectedTower.getRange(), rangeIndicationPaint);
 
-		// draw box for the selected tower
-		//canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,60,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34+36,null);
@@ -1260,15 +1263,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		//Draw general info
 		int lvl = mSelectedTower.getLevel();
-		//name
 		canvas.drawText(mSelectedTower.getName(), 161, 90+2, sPaintTextBlack);
-		//level
 		canvas.drawText("Level " + (lvl), 151, 112+2, sPaintTextBlack);
-		//attack speed
 		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 151, 128+2, sPaintTextBlack);
-		//damage
 		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 151, 144+2, sPaintTextBlack);
-		//range
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 151, 160+2, sPaintTextBlack);
 		
 		if (mSelectedTower.getType() == Tower.SLOW)
@@ -1293,8 +1291,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		else if (mSelectedTower.getType() == Tower.SPLASH)
 			canvas.drawText("Splash: " + mSelectedTower.getSplashRadius(), 150, 176, sPaintTextWhite);
 		
-		
-
 		if(mSelectedTower.canUpgrade()) {
 			
 			//Draw upgrade info
@@ -1367,7 +1363,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		canvas.drawText(mSelectedTower.sellPrice()+"$", sBtnSell.left+14, 
 				sBtnSell.top+(sBtnSell.height()/2)+15, sPaintTextBlack);
-
 		canvas.drawText(mSelectedTower.sellPrice()+"$", sBtnSell.left+12, 
 				sBtnSell.top+(sBtnSell.height()/2)+13, sPaintTextWhite);
 		
@@ -1479,7 +1474,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case Tower.SLOW:
 				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 161, 170+2, sPaintTextBlack);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-				
 				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 160, 170, sPaintTextWhite);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
 				break;
@@ -1487,7 +1481,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case Tower.SPLASH:
 				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 161, 170+2, sPaintTextBlack);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-
 				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 160, 170, sPaintTextWhite);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
 				break;
