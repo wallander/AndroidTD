@@ -493,7 +493,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 									(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
 							GameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
 
-
 						}
 						mCurrentTower = null;
 
@@ -1254,9 +1253,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getY() / GameModel.GAME_TILE_SIZE + (mSelectedTower.getHeight()/2)),
 				mSelectedTower.getRange(), rangeIndicationPaint);
 
-		// draw box for the selected tower
-		//canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,60,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34+36,null);
@@ -1267,15 +1263,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		//Draw general info
 		int lvl = mSelectedTower.getLevel();
-		//name
 		canvas.drawText(mSelectedTower.getName(), 161, 90+2, sPaintTextBlack);
-		//level
 		canvas.drawText("Level " + (lvl), 151, 112+2, sPaintTextBlack);
-		//attack speed
 		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 151, 128+2, sPaintTextBlack);
-		//damage
 		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 151, 144+2, sPaintTextBlack);
-		//range
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 151, 160+2, sPaintTextBlack);
 		
 		if (mSelectedTower.getType() == Tower.SLOW)
@@ -1300,8 +1291,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		else if (mSelectedTower.getType() == Tower.SPLASH)
 			canvas.drawText("Splash: " + mSelectedTower.getSplashRadius(), 150, 176, sPaintTextWhite);
 		
-		
-
 		if(mSelectedTower.canUpgrade()) {
 			
 			//Draw upgrade info
@@ -1374,7 +1363,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		canvas.drawText(mSelectedTower.sellPrice()+"$", sBtnSell.left+14, 
 				sBtnSell.top+(sBtnSell.height()/2)+15, sPaintTextBlack);
-
 		canvas.drawText(mSelectedTower.sellPrice()+"$", sBtnSell.left+12, 
 				sBtnSell.top+(sBtnSell.height()/2)+13, sPaintTextWhite);
 		
@@ -1486,7 +1474,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case Tower.SLOW:
 				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 161, 170+2, sPaintTextBlack);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-				
 				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 160, 170, sPaintTextWhite);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
 				break;
@@ -1494,7 +1481,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case Tower.SPLASH:
 				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 161, 170+2, sPaintTextBlack);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-
 				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 160, 170, sPaintTextWhite);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
 				break;
