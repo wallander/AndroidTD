@@ -41,9 +41,9 @@ public class Snowball extends Unit {
 		mMeltI = 0;
 		setSpeedX(0);
 		setSpeedY(0);
-		mStartCharge = 100;
+		mStartCharge = 150;
 		setCharges(mStartCharge);
-					//set cost
+		//set cost
 
 	}
 	public int getStartCharge() {
