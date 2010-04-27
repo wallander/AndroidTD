@@ -24,18 +24,18 @@ import com.chalmers.game.td.Path;
  */
 public class GameModel {
 	
-	public static List<Tower> mTowers;
-	public static List<Mob> mMobs;
-	public static List<Mob> mShowRewardForMob;
-	public static List<Projectile> mProjectiles;
-	public static List<Snowball> mSnowballs;
-	public static Path mPath;
-	public static HashSet<Point> mOccupiedTilePositions;
+	public static List<Tower> sTowers;
+	public static List<Mob> sMobs;
+	public static List<Mob> sShowRewardForMob;
+	public static List<Projectile> sProjectiles;
+	public static List<Snowball> sSnowballs;
+	public static Path sPath;
+	public static HashSet<Point> sOccupiedTilePositions;
 //	public static int mWaveNr;
-	public static Player currentPlayer;
+	public static Player sCurrentPlayer;
 	public static int	sSelectedTrack = 1;
-	static boolean sMusicEnabled = true;
-	static boolean sCheatEnabled = false;
+	public static boolean sMusicEnabled = true;
+	public static boolean sCheatEnabled = false;
 	
 
 	/** Size of "game tiles" */
@@ -46,7 +46,6 @@ public class GameModel {
 	 */
 	public GameModel() {
 		
-		
 	}
 	
 	/**
@@ -55,66 +54,66 @@ public class GameModel {
 	public static void initialize(Context context) {
 		
 		
-		mTowers = new ArrayList<Tower>();
-		mMobs = new ArrayList<Mob>();
-		mShowRewardForMob = new ArrayList<Mob>();
-		mProjectiles = new ArrayList<Projectile>();
-		mSnowballs = new ArrayList<Snowball>();
-		mPath = Path.getInstance();
-		mPath.setContext(context);
-		mPath.setTrackPath(getTrack());
-		mOccupiedTilePositions = new HashSet<Point>();
-		currentPlayer = new Player(mPath.getNumberOfTracks());
+		sTowers = new ArrayList<Tower>();
+		sMobs = new ArrayList<Mob>();
+		sShowRewardForMob = new ArrayList<Mob>();
+		sProjectiles = new ArrayList<Projectile>();
+		sSnowballs = new ArrayList<Snowball>();
+		sPath = Path.getInstance();
+		sPath.setContext(context);
+		sPath.setTrackPath(getTrack());
+		sOccupiedTilePositions = new HashSet<Point>();
+		sCurrentPlayer = new Player(sPath.getNumberOfTracks());
 				
 		
 		// add a "frame" of occupied tiles around the game field
 		for (int i = -1; i < 31; i++) {
-			mOccupiedTilePositions.add(new Point(i, 20));
-			mOccupiedTilePositions.add(new Point(i, 21));
+			sOccupiedTilePositions.add(new Point(i, 20));
+			sOccupiedTilePositions.add(new Point(i, 21));
 		}
 		
 		for (int i = -1; i < 21; i++) {
-			mOccupiedTilePositions.add(new Point(-2, i));
-			mOccupiedTilePositions.add(new Point(-1, i));
-			mOccupiedTilePositions.add(new Point(31, i));
+			sOccupiedTilePositions.add(new Point(-2, i));
+			sOccupiedTilePositions.add(new Point(-1, i));
+			sOccupiedTilePositions.add(new Point(31, i));
 		}
 		
 		// add occupied tiles under the pause- and fastforward buttons
-		mOccupiedTilePositions.add(new Point(0,0));
-		mOccupiedTilePositions.add(new Point(1,0));
-		mOccupiedTilePositions.add(new Point(2,0));
-		mOccupiedTilePositions.add(new Point(3,0));
-		mOccupiedTilePositions.add(new Point(0,1));
-		mOccupiedTilePositions.add(new Point(1,1));
-		mOccupiedTilePositions.add(new Point(2,1));
-		mOccupiedTilePositions.add(new Point(3,1));
-		mOccupiedTilePositions.add(new Point(0,19));
-		mOccupiedTilePositions.add(new Point(1,19));
-		mOccupiedTilePositions.add(new Point(2,19));
-		mOccupiedTilePositions.add(new Point(3,19));
-		mOccupiedTilePositions.add(new Point(0,18));
-		mOccupiedTilePositions.add(new Point(1,18));
-		mOccupiedTilePositions.add(new Point(2,18));
-		mOccupiedTilePositions.add(new Point(3,18));
+		sOccupiedTilePositions.add(new Point(0,0));
+		sOccupiedTilePositions.add(new Point(1,0));
+		sOccupiedTilePositions.add(new Point(2,0));
+		sOccupiedTilePositions.add(new Point(3,0));
+		sOccupiedTilePositions.add(new Point(0,1));
+		sOccupiedTilePositions.add(new Point(1,1));
+		sOccupiedTilePositions.add(new Point(2,1));
+		sOccupiedTilePositions.add(new Point(3,1));
+		sOccupiedTilePositions.add(new Point(0,19));
+		sOccupiedTilePositions.add(new Point(1,19));
+		sOccupiedTilePositions.add(new Point(2,19));
+		sOccupiedTilePositions.add(new Point(3,19));
+		sOccupiedTilePositions.add(new Point(0,18));
+		sOccupiedTilePositions.add(new Point(1,18));
+		sOccupiedTilePositions.add(new Point(2,18));
+		sOccupiedTilePositions.add(new Point(3,18));
 		
 		
 		// calculate where towers can be placed depending on the Path
-		for (int i = 0; i < mPath.getSize()-1; i++) {
-			Coordinate c1 = mPath.getCoordinate(i);			
-			Coordinate c2 = mPath.getCoordinate(i+1);
+		for (int i = 0; i < sPath.getSize()-1; i++) {
+			Coordinate c1 = sPath.getCoordinate(i);			
+			Coordinate c2 = sPath.getCoordinate(i+1);
 			
 			double angle = Coordinate.getAngle(c1, c2);
 			Coordinate temp = new Coordinate(c1.getX(), c1.getY());
 			
 			while (Coordinate.getSqrDistance(temp, c2) > 2 ) {
 				
-				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
 				
-				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,(int)temp.getY()/GAME_TILE_SIZE ));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,(int)temp.getY()/GAME_TILE_SIZE ));
 				
-				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,(int)temp.getY()/GAME_TILE_SIZE + 1));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,(int)temp.getY()/GAME_TILE_SIZE + 1));
 				
-				mOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE + 1));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE + 1));
 				
 				temp.setXY(temp.getX() + Math.cos(angle), temp.getY() - Math.sin(angle));
 			
@@ -137,11 +136,11 @@ public class GameModel {
 		if (!canAddTower(tower))
 			return;
 
-		mTowers.add(tower);
+		sTowers.add(tower);
 		
 		for (int i = 0; i < tower.getWidth(); i++) {
 			for (int j = 0; j < tower.getHeight(); j++) {
-				mOccupiedTilePositions.add(new Point(x+i,y+j));
+				sOccupiedTilePositions.add(new Point(x+i,y+j));
 			}
 		}
 		
@@ -157,7 +156,7 @@ public class GameModel {
 		
 		for (int i = 0; i < tower.getWidth(); i++) {
 			for (int j = 0; j < tower.getHeight(); j++) {
-				if (mOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
+				if (sOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
 					return false;
 			}
 		}
@@ -166,7 +165,7 @@ public class GameModel {
 	}
 	
 	public static void removeTower(Tower t) {
-		mTowers.remove(t);
+		sTowers.remove(t);
 		
 		int tx = (int) (t.getX() / GAME_TILE_SIZE);
 		int ty = (int) (t.getY() / GAME_TILE_SIZE);
@@ -174,8 +173,8 @@ public class GameModel {
 		for (int i = 0; i < t.getWidth(); i++) {
 			
 			for (int j = 0; j < t.getHeight(); j++) {
-				if (mOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
-					mOccupiedTilePositions.remove(new Point(tx+i,ty+j));
+				if (sOccupiedTilePositions.contains(new Point(tx+i,ty+j)))
+					sOccupiedTilePositions.remove(new Point(tx+i,ty+j));
 			}
 		}	
 		

@@ -18,7 +18,7 @@ import android.view.Window;
  */
 public class MenuGame extends Activity {
     
-	public ProgressionRoutePanel progressMap;
+	public ProgressionRouteView progressMap;
 	
     /**
      * Method called on application start.
@@ -37,7 +37,7 @@ public class MenuGame extends Activity {
         SoundManager.initializeSound(this);
         
         // Bring up the progression route view
-        progressMap = new ProgressionRoutePanel(this);
+        progressMap = new ProgressionRouteView(this);
         setContentView(progressMap);        
     }
     

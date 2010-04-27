@@ -1,6 +1,6 @@
 package com.chalmers.game.td.units;
 
-import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.R;
@@ -332,13 +332,13 @@ public class Mob extends Unit{
 		}
 
 		if(isSlowed()){
-			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
-			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
+			setX(getX() + GameView.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
+			setY(getY() - GameView.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
 			mDistanceWalked += getSpeed()*mSlowedSpeed;
-			mSlowLeft -= GamePanel.getSpeedMultiplier();
+			mSlowLeft -= GameView.getSpeedMultiplier();
 		} else {
-			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX);
-			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY);
+			setX(getX() + GameView.getSpeedMultiplier()*mSpeedX);
+			setY(getY() - GameView.getSpeedMultiplier()*mSpeedY);
 			mDistanceWalked += mSpeed;
 		}
 
@@ -361,7 +361,7 @@ public class Mob extends Unit{
 	public boolean reachedCheckpoint() {
 	
 		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
-		if (sqrDistance < GamePanel.getSpeedMultiplier()*getSpeed()*getSpeed())
+		if (sqrDistance < GameView.getSpeedMultiplier()*getSpeed()*getSpeed())
 			return true;
 		
 		return false;

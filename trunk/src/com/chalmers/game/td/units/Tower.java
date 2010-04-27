@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.GameView;
 
 /**
  * Class which contains tower specific information
@@ -160,7 +160,7 @@ public abstract class Tower extends Unit {
 			if(p != null)		//reset the cooldown if the tower actually shoots
 				resetCoolDown();
 		} else
-			decCoolDownLeft(GamePanel.getSpeedMultiplier());
+			decCoolDownLeft(GameView.getSpeedMultiplier());
 
 		return p;
 	}

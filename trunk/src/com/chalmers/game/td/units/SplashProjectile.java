@@ -2,7 +2,7 @@ package com.chalmers.game.td.units;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.R;
 
 public class SplashProjectile extends Projectile {
@@ -29,7 +29,7 @@ public class SplashProjectile extends Projectile {
 	public void inflictDmg() {
 		// hit every mob within a certain radius from the target coordinate for
 		// a certain amount of damage, depending on distance from center of splash
-		for (Mob m: GameModel.mMobs){
+		for (Mob m: GameModel.sMobs){
 			
 			double sqrDist = Coordinate.getSqrDistance(mTargetCoordinate, m.getCoordinates());
 
@@ -48,15 +48,15 @@ public class SplashProjectile extends Projectile {
 	 * This is NOT a homing projectile, it keeps the same coordinate as target.
 	 */
 	public void updatePosition() {
-		setX( getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY( getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX( getX() + GameView.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY( getY() - GameView.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 	}
 
 	public boolean hasCollided() {
 
 		double distance = Coordinate.getSqrDistance(getCoordinates(), mTargetCoordinate);
 
-		if (distance < GamePanel.getSpeedMultiplier()*getSpeed())
+		if (distance < GameView.getSpeedMultiplier()*getSpeed())
 			return true;
 
 		return false;
