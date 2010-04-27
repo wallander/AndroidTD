@@ -63,7 +63,7 @@ public class Mob extends Unit{
 
 	private double mSlowedSpeed;
 	
-	private int mobImage = R.drawable.penguinmob;
+	private int mMobImage = R.drawable.penguinmob;
 
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
@@ -203,11 +203,11 @@ public class Mob extends Unit{
     
 	public int getMobImage(){
 		
-		return mobImage;
+		return mMobImage;
 	}
 	
 	public void setMobImage(int image){
-		mobImage = image;
+		mMobImage = image;
 	}
     
     public void setPath(Path pPath) {
