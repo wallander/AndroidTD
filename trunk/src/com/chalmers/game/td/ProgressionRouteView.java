@@ -16,7 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
-public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.Callback{
+public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.Callback{
 
 	private static final int STATE_CHOOSETRACK = 1;
 	private static final int STATE_STARTTRACK = 2;
@@ -32,6 +32,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	private int trackPic = 0;
 	private String trackName = "";
 	private int menuPic = 0;
+	private int chosenTrack;
 	
 	public void updateSound() {
 		
@@ -45,7 +46,7 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 		}
 	}
 	
-	public ProgressionRoutePanel(Context context) {
+	public ProgressionRouteView(Context context) {
 		super(context);			
 		
 		Log.v("ProgressionRoutePanel","Constructor");
@@ -233,10 +234,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 								event.getY() > 40 && event.getY() < 40+90) {
 							
 							// Button for first level pressed
-							
-							Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 1");
-						
-							GameModel.setTrack(1);
+					
+							chosenTrack = 1;
 							trackName = "North Pole";
 							STATE_PROGSTATE = STATE_STARTTRACK;
 							
@@ -244,9 +243,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 								event.getY() > 200 && event.getY() < 200+70) {
 							
 							// Button for second level pressed
-							if (GameModel.currentPlayer.getTrackScore(1) != 0) {
-								GameModel.setTrack(2);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 2");
+							if (GameModel.sCurrentPlayer.getTrackScore(1) != 0) {
+								chosenTrack = 2;
 								trackName = "Ice Flow";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 	
@@ -261,9 +259,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							
 							// Button for third level pressed
 							
-							if (GameModel.currentPlayer.getTrackScore(2) != 0) {
-								GameModel.setTrack(3);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 3");
+							if (GameModel.sCurrentPlayer.getTrackScore(2) != 0) {
+								chosenTrack = 3;
 								trackName = "I see green";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 
@@ -277,9 +274,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							
 							// Button for fourth level pressed
 
-							if (GameModel.currentPlayer.getTrackScore(3) != 0) {
-								GameModel.setTrack(4);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 4");
+							if (GameModel.sCurrentPlayer.getTrackScore(3) != 0) {
+								chosenTrack = 4;
 								trackName = "Almost there";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 
@@ -293,9 +289,8 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 							
 							// Button for fifth level pressed
 							
-							if (GameModel.currentPlayer.getTrackScore(4) != 0) {
-								GameModel.setTrack(5);
-								Log.v("ProgressionRoutePanel.onTouchEvent", "Starting track 5");
+							if (GameModel.sCurrentPlayer.getTrackScore(4) != 0) {
+								chosenTrack = 5;
 								trackName = "The sun";
 								STATE_PROGSTATE = STATE_STARTTRACK;
 
@@ -333,9 +328,10 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 	}
 	
 	public void beforeEnteringLevel(){
+		GameModel.setTrack(chosenTrack);
 		thread.setRunning(false);
 		getHolder().removeCallback(this);
-		mActivity.setContentView(new GamePanel(getContext()));
+		mActivity.setContentView(new GameView(getContext()));
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -383,31 +379,31 @@ public class ProgressionRoutePanel extends SurfaceView implements SurfaceHolder.
 //		}
 		
 		// draw buttons that shows the players progress
-		if (GameModel.currentPlayer.getTrackScore(1) == 0.0) {
+		if (GameModel.sCurrentPlayer.getTrackScore(1) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(2) == 0.0) {
+		} else if (GameModel.sCurrentPlayer.getTrackScore(2) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(3) == 0.0) {
+		} else if (GameModel.sCurrentPlayer.getTrackScore(3) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(4) == 0.0) {
+		} else if (GameModel.sCurrentPlayer.getTrackScore(4) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.currentPlayer.getTrackScore(5) == 0.0) {
+		} else if (GameModel.sCurrentPlayer.getTrackScore(5) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);

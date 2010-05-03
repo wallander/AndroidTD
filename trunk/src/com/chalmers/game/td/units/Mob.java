@@ -1,6 +1,6 @@
 package com.chalmers.game.td.units;
 
-import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.R;
@@ -63,9 +63,13 @@ public class Mob extends Unit{
 
 	private double mSlowedSpeed;
 	
+<<<<<<< HEAD
 	private int mobImage = R.drawable.penguinmob;
 	private int mobImage2 = R.drawable.penguinmobleft;
 	private int mobImage3 = R.drawable.penguinmobright;
+=======
+	private int mMobImage = R.drawable.penguinmob;
+>>>>>>> 1e4052223b7817ba8805ec9adecc4b2a87a7214c
 
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
@@ -207,11 +211,11 @@ public class Mob extends Unit{
     
 	public int getMobImage(){
 		
-		return mobImage;
+		return mMobImage;
 	}
 	
 	public void setMobImage(int image){
-		mobImage = image;
+		mMobImage = image;
 	}
 	
 	public void setMobImage2(int image){
@@ -354,13 +358,13 @@ public class Mob extends Unit{
 		}
 
 		if(isSlowed()){
-			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
-			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
+			setX(getX() + GameView.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
+			setY(getY() - GameView.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
 			mDistanceWalked += getSpeed()*mSlowedSpeed;
-			mSlowLeft -= GamePanel.getSpeedMultiplier();
+			mSlowLeft -= GameView.getSpeedMultiplier();
 		} else {
-			setX(getX() + GamePanel.getSpeedMultiplier()*mSpeedX);
-			setY(getY() - GamePanel.getSpeedMultiplier()*mSpeedY);
+			setX(getX() + GameView.getSpeedMultiplier()*mSpeedX);
+			setY(getY() - GameView.getSpeedMultiplier()*mSpeedY);
 			mDistanceWalked += mSpeed;
 		}
 
@@ -383,7 +387,7 @@ public class Mob extends Unit{
 	public boolean reachedCheckpoint() {
 	
 		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
-		if (sqrDistance < GamePanel.getSpeedMultiplier()*getSpeed()*getSpeed())
+		if (sqrDistance < GameView.getSpeedMultiplier()*getSpeed()*getSpeed())
 			return true;
 		
 		return false;

@@ -66,9 +66,9 @@ public class SplashTower extends Tower {
 		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
 
 		// loop through the list of mobs
-		for (int i=0; i < GameModel.mMobs.size(); i++) {
+		for (int i=0; i < GameModel.sMobs.size(); i++) {
 
-			Mob m = GameModel.mMobs.get(i);
+			Mob m = GameModel.sMobs.get(i);
 
 			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
 
@@ -91,10 +91,10 @@ public class SplashTower extends Tower {
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
-    		incLevel();			//increment tower level by one
+    		incLevel();						//increment tower level by one
     		
     		int newLvl = getLevel();
-    		setImageByLevel(newLvl);	//set image according to the new level
+    		setImageByLevel(newLvl);		//set image according to the new level
     		
     		setCoolDown(sCoolDown[newLvl-1]);
 			setDamage(sDamage[newLvl-1]);

@@ -56,7 +56,7 @@ import android.view.SurfaceView;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private static final int STATE_RUNNING = 1;
 	private static final int STATE_GAMEOVER = 2;
@@ -215,7 +215,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * Constructor called on instantiation.
 	 * @param context Context of calling activity.
 	 */
-	public GamePanel(Context context) {
+	public GameView(Context context) {
 
 		super(context);		
 		
@@ -268,7 +268,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mMobFactory = MobFactory.getInstance(); 
 		mMobFactory.setContext(getContext()); 
 		
-		GameModel.currentPlayer.setCurrentScore(0);
+		GameModel.sCurrentPlayer.setCurrentScore(0);
 		
 		setFast(false);
 
@@ -493,8 +493,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 							GameModel.buildTower(mCurrentTower, 
 									(int)mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
 									(int)mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
-							GameModel.currentPlayer.changeMoney(-mCurrentTower.getCost());
-
+							GameModel.sCurrentPlayer.changeMoney(-mCurrentTower.getCost());
 
 						}
 						mCurrentTower = null;
@@ -502,7 +501,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
 						if (mAllowBuild && mTx < mButtonBorder) {
-							GameModel.mSnowballs.add(mCurrentSnowball);
+							GameModel.sSnowballs.add(mCurrentSnowball);
 							mUsedSnowballs++;
 						}
 						mCurrentSnowball = null;
@@ -543,7 +542,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
-						parent.setContentView(new ProgressionRoutePanel(getContext()));
+						parent.setContentView(new ProgressionRouteView(getContext()));
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
@@ -587,7 +586,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
-						parent.setContentView(new ProgressionRoutePanel(getContext()));
+						parent.setContentView(new ProgressionRouteView(getContext()));
 							
 					}
 					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
@@ -663,7 +662,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
-						parent.setContentView(new ProgressionRoutePanel(getContext()));
+						parent.setContentView(new ProgressionRouteView(getContext()));
 					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
 						// go back to progression route
 						mGameThread.setRunning(false);
@@ -699,13 +698,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private void touchUpgradeWindowEvent(MotionEvent event){
 		// Upgrade button pressed, and selected tower is upgradeable
 		if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
-			if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
-				GameModel.currentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
+			if (GameModel.sCurrentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
+				GameModel.sCurrentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
 				mSelectedTower.upgrade();
 			}
 		} else if (sBtnSell.contains(event.getX(), event.getY()) ) {
 			// Sell button pressed
-			GameModel.currentPlayer.changeMoney(mSelectedTower.sellPrice());
+			GameModel.sCurrentPlayer.changeMoney(mSelectedTower.sellPrice());
 			GameModel.removeTower(mSelectedTower);
 			mSelectedTower = null;
 		} else 
@@ -722,9 +721,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		mShowTooltip = false;
 
 		// if a tower was touched, mark it as selected
-		int size = GameModel.mTowers.size();
+		int size = GameModel.sTowers.size();
 		for (int i = 0; i < size; i++){
-			Tower t = GameModel.mTowers.get(i);
+			Tower t = GameModel.sTowers.get(i);
 
 			if (t.selectTower(event.getX(), event.getY())){
 				mSelectedTower = t;
@@ -755,7 +754,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		// button 1
 		if(sBtn1.contains(event.getX(),event.getY())) {
 			
-			if (mTower1.getCost() <= GameModel.currentPlayer.getMoney())
+			if (mTower1.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				mAllowBuild = true;
 	
 			mCurrentTower = new BasicTower(mTx ,mTy);
@@ -764,7 +763,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// button 2
 		} else if(sBtn2.contains(event.getX(),event.getY())) {
 			
-			if (mTower2.getCost() <= GameModel.currentPlayer.getMoney())
+			if (mTower2.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				mAllowBuild = true;	
 
 			mCurrentTower = new SplashTower(mTx ,mTy);
@@ -773,7 +772,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// button 3
 		} else if(sBtn3.contains(event.getX(),event.getY())) {
 			
-			if (mTower3.getCost() <= GameModel.currentPlayer.getMoney())
+			if (mTower3.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				mAllowBuild = true;
 
 			mCurrentTower = new SlowTower(mTx ,mTy);
@@ -782,7 +781,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			// button 4
 		} else if(sBtn4.contains(event.getX(),event.getY())) {
 			
-			if (mTower4.getCost() <= GameModel.currentPlayer.getMoney())
+			if (mTower4.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				mAllowBuild = true;
 
 			mCurrentTower = new AirTower(mTx ,mTy);
@@ -793,7 +792,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			if (mAccelerometerSupported) {
 
-				if (GameModel.currentPlayer.getCurrentTrackScore() 
+				if (GameModel.sCurrentPlayer.getCurrentTrackScore() 
 						>= mSnowballTreshold*(1+mUsedSnowballs))
 					mAllowBuild = true;
 
@@ -819,9 +818,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if (setFast != mFast) { 
 			
 			if (setFast)
-				GamePanel.setSpeedMultiplier(3);
+				GameView.setSpeedMultiplier(3);
 			else
-				GamePanel.setSpeedMultiplier(1);
+				GameView.setSpeedMultiplier(1);
 			mFast = setFast;
 		}
 	}
@@ -833,9 +832,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void toggleFast(){
 		if (mFast)
-			GamePanel.setSpeedMultiplier(1);
+			GameView.setSpeedMultiplier(1);
 		else
-			GamePanel.setSpeedMultiplier(3);
+			GameView.setSpeedMultiplier(3);
 		
 		mFast = !mFast;
 	}
@@ -858,7 +857,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				return null;
 			
 		} else {
-			mMobDelayI += GamePanel.getSpeedMultiplier();
+			mMobDelayI += GameView.getSpeedMultiplier();
 			return null;
 		}
 
@@ -876,7 +875,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		if (GAME_STATE == STATE_RUNNING) { //Only update if running
 
 			// If the player has 0 or less lives remaining, change game state
-			if (GameModel.currentPlayer.getRemainingLives() <= 0) {
+			if (GameModel.sCurrentPlayer.getRemainingLives() <= 0) {
 				mSelectedTower = null;
 				mCurrentSnowball = null;
 				mCurrentTower = null;
@@ -885,26 +884,27 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				GAME_STATE = STATE_GAMEOVER;
 				return;
 			}
+			
+			Mob mNewMob = createMobs();
+			if (mNewMob != null) {
+				GameModel.sMobs.add(mNewMob);
+//				Log.v("GAME MOBS", "Added new mob of type: "
+//						+ mNewMob.getType().toString());
+			}
 
 			// if the player has won (no more mobs and all mobs dead)
-			if (!mMobFactory.hasMoreMobs() && GameModel.mMobs.isEmpty()) {
+			if (!mMobFactory.hasMoreMobs() && GameModel.sMobs.isEmpty()) {
 				mSelectedTower = null;
 				mCurrentSnowball = null;
 				mCurrentTower = null;
 				mShowTooltip = false;
 				setFast(false);
-				GameModel.currentPlayer.saveCurrentTrackScore();
+				GameModel.sCurrentPlayer.saveCurrentTrackScore();
 				GAME_STATE = STATE_WIN;
 				return;
 			}
 
-			Mob mNewMob = createMobs();
-			if (mNewMob != null) {
-				GameModel.mMobs.add(mNewMob);
-//				Log.v("GAME MOBS", "Added new mob of type: "
-//						+ mNewMob.getType().toString());
-			}
-
+			
 			/*
 			 * for every tower:
 			 * 	create a new Projectile set to a Mob that the Tower can reach
@@ -912,29 +912,28 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 * 
 			 * tryToShoot() returns null if the tower can't reach any mob or if the tower is on CD
 			 */
-			int size = GameModel.mTowers.size();
+			int size = GameModel.sTowers.size();
 			for (int i = 0; i < size; ++i) {
-				Tower t = GameModel.mTowers.get(i);
+				Tower t = GameModel.sTowers.get(i);
 
 				Projectile newProjectile = null;
 
 				//if there are any mobs, try to shoot at them
-				if (GameModel.mMobs.isEmpty() == false)
+				if (GameModel.sMobs.isEmpty() == false)
 					newProjectile = t.tryToShoot();
 
 				//if a projectile was returned, add it to the game model
-				if (newProjectile != null) {
-					GameModel.mProjectiles.add(newProjectile);
-				}
+				if (newProjectile != null)
+					GameModel.sProjectiles.add(newProjectile);
 				
 			}
 
 			// Check if any projectile has hit it's target
 			// Handle hit, remove projectile, calculate damage on mob, etc. etc.
-			size = GameModel.mProjectiles.size();
+			size = GameModel.sProjectiles.size();
 			int removed = 0;
 			for (int i = 0; i < size - removed; ++i) {
-				Projectile p = GameModel.mProjectiles.get(i);								
+				Projectile p = GameModel.sProjectiles.get(i);								
 				
 				// Update position for the projectiles
 				p.updatePosition();
@@ -942,13 +941,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				// If the projectile has collided, inflict damage and remove it.
 				if (p.hasCollided()) {					
 					p.inflictDmg();
-					GameModel.mProjectiles.remove(p);
+					GameModel.sProjectiles.remove(p);
 					++removed;
 				}
 
 				// if the projectile's target is dead, remove the projectile
 				if (p.getTarget().getHealth() <= 0) {					
-					GameModel.mProjectiles.remove(p);	
+					GameModel.sProjectiles.remove(p);	
 					++removed;
 				}
 			}
@@ -958,27 +957,27 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 * update position
 			 * do damage to any mob it hits
 			 */
-			for (int j = 0; j < GameModel.mSnowballs.size(); ++j) {
-				Snowball s = GameModel.mSnowballs.get(j);
+			for (int j = 0; j < GameModel.sSnowballs.size(); ++j) {
+				Snowball s = GameModel.sSnowballs.get(j);
 
 				// update position with accelerometer
 				s.updatePosition(mLatestSensorEvent);
 
 				// read what mobs are hit
-				List<Mob> deadMobs = s.getCollidedMobs(GameModel.mMobs);
+				List<Mob> deadMobs = s.getCollidedMobs(GameModel.sMobs);
 
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob deadMob = deadMobs.get(k);
 					switch(deadMob.getType()) {
-						case Mob.HEALTHY:	deadMob.setHealth((int) (0.990 * deadMob.getHealth())); break;
-						default:deadMob.setHealth((int) (0.85 * deadMob.getHealth())); break;
+						case Mob.HEALTHY:	deadMob.setHealth((int) (0.992 * deadMob.getHealth())); break;
+						default:deadMob.setHealth((int) (0.97 * deadMob.getHealth())); break;
 					}
 				}
 
 				// if the snowball is out of charges, remove it
 				if (s.getCharges() <= 0) {
-					GameModel.mSnowballs.remove(s);
+					GameModel.sSnowballs.remove(s);
 				}
 			}
 
@@ -987,21 +986,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			 *  Update position
 			 *  If the mob has died, handle it
 			 */
-			size = GameModel.mMobs.size();
+			size = GameModel.sMobs.size();
 			removed = 0;
 			for (int j = 0; j < size - removed; j++) {
-				Mob m = GameModel.mMobs.get(j);				
+				Mob m = GameModel.sMobs.get(j);				
 
 				// update position, if the mob reached the last checkpoint, handle it
 				if (!m.updatePosition()) {
 					mSplash = true;
 					
 					switch (m.getType()) {
-						case Mob.HEALTHY:	GameModel.currentPlayer.removeLife(5); break;
-						default: 	GameModel.currentPlayer.removeLife(1); break;
+						case Mob.HEALTHY:	GameModel.sCurrentPlayer.removeLife(5); break;
+						default: 	GameModel.sCurrentPlayer.removeLife(1); break;
 					}
 					
-					GameModel.mMobs.remove(m);
+					GameModel.sMobs.remove(m);
 					++removed;
 					mVibrator.vibrate(50);
 				}
@@ -1009,10 +1008,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				
 				// handle mob death
 				if (m.getHealth() <= 0) {
-					GameModel.currentPlayer.changeMoney(m.getReward());
-					GameModel.currentPlayer.changeScore(m);					
-					GameModel.mShowRewardForMob.add(m);
-					GameModel.mMobs.remove(m);
+					GameModel.sCurrentPlayer.changeMoney(m.getReward());
+					GameModel.sCurrentPlayer.changeScore(m);					
+					GameModel.sShowRewardForMob.add(m);
+					GameModel.sMobs.remove(m);
 					// TODO determine which mobtype, then find a good sound
 					++removed;
 				}
@@ -1234,14 +1233,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
-		canvas.drawText("" + (int)GameModel.currentPlayer.getMoney(), 105, 20, sPaintText);
+		canvas.drawText("" + (int)GameModel.sCurrentPlayer.getMoney(), 105, 20, sPaintText);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 160, 3, null);
-		canvas.drawText("" + GameModel.currentPlayer.getRemainingLives(), 185, 20, sPaintText);
+		canvas.drawText("" + GameModel.sCurrentPlayer.getRemainingLives(), 185, 20, sPaintText);
 		canvas.drawText(mMobFactory.getNextWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText);
-		canvas.drawText("Score: " + (int)GameModel.currentPlayer.getCurrentTrackScore(), 290, 20, sPaintText);
+		canvas.drawText("Score: " + (int)GameModel.sCurrentPlayer.getCurrentTrackScore(), 290, 20, sPaintText);
 		
 		if(!mMobFactory.lastWaveHasEntered()){
-			int mWaveTime = mMobFactory.getWaveTime(); 
+			int mWaveTime = mMobFactory.getWaveTime();
 
 			canvas.drawText("Next wave: " + mMobFactory.getNextWaveType() + 
 					"(" + mWaveTime + ")", 230, 300, sPaintText);
@@ -1256,9 +1255,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getY() / GameModel.GAME_TILE_SIZE + (mSelectedTower.getHeight()/2)),
 				mSelectedTower.getRange(), rangeIndicationPaint);
 
-		// draw box for the selected tower
-		//canvas.drawRoundRect(sTransparentBox,10,10,sPaintTransparentBox);
-
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,60,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34+36,null);
@@ -1269,15 +1265,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		//Draw general info
 		int lvl = mSelectedTower.getLevel();
-		//name
 		canvas.drawText(mSelectedTower.getName(), 161, 90+2, sPaintTextBlack);
-		//level
 		canvas.drawText("Level " + (lvl), 151, 112+2, sPaintTextBlack);
-		//attack speed
 		canvas.drawText("Speed: " + mSelectedTower.getAttackSpeed(), 151, 128+2, sPaintTextBlack);
-		//damage
 		canvas.drawText("Damage: " + mSelectedTower.getDamage(), 151, 144+2, sPaintTextBlack);
-		//range
 		canvas.drawText("Range: " + mSelectedTower.getRange(), 151, 160+2, sPaintTextBlack);
 		
 		if (mSelectedTower.getType() == Tower.SLOW)
@@ -1302,13 +1293,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		else if (mSelectedTower.getType() == Tower.SPLASH)
 			canvas.drawText("Splash: " + mSelectedTower.getSplashRadius(), 150, 176, sPaintTextWhite);
 		
-		
-
 		if(mSelectedTower.canUpgrade()) {
 			
 			//Draw upgrade info
 			Paint paintRedOrGreen;
-			if (GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost())
+			if (GameModel.sCurrentPlayer.getMoney() >= mSelectedTower.getUpgradeCost())
 				paintRedOrGreen = sPaintBoxGreen;
 			else
 				paintRedOrGreen = sPaintBoxRed;
@@ -1376,14 +1365,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		
 		canvas.drawText(mSelectedTower.sellPrice()+"$", sBtnSell.left+14, 
 				sBtnSell.top+(sBtnSell.height()/2)+15, sPaintTextBlack);
-
 		canvas.drawText(mSelectedTower.sellPrice()+"$", sBtnSell.left+12, 
 				sBtnSell.top+(sBtnSell.height()/2)+13, sPaintTextWhite);
 		
 		
 		// if the tower is not fully upgraded and the player affords upgrading it
 		if (mSelectedTower.canUpgrade() && 
-				GameModel.currentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
+				GameModel.sCurrentPlayer.getMoney() >= mSelectedTower.getUpgradeCost()) {
 
 			canvas.drawRoundRect(sBtnUpgrade,6,6,sPaintBoxGreen);
 			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
@@ -1393,7 +1381,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 			// if the tower is not fully upgraded, but the player can't afford upgrading
 		} else if (mSelectedTower.canUpgrade() && 
-				GameModel.currentPlayer.getMoney() < mSelectedTower.getUpgradeCost()) {
+				GameModel.sCurrentPlayer.getMoney() < mSelectedTower.getUpgradeCost()) {
 
 			canvas.drawRoundRect(sBtnUpgrade,6,6,sPaintBoxRed);
 			canvas.drawText("Upgrade: " + mSelectedTower.getUpgradeCost() + "$",
@@ -1423,7 +1411,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 				GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE) , null);
 
 		// draw a red transparent rectangle on every occupied tile
-		for (Point p : GameModel.mOccupiedTilePositions) {
+		for (Point p : GameModel.sOccupiedTilePositions) {
 			canvas.drawRect(
 					p.x*GameModel.GAME_TILE_SIZE,
 					p.y*GameModel.GAME_TILE_SIZE,
@@ -1469,7 +1457,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawText("Range: " + mCurrentTower.getRange(), 160, 150, sPaintTextWhite);
 			
 			Paint paintRedOrGreen;
-			if (GameModel.currentPlayer.getMoney() >= mCurrentTower.getCost())
+			if (GameModel.sCurrentPlayer.getMoney() >= mCurrentTower.getCost())
 				paintRedOrGreen = sPaintBoxGreen;
 			else
 				paintRedOrGreen = sPaintBoxRed;
@@ -1488,7 +1476,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case Tower.SLOW:
 				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 161, 170+2, sPaintTextBlack);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-				
 				canvas.drawText("Slow: " + mCurrentTower.getSlow() + "%", 160, 170, sPaintTextWhite);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
 				break;
@@ -1496,7 +1483,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 			case Tower.SPLASH:
 				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 161, 170+2, sPaintTextBlack);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-
 				canvas.drawText("Splash: " + mCurrentTower.getSplashRadius(), 160, 170, sPaintTextWhite);
 				canvas.drawText("Cost: " + mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
 				break;
@@ -1510,7 +1496,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		} else {
 			
 			Paint paintRedOrGreen;
-			if (GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold)
+			if (GameModel.sCurrentPlayer.getCurrentTrackScore() >= mSnowballTreshold)
 				paintRedOrGreen = sPaintBoxGreen;
 			else
 				paintRedOrGreen = sPaintBoxRed;
@@ -1557,35 +1543,35 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		Paint paintalfa = new Paint();
 
 		//if the tower build buttons should be "unavaliable" or not
-		if(mTower1.getCost() >= GameModel.currentPlayer.getMoney())
+		if(mTower1.getCost() >= GameModel.sCurrentPlayer.getMoney())
 			paintalfa.setAlpha(100);
 		else
 			paintalfa.setAlpha(255);
 
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.basictower),432,25,paintalfa);
 
-		if(mTower2.getCost() >= GameModel.currentPlayer.getMoney())
+		if(mTower2.getCost() >= GameModel.sCurrentPlayer.getMoney())
 			paintalfa.setAlpha(100);
 		else
 			paintalfa.setAlpha(255);
 
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.eskimotowersplash),432,85,paintalfa);
 
-		if(mTower3.getCost() >= GameModel.currentPlayer.getMoney())
+		if(mTower3.getCost() >= GameModel.sCurrentPlayer.getMoney())
 			paintalfa.setAlpha(100);
 		else
 			paintalfa.setAlpha(255);
 
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.slowtower),432,145,paintalfa);
 		
-		if(mTower4.getCost() >= GameModel.currentPlayer.getMoney())
+		if(mTower4.getCost() >= GameModel.sCurrentPlayer.getMoney())
 			paintalfa.setAlpha(100);
 		else
 			paintalfa.setAlpha(255);
 
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.airtower1),432,205,paintalfa);
 
-		if(GameModel.currentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs))
+		if(GameModel.sCurrentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs))
 			paintalfa.setAlpha(255);
 		else
 			paintalfa.setAlpha(100);
@@ -1603,10 +1589,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void drawProjectiles(Canvas canvas) {
 		// draw all projectiles
-		int size = GameModel.mProjectiles.size();
+		int size = GameModel.sProjectiles.size();
 		for (int i = 0; i < size; i++) {
-			Projectile p = GameModel.mProjectiles.get(i);
-			Bitmap bitmapOrg = mBitMapCache.get(GameModel.mProjectiles.get(i).getProjImage()); //R.drawable.projsplash_big before ahmed
+			Projectile p = GameModel.sProjectiles.get(i);
+			Bitmap bitmapOrg = mBitMapCache.get(GameModel.sProjectiles.get(i).getProjImage()); //R.drawable.projsplash_big before ahmed
 			Matrix matrix = new Matrix(); 
 
 			// rotate the Bitmap 
@@ -1622,9 +1608,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void drawTowers(Canvas canvas) {
 		// draw all towers
-		int size = GameModel.mTowers.size();
+		int size = GameModel.sTowers.size();
 		for (int i = 0; i < size; i++) {
-			Tower t = GameModel.mTowers.get(i);
+			Tower t = GameModel.sTowers.get(i);
 			canvas.drawBitmap(mBitMapCache.get(t.getImage()), (int) t.getX() , (int) t.getY() , null);
 		}
 	}
@@ -1636,8 +1622,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawSnowballs(Canvas canvas) {
 		// draw snowballs
 		float radius;
-		for (int i = 0; i < GameModel.mSnowballs.size(); i++) {
-			Snowball s = GameModel.mSnowballs.get(i);
+		for (int i = 0; i < GameModel.sSnowballs.size(); i++) {
+			Snowball s = GameModel.sSnowballs.get(i);
 			radius = s.getRadius();
 			
 			canvas.drawCircle((float)s.getX(), (float)s.getY(), radius, snowPaint);
@@ -1653,8 +1639,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void drawMobs(Canvas canvas) {
 		// for all mobs
-		for (int i = GameModel.mMobs.size()-1; i >= 0; i--) {
-			Mob m = GameModel.mMobs.get(i);
+		for (int i = GameModel.sMobs.size()-1; i >= 0; i--) {
+			Mob m = GameModel.sMobs.get(i);
 
 			// get the mob's image
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
@@ -1774,19 +1760,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 	 * @param canvas
 	 */
 	private void drawRewardsAfterDeadMob(Canvas canvas){
-		for (int i = 0; i < GameModel.mShowRewardForMob.size(); i++) {
-			canvas.drawText("" +GameModel.mShowRewardForMob.get(i).getReward(),
-					(int)GameModel.mShowRewardForMob.get(i).getX() + 1,
-					(int)GameModel.mShowRewardForMob.get(i).getY() - 1,
+		for (int i = 0; i < GameModel.sShowRewardForMob.size(); i++) {
+			canvas.drawText("" +GameModel.sShowRewardForMob.get(i).getReward(),
+					(int)GameModel.sShowRewardForMob.get(i).getX() + 1,
+					(int)GameModel.sShowRewardForMob.get(i).getY() - 1,
 					sMoneyAfterDeadBg);
-			canvas.drawText("" +GameModel.mShowRewardForMob.get(i).getReward(),
-					(int)GameModel.mShowRewardForMob.get(i).getX(),
-					(int)GameModel.mShowRewardForMob.get(i).getY(),
+			canvas.drawText("" +GameModel.sShowRewardForMob.get(i).getReward(),
+					(int)GameModel.sShowRewardForMob.get(i).getX(),
+					(int)GameModel.sShowRewardForMob.get(i).getY(),
 					sMoneyAfterDead);
-			GameModel.mShowRewardForMob.get(i).setY(GameModel.mShowRewardForMob.get(i).getY() - 2);
-			GameModel.mShowRewardForMob.get(i).incRewAni();
-			if(GameModel.mShowRewardForMob.get(i).getRewAni() > 12){
-				GameModel.mShowRewardForMob.remove(i);
+			GameModel.sShowRewardForMob.get(i).setY(GameModel.sShowRewardForMob.get(i).getY() - 2);
+			GameModel.sShowRewardForMob.get(i).incRewAni();
+			if(GameModel.sShowRewardForMob.get(i).getRewAni() > 12){
+				GameModel.sShowRewardForMob.remove(i);
 			}
 		}
 	}

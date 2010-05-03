@@ -125,32 +125,11 @@ public class MobFactory {
 	 * @return
 	 */
 	public String getNextWaveType(){
-		int iType;
+
 		if (waveInProgress()) //return type of next wave
-			iType = mTrackWaves.get(mWaveIndex+1).get(0).getType();
+			return mTrackWaves.get(mWaveIndex+1).get(0).toString();
 		else //return type of current wave
-			iType = mTrackWaves.get(mWaveIndex).get(0).getType();
-		
-		String sType;
-		
-		switch (iType){
-		case Mob.AIR:
-			sType="Air";
-			break;
-		case Mob.FAST:
-			sType="Fast";
-			break;
-		case Mob.HEALTHY:
-			sType="Healthy";
-			break;
-		case Mob.IMMUNE:
-			sType="Immune";
-			break;
-		default:
-			sType="Normal";
-			break;
-		}
-		return sType;
+			return mTrackWaves.get(mWaveIndex).get(0).toString();
 	}
 	
 	private boolean waveInProgress(){
@@ -199,27 +178,21 @@ public class MobFactory {
 	 * @return	true if there are mobs left, false otherwise
 	 */
 	public boolean hasMoreMobs() {
-		
+
 		boolean hasMoreMobs;
-		
+
 		//If current wave is not the last wave. 
-		//(The last wave will have index mTrackWaves.size()-1)
-		if(hasMoreWaves())
+		if(hasMoreWaves()){
 			hasMoreMobs = true;
-		
-		//If current wave IS the last wave
-		else {
-			
-			//If the current mob is not the last mob in the wave
-			//(The last mob will have index (mTrackWaves.get(mWaveIndex).size()-1)
-			
-			if(mMobIndex < mTrackWaves.get(mWaveIndex).size()-1)
-				hasMoreMobs = true;	
-			//If the current mob IS the last mob in the wave	
-			else
-				hasMoreMobs = false;
+
+		//If current wave IS the last wave, but the current mob is not the last mob
+		}else if(mMobIndex < mTrackWaves.get(mWaveIndex).size()-1){
+			hasMoreMobs = true;
+		//If the current mob IS the last mob in the last wave	
+		}else{
+			hasMoreMobs = false;
 		}
-	
+		
 		return hasMoreMobs;
 	}
 	
@@ -233,7 +206,10 @@ public class MobFactory {
 	
 	public boolean lastWaveHasEntered(){
 		//if there are no more waves after the current and the delay-counter
+
 		//is "ready", that means the last wave has started to enter. 
+		Log.i("LASTWAVE",""+!hasMoreWaves() + "&&" + mWaveDelayI +">="+ mMaxWaveDelay);
+
 		return (!hasMoreWaves() && mWaveDelayI >= mMaxWaveDelay);
 	}
 	
@@ -241,10 +217,7 @@ public class MobFactory {
 	 * Returns whether there are more waves after the current wave or not. 
 	 */
 	public boolean hasMoreWaves(){
-		if (mWaveIndex < mTrackWaves.size()-1)
-			return true;
-		else
-			return false;
+		return (mWaveIndex < mTrackWaves.size()-1);
 	}
 	
 	/**
@@ -257,15 +230,15 @@ public class MobFactory {
 
 		Mob mMob = null;
 
-		//If the last mob of the track has not been sent already and the delay is done
+		//If the last mob of the track has not been sent already and the delay-counter is ready
 		if (!lastMobSent && mWaveDelayI >= mMaxWaveDelay) {
 
 			mMob = mTrackWaves.get(mWaveIndex).get(mMobIndex);
 
-			//if this was the last mob
+			//if this was the last mob (no more mobs after this one)
 			if (!hasMoreMobs())
 				lastMobSent = true;
-
+				
 			//else if there are more mobs, but mMob was the last mob in the current wave
 			else if (mMobIndex == mTrackWaves.get(mWaveIndex).size()-1){
 				if(mMob.getType()==Mob.HEALTHY)
@@ -383,7 +356,6 @@ public class MobFactory {
 				break;
 			}						 
 		}
-		
 	}
 	
 

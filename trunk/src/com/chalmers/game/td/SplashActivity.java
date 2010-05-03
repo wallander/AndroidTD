@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 
-public class GameActivity extends Activity {
+public class SplashActivity extends Activity {
     protected int mSplashTime = 3000;
     protected Thread mSplashThread;
     private boolean mNextActivityStarted;
@@ -38,7 +38,7 @@ public class GameActivity extends Activity {
                 } finally {
                 	if (mNextActivityStarted == false) {
              			mNextActivityStarted = true;
-             			startActivity(new Intent(GameActivity.this, Menu.class));
+             			startActivity(new Intent(SplashActivity.this, Menu.class));
              			
              			finish();
                 	}

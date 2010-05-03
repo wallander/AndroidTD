@@ -14,7 +14,7 @@ import android.graphics.Canvas;
  * @author Daniel Arvidsson
  */
 class GameThread extends Thread {
-    private GamePanel mGamePanel;
+    private GameView mGamePanel;
     private boolean mRunThread = false;
     
     /**
@@ -22,7 +22,7 @@ class GameThread extends Thread {
      * 
      * @param panel View class on which we trigger the drawing.
      */
-    public GameThread(GamePanel panel) {
+    public GameThread(GameView panel) {
         mGamePanel = panel;
     }
     

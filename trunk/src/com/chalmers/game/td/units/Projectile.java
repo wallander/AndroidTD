@@ -2,7 +2,7 @@ package com.chalmers.game.td.units;
 
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GamePanel;
+import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.R;
 
 /**
@@ -95,7 +95,7 @@ public abstract class Projectile extends Unit{
 		double sqrDist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
 		
 		//return true if the projectile has collided, else return false
-		if (sqrDist < GamePanel.getSpeedMultiplier()*getSpeed())
+		if (sqrDist < GameView.getSpeedMultiplier()*getSpeed())
 			return true;
 		return false;	
 	}
@@ -108,8 +108,8 @@ public abstract class Projectile extends Unit{
     }
     
 
-    public void setAngle(double mAngle) {
-		this.mAngle = mAngle;
+    public void setAngle(double pAngle) {
+		mAngle = pAngle;
 	}
     
 	private void setDamage(int i) {
@@ -148,8 +148,8 @@ public abstract class Projectile extends Unit{
 				mTarget.getY() + mTarget.getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 
-		setX(getX() + GamePanel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY(getY() - GamePanel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX(getX() + GameView.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY(getY() - GameView.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 		
 	}
 

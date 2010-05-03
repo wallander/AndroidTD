@@ -14,7 +14,7 @@ import android.graphics.Canvas;
  * @author Daniel Arvidsson
  */
 class ProgressionThread extends Thread {
-    private ProgressionRoutePanel mProgressionPanel;
+    private ProgressionRouteView mProgressionPanel;
     private boolean mRunThread = false;
     
     /**
@@ -22,7 +22,7 @@ class ProgressionThread extends Thread {
      * 
      * @param panel View class on which we trigger the drawing.
      */
-    public ProgressionThread(ProgressionRoutePanel panel) {
+    public ProgressionThread(ProgressionRouteView panel) {
         mProgressionPanel = panel;
     }
     

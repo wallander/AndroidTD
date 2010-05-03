@@ -62,9 +62,9 @@ public class BasicTower extends Tower {
 		ArrayList<Mob> mobsInRange = new ArrayList<Mob>();
 
 		// loop through the list of mobs
-		for (int i=0; i < GameModel.mMobs.size(); i++) {
+		for (int i=0; i < GameModel.sMobs.size(); i++) {
 
-			Mob m = GameModel.mMobs.get(i);
+			Mob m = GameModel.sMobs.get(i);
 
 			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
 
