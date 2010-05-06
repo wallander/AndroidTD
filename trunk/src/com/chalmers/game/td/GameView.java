@@ -94,7 +94,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private int menuPic = 0;
 
-	private int mButtonBorder = 385;
+	private int mButtonBorder = 420;
 
 	/** Keeps track of the delay between creation of Mobs in waves */
 	public static final int MOB_DELAY_MAX = 30;
@@ -353,6 +353,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		mBitMapCache.put(R.drawable.map4, BitmapFactory.decodeResource(getResources(), R.drawable.map4));
 		mBitMapCache.put(R.drawable.map5, BitmapFactory.decodeResource(getResources(), R.drawable.map5));
 		mBitMapCache.put(R.drawable.penguinmob, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
+		mBitMapCache.put(R.drawable.penguinmobleft, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmobleft));
+		mBitMapCache.put(R.drawable.penguinmobright, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmobright));
 		mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
 		mBitMapCache.put(R.drawable.water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
 		mBitMapCache.put(R.drawable.water2, BitmapFactory.decodeResource(getResources(), R.drawable.water2));
@@ -442,7 +444,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						mAllowBuild = false;
 
 						// game field touched
-						if (mTx < mButtonBorder)
+						if (event.getX() < mButtonBorder)
 							touchGameFieldEvent(event);
 
 						// The buttons on right side of the screen were touched
@@ -453,7 +455,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					
 				case MotionEvent.ACTION_MOVE:
 					
-					mShowTooltip =  mTx > mButtonBorder; //show tooltip if tower is on the button menu
+					mShowTooltip =  event.getX() > mButtonBorder; //show tooltip if tower is on the button menu
 					// if a tower is being bought
 					if(mCurrentTower != null){
 						
@@ -485,7 +487,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && mTx < mButtonBorder) {
+						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && event.getX() < mButtonBorder) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
@@ -498,7 +500,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
-						if (mAllowBuild && mTx < mButtonBorder) {
+						if (mAllowBuild && event.getX() < mButtonBorder) {
 							GameModel.sSnowballs.add(mCurrentSnowball);
 							mUsedSnowballs++;
 						}
@@ -1642,8 +1644,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 			// get the mob's image
 			Bitmap mobImage = mBitMapCache.get(m.getMobImage());
-			Matrix matrix = new Matrix();
 			
+			
+			// if the mob is of type NORMAL,
+			if (m.getType() == Mob.NORMAL) {
+				
+				// rotate the Bitmap according to animation frame
+				switch(m.nextAnimation(12)) {
+					case 0: mobImage = mBitMapCache.get(m.getMobImage()); break;
+					case 1: mobImage = mBitMapCache.get(m.getMobImage()); break;
+					case 2: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+					case 3: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+					case 4: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+					case 5: mobImage = mBitMapCache.get(m.getMobImage()); break;
+					case 6: mobImage = mBitMapCache.get(m.getMobImage()); break;
+					case 7: mobImage = mBitMapCache.get(m.getMobImage()); break;
+					case 8: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+					case 9: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+					case 10: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+					case 11: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				}
+			}
+			
+			
+			
+			Matrix matrix = new Matrix();			
 			// if the mob is of type HEALTHY,
 			if (m.getType() == Mob.HEALTHY) {
 				int mMultiplier = 3;

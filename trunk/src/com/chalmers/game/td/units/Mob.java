@@ -63,7 +63,10 @@ public class Mob extends Unit{
 
 	private double mSlowedSpeed;
 	
-	private int mMobImage = R.drawable.penguinmob;
+	private int mobImage = R.drawable.penguinmob;
+	private int mobImage2 = R.drawable.penguinmobleft;
+	private int mobImage3 = R.drawable.penguinmobright;
+
 
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
@@ -83,6 +86,8 @@ public class Mob extends Unit{
     	
     	switch (pType){
     	case Mob.NORMAL:
+    		setMobImage2(R.drawable.penguinmobleft);
+    		setMobImage3(R.drawable.penguinmobright);
         	if (pHealth <= 110) {
         		setReward(10);
         		setMobImage(R.drawable.penguinmob);
@@ -203,11 +208,29 @@ public class Mob extends Unit{
     
 	public int getMobImage(){
 		
-		return mMobImage;
+		return mobImage;
 	}
 	
 	public void setMobImage(int image){
-		mMobImage = image;
+		mobImage = image;
+	}
+	
+	public void setMobImage2(int image){
+		mobImage2 = image;
+	}
+	
+	public int getMobImage2(){
+		
+		return mobImage2;
+	}
+	
+	public void setMobImage3(int image){
+		mobImage3 = image;
+	}
+	
+	public int getMobImage3(){
+		
+		return mobImage3;
 	}
     
     public void setPath(Path pPath) {
@@ -400,12 +423,15 @@ public class Mob extends Unit{
 	public int getReward() {
 		return mReward;
 	}
+	
 
 
 	/**
 	 * @param mAnimation the mAnimation to set
 	 */
 	public int nextAnimation(int max) {
+		
+		
 		mAnimation++;
 		if (mAnimation >= max) {
 			mAnimation = 0;
