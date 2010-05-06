@@ -31,7 +31,7 @@ public class SplashProjectile extends Projectile {
 		// a certain amount of damage, depending on distance from center of splash
 		for (Mob m: GameModel.sMobs){
 			
-			double sqrDist = Coordinate.getSqrDistance(mTargetCoordinate, m.getCoordinates());
+			double sqrDist = Coordinate.getDistance(mTargetCoordinate, m.getCoordinates());
 
 			if (sqrDist <= mSplashRadius) {
 				//calculates the damage based on distance from explosion.
@@ -54,7 +54,7 @@ public class SplashProjectile extends Projectile {
 
 	public boolean hasCollided() {
 
-		double distance = Coordinate.getSqrDistance(getCoordinates(), mTargetCoordinate);
+		double distance = Coordinate.getDistance(getCoordinates(), mTargetCoordinate);
 
 		if (distance < GameView.getSpeedMultiplier()*getSpeed())
 			return true;

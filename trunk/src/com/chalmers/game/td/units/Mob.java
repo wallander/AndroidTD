@@ -360,7 +360,7 @@ public class Mob extends Unit{
 	 */
 	public boolean reachedCheckpoint() {
 	
-		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
+		double sqrDistance = Coordinate.getDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
 		if (sqrDistance < GameView.getSpeedMultiplier()*getSpeed()*getSpeed())
 			return true;
 		
