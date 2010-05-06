@@ -94,7 +94,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private int menuPic = 0;
 
-	private int mButtonBorder = 385;
+	private int mButtonBorder = 420;
 
 	/** Keeps track of the delay between creation of Mobs in waves */
 	public static final int MOB_DELAY_MAX = 30;
@@ -444,7 +444,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						mAllowBuild = false;
 
 						// game field touched
-						if (mTx < mButtonBorder)
+						if (event.getX() < mButtonBorder)
 							touchGameFieldEvent(event);
 
 						// The buttons on right side of the screen were touched
@@ -455,7 +455,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					
 				case MotionEvent.ACTION_MOVE:
 					
-					mShowTooltip =  mTx > mButtonBorder; //show tooltip if tower is on the button menu
+					mShowTooltip =  event.getX() > mButtonBorder; //show tooltip if tower is on the button menu
 					// if a tower is being bought
 					if(mCurrentTower != null){
 						
@@ -487,7 +487,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && mTx < mButtonBorder) {
+						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && event.getX() < mButtonBorder) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
@@ -500,7 +500,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 					} else if (mCurrentSnowball != null) {
 						// if a snowball is being placed
-						if (mAllowBuild && mTx < mButtonBorder) {
+						if (mAllowBuild && event.getX() < mButtonBorder) {
 							GameModel.sSnowballs.add(mCurrentSnowball);
 							mUsedSnowballs++;
 						}
