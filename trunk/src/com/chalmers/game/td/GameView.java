@@ -108,11 +108,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	//box with options on. Used for tooltip and upgrade window
 
 	private static final RectF sTransparentBox = new RectF(70,50,320,240);
-	private static final RectF sBtn1 = new RectF(420,15,475,65);
-	private static final RectF sBtn2 = new RectF(420,15+60,475,65+60);
-	private static final RectF sBtn3 = new RectF(420,15+120,475,65+120);
-	private static final RectF sBtn4 = new RectF(420,15+180,475,65+180);
-	private static final RectF sBtn5 = new RectF(420,15+240,475,65+240);
+	private static final RectF sBtn1 = new RectF(420,15,480,65);
+	private static final RectF sBtn2 = new RectF(420,15+60,480,65+60);
+	private static final RectF sBtn3 = new RectF(420,15+120,480,65+120);
+	private static final RectF sBtn4 = new RectF(420,15+180,480,65+180);
+	private static final RectF sBtn5 = new RectF(420,15+240,480,65+240);
 
 	// Paints
 	private static final Paint sPaintBtnBox = new Paint();
