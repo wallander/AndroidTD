@@ -105,7 +105,7 @@ public class GameModel {
 			double angle = Coordinate.getAngle(c1, c2);
 			Coordinate temp = new Coordinate(c1.getX(), c1.getY());
 			
-			while (Coordinate.getSqrDistance(temp, c2) > 2 ) {
+			while (Coordinate.getDistance(temp, c2) > 2 ) {
 				
 				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
 				

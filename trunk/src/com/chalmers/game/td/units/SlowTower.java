@@ -102,7 +102,7 @@ public class SlowTower extends Tower {
 
 			Mob m = GameModel.sMobs.get(i);
 
-			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, and not slowed already, add it to list
 			if (sqrDist < getRange() && !m.isSlowed())

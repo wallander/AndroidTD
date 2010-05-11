@@ -92,7 +92,7 @@ public abstract class Projectile extends Unit{
 		Coordinate targetCoordinate = new Coordinate(mTarget.getX() + mTarget.getWidth()/2, 
 				mTarget.getY() + mTarget.getHeight()/2);
 
-		double sqrDist = Coordinate.getSqrDistance(getCoordinates(), targetCoordinate);
+		double sqrDist = Coordinate.getDistance(getCoordinates(), targetCoordinate);
 		
 		//return true if the projectile has collided, else return false
 		if (sqrDist < GameView.getSpeedMultiplier()*getSpeed())

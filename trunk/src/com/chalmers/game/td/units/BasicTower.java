@@ -66,7 +66,7 @@ public class BasicTower extends Tower {
 
 			Mob m = GameModel.sMobs.get(i);
 
-			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, add it to list
 			if (sqrDist < getRange())
