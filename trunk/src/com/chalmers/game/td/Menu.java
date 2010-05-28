@@ -12,7 +12,11 @@ import android.widget.Toast;
 
 public class Menu extends Activity implements OnClickListener{
 	 
-	Button mStartGameButton, mHelpButton, mOptionsButton, mCreditsButton, mExitButton;
+	private Button mStartGameButton; 
+	private Button mHelpButton;
+	private Button mOptionsButton; 
+	private Button mCreditsButton; 
+	private Button mExitButton;
 	
 	public void onClick(View v) {
 		

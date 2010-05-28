@@ -8,8 +8,8 @@ import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.R;
 
 /**
- * This class extends the Tower class. It shoots splashprojectiles instead of projectiles.
- * 
+ * This class extends the Tower class. It shoots splash projectiles instead of projectiles,
+ * and cannot attack flying mobs.
  *
  */
 public class SplashTower extends Tower {
@@ -87,7 +87,6 @@ public class SplashTower extends Tower {
 
 	@Override
 	public boolean upgrade() {
-    	//TODO change values
     	if (!canUpgrade())					//return false if tower can't be upgraded
     		return false;
     	else {
@@ -127,5 +126,4 @@ public class SplashTower extends Tower {
 	public int getUpgradeCost() {
 		return sUpgradeCost[getLevel()-1];
 	}
-
 }

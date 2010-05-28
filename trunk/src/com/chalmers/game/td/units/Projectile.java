@@ -120,7 +120,6 @@ public abstract class Projectile extends Unit{
 		mSpeed = i;
 	}
     
-
 	private void setTarget(Mob pTarget) {
 		mTarget = pTarget;
 	}
@@ -130,7 +129,6 @@ public abstract class Projectile extends Unit{
 	}
     
 	public int getProjImage(){
-		
 		return R.drawable.snowball_small;
 	}
     
