@@ -970,8 +970,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob deadMob = deadMobs.get(k);
 					switch(deadMob.getType()) {
-						case Mob.HEALTHY:	deadMob.setHealth((int) (0.992 * deadMob.getHealth())); break;
-						default:deadMob.setHealth((int) (0.97 * deadMob.getHealth())); break;
+						case Mob.HEALTHY:	deadMob.setHealth((int) (0.993 * deadMob.getHealth())); break;
+						default:deadMob.setHealth((int) (0.93 * deadMob.getHealth())); break;
 					}
 				}
 
