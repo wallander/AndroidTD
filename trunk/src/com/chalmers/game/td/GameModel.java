@@ -107,13 +107,17 @@ public class GameModel {
 			
 			while (Coordinate.getSqrDistance(temp, c2) > 2 ) {
 				
-				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE ));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,
+						(int)temp.getY()/GAME_TILE_SIZE ));
 				
-				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,(int)temp.getY()/GAME_TILE_SIZE ));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,
+						(int)temp.getY()/GAME_TILE_SIZE ));
 				
-				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,(int)temp.getY()/GAME_TILE_SIZE + 1));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE + 1,
+						(int)temp.getY()/GAME_TILE_SIZE + 1));
 				
-				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,(int)temp.getY()/GAME_TILE_SIZE + 1));
+				sOccupiedTilePositions.add(new Point((int)temp.getX()/GAME_TILE_SIZE,
+						(int)temp.getY()/GAME_TILE_SIZE + 1));
 				
 				temp.setXY(temp.getX() + Math.cos(angle), temp.getY() - Math.sin(angle));
 			

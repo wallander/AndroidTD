@@ -24,7 +24,6 @@ public class AirTower extends Tower {
 		setType(AIR);
 		setDescription("Only damages flying mobs.");
     	resetCoolDown();
-		// TODO Set appropriate values to range, damage, attack speed and such
 	}
 
 
@@ -33,9 +32,9 @@ public class AirTower extends Tower {
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
 		case 1: setImage(R.drawable.airtower1); break;
-		case 2: setImage(R.drawable.airtower2);  break;
-		case 3: setImage(R.drawable.airtower3);  break;
-		case 4: setImage(R.drawable.airtower);  break;
+		case 2: setImage(R.drawable.airtower2); break;
+		case 3: setImage(R.drawable.airtower3); break;
+		case 4: setImage(R.drawable.airtower); break;
 		}		
 	}
 

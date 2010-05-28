@@ -35,8 +35,7 @@ public class Player {
 		//return 1.1;
 	}
 	
-	public double getTotalScore() {		
-		
+	public double getTotalScore() {	
 		return mScore.getTotalScore();
 	}
 

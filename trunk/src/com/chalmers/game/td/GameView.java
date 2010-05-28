@@ -238,10 +238,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// do settings to all paint objects used in the GUI
 		setupPaint();
 
-		mAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 		
 		// get a reference to the vibrator in the phone
-		mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+		mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
 		// start listening to accelerometer events
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -320,69 +320,132 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 */
 	private void fillBitmapCache() {
 		mBitMapCache = new HashMap<Integer, Bitmap>();
-		mBitMapCache.put(R.drawable.icon, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
-		mBitMapCache.put(R.drawable.abstrakt, BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
-		mBitMapCache.put(R.drawable.wallpaper, BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
-		mBitMapCache.put(R.drawable.snowball_small, BitmapFactory.decodeResource(getResources(), R.drawable.snowball_small));
-		mBitMapCache.put(R.drawable.snowball, BitmapFactory.decodeResource(getResources(), R.drawable.snowball));
-		mBitMapCache.put(R.drawable.paper, BitmapFactory.decodeResource(getResources(), R.drawable.paper));
-		mBitMapCache.put(R.drawable.basictower, BitmapFactory.decodeResource(getResources(), R.drawable.basictower));
-		mBitMapCache.put(R.drawable.basictower2, BitmapFactory.decodeResource(getResources(), R.drawable.basictower2));
-		mBitMapCache.put(R.drawable.basictower3, BitmapFactory.decodeResource(getResources(), R.drawable.basictower3));
-		mBitMapCache.put(R.drawable.basictower4, BitmapFactory.decodeResource(getResources(), R.drawable.basictower4));
-		mBitMapCache.put(R.drawable.splashtower, BitmapFactory.decodeResource(getResources(), R.drawable.splashtower));
-		mBitMapCache.put(R.drawable.splashtower2, BitmapFactory.decodeResource(getResources(), R.drawable.splashtower2));
-		mBitMapCache.put(R.drawable.splashtower3, BitmapFactory.decodeResource(getResources(), R.drawable.splashtower3));
-		mBitMapCache.put(R.drawable.splashtower4, BitmapFactory.decodeResource(getResources(), R.drawable.splashtower4));
-		mBitMapCache.put(R.drawable.slowtower, BitmapFactory.decodeResource(getResources(), R.drawable.slowtower));
-		mBitMapCache.put(R.drawable.slowtower2, BitmapFactory.decodeResource(getResources(), R.drawable.slowtower2));
-		mBitMapCache.put(R.drawable.slowtower3, BitmapFactory.decodeResource(getResources(), R.drawable.slowtower3));
-		mBitMapCache.put(R.drawable.slowtower4, BitmapFactory.decodeResource(getResources(), R.drawable.slowtower4));
-		mBitMapCache.put(R.drawable.smaller, BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
-		mBitMapCache.put(R.drawable.small, BitmapFactory.decodeResource(getResources(), R.drawable.small));
-		mBitMapCache.put(R.drawable.man2, BitmapFactory.decodeResource(getResources(), R.drawable.man2));
-		mBitMapCache.put(R.drawable.b, BitmapFactory.decodeResource(getResources(), R.drawable.b));
-		mBitMapCache.put(R.drawable.upgrade, BitmapFactory.decodeResource(getResources(), R.drawable.upgrade));
-		mBitMapCache.put(R.drawable.base, BitmapFactory.decodeResource(getResources(), R.drawable.base));
-		mBitMapCache.put(R.drawable.basee, BitmapFactory.decodeResource(getResources(), R.drawable.basee));
-		mBitMapCache.put(R.drawable.money, BitmapFactory.decodeResource(getResources(), R.drawable.money));
-		mBitMapCache.put(R.drawable.lives, BitmapFactory.decodeResource(getResources(), R.drawable.lives));
-		mBitMapCache.put(R.drawable.map1, BitmapFactory.decodeResource(getResources(), R.drawable.map1));
-		mBitMapCache.put(R.drawable.map2, BitmapFactory.decodeResource(getResources(), R.drawable.map2));
-		mBitMapCache.put(R.drawable.map3, BitmapFactory.decodeResource(getResources(), R.drawable.map3));
-		mBitMapCache.put(R.drawable.map4, BitmapFactory.decodeResource(getResources(), R.drawable.map4));
-		mBitMapCache.put(R.drawable.map5, BitmapFactory.decodeResource(getResources(), R.drawable.map5));
-		mBitMapCache.put(R.drawable.penguinmob, BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
-		mBitMapCache.put(R.drawable.rock2, BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
-		mBitMapCache.put(R.drawable.water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
-		mBitMapCache.put(R.drawable.water2, BitmapFactory.decodeResource(getResources(), R.drawable.water2));
-		mBitMapCache.put(R.drawable.water3, BitmapFactory.decodeResource(getResources(), R.drawable.water3));
-		mBitMapCache.put(R.drawable.bigsnowball, BitmapFactory.decodeResource(getResources(), R.drawable.bigsnowball));
-		mBitMapCache.put(R.drawable.projsplash_big, BitmapFactory.decodeResource(getResources(), R.drawable.projsplash_big));
-		mBitMapCache.put(R.drawable.projslow, BitmapFactory.decodeResource(getResources(), R.drawable.projslow));
-		mBitMapCache.put(R.drawable.pause, BitmapFactory.decodeResource(getResources(), R.drawable.pause));
-		mBitMapCache.put(R.drawable.pause2, BitmapFactory.decodeResource(getResources(), R.drawable.pause2));
-		mBitMapCache.put(R.drawable.walrus, BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
-		mBitMapCache.put(R.drawable.bear, BitmapFactory.decodeResource(getResources(), R.drawable.bear));
-		mBitMapCache.put(R.drawable.icebear, BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
-		mBitMapCache.put(R.drawable.fastforward, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward));
-		mBitMapCache.put(R.drawable.fastforward2, BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
-		mBitMapCache.put(R.drawable.flyingpenguin, BitmapFactory.decodeResource(getResources(), R.drawable.flyingpenguin));
-		mBitMapCache.put(R.drawable.airtower, BitmapFactory.decodeResource(getResources(), R.drawable.airtower));
-		mBitMapCache.put(R.drawable.airtower1, BitmapFactory.decodeResource(getResources(), R.drawable.airtower1));
-		mBitMapCache.put(R.drawable.airtower2, BitmapFactory.decodeResource(getResources(), R.drawable.airtower2));
-		mBitMapCache.put(R.drawable.airtower3, BitmapFactory.decodeResource(getResources(), R.drawable.airtower3));
-		mBitMapCache.put(R.drawable.eskimotowersplash, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash));
-		mBitMapCache.put(R.drawable.eskimotowersplash2, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash2));
-		mBitMapCache.put(R.drawable.eskimotowersplash3, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash3));
-		mBitMapCache.put(R.drawable.eskimotowersplash4, BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash4));
-		mBitMapCache.put(R.drawable.menutop, BitmapFactory.decodeResource(getResources(), R.drawable.menutop));
-		mBitMapCache.put(R.drawable.menumid, BitmapFactory.decodeResource(getResources(), R.drawable.menumid));
-		mBitMapCache.put(R.drawable.menubot, BitmapFactory.decodeResource(getResources(), R.drawable.menubot));
-		mBitMapCache.put(R.drawable.menutop2, BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
-		mBitMapCache.put(R.drawable.menumid2, BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
-		mBitMapCache.put(R.drawable.menubot2, BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
-		mBitMapCache.put(R.drawable.line, BitmapFactory.decodeResource(getResources(), R.drawable.line));
+		mBitMapCache.put(R.drawable.icon, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+		mBitMapCache.put(R.drawable.abstrakt, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.abstrakt));
+		mBitMapCache.put(R.drawable.wallpaper, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper));
+		mBitMapCache.put(R.drawable.snowball_small, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.snowball_small));
+		mBitMapCache.put(R.drawable.snowball, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.snowball));
+		mBitMapCache.put(R.drawable.paper, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.paper));
+		mBitMapCache.put(R.drawable.basictower, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.basictower));
+		mBitMapCache.put(R.drawable.basictower2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.basictower2));
+		mBitMapCache.put(R.drawable.basictower3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.basictower3));
+		mBitMapCache.put(R.drawable.basictower4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.basictower4));
+		mBitMapCache.put(R.drawable.splashtower, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.splashtower));
+		mBitMapCache.put(R.drawable.splashtower2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.splashtower2));
+		mBitMapCache.put(R.drawable.splashtower3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.splashtower3));
+		mBitMapCache.put(R.drawable.splashtower4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.splashtower4));
+		mBitMapCache.put(R.drawable.slowtower, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.slowtower));
+		mBitMapCache.put(R.drawable.slowtower2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.slowtower2));
+		mBitMapCache.put(R.drawable.slowtower3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.slowtower3));
+		mBitMapCache.put(R.drawable.slowtower4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.slowtower4));
+		mBitMapCache.put(R.drawable.smaller, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.smaller));
+		mBitMapCache.put(R.drawable.small, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.small));
+		mBitMapCache.put(R.drawable.man2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.man2));
+		mBitMapCache.put(R.drawable.b, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.b));
+		mBitMapCache.put(R.drawable.upgrade, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.upgrade));
+		mBitMapCache.put(R.drawable.base, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.base));
+		mBitMapCache.put(R.drawable.basee, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.basee));
+		mBitMapCache.put(R.drawable.money, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.money));
+		mBitMapCache.put(R.drawable.lives, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.lives));
+		mBitMapCache.put(R.drawable.map1, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.map1));
+		mBitMapCache.put(R.drawable.map2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.map2));
+		mBitMapCache.put(R.drawable.map3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.map3));
+		mBitMapCache.put(R.drawable.map4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.map4));
+		mBitMapCache.put(R.drawable.map5, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.map5));
+		mBitMapCache.put(R.drawable.penguinmob, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
+		mBitMapCache.put(R.drawable.rock2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
+		mBitMapCache.put(R.drawable.water, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.water));
+		mBitMapCache.put(R.drawable.water2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.water2));
+		mBitMapCache.put(R.drawable.water3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.water3));
+		mBitMapCache.put(R.drawable.bigsnowball, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.bigsnowball));
+		mBitMapCache.put(R.drawable.projsplash_big, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.projsplash_big));
+		mBitMapCache.put(R.drawable.projslow, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.projslow));
+		mBitMapCache.put(R.drawable.pause, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.pause));
+		mBitMapCache.put(R.drawable.pause2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.pause2));
+		mBitMapCache.put(R.drawable.walrus, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
+		mBitMapCache.put(R.drawable.bear, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.bear));
+		mBitMapCache.put(R.drawable.icebear, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
+		mBitMapCache.put(R.drawable.fastforward, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.fastforward));
+		mBitMapCache.put(R.drawable.fastforward2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.fastforward2));
+		mBitMapCache.put(R.drawable.flyingpenguin, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.flyingpenguin));
+		mBitMapCache.put(R.drawable.airtower, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.airtower));
+		mBitMapCache.put(R.drawable.airtower1, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.airtower1));
+		mBitMapCache.put(R.drawable.airtower2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.airtower2));
+		mBitMapCache.put(R.drawable.airtower3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.airtower3));
+		mBitMapCache.put(R.drawable.eskimotowersplash, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash));
+		mBitMapCache.put(R.drawable.eskimotowersplash2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash2));
+		mBitMapCache.put(R.drawable.eskimotowersplash3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash3));
+		mBitMapCache.put(R.drawable.eskimotowersplash4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.eskimotowersplash4));
+		mBitMapCache.put(R.drawable.menutop, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menutop));
+		mBitMapCache.put(R.drawable.menumid, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menumid));
+		mBitMapCache.put(R.drawable.menubot, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menubot));
+		mBitMapCache.put(R.drawable.menutop2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menutop2));
+		mBitMapCache.put(R.drawable.menumid2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menumid2));
+		mBitMapCache.put(R.drawable.menubot2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
+		mBitMapCache.put(R.drawable.line, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.line));
 
 	}
 
@@ -485,7 +548,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(mCurrentTower != null) {
 
-						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && mTx < mButtonBorder) {
+						if (GameModel.canAddTower(mCurrentTower) && mAllowBuild && 
+								mTx < mButtonBorder) {
 
 							// build the tower and remove money from player
 							GameModel.buildTower(mCurrentTower, 
@@ -514,12 +578,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 && 
+							event.getY() <= 80+34+36){
 						menuPic = 1;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >=	80+34+36 && event.getY() <= 80+34+36+36){
 						menuPic = 2;
-					}else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					}else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >=	80+34+36+36 && event.getY() <= 80+34+36+36+34){
 						menuPic = 3;
 					} else {
 						menuPic = 0;
@@ -528,13 +595,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_UP:
 					// Restart button
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 && 
+							event.getY() <= 80+34+36){
 						startTrack(GameModel.getTrack());						
 						GAME_STATE = STATE_RUNNING;	
 						mMobFactory.resetWaveIndex(); // Resets the wave counter 
 						mMobFactory.resetMobIndex();
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >=	80+34+36 &&  event.getY() <= 80+34+36+36){
 						// go back to progression route
 						mGameThread.setRunning(false);
 						mBitMapCache = null;
@@ -542,7 +611,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRouteView(getContext()));
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 
+							80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
 						mGameThread.setRunning(false);
 						mBitMapCache = null;
@@ -557,28 +627,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			case STATE_WIN:							
 				
 				switch (event.getAction()) {								
-				
+
 				case MotionEvent.ACTION_DOWN:
 
 					break;
 				case MotionEvent.ACTION_MOVE:
-					
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 && 
+							event.getY() <= 80+34+36){
 						menuPic = 1;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >=	80+34+36 &&  event.getY() <= 80+34+36+36){
 						menuPic = 2;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						menuPic = 3;
 					} else {
 						menuPic = 0;
 					}
-					
+
 					break;
 				case MotionEvent.ACTION_UP:
 					
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 
+							&& event.getY() <= 80+34+36){
 						// go back to progression route
 						mGameThread.setRunning(false);
 						mBitMapCache = null;
@@ -587,14 +661,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						parent.setContentView(new ProgressionRouteView(getContext()));
 							
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 
+							&&  event.getY() <= 80+34+36+36){
 						// restart level
 						startTrack(GameModel.getTrack());												
 						GAME_STATE = STATE_RUNNING;
 						mMobFactory.resetWaveIndex(); // Resets the wave counter
 						mMobFactory.resetMobIndex();
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 
+							&& event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
 						// go back to main menu
 						mGameThread.setRunning(false);
 						mBitMapCache = null;
@@ -616,13 +692,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 && 
+							event.getY() <= 80+34+36){
+						
 						menuPic = 1;
-					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					} else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						
 						menuPic = 2;
-					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					} else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						
 						menuPic = 3;
-					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+					} else if(event.getX() >= 100 && event.getX() <=344 && 
+							event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34){
+						
 						menuPic = 4;
 					}
 					else {
@@ -631,37 +715,53 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_UP:
 					
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&
+							event.getY() <= 80+34+36){
+						
 						menuPic = 1;
-					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					} else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+						
 						menuPic = 2;
-					} else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					} else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+						
 						menuPic = 3;
-					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+					} else if(event.getX() >= 100 && event.getX() <=344 && 
+							event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34){
+						
 						menuPic = 4;
 					}
 					else {
 						menuPic = 0;
 					}
 					
-					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 &&  event.getY() <= 80+34+36){
+					if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34 && 
+							event.getY() <= 80+34+36){
+						
 						GAME_STATE = STATE_RUNNING;
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36 &&  event.getY() <= 80+34+36+36){
+					else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36 && event.getY() <= 80+34+36+36){
+						
 						// restart
 						startTrack(GameModel.getTrack());											
 						GAME_STATE = STATE_RUNNING;			
 						mMobFactory.resetWaveIndex(); // Resets the wave counter
 						mMobFactory.resetMobIndex();
 					}
-					else if(event.getX() >= 100 && event.getX() <= 344 && event.getY() >= 80+34+36+36 &&  event.getY() <= 80+34+36+36+34){
+					else if(event.getX() >= 100 && event.getX() <= 344 && 
+							event.getY() >= 80+34+36+36 && event.getY() <= 80+34+36+36+34){
+						
 						// go back to progression route
 						mGameThread.setRunning(false);
 						mBitMapCache = null;
 						getHolder().removeCallback(this);
 						Activity parent = (Activity) getContext();
 						parent.setContentView(new ProgressionRouteView(getContext()));
-					} else if(event.getX() >= 100 && event.getX() <=344 && event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+					} else if(event.getX() >= 100 && event.getX() <=344 && 
+							event.getY() >= 80+34+36+36+36 && event.getY() <= 80+34+36+36+36+34) {
+						
 						// go back to progression route
 						mGameThread.setRunning(false);
 						mBitMapCache = null;
@@ -696,7 +796,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void touchUpgradeWindowEvent(MotionEvent event){
 		// Upgrade button pressed, and selected tower is upgradeable
 		if (sBtnUpgrade.contains(event.getX(), event.getY()) && mSelectedTower.canUpgrade()) {
-			if (GameModel.sCurrentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && mSelectedTower.getUpgradeCost() != 0) {
+			
+			if (GameModel.sCurrentPlayer.getMoney() >= mSelectedTower.getUpgradeCost() && 
+					mSelectedTower.getUpgradeCost() != 0) {
+				
 				GameModel.sCurrentPlayer.changeMoney(-mSelectedTower.getUpgradeCost());
 				mSelectedTower.upgrade();
 			}
@@ -968,8 +1071,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				for (int k = 0; k < deadMobs.size(); k++) {
 					Mob deadMob = deadMobs.get(k);
 					switch(deadMob.getType()) {
-						case Mob.HEALTHY:	deadMob.setHealth((int) (0.992 * deadMob.getHealth())); break;
-						default:deadMob.setHealth((int) (0.97 * deadMob.getHealth())); break;
+						case Mob.HEALTHY:	
+							deadMob.setHealth((int) (0.992 * deadMob.getHealth())); 
+							break;
+						default:
+							deadMob.setHealth((int) (0.97 * deadMob.getHealth())); 
+							break;
 					}
 				}
 
@@ -1227,15 +1334,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawStatisticsText(Canvas canvas) {
 		// draw debug messages in the top left corner
 		//canvas.drawText("FPS: "+Float.toString(debug.getFPS()) + " Mobs:"+ GameModel.mMobs.size()+
-		//		" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ GameModel.mTowers.size(), 10, 320,sPaintText);
+		//		" Proj:"+GameModel.mProjectiles.size() + " Towers:"+ 
+		//GameModel.mTowers.size(), 10, 320,sPaintText);
 
 		// show stats of the player    	
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.money),80,3, null);
 		canvas.drawText("" + (int)GameModel.sCurrentPlayer.getMoney(), 105, 20, sPaintText);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.lives), 160, 3, null);
 		canvas.drawText("" + GameModel.sCurrentPlayer.getRemainingLives(), 185, 20, sPaintText);
-		canvas.drawText(mMobFactory.getNextWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 230, 20, sPaintText);
-		canvas.drawText("Score: " + (int)GameModel.sCurrentPlayer.getCurrentTrackScore(), 290, 20, sPaintText);
+		canvas.drawText(mMobFactory.getNextWaveNr() + "/" + mMobFactory.getTotalNrOfWaves(), 
+				230, 20, sPaintText);
+		canvas.drawText("Score: " + (int)GameModel.sCurrentPlayer.getCurrentTrackScore(), 
+				290, 20, sPaintText);
 		
 		if(!mMobFactory.lastWaveHasEntered()){
 			int mWaveTime = mMobFactory.getWaveTime();
@@ -1249,9 +1359,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawUpgradeWindow(Canvas canvas) {
 		// draw a circle that shows the tower's range
 		canvas.drawCircle(
-				GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getX() / GameModel.GAME_TILE_SIZE + (mSelectedTower.getWidth()/2)),
-				GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getY() / GameModel.GAME_TILE_SIZE + (mSelectedTower.getHeight()/2)),
-				mSelectedTower.getRange(), rangeIndicationPaint);
+				GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getX() / 
+						GameModel.GAME_TILE_SIZE + (mSelectedTower.getWidth()/2)),
+						GameModel.GAME_TILE_SIZE * ((float)mSelectedTower.getY() / 
+								GameModel.GAME_TILE_SIZE + (mSelectedTower.getHeight()/2)),
+								mSelectedTower.getRange(), rangeIndicationPaint);
 
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menutop),100,60,null);
 		canvas.drawBitmap(mBitMapCache.get(R.drawable.menumid),100,60+34,null);
@@ -1405,8 +1517,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawCurrentTower(Canvas canvas) {
 		// draw the chosen tower
 		canvas.drawBitmap(
-				mBitMapCache.get(mCurrentTower.getImage()), GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE) ,
-				GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE) , null);
+				mBitMapCache.get(mCurrentTower.getImage()), 
+				GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE),
+				GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE), 
+				null);
 
 		// draw a red transparent rectangle on every occupied tile
 		for (Point p : GameModel.sOccupiedTilePositions) {
@@ -1422,14 +1536,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// one color if it can be placed on current location, another if can't
 		if (GameModel.canAddTower(mCurrentTower)) {
 			canvas.drawCircle(
-					GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE + (mCurrentTower.getWidth()/2)),
-					GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight()/2)),
+					GameModel.GAME_TILE_SIZE*
+					(mTx / GameModel.GAME_TILE_SIZE + (mCurrentTower.getWidth()/2)),
+					GameModel.GAME_TILE_SIZE*
+					(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight()/2)),
 					mCurrentTower.getRange(),
 					rangeIndicationPaint);
 		} else {
 			canvas.drawCircle(
-					GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE + (mCurrentTower.getWidth()/2)),
-					GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight()/2)),
+					GameModel.GAME_TILE_SIZE*
+					(mTx / GameModel.GAME_TILE_SIZE + (mCurrentTower.getWidth()/2)),
+					GameModel.GAME_TILE_SIZE*
+					(mTy / GameModel.GAME_TILE_SIZE + (mCurrentTower.getHeight()/2)),
 					mCurrentTower.getRange(),
 					noRangeIndicationPaint);
 		}
@@ -1590,12 +1708,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		int size = GameModel.sProjectiles.size();
 		for (int i = 0; i < size; i++) {
 			Projectile p = GameModel.sProjectiles.get(i);
-			Bitmap bitmapOrg = mBitMapCache.get(GameModel.sProjectiles.get(i).getProjImage()); //R.drawable.projsplash_big before ahmed
+			Bitmap bitmapOrg = mBitMapCache.get(GameModel.sProjectiles.get(i).getProjImage()); 
+			//R.drawable.projsplash_big before ahmed
 			Matrix matrix = new Matrix(); 
 
 			// rotate the Bitmap 
 			//matrix.postRotate((float) (-1*p.getAngle()/Math.PI*180));
-			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true); 
+			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), 
+					bitmapOrg.getHeight(), matrix, true); 
 			canvas.drawBitmap(resizedBitmap, (int) p.getX(), (int) p.getY(), null);
 		}
 	}
@@ -1715,15 +1835,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// draw the background
 		switch(GameModel.getTrack()) {
 		case 1: // track 1
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.map1), 0 , 0, null);break;
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map1), 0, 0, null);
+			break;
 		case 2: //track 2
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.map2), 0 , 0, null); break;	
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map2), 0, 0, null); 
+			break;	
 		case 3: //track 3
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.map3), 0 , 0, null); break;
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map3), 0, 0, null); 
+			break;
 		case 4: //track 4
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.map4), 0 , 0, null); break;
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map4), 0, 0, null); 
+			break;
 		case 5: //track 5
-			canvas.drawBitmap(mBitMapCache.get(R.drawable.map5), 0 , 0, null); break;		
+			canvas.drawBitmap(mBitMapCache.get(R.drawable.map5), 0, 0, null); 
+			break;		
 		}
 		
 		//draw the "end-point-base"
