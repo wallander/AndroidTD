@@ -12,7 +12,7 @@ public class SlowTower extends Tower {
 
 	/** How many percentages of the mob's speed that will be lost if it's hit by the tower.*/
 	private int mSlow;
-	public static final int[] sCoolDown = new int[]{30,30,30,25};
+	public static final float[] sCoolDown = new float[]{(float) 1.2,(float) 1.2,(float) 1.2,(float) 1};
 	public static final int[] sDamage = new int[]{15,20,25,30};
 	public static final int[] sRange = new int[]{60,75,75,75};
 	

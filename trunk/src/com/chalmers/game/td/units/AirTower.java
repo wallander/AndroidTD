@@ -10,9 +10,9 @@ import com.chalmers.game.td.R;
 
 public class AirTower extends Tower {
 
-	public static final int[] sCoolDown = new int[]{30,30,30,30};
+	public static final float[] sCoolDown = new float[]{30,30,30,30};
 	public static final int[] sDamage = new int[]{25,35,50,80};
-	public static final int[] sRange = new int[]{120,120,120,120};
+	public static final int[] sRange = new int[]{2,2,2,2};
 
 	public static final int[] sUpgradeCost = new int[]{200,300,500};
 

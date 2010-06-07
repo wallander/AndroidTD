@@ -18,7 +18,7 @@ public class SplashTower extends Tower {
 	private int mSplash;
 	private int mSplashRadius;
 
-	public static final int[] sCoolDown = new int[]{50,50,50,50};
+	public static final float[] sCoolDown = new float[]{(float)2.3,(float)2.3,(float)2.3,(float)2.3};
 	public static final int[] sDamage = new int[]{10,30,80,200};
 	public static final int[] sRange = new int[]{60,70,70,80};
 	

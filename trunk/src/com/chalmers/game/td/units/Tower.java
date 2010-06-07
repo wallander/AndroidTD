@@ -31,10 +31,10 @@ public abstract class Tower extends Unit {
 	private int mLevel=0;
 	
 	/** The time between each shot.*/
-	private int mCoolDown;		// Tower constant shoot speed
+	private float mCoolDown;		// Tower constant shoot speed
 	
 	/** The time left until next shot is fired.*/
-	private int mCoolDownLeft;	// Tower shoot delay
+	private float mCoolDownLeft;	// Tower shoot delay
 	
 	/** Text description of the tower. Will be displayed in the tower´s tooltip.*/
 	private String mDescription; // Tower description
@@ -73,15 +73,15 @@ public abstract class Tower extends Unit {
 		return mName;
 	}
 
-	public int getCoolDown() {
+	public float getCoolDown() {
 		return mCoolDown;
 	}
 
-	public void setCoolDown(int pCoolDown) {
+	public void setCoolDown(float pCoolDown) {
 		mCoolDown = pCoolDown;
 	}
 	
-	public int getCoolDownLeft(){
+	public float getCoolDownLeft(){
 		return mCoolDownLeft;
 	}
 	
@@ -96,7 +96,7 @@ public abstract class Tower extends Unit {
 	 * 
 	 * @param pSpeed The current speed multiplier of the game.
 	 */
-	public void decCoolDownLeft(int pSpeed){
+	public void decCoolDownLeft(float pSpeed){
 		mCoolDownLeft -=  pSpeed;
 	}
 	
@@ -112,7 +112,7 @@ public abstract class Tower extends Unit {
 	/** Attack speed is another way to express cooldown, that is more intuitive to the user.
 	 * A higher attack speed means that the tower is faster.
 	 */
-	public int getAttackSpeed(){
+	public float getAttackSpeed(){
 		return 1000/mCoolDown;
 	}
 	
@@ -147,20 +147,21 @@ public abstract class Tower extends Unit {
      * The tower tries to shoot at something. 
      * If a shot is fired the tower's cooldown will be reset. If the tower is on cooldown the 
      * cooldown that is left until next shot will be decreased appropriately.
+     * @param timeDelta 
      * 
      * @return Projectile A projectile specific for the tower type, targeting the first valid
      * mob within the tower's range. It will be null if the tower is on cooldown, or if
      * no mobs (that the tower is allowed to shoot at) are in range of the tower.
      */
-	public Projectile tryToShoot(){
+	public Projectile tryToShoot(float timeDelta){
 		Projectile p = null;
 
-		if (!isOnCoolDown()){
+		if (isOnCoolDown() == false){
 			p = shoot(); 		//can be null (if there are no valid mobs to shoot at)
 			if(p != null)		//reset the cooldown if the tower actually shoots
 				resetCoolDown();
 		} else
-			decCoolDownLeft(GameView.getSpeedMultiplier());
+			decCoolDownLeft(timeDelta*GameView.getSpeedMultiplier());
 
 		return p;
 	}
