@@ -265,6 +265,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		GameModel.setTrack(track);
 		GameModel.initialize(getContext());
 		
+		// TODO Move to splash screen
 		mMobFactory = MobFactory.getInstance(); 
 		mMobFactory.setContext(getContext()); 
 		
