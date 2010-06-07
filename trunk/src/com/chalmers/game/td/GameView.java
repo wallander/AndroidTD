@@ -97,8 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private int mButtonBorder = 420;
 
 	/** Keeps track of the delay between creation of Mobs in waves */
-	public static final int MOB_DELAY_MAX = 30;
-	private int mMobDelayI = 0;
+	public static final float MOB_DELAY_MAX = 1;
+	private float mMobDelayI = 0;
 
 	// Graphic elements used in the GUI
 
@@ -949,8 +949,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * This class is called each frame. 
 	 * It keeps track of the creation of the mobs from the waves of the current map.
 	 * Called from updateModel.
+	 * @param timeDelta 
 	 */
-	private Mob createMobs() {  	    	    	    	        	    	    	
+	private Mob createMobs(float timeDelta) {  	    	    	    	        	    	    	
 
 		int track = GameModel.getTrack();
 		
@@ -963,7 +964,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				return null;
 			
 		} else {
-			mMobDelayI += GameView.getSpeedMultiplier();
+			mMobDelayI += timeDelta*GameView.getSpeedMultiplier();
 			return null;
 		}
 
@@ -973,8 +974,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * This class is called from the GameThread. 
 	 * It updates the state of all towers, mobs and projectiles. 
 	 * It also handles projectile collisions with mobs dying and such.
+	 * @param timeDelta 
 	 */
-	public void updateModel() {
+	public void updateModel(float timeDelta) {
 
 		debug.UpdateFPS();
 
@@ -991,7 +993,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				return;
 			}
 			
-			Mob mNewMob = createMobs();
+			Mob mNewMob = createMobs(timeDelta);
 			if (mNewMob != null) {
 				GameModel.sMobs.add(mNewMob);
 //				Log.v("GAME MOBS", "Added new mob of type: "
@@ -1026,7 +1028,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 				//if there are any mobs, try to shoot at them
 				if (GameModel.sMobs.isEmpty() == false)
-					newProjectile = t.tryToShoot();
+					newProjectile = t.tryToShoot(timeDelta);
 
 				//if a projectile was returned, add it to the game model
 				if (newProjectile != null)
@@ -1042,10 +1044,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Projectile p = GameModel.sProjectiles.get(i);								
 				
 				// Update position for the projectiles
-				p.updatePosition();
+				p.updatePosition(timeDelta);
 
 				// If the projectile has collided, inflict damage and remove it.
-				if (p.hasCollided()) {					
+				if (p.hasCollided(timeDelta)) {					
 					p.inflictDmg();
 					GameModel.sProjectiles.remove(p);
 					++removed;
@@ -1067,7 +1069,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Snowball s = GameModel.sSnowballs.get(j);
 
 				// update position with accelerometer
-				s.updatePosition(mLatestSensorEvent);
+				s.updatePosition(mLatestSensorEvent, timeDelta);
 
 				// read what mobs are hit
 				List<Mob> deadMobs = s.getCollidedMobs(GameModel.sMobs);
@@ -1100,7 +1102,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Mob m = GameModel.sMobs.get(j);				
 
 				// update position, if the mob reached the last checkpoint, handle it
-				if (!m.updatePosition()) {
+				if (!m.updatePosition(timeDelta)) {
 					mSplash = true;
 					
 					switch (m.getType()) {
@@ -1841,6 +1843,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				mOffset2 = 0;
 			}
 			
+			// TODO temporary bajs
 			canvas.drawBitmap(mBitMapCache.get(m.getMobImage()), (int) m.getX(), (int) m.getY() - mOffset, null);
 			
 			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());

@@ -22,8 +22,6 @@ public class Snowball extends Unit {
 	protected double mSpeedY;
 	
 	private int mMeltI, mMelt;
-
-	private SensorEvent lastUpdate;
 	private int mCost;
 
 	private int mCharges, mStartCharge;
@@ -108,19 +106,15 @@ public class Snowball extends Unit {
 
 	/**
 	 * Uses accelerometer to change position of the ball
+	 * @param timeDelta 
 	 */
-	public void updatePosition(SensorEvent s) {
-		if (lastUpdate == null) {
-			lastUpdate = s;
-			return;
-		}
-
+	public void updatePosition(SensorEvent s, float timeDelta) {
 
 		double x = s.values[1];
 		double y = s.values[0];
 		
-		setSpeedX(getSpeedX() + x / 45);
-		setSpeedY(getSpeedY() + y / 45);
+		setSpeedX(getSpeedX() + x);
+		setSpeedY(getSpeedY() + y);
 		
 		if ((getX() < 0 && getSpeedX() < 0)	|| (getX() > 480 && getSpeedX() > 0)) {
 			setSpeedX(-getSpeedX() * 0.3);
@@ -132,14 +126,13 @@ public class Snowball extends Unit {
 		
 		// if the snowball is slowed, move slower
 		if (!isSlowed()) {
-			setX(getX() + getSpeedX());
-			setY(getY() + getSpeedY());
+			setX(getX() + timeDelta*getSpeedX());
+			setY(getY() + timeDelta*getSpeedY());
 		} else {
-			setX(getX() + getSpeedX()*0.2);
-			setY(getY() + getSpeedY()*0.2);
+			setX(getX() + timeDelta*getSpeedX()*0.2);
+			setY(getY() + timeDelta*getSpeedY()*0.2);
 		}
 			
-		lastUpdate = s;
 		
 		mMeltI++;
 		if (mMeltI >= mMelt) {

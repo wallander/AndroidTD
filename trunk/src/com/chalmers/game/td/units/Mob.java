@@ -182,7 +182,7 @@ public class Mob extends Unit{
     public Mob(int pType) {
     	mType = pType;
     	    	
-        setSpeed(1.2);      
+        setSpeed(30);      
         setHealth(20);
         setMaxHealth(20);
         setReward(10);                
@@ -190,9 +190,9 @@ public class Mob extends Unit{
         setSize(24);
         
         if(pType == Mob.HEALTHY) {
-    		setSpeed(0.6);
+    		setSpeed(20);
     	} else if(pType == Mob.FAST) {
-    		setSpeed(1.6);
+    		setSpeed(45);
     	}
     }
     
@@ -231,7 +231,7 @@ public class Mob extends Unit{
     	setCheckpoint(0);
     	updateAngle();
     	
-    	updatePosition();
+    	updatePosition(0);
     }
     
     public void incRewAni(){
@@ -327,12 +327,13 @@ public class Mob extends Unit{
 
 	/**
 	 * Updates the mobs position according to speed and angle.
+	 * @param timeDelta 
 	 */
 	
-	public boolean updatePosition() {
+	public boolean updatePosition(float timeDelta) {
 
 		// if the mob reached his current checkpoint, change direction		
-		if (reachedCheckpoint()) {
+		if (reachedCheckpoint(timeDelta)) {
 			setCheckpoint(getCheckpoint()+1);
 
 			if (mPath.getCoordinate(getCheckpoint()) == null) {
@@ -346,13 +347,13 @@ public class Mob extends Unit{
 		}
 
 		if(isSlowed()){
-			setX(getX() + GameView.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
-			setY(getY() - GameView.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
+			setX(getX() + timeDelta*GameView.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
+			setY(getY() - timeDelta*GameView.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
 			mDistanceWalked += getSpeed()*mSlowedSpeed;
 			mSlowLeft -= GameView.getSpeedMultiplier();
 		} else {
-			setX(getX() + GameView.getSpeedMultiplier()*mSpeedX);
-			setY(getY() - GameView.getSpeedMultiplier()*mSpeedY);
+			setX(getX() + timeDelta*GameView.getSpeedMultiplier()*mSpeedX);
+			setY(getY() - timeDelta*GameView.getSpeedMultiplier()*mSpeedY);
 			mDistanceWalked += mSpeed;
 		}
 
@@ -372,10 +373,10 @@ public class Mob extends Unit{
 	 * 
 	 * @return
 	 */
-	public boolean reachedCheckpoint() {
+	public boolean reachedCheckpoint(float timeDelta) {
 	
 		double sqrDistance = Coordinate.getDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
-		if (sqrDistance < GameView.getSpeedMultiplier()*getSpeed()*getSpeed())
+		if (sqrDistance < timeDelta*getSpeed())
 			return true;
 		
 		return false;

@@ -18,7 +18,7 @@ import com.chalmers.game.td.R;
 public abstract class Projectile extends Unit{
 
 	/** Projectile movement speed */
-	private int mSpeed;
+	private float mSpeed;
 	
 	/** Projectile type emun */
 	//public enum ProjectileType { NORMAL, SLOW, SPLASH }
@@ -48,7 +48,7 @@ public abstract class Projectile extends Unit{
 
         setTarget(pTarget);
         setTower(pTower);
-        setSpeed(10);
+        setSpeed(50);
         setDamage(mTower.getDamage());
         
         // Jonas försökte göra så misilerna inte blev målsökande
@@ -75,7 +75,7 @@ public abstract class Projectile extends Unit{
     	return mTarget;
     }
 
-	public int getSpeed() {
+	public float getSpeed() {
         return mSpeed;
     }
 
@@ -85,9 +85,10 @@ public abstract class Projectile extends Unit{
 
 	/**
      * Method used for collision detection
+	 * @param timeDelta 
      * @return
      */
-	public boolean hasCollided() {
+	public boolean hasCollided(float timeDelta) {
 		
 		Coordinate targetCoordinate = new Coordinate(mTarget.getX() + mTarget.getWidth()/2, 
 				mTarget.getY() + mTarget.getHeight()/2);
@@ -95,7 +96,7 @@ public abstract class Projectile extends Unit{
 		double sqrDist = Coordinate.getDistance(getCoordinates(), targetCoordinate);
 		
 		//return true if the projectile has collided, else return false
-		if (sqrDist < GameView.getSpeedMultiplier()*getSpeed())
+		if (sqrDist < GameView.getSpeedMultiplier()*getSpeed()*timeDelta)
 			return true;
 		return false;	
 	}
@@ -116,7 +117,7 @@ public abstract class Projectile extends Unit{
 		mDamage = i;
 	}
 	
-	private void setSpeed(int i) {
+	private void setSpeed(float i) {
 		mSpeed = i;
 	}
     
@@ -138,16 +139,17 @@ public abstract class Projectile extends Unit{
 	 * 
 	 * To create other types of projectiles, create subclasses of this class 
 	 * and override this method.
+     * @param timeDelta 
 	 */
-	public void updatePosition() {
+	public void updatePosition(float timeDelta) {
 		
 		// Kommentera bort 2 rader ner om du ska testa min variant. Se kommentar i konstruktorn. / Jonas
 		Coordinate targetCoordinate = new Coordinate(mTarget.getX() + mTarget.getWidth()/2, 
 				mTarget.getY() + mTarget.getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 
-		setX(getX() + GameView.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY(getY() - GameView.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX(getX() + timeDelta*GameView.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY(getY() - timeDelta*GameView.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 		
 	}
 
