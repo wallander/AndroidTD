@@ -223,7 +223,7 @@ public class MobFactory {
 	}
 	
 	/**
-	 * Returns the next mob on top of the queue, given the track number.
+	 * Returns the next mob on top of the queue, given the track number. TODO not a queue anymore...
 	 * 
 	 * @return the next mob to send out. First mob on the track
 	 * will be mob 0 of wave 0.

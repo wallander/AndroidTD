@@ -97,8 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private int mButtonBorder = 420;
 
 	/** Keeps track of the delay between creation of Mobs in waves */
-	public static final int MOB_DELAY_MAX = 30;
-	private int mMobDelayI = 0;
+	public static final float MOB_DELAY_MAX = 1;
+	private float mMobDelayI = 0;
 
 	// Graphic elements used in the GUI
 
@@ -108,11 +108,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	//box with options on. Used for tooltip and upgrade window
 
 	private static final RectF sTransparentBox = new RectF(70,50,320,240);
-	private static final RectF sBtn1 = new RectF(420,15,475,65);
-	private static final RectF sBtn2 = new RectF(420,15+60,475,65+60);
-	private static final RectF sBtn3 = new RectF(420,15+120,475,65+120);
-	private static final RectF sBtn4 = new RectF(420,15+180,475,65+180);
-	private static final RectF sBtn5 = new RectF(420,15+240,475,65+240);
+	private static final RectF sBtn1 = new RectF(420,15,480,65);
+	private static final RectF sBtn2 = new RectF(420,15+60,480,65+60);
+	private static final RectF sBtn3 = new RectF(420,15+120,480,65+120);
+	private static final RectF sBtn4 = new RectF(420,15+180,480,65+180);
+	private static final RectF sBtn5 = new RectF(420,15+240,480,65+240);
 
 	// Paints
 	private static final Paint sPaintBtnBox = new Paint();
@@ -265,6 +265,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		GameModel.setTrack(track);
 		GameModel.initialize(getContext());
 		
+		// TODO Move to splash screen
 		mMobFactory = MobFactory.getInstance(); 
 		mMobFactory.setContext(getContext()); 
 		
@@ -412,6 +413,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
 		mBitMapCache.put(R.drawable.bear, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.bear));
+		mBitMapCache.put(R.drawable.bearleft, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.bearleft));
+		mBitMapCache.put(R.drawable.bearright, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.bearright));
 		mBitMapCache.put(R.drawable.icebear, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
 		mBitMapCache.put(R.drawable.fastforward, 
@@ -949,8 +954,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * This class is called each frame. 
 	 * It keeps track of the creation of the mobs from the waves of the current map.
 	 * Called from updateModel.
+	 * @param timeDelta 
 	 */
-	private Mob createMobs() {  	    	    	    	        	    	    	
+	private Mob createMobs(float timeDelta) {  	    	    	    	        	    	    	
 
 		int track = GameModel.getTrack();
 		
@@ -963,7 +969,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				return null;
 			
 		} else {
-			mMobDelayI += GameView.getSpeedMultiplier();
+			mMobDelayI += timeDelta*GameView.getSpeedMultiplier();
 			return null;
 		}
 
@@ -973,8 +979,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * This class is called from the GameThread. 
 	 * It updates the state of all towers, mobs and projectiles. 
 	 * It also handles projectile collisions with mobs dying and such.
+	 * @param timeDelta 
 	 */
-	public void updateModel() {
+	public void updateModel(float timeDelta) {
 
 		debug.UpdateFPS();
 
@@ -991,7 +998,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				return;
 			}
 			
-			Mob mNewMob = createMobs();
+			Mob mNewMob = createMobs(timeDelta);
 			if (mNewMob != null) {
 				GameModel.sMobs.add(mNewMob);
 //				Log.v("GAME MOBS", "Added new mob of type: "
@@ -1026,7 +1033,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 				//if there are any mobs, try to shoot at them
 				if (GameModel.sMobs.isEmpty() == false)
-					newProjectile = t.tryToShoot();
+					newProjectile = t.tryToShoot(timeDelta);
 
 				//if a projectile was returned, add it to the game model
 				if (newProjectile != null)
@@ -1042,10 +1049,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Projectile p = GameModel.sProjectiles.get(i);								
 				
 				// Update position for the projectiles
-				p.updatePosition();
+				p.updatePosition(timeDelta);
 
 				// If the projectile has collided, inflict damage and remove it.
-				if (p.hasCollided()) {					
+				if (p.hasCollided(timeDelta)) {					
 					p.inflictDmg();
 					GameModel.sProjectiles.remove(p);
 					++removed;
@@ -1067,7 +1074,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Snowball s = GameModel.sSnowballs.get(j);
 
 				// update position with accelerometer
-				s.updatePosition(mLatestSensorEvent);
+				s.updatePosition(mLatestSensorEvent, timeDelta);
 
 				// read what mobs are hit
 				List<Mob> deadMobs = s.getCollidedMobs(GameModel.sMobs);
@@ -1100,7 +1107,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Mob m = GameModel.sMobs.get(j);				
 
 				// update position, if the mob reached the last checkpoint, handle it
-				if (!m.updatePosition()) {
+				if (!m.updatePosition(timeDelta)) {
 					mSplash = true;
 					
 					switch (m.getType()) {
@@ -1785,6 +1792,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					case 10: mobImage = mBitMapCache.get(m.getMobImage3()); break;
 					case 11: mobImage = mBitMapCache.get(m.getMobImage()); break;
 				}
+			} else if(m.getType() == Mob.FAST){
+				switch(m.nextAnimation(12)) {
+				case 0: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 1: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 2: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+				case 3: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+				case 4: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+				case 5: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 6: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 7: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 8: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+				case 9: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+				case 10: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+				case 11: mobImage = mBitMapCache.get(m.getMobImage()); break;
+			}
+				
+			
 			}
 			
 			
@@ -1811,10 +1835,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 			
-			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0,
-					mobImage.getWidth(),
-					mobImage.getHeight(),
-					matrix, true);
+
+
+//			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0,
+//					mobImage.getWidth(), mobImage.getHeight(), matrix, true);
+
 
 			// create offsets for AIR type mobs. they fly higher than other animals
 			int mOffset,mOffset2;
@@ -1826,7 +1851,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				mOffset2 = 0;
 			}
 			
-			canvas.drawBitmap(tiltMob, (int) m.getX(), (int) m.getY() - mOffset, null);
+			// TODO temporary bajs
+			canvas.drawBitmap(mBitMapCache.get(m.getMobImage()), (int) m.getX(), (int) m.getY() - mOffset, null);
 			
 			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 
