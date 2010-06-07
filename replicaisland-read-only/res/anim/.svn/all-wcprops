@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/svn/!svn/ver/4/trunk/res/anim
+END
+rokudou_slide_bg.xml
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/res/anim/rokudou_slide_bg.xml
+END
+rokudou_slide_rokudou.xml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/res/anim/rokudou_slide_rokudou.xml
+END
+fade_in.xml
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/4/trunk/res/anim/fade_in.xml
+END
+fade_out.xml
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2/trunk/res/anim/fade_out.xml
+END
+horizontal_layer1_slide.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/res/anim/horizontal_layer1_slide.xml
+END
+horizontal_layer2_slide.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/res/anim/horizontal_layer2_slide.xml
+END
+wait_message_fade.xml
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/res/anim/wait_message_fade.xml
+END
+button_slide.xml
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/res/anim/button_slide.xml
+END
+rokudou_slide_cliffs.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/res/anim/rokudou_slide_cliffs.xml
+END
+fade.xml
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/2/trunk/res/anim/fade.xml
+END
+kyle_fall.xml
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2/trunk/res/anim/kyle_fall.xml
+END
+ui_button.xml
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2/trunk/res/anim/ui_button.xml
+END
+button_flicker.xml
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/res/anim/button_flicker.xml
+END
+rokudou_game_over.xml
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/res/anim/rokudou_game_over.xml
+END
+kabocha_game_over.xml
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/res/anim/kabocha_game_over.xml
+END
+wanda_game_over.xml
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/res/anim/wanda_game_over.xml
+END
+rokudou_slide_sphere.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/res/anim/rokudou_slide_sphere.xml
+END

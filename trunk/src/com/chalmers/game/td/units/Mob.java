@@ -62,7 +62,7 @@ public class Mob extends Unit{
 	private int mSlowLeft = 0;
 
 	private double mSlowedSpeed;
-	
+
 	private int mobImage = R.drawable.penguinmob;
 	private int mobImage2 = R.drawable.penguinmobleft;
 	private int mobImage3 = R.drawable.penguinmobright;
@@ -120,6 +120,8 @@ public class Mob extends Unit{
         	break;
     	case Mob.FAST:
     		setMobImage(R.drawable.bear);
+    		setMobImage2(R.drawable.bearleft);
+    		setMobImage3(R.drawable.bearright);
     		//setMobImage2(R.drawable.bearleft);
     		//setMobImage3(R.drawable.bearright);
     		if (pHealth <= 110) {
