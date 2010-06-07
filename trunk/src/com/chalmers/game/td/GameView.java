@@ -386,6 +386,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.map5));
 		mBitMapCache.put(R.drawable.penguinmob, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.penguinmob));
+		mBitMapCache.put(R.drawable.penguinmobleft, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.penguinmobleft));
+		mBitMapCache.put(R.drawable.penguinmobright, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.penguinmobright));
 		mBitMapCache.put(R.drawable.rock2, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.rock2));
 		mBitMapCache.put(R.drawable.water, 
@@ -1808,7 +1812,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			
 			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0,
-					mobImage.getWidth(), mobImage.getHeight(), matrix, true);
+					mobImage.getWidth(),
+					mobImage.getHeight(),
+					matrix, true);
 
 			// create offsets for AIR type mobs. they fly higher than other animals
 			int mOffset,mOffset2;
