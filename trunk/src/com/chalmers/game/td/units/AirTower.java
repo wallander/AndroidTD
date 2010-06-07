@@ -24,7 +24,6 @@ public class AirTower extends Tower {
 		setType(AIR);
 		setDescription("Only damages flying mobs.");
     	resetCoolDown();
-		// TODO Set appropriate values to range, damage, attack speed and such
 	}
 
 
@@ -33,9 +32,9 @@ public class AirTower extends Tower {
 	public void setImageByLevel(int pLevel) {
 		switch (pLevel) {
 		case 1: setImage(R.drawable.airtower1); break;
-		case 2: setImage(R.drawable.airtower2);  break;
-		case 3: setImage(R.drawable.airtower3);  break;
-		case 4: setImage(R.drawable.airtower);  break;
+		case 2: setImage(R.drawable.airtower2); break;
+		case 3: setImage(R.drawable.airtower3); break;
+		case 4: setImage(R.drawable.airtower); break;
 		}		
 	}
 
@@ -61,7 +60,7 @@ public class AirTower extends Tower {
 
 			Mob m = GameModel.sMobs.get(i);
 
-			double sqrDist = Coordinate.getSqrDistance(this.getCoordinates(), m.getCoordinates());
+			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, and is a air mob, add it to list
 			if (sqrDist < getRange() && m.getType()== Mob.AIR)

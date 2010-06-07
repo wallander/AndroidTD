@@ -29,6 +29,7 @@ public class Snowball extends Unit {
 	private int mCharges, mStartCharge;
 	private boolean mSlowed;
 
+	
 	/**
 	 * Constructor.
 	 * 
@@ -81,7 +82,7 @@ public class Snowball extends Unit {
 
 			Coordinate mobCoordinate = new Coordinate(m.getX()+m.getWidth()/2,m.getY()+m.getHeight()/2);
 
-			double distance = Coordinate.getSqrDistance(this.getCoordinates(), mobCoordinate);
+			double distance = Coordinate.getDistance(this.getCoordinates(), mobCoordinate);
 
 			if (distance < 10 + getCharges()/getStartCharge()*10 + m.getHeight()/2) {
 				deadMobs.add(m);

@@ -69,7 +69,7 @@ public class MobFactory {
 	 */
 	private int							mTrackID;
 	
-	private boolean						lastMobSent = false;
+	private boolean						mLastMobSent = false;
 	
 	
 	/**
@@ -184,13 +184,15 @@ public class MobFactory {
 		//If current wave is not the last wave. 
 		if(hasMoreWaves()){
 			hasMoreMobs = true;
-
+			Log.v("hasMoreMobs","false du to hasMoreWaves");
 		//If current wave IS the last wave, but the current mob is not the last mob
 		}else if(mMobIndex < mTrackWaves.get(mWaveIndex).size()-1){
 			hasMoreMobs = true;
+			Log.v("hasMoreMobs","true " + mMobIndex + " < " + (mTrackWaves.get(mWaveIndex).size()-1));
 		//If the current mob IS the last mob in the last wave	
 		}else{
 			hasMoreMobs = false;
+			Log.v("hasMoreMobs","false due to mMobIndex");
 		}
 		
 		return hasMoreMobs;
@@ -231,13 +233,13 @@ public class MobFactory {
 		Mob mMob = null;
 
 		//If the last mob of the track has not been sent already and the delay-counter is ready
-		if (!lastMobSent && mWaveDelayI >= mMaxWaveDelay) {
+		if (!mLastMobSent && mWaveDelayI >= mMaxWaveDelay) {
 
 			mMob = mTrackWaves.get(mWaveIndex).get(mMobIndex);
 
 			//if this was the last mob (no more mobs after this one)
 			if (!hasMoreMobs())
-				lastMobSent = true;
+				mLastMobSent = true;
 				
 			//else if there are more mobs, but mMob was the last mob in the current wave
 			else if (mMobIndex == mTrackWaves.get(mWaveIndex).size()-1){
@@ -285,7 +287,7 @@ public class MobFactory {
 		mMobIndex = 0;
 		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
 		mMaxWaveDelay = 10;
-		lastMobSent = false;
+		mLastMobSent = false;
 				
 		//loops through the tracks, number of tracks is unknown, so it will loop until "break"
 		for(int trackNr = 1; ; trackNr++) {
@@ -333,6 +335,7 @@ public class MobFactory {
 						mMobs.add(new Mob(iType, health));							
 					
 					mWaves.add(mMobs);
+					Log.v("Mob","added to list" + waveIndex + " track: "+trackNr);
 					
 				}
 				

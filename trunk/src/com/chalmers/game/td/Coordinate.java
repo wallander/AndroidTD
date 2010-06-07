@@ -91,7 +91,7 @@ public class Coordinate
 	 * @param c2
 	 * @return
 	 */
-	public static double getSqrDistance(Coordinate c1, Coordinate c2) {
+	public static double getDistance(Coordinate c1, Coordinate c2) {
 		
 		double tx = c1.getX();
 		double ty = c1.getY();

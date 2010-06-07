@@ -27,11 +27,7 @@ public class MenuCredits extends Activity {
         	public void onClick(View v) {
         		Intent GoToMenu = new Intent(MenuCredits.this, Menu.class);
         		//Intent GoToMenu = new Intent("com.dotted.games.Menu");
-                startActivity(GoToMenu);
-        		Bundle b = new Bundle();
-        		b.putString("msg", "Hej! Jag kommer från Credits!");
-        		GoToMenu.putExtras(b);
-        		
+                startActivity(GoToMenu);        		
         		finish();
         	}
     	});

@@ -63,7 +63,10 @@ public class Mob extends Unit{
 
 	private double mSlowedSpeed;
 	
-	private int mMobImage = R.drawable.penguinmob;
+	private int mobImage = R.drawable.penguinmob;
+	private int mobImage2 = R.drawable.penguinmobleft;
+	private int mobImage3 = R.drawable.penguinmobright;
+
 
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
@@ -83,92 +86,83 @@ public class Mob extends Unit{
     	
     	switch (pType){
     	case Mob.NORMAL:
+    		setMobImage(R.drawable.penguinmob);
+    		setMobImage2(R.drawable.penguinmobleft);
+    		setMobImage3(R.drawable.penguinmobright);
+    		
         	if (pHealth <= 110) {
         		setReward(10);
-        		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 790) {
         		setReward(20);
-        		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 1200) {
         		setReward(30);
-        		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 2000) {
         		setReward(40);
-        		setMobImage(R.drawable.penguinmob);
         	} else  {
-        		setMobImage(R.drawable.penguinmob);
         		setReward(50);
         	}    	
         	break;
     	case Mob.AIR:
+    		setMobImage(R.drawable.flyingpenguin);
+    		//setMobImage2(R.drawable.flyingpenguinleft); //TODO: AMT: Skapa object i R.drawable och kommentera bort alla dessa kommenterar nedan
+    		//setMobImage3(R.drawable.flyingpenguinright);
         	if (pHealth <= 110) {
         		setReward(10);
-        		setMobImage(R.drawable.flyingpenguin);
         	} else if(pHealth <= 790) {
         		setReward(20);
-        		setMobImage(R.drawable.flyingpenguin);
         	} else if(pHealth <= 1200) {
         		setReward(30);
-        		setMobImage(R.drawable.flyingpenguin);
         	} else if(pHealth <= 2000) {
         		setReward(40);
-        		setMobImage(R.drawable.flyingpenguin);
         	} else  {
-        		setMobImage(R.drawable.flyingpenguin);
         		setReward(50);
         	}
         	break;
     	case Mob.FAST:
+    		setMobImage(R.drawable.bear);
+    		//setMobImage2(R.drawable.bearleft);
+    		//setMobImage3(R.drawable.bearright);
     		if (pHealth <= 110) {
         		setReward(10);
-        		setMobImage(R.drawable.bear);
         	} else if(pHealth <= 790) {
         		setReward(20);
-        		setMobImage(R.drawable.bear);
         	} else if(pHealth <= 1200) {
         		setReward(30);
-        		setMobImage(R.drawable.icebear);
         	} else if(pHealth <= 2000) {
         		setReward(40);
-        		setMobImage(R.drawable.icebear);
         	} else  {
-        		setMobImage(R.drawable.icebear);
         		setReward(50);
         	}
     		break;
     	case Mob.HEALTHY:
+    		setMobImage(R.drawable.walrus);
+    		//setMobImage2(R.drawable.walrusleft);
+    		//setMobImage3(R.drawable.walrusright);
         	if (pHealth <= 110) {
         		setReward(10);
-        		setMobImage(R.drawable.walrus);
         	} else if(pHealth <= 790) {
         		setReward(20);
-        		setMobImage(R.drawable.walrus);
         	} else if(pHealth <= 1200) {
         		setReward(50);
-        		setMobImage(R.drawable.walrus);
         	} else if(pHealth <= 2000) {
         		setReward(100);
-        		setMobImage(R.drawable.walrus);
         	} else  {
-        		setMobImage(R.drawable.walrus);
         		setReward(200);
         	}
         	break;
      	case Mob.IMMUNE:
+     		setMobImage(R.drawable.icebear);
+     		//setMobImage2(R.drawable.icebearleft);
+     		//setMobImage3(R.drawable.icebearright);
         	if (pHealth <= 110) {
         		setReward(15);
-        		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 790) {
         		setReward(25);
-        		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 1200) {
         		setReward(45);
-        		setMobImage(R.drawable.penguinmob);
         	} else if(pHealth <= 2000) {
         		setReward(50);
-        		setMobImage(R.drawable.penguinmob);
         	} else  {
-        		setMobImage(R.drawable.penguinmob);
         		setReward(60);
         	}    	
         	break;
@@ -203,11 +197,29 @@ public class Mob extends Unit{
     
 	public int getMobImage(){
 		
-		return mMobImage;
+		return mobImage;
 	}
 	
 	public void setMobImage(int image){
-		mMobImage = image;
+		mobImage = image;
+	}
+	
+	public void setMobImage2(int image){
+		mobImage2 = image;
+	}
+	
+	public int getMobImage2(){
+		
+		return mobImage2;
+	}
+	
+	public void setMobImage3(int image){
+		mobImage3 = image;
+	}
+	
+	public int getMobImage3(){
+		
+		return mobImage3;
 	}
     
     public void setPath(Path pPath) {
@@ -360,7 +372,7 @@ public class Mob extends Unit{
 	 */
 	public boolean reachedCheckpoint() {
 	
-		double sqrDistance = Coordinate.getSqrDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
+		double sqrDistance = Coordinate.getDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
 		if (sqrDistance < GameView.getSpeedMultiplier()*getSpeed()*getSpeed())
 			return true;
 		
@@ -400,12 +412,15 @@ public class Mob extends Unit{
 	public int getReward() {
 		return mReward;
 	}
+	
 
 
 	/**
 	 * @param mAnimation the mAnimation to set
 	 */
 	public int nextAnimation(int max) {
+		
+		
 		mAnimation++;
 		if (mAnimation >= max) {
 			mAnimation = 0;
@@ -415,7 +430,7 @@ public class Mob extends Unit{
 
 	public String toString() {
 		switch(mType) {
-		case HEALTHY: return "Healthy";
+		case HEALTHY: return "Boss";
 		case AIR: return "Air";
 		case NORMAL: return "Normal";
 		case FAST: return "Fast";
