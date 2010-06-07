@@ -409,6 +409,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.walrus));
 		mBitMapCache.put(R.drawable.bear, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.bear));
+		mBitMapCache.put(R.drawable.bearleft, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.bearleft));
+		mBitMapCache.put(R.drawable.bearright, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.bearright));
 		mBitMapCache.put(R.drawable.icebear, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.icebear));
 		mBitMapCache.put(R.drawable.fastforward, 
@@ -1782,6 +1786,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					case 10: mobImage = mBitMapCache.get(m.getMobImage3()); break;
 					case 11: mobImage = mBitMapCache.get(m.getMobImage()); break;
 				}
+			} else if(m.getType() == Mob.FAST){
+				switch(m.nextAnimation(12)) {
+				case 0: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 1: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 2: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+				case 3: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+				case 4: mobImage = mBitMapCache.get(m.getMobImage2()); break;
+				case 5: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 6: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 7: mobImage = mBitMapCache.get(m.getMobImage()); break;
+				case 8: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+				case 9: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+				case 10: mobImage = mBitMapCache.get(m.getMobImage3()); break;
+				case 11: mobImage = mBitMapCache.get(m.getMobImage()); break;
+			}
+				
+			
 			}
 			
 			
