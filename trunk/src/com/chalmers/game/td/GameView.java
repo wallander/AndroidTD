@@ -265,9 +265,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		GameModel.setTrack(track);
 		GameModel.initialize(getContext());
 		
-		// TODO Move to splash screen
-		mMobFactory = MobFactory.getInstance(); 
-		mMobFactory.setContext(getContext()); 
+		mMobFactory = MobFactory.getInstance();  
+		mMobFactory.setContext(getContext());
 		
 		GameModel.sCurrentPlayer.setCurrentScore(0);
 		
@@ -1829,8 +1828,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 			
-			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0,
-					mobImage.getWidth(), mobImage.getHeight(), matrix, true);
+//			Bitmap tiltMob = Bitmap.createBitmap(mobImage, 0, 0,
+//					mobImage.getWidth(), mobImage.getHeight(), matrix, true);
 
 			// create offsets for AIR type mobs. they fly higher than other animals
 			int mOffset,mOffset2;
@@ -1842,7 +1841,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				mOffset2 = 0;
 			}
 			
-			canvas.drawBitmap(tiltMob, (int) m.getX(), (int) m.getY() - mOffset, null);
+			canvas.drawBitmap(mBitMapCache.get(m.getMobImage()), (int) m.getX(), (int) m.getY() - mOffset, null);
 			
 			int hpRatio = (int)(255* (double)m.getHealth() / (double)m.getMaxHealth());
 

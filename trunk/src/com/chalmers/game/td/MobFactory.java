@@ -40,7 +40,6 @@ public class MobFactory {
 	private Path						mPath;
 	
 	private ArrayList<ArrayList<Mob>>	mTrackWaves;	//all the waves of a track
-//	private List<Integer>				mWaveNumbers;
 	private List<String> 				mMobTypeList;
 	
 	/**
@@ -76,16 +75,13 @@ public class MobFactory {
 	 * Should not be used, call getInstance() instead.
 	 */
 	private MobFactory() {
-		//mWaves = null;
 		
 		mContext = null;		
-		//mMobs = null;
 		mWaveDelayI = 0;
 		mWaveIndex = 0;
 		mMobIndex = 0;
 		mTrackNr = GameModel.getTrack(); //1-5, Which track currently at
 		mTrackWaves = new ArrayList<ArrayList<Mob>>();
-		//mWaveNumbers = new ArrayList<Integer>();
 		mMaxWaveDelay = 10;
 
 	}

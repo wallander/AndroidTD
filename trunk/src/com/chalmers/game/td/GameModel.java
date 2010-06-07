@@ -31,7 +31,6 @@ public class GameModel {
 	public static List<Snowball> sSnowballs;
 	public static Path sPath;
 	public static HashSet<Point> sOccupiedTilePositions;
-//	public static int mWaveNr;
 	public static Player sCurrentPlayer;
 	public static int	sSelectedTrack = 1;
 	public static boolean sMusicEnabled = true;
@@ -60,7 +59,7 @@ public class GameModel {
 		sProjectiles = new ArrayList<Projectile>();
 		sSnowballs = new ArrayList<Snowball>();
 		sPath = Path.getInstance();
-		sPath.setContext(context);
+		sPath.setContext(context);  
 		sPath.setTrackPath(getTrack());
 		sOccupiedTilePositions = new HashSet<Point>();
 		sCurrentPlayer = new Player(sPath.getNumberOfTracks());

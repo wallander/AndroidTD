@@ -38,6 +38,13 @@ public class SplashActivity extends Activity {
                 } finally {
                 	if (mNextActivityStarted == false) {
              			mNextActivityStarted = true;
+             			
+ //            			Path mPath = Path.getInstance();
+ //            			mPath.setContext(getApplicationContext());
+             			
+ //            			MobFactory mMobFactory = MobFactory.getInstance();
+ //            			mMobFactory.setContext(getApplicationContext());
+             			
              			startActivity(new Intent(SplashActivity.this, Menu.class));
              			
              			finish();
