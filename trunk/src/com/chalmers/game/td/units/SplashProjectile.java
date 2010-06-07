@@ -48,15 +48,15 @@ public class SplashProjectile extends Projectile {
 	 * This is NOT a homing projectile, it keeps the same coordinate as target.
 	 */
 	public void updatePosition(float timeDelta) {
-		setX( getX() + timeDelta*GameView.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY( getY() - timeDelta*GameView.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX( getX() + timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY( getY() - timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 	}
 
 	public boolean hasCollided(float timeDelta) {
 
 		double distance = Coordinate.getDistance(getCoordinates(), mTargetCoordinate);
 
-		if (distance < GameView.getSpeedMultiplier()*getSpeed()*timeDelta)
+		if (distance < GameModel.getSpeedMultiplier()*getSpeed()*timeDelta)
 			return true;
 
 		return false;

@@ -96,7 +96,7 @@ public abstract class Projectile extends Unit{
 		double sqrDist = Coordinate.getDistance(getCoordinates(), targetCoordinate);
 		
 		//return true if the projectile has collided, else return false
-		if (sqrDist < GameView.getSpeedMultiplier()*getSpeed()*timeDelta)
+		if (sqrDist < GameModel.getSpeedMultiplier()*getSpeed()*timeDelta)
 			return true;
 		return false;	
 	}
@@ -148,8 +148,8 @@ public abstract class Projectile extends Unit{
 				mTarget.getY() + mTarget.getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 
-		setX(getX() + timeDelta*GameView.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY(getY() - timeDelta*GameView.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX(getX() + timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY(getY() - timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 		
 	}
 

@@ -60,4 +60,6 @@ public abstract class Unit {
 		mHeight = pSize;
 		mWidth = pSize;
 	}
+	
 }
+

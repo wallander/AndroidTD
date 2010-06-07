@@ -70,7 +70,7 @@ class GameThread extends Thread {
 				mLastTime = time;
 
 				// Do everything that needs a time delta!
-				mGamePanel.updateModel(secondsDelta);
+				GameModel.updateModel(secondsDelta);
 			}
 
 

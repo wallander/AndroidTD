@@ -161,7 +161,7 @@ public abstract class Tower extends Unit {
 			if(p != null)		//reset the cooldown if the tower actually shoots
 				resetCoolDown();
 		} else
-			decCoolDownLeft(timeDelta*GameView.getSpeedMultiplier());
+			decCoolDownLeft(timeDelta*GameModel.getSpeedMultiplier());
 
 		return p;
 	}

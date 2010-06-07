@@ -1,5 +1,6 @@
 package com.chalmers.game.td.units;
 
+import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
@@ -347,13 +348,13 @@ public class Mob extends Unit{
 		}
 
 		if(isSlowed()){
-			setX(getX() + timeDelta*GameView.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
-			setY(getY() - timeDelta*GameView.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
+			setX(getX() + timeDelta*GameModel.getSpeedMultiplier()*mSpeedX*mSlowedSpeed);
+			setY(getY() - timeDelta*GameModel.getSpeedMultiplier()*mSpeedY*mSlowedSpeed);
 			mDistanceWalked += getSpeed()*mSlowedSpeed;
-			mSlowLeft -= GameView.getSpeedMultiplier();
+			mSlowLeft -= GameModel.getSpeedMultiplier();
 		} else {
-			setX(getX() + timeDelta*GameView.getSpeedMultiplier()*mSpeedX);
-			setY(getY() - timeDelta*GameView.getSpeedMultiplier()*mSpeedY);
+			setX(getX() + timeDelta*GameModel.getSpeedMultiplier()*mSpeedX);
+			setY(getY() - timeDelta*GameModel.getSpeedMultiplier()*mSpeedY);
 			mDistanceWalked += mSpeed;
 		}
 
