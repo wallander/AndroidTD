@@ -10,7 +10,7 @@ public class SplashProjectile extends Projectile {
 	private Coordinate mTargetCoordinate;
 	private int mSplashRadius;
 	
-	private int mImage = R.drawable.projsplash_big;
+	private int mImage = R.drawable.snowball;
 
 	public SplashProjectile(Mob pTarget, SplashTower pTower, int pSplashRadius) {
 		super(pTarget, pTower);
