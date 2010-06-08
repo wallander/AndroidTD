@@ -3,14 +3,11 @@ package com.chalmers.game.td;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 
+import com.chalmers.game.rw.ReadWrite;
 import com.chalmers.game.td.units.Mob;
 
 import android.os.Environment;
@@ -20,9 +17,12 @@ public class Highscore {
 
 	private static final Highscore	INSTANCE = new Highscore();
 	private double					mCurrentTrackScore;
-	private File					mFile;
+//	private File					mFile;
 	private BufferedWriter			mWriter;
 	private BufferedReader	 		mReader;
+	
+	private ReadWrite				mRW;
+	
 	private ArrayList<Double>	mSavedScore;
 	
 	/**
@@ -58,7 +58,9 @@ public class Highscore {
 
 			try {
 				
-				mWriter = getWriter();
+//				mWriter = getWriter();
+				
+				mWriter = mRW.getWriter("tdscore.txt"); // TODO from txt to ???
 				
 				for(int i = 0; i < mSavedScore.size(); ++i) {
 																		
@@ -96,38 +98,39 @@ public class Highscore {
 		return totalScore;
 	}
 	
-	private BufferedReader getReader() throws FileNotFoundException {
-		
-		mFile = new File(Environment.getExternalStorageDirectory() + "/tddata.txt");
-		mReader = new BufferedReader(new InputStreamReader(new FileInputStream(mFile)));
-		
-		return mReader;
-	}
+//	private BufferedReader getReader() throws FileNotFoundException {
+//		
+//		mFile = new File(Environment.getExternalStorageDirectory() + "/tddata.txt");
+//		mReader = new BufferedReader(new InputStreamReader(new FileInputStream(mFile)));
+//		
+//		return mReader;
+//	}
 	
-	private BufferedWriter getWriter() {
-		
-		File root = Environment.getExternalStorageDirectory();
-		
-		if(root.canWrite()) {
-			
-			Log.v("HIGHSCORE CONSTRUCTOR", "File can write.");
-			
-			mFile = new File(root, "tddata.txt");
-			
-			try {
-			
-				mWriter = new BufferedWriter(new FileWriter(mFile));
-			
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.v("Highscore.getWriter", e.getMessage());
-			}
-		}
-					
-		return mWriter;		
-	}
+//	private BufferedWriter getWriter() {
+//		
+//		File root = Environment.getExternalStorageDirectory();
+//		
+//		if(root.canWrite()) {
+//			
+//			Log.v("HIGHSCORE CONSTRUCTOR", "File can write.");
+//			
+//			mFile = new File(root, "tddata.txt");
+//			
+//			try {
+//			
+//				mWriter = new BufferedWriter(new FileWriter(mFile));
+//			
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				Log.v("Highscore.getWriter", e.getMessage());
+//			}
+//		}
+//					
+//		return mWriter;		
+//	}
 	
 	private Highscore() {
+		mRW = new ReadWrite();
 		initiateHighscore();
 	
 	}
@@ -148,7 +151,10 @@ public class Highscore {
 			Log.v("HIGHSCORE CONSTRUCTOR", "Try to load file");
 			
 			
-			mReader = getReader();
+//			mReader = getReader();
+			
+			mReader = mRW.getReader("tdscore.txt"); // TODO from .txt to something else..
+			
 			
 			String 		readLine = "";
 			String[] 	input = new String[2];
@@ -190,13 +196,17 @@ public class Highscore {
 			
 			try {
 				
-				mWriter = getWriter();
-				mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
+//				mWriter = getWriter();
+				
+				mWriter = mRW.getWriter("tdscore.txt"); // TODO fr txt to something
+				
+//				mWriter.write("File created: " + Calendar.getInstance().get(Calendar.DATE) + "/" + Calendar.getInstance().get(Calendar.MONTH));
 				mWriter.write("Track 1\n Score 0.0\n");
 				mWriter.write("Track 2\n Score 0.0\n");
 				mWriter.write("Track 3\n Score 0.0\n");
 				mWriter.write("Track 4\n Score 0.0\n");
 				mWriter.write("Track 5\n Score 0.0\n");
+				
 				mWriter.close();
 				
 				Log.v("HIGHSCORE CONSTRUCTOR", "File created.");
@@ -212,7 +222,7 @@ public class Highscore {
 	 * Removes the "tddata.txt"-file from the SD-card, reseting the highscores.
 	 */
 	public static void resetHighscore() {
-		new File(Environment.getExternalStorageDirectory() + "/tddata.txt").delete();
+		new File(Environment.getExternalStorageDirectory() + "/tdscore.txt").delete(); // TODO from .txt to something else
 		getInstance().initiateHighscore();
 	}
 	
