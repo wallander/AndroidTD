@@ -23,9 +23,9 @@ public class Mob extends Unit{
 	
 	/** Mob max health */
 	private int mMaxHealth;
-	
-	private int mAnimation;
-	
+	private final float mAnimationWalk = 1.3f;
+	public final float mAnimationDeath = 0.8f;
+	public float mAnimation;
 	
 	/** Mob health */
 	private int mHealth;
@@ -64,13 +64,9 @@ public class Mob extends Unit{
 
 	private double mSlowedSpeed;
 
-	private int mobImage = R.drawable.penguinmob;
-	private int mobImage2 = R.drawable.penguinmobleft;
-	private int mobImage3 = R.drawable.penguinmobright;
-
-
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
+	private boolean mEnabled = true;
 	
   
     /**
@@ -83,13 +79,11 @@ public class Mob extends Unit{
     	this(pType);		//anropar den andra kontruktorn
     	setHealth(pHealth);
     	setMaxHealth(pHealth);
-    	mAnimation = 0;
+    	mAnimation = mAnimationWalk;
     	
     	switch (pType){
     	case Mob.NORMAL:
-    		setMobImage(R.drawable.penguinmob);
-    		setMobImage2(R.drawable.penguinmobleft);
-    		setMobImage3(R.drawable.penguinmobright);
+    		
     		
         	if (pHealth <= 110) {
         		setReward(10);
@@ -104,9 +98,6 @@ public class Mob extends Unit{
         	}    	
         	break;
     	case Mob.AIR:
-    		setMobImage(R.drawable.flyingpenguin);
-    		//setMobImage2(R.drawable.flyingpenguinleft); //TODO: AMT: Skapa object i R.drawable och kommentera bort alla dessa kommenterar nedan
-    		//setMobImage3(R.drawable.flyingpenguinright);
         	if (pHealth <= 110) {
         		setReward(10);
         	} else if(pHealth <= 790) {
@@ -120,11 +111,6 @@ public class Mob extends Unit{
         	}
         	break;
     	case Mob.FAST:
-    		setMobImage(R.drawable.bear);
-    		setMobImage2(R.drawable.bearleft);
-    		setMobImage3(R.drawable.bearright);
-    		//setMobImage2(R.drawable.bearleft);
-    		//setMobImage3(R.drawable.bearright);
     		if (pHealth <= 110) {
         		setReward(10);
         	} else if(pHealth <= 790) {
@@ -138,9 +124,6 @@ public class Mob extends Unit{
         	}
     		break;
     	case Mob.HEALTHY:
-    		setMobImage(R.drawable.walrus);
-    		//setMobImage2(R.drawable.walrusleft);
-    		//setMobImage3(R.drawable.walrusright);
         	if (pHealth <= 110) {
         		setReward(10);
         	} else if(pHealth <= 790) {
@@ -154,9 +137,6 @@ public class Mob extends Unit{
         	}
         	break;
      	case Mob.IMMUNE:
-     		setMobImage(R.drawable.icebear);
-     		//setMobImage2(R.drawable.icebearleft);
-     		//setMobImage3(R.drawable.icebearright);
         	if (pHealth <= 110) {
         		setReward(15);
         	} else if(pHealth <= 790) {
@@ -197,34 +177,51 @@ public class Mob extends Unit{
     	}
     }
     
-    
+    /**
+     * TODO 
+     * @return
+     */
 	public int getMobImage(){
 		
-		return mobImage;
-	}
-	
-	public void setMobImage(int image){
-		mobImage = image;
-	}
-	
-	public void setMobImage2(int image){
-		mobImage2 = image;
-	}
-	
-	public int getMobImage2(){
+    	switch (this.getType()){
+    	case Mob.NORMAL:
+    		if (isDead() == false) {
+    			if (mAnimation >= 3*mAnimationWalk/4) {
+    				return R.drawable.penguinmob;
+    			} else if (mAnimation >= 2*mAnimationWalk/4) {
+    				return R.drawable.penguinmobright;
+    			} else if (mAnimation >= 1*mAnimationWalk/4) {
+    				return R.drawable.penguinmob;
+    			} else {
+    				return R.drawable.penguinmobleft;
+    			} 
+    			
+    		} else {
+    			// om moben är död. Man kan göra likt ovan, men man jämför med mAnimationDeath istället
+    			// Alphan ändras också i GameView.drawMobs beroende på hur långt animationen kommit
+    			return R.drawable.penguinmob;
+    		}
+       	
+    	case Mob.AIR:
+    		return R.drawable.flyingpenguin;
+
+        	
+    	case Mob.FAST:
+    		return R.drawable.bear;
+
+    	case Mob.HEALTHY:
+    		return R.drawable.walrus;
+    		// animation för att "guppa"
+    		
+     	case Mob.IMMUNE:
+     		return R.drawable.icebear;
+
+     	default:
+     		return R.drawable.penguinmob;
+    	}
 		
-		return mobImage2;
 	}
 	
-	public void setMobImage3(int image){
-		mobImage3 = image;
-	}
-	
-	public int getMobImage3(){
-		
-		return mobImage3;
-	}
-    
     public void setPath(Path pPath) {
     	
     	mPath = pPath;
@@ -419,18 +416,18 @@ public class Mob extends Unit{
 	
 
 
-	/**
-	 * @param mAnimation the mAnimation to set
-	 */
-	public int nextAnimation(int max) {
-		
-		
-		mAnimation++;
-		if (mAnimation >= max) {
-			mAnimation = 0;
-		}
-		return mAnimation; 
-	}
+//	/**
+//	 * @param mAnimation the mAnimation to set
+//	 */
+//	public int nextAnimation(int max) {
+//		
+//		
+//		mAnimation++;
+//		if (mAnimation >= max) {
+//			mAnimation = 0;
+//		}
+//		return mAnimation; 
+//	}
 
 	public String toString() {
 		switch(mType) {
@@ -441,5 +438,30 @@ public class Mob extends Unit{
 		case IMMUNE: return "Immune";
 		default: return "-";
 		}
+	}
+
+	public boolean isDead() {
+		return mHealth <= 0;
+	}
+
+	public void updateAnimation(float timeDelta) {
+		mAnimation -= timeDelta;
+		
+		if (!isDead() && mAnimation < 0) {
+			mAnimation += mAnimationWalk;
+		}
+				
+	}
+
+
+	public void setEnabled(boolean b) {
+		// TODO Auto-generated method stub
+		mEnabled  = b;
+	}
+
+
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return mEnabled;
 	}
 }

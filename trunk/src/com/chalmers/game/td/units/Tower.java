@@ -113,7 +113,7 @@ public abstract class Tower extends Unit {
 	 * A higher attack speed means that the tower is faster.
 	 */
 	public float getAttackSpeed(){
-		return 1000/mCoolDown;
+		return mCoolDown;
 	}
 	
 	//Should be implemented so it takes the level of the tower as argument and sets the image 

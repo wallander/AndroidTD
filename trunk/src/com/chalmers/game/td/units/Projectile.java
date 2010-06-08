@@ -48,7 +48,7 @@ public abstract class Projectile extends Unit{
 
         setTarget(pTarget);
         setTower(pTower);
-        setSpeed(50);
+        setSpeed(100);
         setDamage(mTower.getDamage());
         
         // Jonas försökte göra så misilerna inte blev målsökande
@@ -141,7 +141,7 @@ public abstract class Projectile extends Unit{
 	 * and override this method.
      * @param timeDelta 
 	 */
-	public void updatePosition(float timeDelta) {
+	private void updatePosition(float timeDelta) {
 		
 		// Kommentera bort 2 rader ner om du ska testa min variant. Se kommentar i konstruktorn. / Jonas
 		Coordinate targetCoordinate = new Coordinate(mTarget.getX() + mTarget.getWidth()/2, 
@@ -150,6 +150,17 @@ public abstract class Projectile extends Unit{
 
 		setX(getX() + timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
 		setY(getY() - timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		
+	}
+
+	public void update(float timeDelta) {
+		this.updatePosition(timeDelta);
+		this.updateAnimation(timeDelta);
+		
+	}
+
+	private void updateAnimation(float timeDelta) {
+		// TODO Auto-generated method stub
 		
 	}
 

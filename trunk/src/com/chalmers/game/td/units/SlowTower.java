@@ -105,7 +105,7 @@ public class SlowTower extends Tower {
 			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, and not slowed already, add it to list
-			if (sqrDist < getRange() && !m.isSlowed())
+			if (sqrDist < getRange() && !m.isSlowed() && m.isDead() == false)
 				mobsInRange.add(m);
 		}
 

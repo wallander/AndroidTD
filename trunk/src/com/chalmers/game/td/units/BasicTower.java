@@ -69,7 +69,7 @@ public class BasicTower extends Tower {
 			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, add it to list
-			if (sqrDist < getRange())
+			if (sqrDist < getRange() && m.isDead() == false)
 				mobsInRange.add(m);
 		}
 

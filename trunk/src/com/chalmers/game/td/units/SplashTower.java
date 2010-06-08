@@ -73,7 +73,7 @@ public class SplashTower extends Tower {
 			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, add it to list
-			if (sqrDist < getRange() && m.getType() != Mob.AIR)
+			if (sqrDist < getRange() && m.getType() != Mob.AIR && m.isDead() == false)
 				mobsInRange.add(m);
 		}
 

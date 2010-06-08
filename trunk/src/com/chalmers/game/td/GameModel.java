@@ -247,16 +247,12 @@ public class GameModel {
 	 * normal speed.
 	 */
 	public static void setFast(boolean setFast){
+		mFast = setFast;
 		
-		//if fast forward is already in the requested mode, nothing needs to be done
-		if (setFast != mFast) { 
-			
-			if (setFast)
-				setSpeedMultiplier(3);
-			else
-				setSpeedMultiplier(1);
-			mFast = setFast;
-		}
+		if (mFast)
+			setSpeedMultiplier(3);
+		else
+			setSpeedMultiplier(1);
 	}
 	
 	/** 
@@ -376,7 +372,7 @@ public class GameModel {
 				Projectile p = GameModel.sProjectiles.get(i);								
 				
 				// Update position for the projectiles
-				p.updatePosition(timeDelta);
+				p.update(timeDelta);
 
 				// If the projectile has collided, inflict damage and remove it.
 				if (p.hasCollided(timeDelta)) {					
@@ -386,6 +382,7 @@ public class GameModel {
 				}
 
 				// if the projectile's target is dead, remove the projectile
+				// this is fulkod to keep projectiles that never reached their target from staying on the gamefield
 				if (p.getTarget().getHealth() <= 0) {					
 					GameModel.sProjectiles.remove(p);	
 					++removed;
@@ -401,7 +398,7 @@ public class GameModel {
 				Snowball s = GameModel.sSnowballs.get(j);
 
 				// update position with accelerometer
-				s.updatePosition(mLatestSensorEvent, timeDelta);
+				s.update(mLatestSensorEvent, timeDelta);
 
 				// read what mobs are hit
 				List<Mob> deadMobs = s.getCollidedMobs(GameModel.sMobs);
@@ -433,29 +430,39 @@ public class GameModel {
 			for (int j = 0; j < size - removed; j++) {
 				Mob m = GameModel.sMobs.get(j);				
 
-				// update position, if the mob reached the last checkpoint, handle it
-				if (!m.updatePosition(timeDelta)) {
-					mSplash = true;
-					
-					switch (m.getType()) {
-						case Mob.HEALTHY:	GameModel.sCurrentPlayer.removeLife(5); break;
-						default: 	GameModel.sCurrentPlayer.removeLife(1); break;
+				m.updateAnimation(timeDelta);
+				
+				if (m.isEnabled()) {
+					// update position, if the mob reached the last checkpoint, handle it
+					if (!m.updatePosition(timeDelta)) {
+						mSplash = true;
+
+						switch (m.getType()) {
+						case Mob.HEALTHY:
+							GameModel.sCurrentPlayer.removeLife(5);
+							break;
+						default:
+							GameModel.sCurrentPlayer.removeLife(1);
+							break;
+						}
+
+						GameModel.sMobs.remove(m);
+						++removed;
+						// TODO fult, fixa
+						GameView.mVibrator.vibrate(50);
 					}
-					
-					GameModel.sMobs.remove(m);
-					++removed;
-					// TODO fult, fixa
-					GameView.mVibrator.vibrate(50);
 				}
-				
-				
 				// handle mob death
-				if (m.getHealth() <= 0) {
+				if (m.isDead() && m.isEnabled()) {
+					m.mAnimation = m.mAnimationDeath;
 					GameModel.sCurrentPlayer.changeMoney(m.getReward());
 					GameModel.sCurrentPlayer.changeScore(m);					
 					GameModel.sShowRewardForMob.add(m);
+					m.setEnabled(false);
+				}
+				
+				if (m.isDead() && m.mAnimation < 0) {
 					GameModel.sMobs.remove(m);
-					// TODO determine which mobtype, then find a good sound
 					++removed;
 				}
 			}

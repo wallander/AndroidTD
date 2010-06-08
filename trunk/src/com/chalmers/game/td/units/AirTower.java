@@ -63,7 +63,7 @@ public class AirTower extends Tower {
 			double sqrDist = Coordinate.getDistance(this.getCoordinates(), m.getCoordinates());
 
 			// if the mob is in range, and is a air mob, add it to list
-			if (sqrDist < getRange() && m.getType()== Mob.AIR)
+			if (sqrDist < getRange() && m.getType()== Mob.AIR && m.isDead() == false)
 				mobsInRange.add(m);
 		}
 

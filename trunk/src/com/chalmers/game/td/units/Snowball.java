@@ -108,7 +108,7 @@ public class Snowball extends Unit {
 	 * Uses accelerometer to change position of the ball
 	 * @param timeDelta 
 	 */
-	public void updatePosition(SensorEvent s, float timeDelta) {
+	private void updatePosition(SensorEvent s, float timeDelta) {
 
 		double x = s.values[1];
 		double y = s.values[0];
@@ -157,6 +157,16 @@ public class Snowball extends Unit {
 
 	public boolean isSlowed() {
 		return mSlowed;
+	}
+	
+	public void update(SensorEvent mLatestSensorEvent, float timeDelta) {
+		this.updatePosition(mLatestSensorEvent, timeDelta);
+		this.updateAnimation(timeDelta);
+	}
+	
+	private void updateAnimation(float timeDelta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
