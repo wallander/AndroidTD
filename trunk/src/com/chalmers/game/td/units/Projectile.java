@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import android.util.Log;
+
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GameView;
@@ -95,9 +97,12 @@ public abstract class Projectile extends Unit{
 
 		double sqrDist = Coordinate.getDistance(getCoordinates(), targetCoordinate);
 		
+		Log.w("Collide=",sqrDist +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
 		//return true if the projectile has collided, else return false
-		if (sqrDist < GameModel.getSpeedMultiplier()*getSpeed()*timeDelta)
+		if (sqrDist < 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta) {
+			
 			return true;
+		}
 		return false;	
 	}
     
@@ -148,8 +153,8 @@ public abstract class Projectile extends Unit{
 				mTarget.getY() + mTarget.getHeight()/2);
 		setAngle(Coordinate.getAngle(this.getCoordinates(), targetCoordinate));
 
-		setX(getX() + timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY(getY() - timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX(getX() + 2*timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY(getY() - 2*timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 		
 	}
 

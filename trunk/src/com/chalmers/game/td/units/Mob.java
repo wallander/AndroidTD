@@ -374,7 +374,7 @@ public class Mob extends Unit{
 	public boolean reachedCheckpoint(float timeDelta) {
 	
 		double sqrDistance = Coordinate.getDistance(this.getCoordinates(), mPath.getCoordinate(mCheckpoint));
-		if (sqrDistance < timeDelta*getSpeed())
+		if (sqrDistance < timeDelta*getSpeed()*GameModel.getSpeedMultiplier())
 			return true;
 		
 		return false;

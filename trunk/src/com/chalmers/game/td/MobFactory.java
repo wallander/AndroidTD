@@ -335,25 +335,25 @@ public class MobFactory {
 						mMobs.add(new Mob(iType, health));							
 					
 					mWaves.add(mMobs);
-					Log.v("Mob","added to list" + waveIndex + " track: "+trackNr);
+					//Log.v("Mob","added to list" + waveIndex + " track: "+trackNr);
 					
 				}
 				
 				//if last track is reached
 				if(trackNr == GameModel.getTrack()) {
 					mTrackWaves = mWaves;
-					Log.i("Finished","with wave initiation of "+trackNr);
-					Log.i("Waves","Amount"+mWaves.size());
+					//Log.i("Finished","with wave initiation of "+trackNr);
+					//Log.i("Waves","Amount"+mWaves.size());
 				}
 			
 				
 			} catch(NullPointerException npe) {
-				Log.i("INITIATION", "Mobs initiation complete.");
+				//Log.i("INITIATION", "Mobs initiation complete.");
 				// Reset mMobs so it will be able to be used at getNextMob()
 				mMobIndex = 0;
 				break;
 			} catch(NotFoundException nfe) {
-				Log.i("INITIATION", "Mobs initiation complete. No more mobs to load.");
+				//Log.i("INITIATION", "Mobs initiation complete. No more mobs to load.");
 				// Reset mMobs so it will be able to be used at getNextMob()
 				mMobIndex = 0;
 				break;

@@ -1,5 +1,7 @@
 package com.chalmers.game.td.units;
 
+import android.util.Log;
+
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GameView;
@@ -48,15 +50,16 @@ public class SplashProjectile extends Projectile {
 	 * This is NOT a homing projectile, it keeps the same coordinate as target.
 	 */
 	public void updatePosition(float timeDelta) {
-		setX( getX() + timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
-		setY( getY() - timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
+		setX( getX() + 2*timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.cos(getAngle())) );
+		setY( getY() - 2*timeDelta*GameModel.getSpeedMultiplier()*(getSpeed() * Math.sin(getAngle())) );
 	}
 
 	public boolean hasCollided(float timeDelta) {
 
 		double distance = Coordinate.getDistance(getCoordinates(), mTargetCoordinate);
 
-		if (distance < GameModel.getSpeedMultiplier()*getSpeed()*timeDelta)
+		Log.i("Collide=",distance +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
+		if (distance <= 6*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta)
 			return true;
 
 		return false;
