@@ -27,6 +27,7 @@ class GameThread extends Thread {
 	public GameThread(GameView panel) {
 		mGamePanel = panel;
 		mLastTime = SystemClock.uptimeMillis();
+			
 	}
 
 	/**
@@ -51,8 +52,7 @@ class GameThread extends Thread {
 	 */
 	@Override
 	public void run() {
-		Canvas c;
-
+		Canvas c = null;
 		mLastTime = SystemClock.uptimeMillis();
 
 		while (mRunThread) {
@@ -72,9 +72,10 @@ class GameThread extends Thread {
 				// Do everything that needs a time delta!
 				GameModel.updateModel(secondsDelta);
 			}
-
-
-			c = null;
+			
+			final long endTime = SystemClock.uptimeMillis();
+            finalDelta = endTime - time;
+            
 			try {
 				c = mGamePanel.getHolder().lockCanvas(null);
 				synchronized (mGamePanel.getHolder()) {
@@ -90,9 +91,7 @@ class GameThread extends Thread {
 					mGamePanel.getHolder().unlockCanvasAndPost(c);
 				}
 			}
-			
-			final long endTime = SystemClock.uptimeMillis();
-            finalDelta = endTime - time;
+            
             
             // If the game logic completed in less than 16ms, that means it's running
             // faster than 60fps, which is our target frame rate.  In that case we should

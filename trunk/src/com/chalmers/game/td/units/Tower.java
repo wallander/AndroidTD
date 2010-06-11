@@ -50,6 +50,8 @@ public abstract class Tower extends Unit {
 	
 	/** The current image for the tower.*/
 	private int mImage;
+
+	private Projectile mNextProjectile;
 	
 	/**
      * Constructor called when a tower is created.
@@ -153,19 +155,26 @@ public abstract class Tower extends Unit {
      * mob within the tower's range. It will be null if the tower is on cooldown, or if
      * no mobs (that the tower is allowed to shoot at) are in range of the tower.
      */
-	public Projectile tryToShoot(float timeDelta){
-		Projectile p = null;
+	public void tryToShoot(float timeDelta){
+		mNextProjectile = null;
 
 		if (isOnCoolDown() == false){
-			p = shoot(); 		//can be null (if there are no valid mobs to shoot at)
-			if(p != null)		//reset the cooldown if the tower actually shoots
+			mNextProjectile = shoot(); 		//can be null (if there are no valid mobs to shoot at)
+			if(mNextProjectile != null)		//reset the cooldown if the tower actually shoots
 				resetCoolDown();
 		} else
 			decCoolDownLeft(timeDelta*GameModel.getSpeedMultiplier());
 
-		return p;
 	}
 
+	public void update(float timeDelta) {
+		this.tryToShoot(timeDelta);
+	}
+	
+	public Projectile getNextProjectile() {
+		return mNextProjectile;
+	}
+	
 	/**
 	 * Creates a projectile that targets a mob that is in the tower's range, and is a valid target of the
 	 * tower. If no such mob exists returns null. Called from tryToShoot if the tower is off cooldown.

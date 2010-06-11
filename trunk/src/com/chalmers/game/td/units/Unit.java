@@ -61,5 +61,6 @@ public abstract class Unit {
 		mWidth = pSize;
 	}
 	
+	public abstract void update(float timeDelta);
 }
 

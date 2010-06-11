@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.hardware.SensorEvent;
 import com.chalmers.game.td.Coordinate;
+import com.chalmers.game.td.GameModel;
 
 /**
  * This class represents a snowball that can be released in the game field
@@ -167,6 +168,11 @@ public class Snowball extends Unit {
 	private void updateAnimation(float timeDelta) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void update(float timeDelta) {
+		updatePosition(GameModel.mLatestSensorEvent, timeDelta);
+		updateAnimation(timeDelta);
 	}
 
 }

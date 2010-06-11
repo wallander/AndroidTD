@@ -351,12 +351,12 @@ public class GameModel {
 			int size = GameModel.sTowers.size();
 			for (int i = 0; i < size; ++i) {
 				Tower t = GameModel.sTowers.get(i);
-
+				t.update(timeDelta);
 				Projectile newProjectile = null;
 
 				//if there are any mobs, try to shoot at them
 				if (GameModel.sMobs.isEmpty() == false)
-					newProjectile = t.tryToShoot(timeDelta);
+					newProjectile = t.getNextProjectile();
 
 				//if a projectile was returned, add it to the game model
 				if (newProjectile != null)
@@ -398,7 +398,7 @@ public class GameModel {
 				Snowball s = GameModel.sSnowballs.get(j);
 
 				// update position with accelerometer
-				s.update(mLatestSensorEvent, timeDelta);
+				s.update(timeDelta);
 
 				// read what mobs are hit
 				List<Mob> deadMobs = s.getCollidedMobs(GameModel.sMobs);
@@ -430,11 +430,11 @@ public class GameModel {
 			for (int j = 0; j < size - removed; j++) {
 				Mob m = GameModel.sMobs.get(j);				
 
-				m.updateAnimation(timeDelta);
+				m.update(timeDelta);
 				
 				if (m.isEnabled()) {
-					// update position, if the mob reached the last checkpoint, handle it
-					if (!m.updatePosition(timeDelta)) {
+					
+					if (m.hasReachedLastCheckpoint()) {
 						mSplash = true;
 
 						switch (m.getType()) {

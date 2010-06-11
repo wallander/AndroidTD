@@ -1,12 +1,11 @@
 package com.chalmers.game.td.units;
 
 import com.chalmers.game.td.GameModel;
-import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.Path;
 import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.R;
 import com.chalmers.game.td.units.Unit;
-import android.util.Log;
+
 
 /**
  * Class which represents a Mob on the game board.
@@ -67,6 +66,7 @@ public class Mob extends Unit{
 	/** Placement on the road relative to the other mobs */
 	private double mDistanceWalked = 0;
 	private boolean mEnabled = true;
+	private boolean mReachedLast;
 	
   
     /**
@@ -416,18 +416,6 @@ public class Mob extends Unit{
 	
 
 
-//	/**
-//	 * @param mAnimation the mAnimation to set
-//	 */
-//	public int nextAnimation(int max) {
-//		
-//		
-//		mAnimation++;
-//		if (mAnimation >= max) {
-//			mAnimation = 0;
-//		}
-//		return mAnimation; 
-//	}
 
 	public String toString() {
 		switch(mType) {
@@ -453,7 +441,12 @@ public class Mob extends Unit{
 				
 	}
 
-
+	public void update(float timeDelta) {
+		updateAnimation(timeDelta);
+		if (isEnabled())
+			mReachedLast = !updatePosition(timeDelta);
+	}
+	
 	public void setEnabled(boolean b) {
 		// TODO Auto-generated method stub
 		mEnabled  = b;
@@ -463,5 +456,11 @@ public class Mob extends Unit{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return mEnabled;
+	}
+
+
+	public boolean hasReachedLastCheckpoint() {
+		// TODO Auto-generated method stub
+		return mReachedLast;
 	}
 }

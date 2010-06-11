@@ -1,7 +1,6 @@
 package com.chalmers.game.td;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.chalmers.game.td.units.Tower;
@@ -31,7 +30,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Debug;
 import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -1074,9 +1072,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	// TODO: solve animations in a non-ugly way
 	private void drawSplashWater(Canvas canvas){
 		if(GameModel.mSplash){
-			int x = 422; //TODO: get path from last destination
+			int x = 422;
 			int y = 130;
 			if(mWateranimation >= 0 && mWateranimation < 5){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.water),x,y,null);
