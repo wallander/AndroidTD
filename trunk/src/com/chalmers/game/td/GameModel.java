@@ -52,6 +52,9 @@ public class GameModel {
 	
 	public static Tower mCurrentTower;
 	public static Snowball mCurrentSnowball;
+	
+	public static MovableTower mMovableTower;
+	
 	public static Tower mSelectedTower;
 	
 	/** Indicates if fast forward is activated or not. */
@@ -306,7 +309,8 @@ public class GameModel {
 	 */
 	public static void updateModel(float timeDelta) {
 
-		//debug.UpdateFPS();
+		if (mMovableTower != null)
+			mMovableTower.update(timeDelta);
 
 		if (GAME_STATE == STATE_RUNNING) { //Only update if running
 

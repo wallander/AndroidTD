@@ -502,48 +502,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 					GameModel.mShowTooltip =  event.getX() > mButtonBorder; //show tooltip if tower is on the button menu
 					// if a tower is being bought
-					if(GameModel.mCurrentTower != null){
-
-						// if building isn't allowed,
-						if(!GameModel.mAllowBuild) {
-							// remove current tower
-							//							mCurrentTower = null;
-						} else  {
-							// else update positions
-							GameModel.mCurrentTower.setX(mTx);
-							GameModel.mCurrentTower.setY(mTy);
+					
+					if (GameModel.mMovableTower != null) {
+						if (GameModel.mAllowBuild) {
+							GameModel.mMovableTower.mXPos = mTx;
+							GameModel.mMovableTower.mYPos = mTy;
 						}
-
 					} else if (GameModel.mCurrentSnowball != null) {
-
-						// if building isn't allowed,
-						if(!GameModel.mAllowBuild) {
-							// remove current snowball
-							//							mCurrentSnowball = null;
-						} else  {
-							// else update positions
+						if (GameModel.mAllowBuild) {
 							GameModel.mCurrentSnowball.setX(mTx);
 							GameModel.mCurrentSnowball.setY(mTy);
 						}
 					}
-					break;
+										break;
 
 				case MotionEvent.ACTION_UP:
 					//if a tower is placed on the game field
-					if(GameModel.mCurrentTower != null) {
+					if(GameModel.mMovableTower != null) {
 
-						if (GameModel.canAddTower(GameModel.mCurrentTower) && GameModel.mAllowBuild && 
+						if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
 								mTx < mButtonBorder) {
 
 
 							// build the tower and remove money from player
-							GameModel.buildTower(GameModel.mCurrentTower, 
-									(int)GameModel.mCurrentTower.getX() / GameModel.GAME_TILE_SIZE,
-									(int)GameModel.mCurrentTower.getY() / GameModel.GAME_TILE_SIZE);
-							GameModel.sCurrentPlayer.changeMoney(-GameModel.mCurrentTower.getCost());
+							GameModel.buildTower(GameModel.mMovableTower.getTower(), 
+									(int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE,
+									(int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE);
+							GameModel.sCurrentPlayer.changeMoney(-GameModel.mMovableTower.getTower().getCost());
 
 						}
-						GameModel.mCurrentTower = null;
+						GameModel.mMovableTower = null;
 
 					} else if (GameModel.mCurrentSnowball != null) {
 						// if a snowball is being placed
@@ -843,7 +831,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (mTower1.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				GameModel.mAllowBuild = true;
 
-			GameModel.mCurrentTower = new BasicTower(mTx ,mTy);
+			GameModel.mMovableTower = new MovableTower(new BasicTower(mTx ,mTy), mTx, mTy);
 			GameModel.mShowTooltip = true;
 
 			// button 2
@@ -852,7 +840,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (mTower2.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				GameModel.mAllowBuild = true;	
 
-			GameModel.mCurrentTower = new SplashTower(mTx ,mTy);
+			GameModel.mMovableTower = new MovableTower(new SplashTower(mTx ,mTy),mTx,mTy);
 			GameModel.mShowTooltip = true;
 
 			// button 3
@@ -861,7 +849,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (mTower3.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				GameModel.mAllowBuild = true;
 
-			GameModel.mCurrentTower = new SlowTower(mTx ,mTy);
+			GameModel.mMovableTower = new MovableTower(new SlowTower(mTx ,mTy),mTx,mTy);
 			GameModel.mShowTooltip = true;
 
 			// button 4
@@ -870,7 +858,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (mTower4.getCost() <= GameModel.sCurrentPlayer.getMoney())
 				GameModel.mAllowBuild = true;
 
-			GameModel.mCurrentTower = new AirTower(mTx ,mTy);
+			GameModel.mMovableTower = new MovableTower(new AirTower(mTx ,mTy),mTx,mTy);
 			GameModel.mShowTooltip = true;
 
 			//button 5
@@ -890,12 +878,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		} 
 	}
-
-
-
-
-
-
 
 
 	/**
@@ -933,10 +915,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		case GameModel.STATE_RUNNING:
 			// if a tower is being bought
 			// draw either the tooltip for it, or how it would be placed.
-			if (GameModel.mCurrentTower != null || GameModel.mCurrentSnowball != null) {
+			if (GameModel.mMovableTower != null || GameModel.mCurrentSnowball != null) {
 				if (GameModel.mShowTooltip)
 					drawTooltip(canvas);
-				else if (GameModel.mCurrentTower != null && GameModel.mAllowBuild)
+				else if (GameModel.mMovableTower != null && GameModel.mAllowBuild)
 					drawCurrentTower(canvas);
 				else if (GameModel.mCurrentSnowball != null && GameModel.mAllowBuild) {
 					canvas.drawCircle(
@@ -1292,9 +1274,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawCurrentTower(Canvas canvas) {
 		// draw the chosen tower
 		canvas.drawBitmap(
-				mBitMapCache.get(GameModel.mCurrentTower.getImage()), 
-				GameModel.GAME_TILE_SIZE*(mTx / GameModel.GAME_TILE_SIZE),
-				GameModel.GAME_TILE_SIZE*(mTy / GameModel.GAME_TILE_SIZE), 
+				mBitMapCache.get(GameModel.mMovableTower.getTower().getImage()), 
+				GameModel.GAME_TILE_SIZE*((int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE),
+				GameModel.GAME_TILE_SIZE*((int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE), 
 				null);
 
 		// draw a red transparent rectangle on every occupied tile
@@ -1309,21 +1291,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		// draw a circle that shows the tower's range
 		// one color if it can be placed on current location, another if can't
-		if (GameModel.canAddTower(GameModel.mCurrentTower)) {
+		if (GameModel.canAddTower(GameModel.mMovableTower.getTower())) {
 			canvas.drawCircle(
 					GameModel.GAME_TILE_SIZE*
-					(mTx / GameModel.GAME_TILE_SIZE + (GameModel.mCurrentTower.getWidth()/2)),
+					((int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE + (GameModel.mMovableTower.getTower().getWidth()/2)),
 					GameModel.GAME_TILE_SIZE*
-					(mTy / GameModel.GAME_TILE_SIZE + (GameModel.mCurrentTower.getHeight()/2)),
-					GameModel.mCurrentTower.getRange(),
+					((int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE + (GameModel.mMovableTower.getTower().getHeight()/2)),
+					GameModel.mMovableTower.getTower().getRange(),
 					rangeIndicationPaint);
 		} else {
 			canvas.drawCircle(
 					GameModel.GAME_TILE_SIZE*
-					(mTx / GameModel.GAME_TILE_SIZE + (GameModel.mCurrentTower.getWidth()/2)),
+					((int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE + (GameModel.mMovableTower.getTower().getWidth()/2)),
 					GameModel.GAME_TILE_SIZE*
-					(mTy / GameModel.GAME_TILE_SIZE + (GameModel.mCurrentTower.getHeight()/2)),
-					GameModel.mCurrentTower.getRange(),
+					((int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE + (GameModel.mMovableTower.getTower().getHeight()/2)),
+					GameModel.mMovableTower.getTower().getRange(),
 					noRangeIndicationPaint);
 		}
 	}
@@ -1334,53 +1316,53 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawRoundRect(sTransparentBox,10,10, sPaintTransparentBox);
 
 		// if a tower is being bought
-		if (GameModel.mCurrentTower != null) {
-			canvas.drawBitmap(mBitMapCache.get(GameModel.mCurrentTower.getImage()), 100, 80, null);
-			canvas.drawText(GameModel.mCurrentTower.getName(), 161, 89+2, sPaintTextBlack);
-			canvas.drawText(GameModel.mCurrentTower.getName(), 160, 89, sPaintTextWhite);
+		if (GameModel.mMovableTower != null) {
+			canvas.drawBitmap(mBitMapCache.get(GameModel.mMovableTower.getTower().getImage()), 100, 80, null);
+			canvas.drawText(GameModel.mMovableTower.getTower().getName(), 161, 89+2, sPaintTextBlack);
+			canvas.drawText(GameModel.mMovableTower.getTower().getName(), 160, 89, sPaintTextWhite);
 
-			canvas.drawText("Speed: " + GameModel.mCurrentTower.getAttackSpeed(), 161, 110+2, sPaintTextBlack);
-			canvas.drawText("Damage: " + GameModel.mCurrentTower.getDamage(), 161, 130+2, sPaintTextBlack);
-			canvas.drawText("Range: " + GameModel.mCurrentTower.getRange(), 161, 150+2, sPaintTextBlack);
+			canvas.drawText("Speed: " + GameModel.mMovableTower.getTower().getAttackSpeed(), 161, 110+2, sPaintTextBlack);
+			canvas.drawText("Damage: " + GameModel.mMovableTower.getTower().getDamage(), 161, 130+2, sPaintTextBlack);
+			canvas.drawText("Range: " + GameModel.mMovableTower.getTower().getRange(), 161, 150+2, sPaintTextBlack);
 
-			canvas.drawText("Speed: " + GameModel.mCurrentTower.getAttackSpeed(), 160, 110, sPaintTextWhite);
-			canvas.drawText("Damage: " + GameModel.mCurrentTower.getDamage(), 160, 130, sPaintTextWhite);
-			canvas.drawText("Range: " + GameModel.mCurrentTower.getRange(), 160, 150, sPaintTextWhite);
+			canvas.drawText("Speed: " + GameModel.mMovableTower.getTower().getAttackSpeed(), 160, 110, sPaintTextWhite);
+			canvas.drawText("Damage: " + GameModel.mMovableTower.getTower().getDamage(), 160, 130, sPaintTextWhite);
+			canvas.drawText("Range: " + GameModel.mMovableTower.getTower().getRange(), 160, 150, sPaintTextWhite);
 
 			Paint paintRedOrGreen;
-			if (GameModel.sCurrentPlayer.getMoney() >= GameModel.mCurrentTower.getCost())
+			if (GameModel.sCurrentPlayer.getMoney() >= GameModel.mMovableTower.getTower().getCost())
 				paintRedOrGreen = sPaintBoxGreen;
 			else
 				paintRedOrGreen = sPaintBoxRed;
 
-			switch (GameModel.mCurrentTower.getType()){
+			switch (GameModel.mMovableTower.getTower().getType()){
 			case Tower.BASIC:
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 161, 170+2, sPaintTextBlack);
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 160, 170, paintRedOrGreen);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 161, 170+2, sPaintTextBlack);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 160, 170, paintRedOrGreen);
 				break;
 
 			case Tower.AIR:
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 161, 170+2, sPaintTextBlack);
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 160, 170, paintRedOrGreen);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 161, 170+2, sPaintTextBlack);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 160, 170, paintRedOrGreen);
 				break;
 
 			case Tower.SLOW:
-				canvas.drawText("Slow: " + GameModel.mCurrentTower.getSlow() + "%", 161, 170+2, sPaintTextBlack);
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-				canvas.drawText("Slow: " + GameModel.mCurrentTower.getSlow() + "%", 160, 170, sPaintTextWhite);
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
+				canvas.drawText("Slow: " + GameModel.mMovableTower.getTower().getSlow() + "%", 161, 170+2, sPaintTextBlack);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 161, 190+2, sPaintTextBlack);
+				canvas.drawText("Slow: " + GameModel.mMovableTower.getTower().getSlow() + "%", 160, 170, sPaintTextWhite);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 160, 190, paintRedOrGreen);
 				break;
 
 			case Tower.SPLASH:
-				canvas.drawText("Splash: " + GameModel.mCurrentTower.getSplashRadius(), 161, 170+2, sPaintTextBlack);
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 161, 190+2, sPaintTextBlack);
-				canvas.drawText("Splash: " + GameModel.mCurrentTower.getSplashRadius(), 160, 170, sPaintTextWhite);
-				canvas.drawText("Cost: " + GameModel.mCurrentTower.getCost(), 160, 190, paintRedOrGreen);
+				canvas.drawText("Splash: " + GameModel.mMovableTower.getTower().getSplashRadius(), 161, 170+2, sPaintTextBlack);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 161, 190+2, sPaintTextBlack);
+				canvas.drawText("Splash: " + GameModel.mMovableTower.getTower().getSplashRadius(), 160, 170, sPaintTextWhite);
+				canvas.drawText("Cost: " + GameModel.mMovableTower.getTower().getCost(), 160, 190, paintRedOrGreen);
 				break;
 			}
 
-			canvas.drawText(GameModel.mCurrentTower.getDescription(), 101, 210+2, sPaintTextBlack);
-			canvas.drawText(GameModel.mCurrentTower.getDescription(), 100, 210, sPaintTextWhite);
+			canvas.drawText(GameModel.mMovableTower.getTower().getDescription(), 101, 210+2, sPaintTextBlack);
+			canvas.drawText(GameModel.mMovableTower.getTower().getDescription(), 100, 210, sPaintTextWhite);
 
 			canvas.drawText("Drag to buy this tower!", 101, 230+2, sPaintTextBlack);
 			canvas.drawText("Drag to buy this tower!", 100, 230, sPaintTextWhite);
