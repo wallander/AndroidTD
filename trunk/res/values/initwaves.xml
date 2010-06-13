@@ -160,10 +160,10 @@
         <item>IMMUNE 20 1000</item>
         <item>HEALTHY 1 15000</item>
         
-        <item>NORMAL 20 1400</item>
-        <item>AIR 20 900</item>
-        <item>NORMAL 20 15500</item>
-        <item>IMMUNE 20 1700</item>
+        <item>NORMAL 20 1500</item>
+        <item>AIR 20 1100</item>
+        <item>NORMAL 20 2200</item>
+        <item>IMMUNE 20 2200</item>
         <item>HEALTHY 1 25000</item>
                       
     </array> 

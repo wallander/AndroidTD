@@ -1176,48 +1176,48 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			switch (GameModel.mSelectedTower.getType()) {
 			case Tower.BASIC:
 				//letter shadows in black
-				canvas.drawText(" -> " + 1000/BasicTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + BasicTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
 				canvas.drawText(" -> " + BasicTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
 				canvas.drawText(" -> " + BasicTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
 
 				//letters in green or red depending on if upgrade can be afforded or not
-				canvas.drawText(" -> " + 1000/BasicTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
+				canvas.drawText(" -> " + BasicTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
 				canvas.drawText(" -> " + BasicTower.sDamage[lvl], 255, 144, paintRedOrGreen);
 				canvas.drawText(" -> " + BasicTower.sRange[lvl], 255, 160, paintRedOrGreen);
 				break;
 			case Tower.AIR:
 				//letter shadows in black
-				canvas.drawText(" -> " + 1000/AirTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + AirTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
 				canvas.drawText(" -> " + AirTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
 				canvas.drawText(" -> " + AirTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
 
 				//letters in green or red depending on if upgrade can be afforded or not
-				canvas.drawText(" -> " + 1000/AirTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
+				canvas.drawText(" -> " + AirTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
 				canvas.drawText(" -> " + AirTower.sDamage[lvl], 255, 144, paintRedOrGreen);
 				canvas.drawText(" -> " + AirTower.sRange[lvl], 255, 160, paintRedOrGreen);
 				break;
 			case Tower.SLOW:
 				//letter shadows in black
-				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SlowTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
 				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
 				canvas.drawText(" -> " + SlowTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
 				canvas.drawText(" -> " + SlowTower.sSlow[lvl] + "%", 256, 176+2, sPaintTextBlack);
 
 				//letters in green or red depending on if upgrade can be afforded or not
-				canvas.drawText(" -> " + 1000/SlowTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
+				canvas.drawText(" -> " + SlowTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
 				canvas.drawText(" -> " + SlowTower.sDamage[lvl], 255, 144, paintRedOrGreen);
 				canvas.drawText(" -> " + SlowTower.sRange[lvl], 255, 160, paintRedOrGreen);
 				canvas.drawText(" -> " + SlowTower.sSlow[lvl] + "%", 255, 176, paintRedOrGreen);
 				break;
 			case Tower.SPLASH:
 				//letter shadows in black
-				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
+				canvas.drawText(" -> " + SplashTower.sCoolDown[lvl], 256, 128+2, sPaintTextBlack);
 				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 256, 144+2, sPaintTextBlack);
 				canvas.drawText(" -> " + SplashTower.sRange[lvl], 256, 160+2, sPaintTextBlack);
 				canvas.drawText(" -> " + SplashTower.sSplashRadius[lvl], 256, 176+2, sPaintTextBlack);
 
 				//letters in green or red depending on if upgrade can be afforded or not
-				canvas.drawText(" -> " + 1000/SplashTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
+				canvas.drawText(" -> " + SplashTower.sCoolDown[lvl], 255, 128, paintRedOrGreen);
 				canvas.drawText(" -> " + SplashTower.sDamage[lvl], 255, 144, paintRedOrGreen);
 				canvas.drawText(" -> " + SplashTower.sRange[lvl], 255, 160, paintRedOrGreen);
 				canvas.drawText(" -> " + SplashTower.sSplashRadius[lvl], 255, 176, paintRedOrGreen);
