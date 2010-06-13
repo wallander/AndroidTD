@@ -99,7 +99,7 @@ public abstract class Tower extends Unit {
 	 * @param pSpeed The current speed multiplier of the game.
 	 */
 	public void decCoolDownLeft(float pSpeed){
-		mCoolDownLeft -=  pSpeed;
+		mCoolDownLeft -=  pSpeed*2;
 	}
 	
 	/** 
