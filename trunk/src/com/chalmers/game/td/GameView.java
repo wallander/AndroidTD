@@ -430,7 +430,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.menubot2));
 		mBitMapCache.put(R.drawable.line, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.line));
-
+		mBitMapCache.put(R.drawable.expl1, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.expl1));
+		mBitMapCache.put(R.drawable.expl2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.expl2));
+		mBitMapCache.put(R.drawable.expl3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.expl3));
+		mBitMapCache.put(R.drawable.expl4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.expl4));
+		mBitMapCache.put(R.drawable.expl5, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.expl5));
 	}
 
 	/**
@@ -902,6 +911,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		drawBackground(canvas);
 		drawSplashWater(canvas);
+		drawExplForProj(canvas);
 		drawTowers(canvas);
 		drawMobs(canvas);
 		drawSnowballs(canvas);
@@ -909,6 +919,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		drawButtons(canvas);
 		drawStatisticsText(canvas);
 		drawRewardsAfterDeadMob(canvas);	
+		
 
 
 		switch (GameModel.GAME_STATE) {
@@ -1613,6 +1624,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			m.incRewAni();
 			if(m.getRewAni() > 12){
 				GameModel.sShowRewardForMob.remove(m);
+			}
+		}
+	}
+	
+	/**
+	 * Draws the explosions from collided projectiles.
+	 * @param canvas
+	 */
+	private void drawExplForProj(Canvas canvas){
+		for (int i = 0; i < GameModel.sShowExplForProj.size(); i++) {
+			Projectile p = GameModel.sShowExplForProj.get(i);
+			
+			
+			canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
+
+			/*
+			canvas.drawText("DEAD!",
+					(int)p.getX() + 1,
+					(int)p.getY() - p.getExplAni()  - 1,
+					sMoneyAfterDeadBg);
+			canvas.drawText("DEAD!",
+					(int)p.getX(),
+					(int)p.getY() - p.getExplAni(),
+					sMoneyAfterDead);
+					*/
+			p.incExplAni();
+			if(p.getExplAni() > 12){
+				GameModel.sShowExplForProj.remove(p);
 			}
 		}
 	}

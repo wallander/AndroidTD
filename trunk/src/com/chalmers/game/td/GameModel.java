@@ -28,6 +28,7 @@ public class GameModel {
 	public static List<Tower> sTowers;
 	public static List<Mob> sMobs;
 	public static List<Mob> sShowRewardForMob;
+	public static List<Projectile> sShowExplForProj;
 	public static List<Projectile> sProjectiles;
 	public static List<Snowball> sSnowballs;
 	public static Path sPath;
@@ -99,6 +100,7 @@ public class GameModel {
 		sTowers = new ArrayList<Tower>();
 		sMobs = new ArrayList<Mob>();
 		sShowRewardForMob = new ArrayList<Mob>();
+		sShowExplForProj = new ArrayList<Projectile>();
 		sProjectiles = new ArrayList<Projectile>();
 		sSnowballs = new ArrayList<Snowball>();
 		sPath = Path.getInstance();
@@ -381,6 +383,7 @@ public class GameModel {
 				// If the projectile has collided, inflict damage and remove it.
 				if (p.hasCollided(timeDelta)) {					
 					p.inflictDmg();
+					GameModel.sShowExplForProj.add(p);
 					GameModel.sProjectiles.remove(p);
 					++removed;
 				}

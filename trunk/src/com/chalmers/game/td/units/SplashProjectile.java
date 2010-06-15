@@ -11,6 +11,9 @@ public class SplashProjectile extends Projectile {
 
 	private Coordinate mTargetCoordinate;
 	private int mSplashRadius;
+	private int mExplAnimation = 0;
+	
+
 	
 	private int mImage = R.drawable.snowball;
 
@@ -59,14 +62,57 @@ public class SplashProjectile extends Projectile {
 		double distance = Coordinate.getDistance(getCoordinates(), mTargetCoordinate);
 
 		Log.i("Collide=",distance +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
-		if (distance <= 6*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta)
+		if (distance <= 6*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta){
+			setX(mTargetCoordinate.getX());
+			setY(mTargetCoordinate.getY());
 			return true;
+		}
 
 		return false;
 	}
-	
+	 
+
+	   
 	public int getProjImage(){
+		
+		if (true) {
+			if (getExplAni() == 1) {
+				return R.drawable.snowball;
+			} else if (getExplAni() == 2) {
+				return R.drawable.expl1;
+			} else if (getExplAni() == 3) {
+				return R.drawable.expl2;
+			} else if (getExplAni() == 4) {
+				return R.drawable.expl3;
+			} else if (getExplAni() == 5) {
+				return R.drawable.expl4;
+			} else if (getExplAni() == 6) {
+				return R.drawable.expl5;
+			} else if (getExplAni() == 7) {
+				return R.drawable.expl5;
+			} else if (getExplAni() == 8) {
+				return R.drawable.expl4;
+			} else if (getExplAni() == 9) {
+				return R.drawable.expl3;
+			} else if (getExplAni() == 10) {
+				return R.drawable.expl2;
+			} else if (getExplAni() == 11) {
+				return R.drawable.expl1;
+			} else if (getExplAni() == 12) {
+				return R.drawable.expl1;
+			} 
+			
+		}
 		return mImage;
+		
+	}
+	
+	public int getExplAni(){
+		return mExplAnimation;
+	}
+	   
+	public void incExplAni(){
+		mExplAnimation++;
 	}
 
 }

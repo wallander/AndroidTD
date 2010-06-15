@@ -37,6 +37,8 @@ public abstract class Projectile extends Unit{
 	/** Projectile movement angle */
 	protected double mAngle;
 	
+	protected int mExplAnimation = 0;
+	
 	/**
      * Constructor.
      * 
@@ -100,7 +102,6 @@ public abstract class Projectile extends Unit{
 		Log.w("Collide=",sqrDist +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
 		//return true if the projectile has collided, else return false
 		if (sqrDist < 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta) {
-			
 			return true;
 		}
 		return false;	
@@ -135,6 +136,8 @@ public abstract class Projectile extends Unit{
 	}
     
 	public int getProjImage(){
+		
+		
 		return R.drawable.snowball_small;
 	}
     
@@ -167,6 +170,14 @@ public abstract class Projectile extends Unit{
 	private void updateAnimation(float timeDelta) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getExplAni(){
+		return mExplAnimation;
+	}
+	   
+	public void incExplAni(){
+		mExplAnimation++;
 	}
 
 }
