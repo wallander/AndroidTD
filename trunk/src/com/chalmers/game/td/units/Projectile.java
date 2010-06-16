@@ -39,6 +39,8 @@ public abstract class Projectile extends Unit{
 	
 	protected int mExplAnimation = 0;
 	
+	protected Boolean startExpl = false;
+	
 	/**
      * Constructor.
      * 
@@ -178,6 +180,10 @@ public abstract class Projectile extends Unit{
 	   
 	public void incExplAni(){
 		mExplAnimation++;
+	}
+	public void setBoolExpl(Boolean b){
+		startExpl = b;
+		
 	}
 
 }

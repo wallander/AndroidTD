@@ -440,6 +440,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.expl4));
 		mBitMapCache.put(R.drawable.expl5, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.expl5));
+		mBitMapCache.put(R.drawable.nexpl1, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl1));
+		mBitMapCache.put(R.drawable.nexpl2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl2));
+		mBitMapCache.put(R.drawable.nexpl3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl3));
+		mBitMapCache.put(R.drawable.nexpl4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl4));
+		mBitMapCache.put(R.drawable.blankexpl, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.blankexpl));
 	}
 
 	/**
@@ -911,9 +921,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		drawBackground(canvas);
 		drawSplashWater(canvas);
-		drawExplForProj(canvas);
 		drawTowers(canvas);
 		drawMobs(canvas);
+		drawExplForProj(canvas);
 		drawSnowballs(canvas);
 		drawProjectiles(canvas);
 		drawButtons(canvas);
@@ -1635,7 +1645,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawExplForProj(Canvas canvas){
 		for (int i = 0; i < GameModel.sShowExplForProj.size(); i++) {
 			Projectile p = GameModel.sShowExplForProj.get(i);
-			
+			p.setBoolExpl(true);
 			
 			canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
 
@@ -1651,6 +1661,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					*/
 			p.incExplAni();
 			if(p.getExplAni() > 12){
+				p.setBoolExpl(false);
 				GameModel.sShowExplForProj.remove(p);
 			}
 		}

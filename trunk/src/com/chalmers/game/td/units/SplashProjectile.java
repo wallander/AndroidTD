@@ -6,13 +6,14 @@ import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.R;
+import com.chalmers.game.td.R.drawable;
 
 public class SplashProjectile extends Projectile {
 
 	private Coordinate mTargetCoordinate;
 	private int mSplashRadius;
 	private int mExplAnimation = 0;
-	
+	private Boolean startExpl = false;
 
 	
 	private int mImage = R.drawable.snowball;
@@ -75,7 +76,7 @@ public class SplashProjectile extends Projectile {
 	   
 	public int getProjImage(){
 		
-		if (true) {
+		if (startExpl) {
 			if (getExplAni() == 1) {
 				return R.drawable.snowball;
 			} else if (getExplAni() == 2) {
@@ -100,10 +101,17 @@ public class SplashProjectile extends Projectile {
 				return R.drawable.expl1;
 			} else if (getExplAni() == 12) {
 				return R.drawable.expl1;
-			} 
+			} else {
+				
+				return R.drawable.blankexpl;
+			}
 			
-		}
+		} else {
 		return mImage;
+		}
+	}
+	public void setBoolExpl(Boolean b){
+		startExpl = b;
 		
 	}
 	
