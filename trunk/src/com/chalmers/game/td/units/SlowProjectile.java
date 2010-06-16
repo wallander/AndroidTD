@@ -5,6 +5,8 @@ import com.chalmers.game.td.R;
 
 public class SlowProjectile extends Projectile {
 
+	public static float mExplosionTime = 0.0f;
+	
 	private double mSlowEffect; //amount of slow - percent of original speed
 	
 	private int mImage = R.drawable.projslow;
@@ -35,5 +37,19 @@ public class SlowProjectile extends Projectile {
 	
 	public int getProjImage(){
 		return mImage;
+	}
+
+	@Override
+	protected void updateAnimation(float timeDelta) {
+		// TODO Auto-generated method stub
+		if (mExploded) {
+			mExplAnimation += timeDelta;
+		}
+	}
+
+	@Override
+	public float getExplosionTime() {
+		// TODO Auto-generated method stub
+		return mExplosionTime;
 	}
 }

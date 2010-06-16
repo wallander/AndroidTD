@@ -12,6 +12,7 @@ import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
 import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
+import com.chalmers.game.td.units.SplashProjectile;
 import com.chalmers.game.td.units.SplashTower;
 
 import android.app.Activity;
@@ -1636,9 +1637,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		for (int i = 0; i < GameModel.sShowExplForProj.size(); i++) {
 			Projectile p = GameModel.sShowExplForProj.get(i);
 			
-			
-			canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
+			// Den här funkar, ta bort kommentarer för att visa!
+			//canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
 
+			// jag testar med en annan grej här lite.... /fredrik
+			
+			if (p instanceof SplashProjectile) {
+				
+				sMobPaint.setARGB((int)(255 - 255*p.mExplAnimation/p.getExplosionTime()), 255, 51, 0);
+			
+				canvas.drawCircle((float)p.getX(), (float)p.getY(), (((SplashProjectile)p).mSplashRadius)*(p.mExplAnimation/p.getExplosionTime()), sMobPaint);
+			}
+			
 			/*
 			canvas.drawText("DEAD!",
 					(int)p.getX() + 1,
@@ -1649,10 +1659,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					(int)p.getY() - p.getExplAni(),
 					sMoneyAfterDead);
 					*/
-			p.incExplAni();
-			if(p.getExplAni() > 12){
-				GameModel.sShowExplForProj.remove(p);
-			}
+
 		}
 	}
 

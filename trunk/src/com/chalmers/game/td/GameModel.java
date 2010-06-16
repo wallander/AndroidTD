@@ -383,6 +383,7 @@ public class GameModel {
 				// If the projectile has collided, inflict damage and remove it.
 				if (p.hasCollided(timeDelta)) {					
 					p.inflictDmg();
+					p.mExploded = true;
 					GameModel.sShowExplForProj.add(p);
 					GameModel.sProjectiles.remove(p);
 					++removed;
@@ -395,6 +396,24 @@ public class GameModel {
 					++removed;
 				}
 			}
+			
+			
+			
+
+			for (int i = 0; i < GameModel.sShowExplForProj.size(); ++i) {
+				Projectile p = GameModel.sShowExplForProj.get(i);								
+				
+				// Update position for the projectiles
+				p.update(timeDelta);
+
+				if (p.mExplAnimation > p.getExplosionTime())
+					GameModel.sShowExplForProj.remove(p);
+				
+			}
+			
+			
+			
+			
 
 			/*
 			 * For every snowball:

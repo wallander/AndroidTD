@@ -9,17 +9,17 @@ import com.chalmers.game.td.R;
 
 public class SplashProjectile extends Projectile {
 
-	private Coordinate mTargetCoordinate;
-	private int mSplashRadius;
-	private int mExplAnimation = 0;
+	public static float mExplosionTime = 0.33f;
 	
+	private Coordinate mTargetCoordinate;
+	public int mSplashRadius;	
 
 	
 	private int mImage = R.drawable.snowball;
 
 	public SplashProjectile(Mob pTarget, SplashTower pTower, int pSplashRadius) {
 		super(pTarget, pTower);
-
+		
 		mTargetCoordinate = new Coordinate(getTarget().getX() + getTarget().getWidth()/2, 
 				getTarget().getY() + getTarget().getHeight()/2);
 
@@ -75,44 +75,77 @@ public class SplashProjectile extends Projectile {
 	   
 	public int getProjImage(){
 		
-		if (true) {
-			if (getExplAni() == 1) {
-				return R.drawable.snowball;
-			} else if (getExplAni() == 2) {
-				return R.drawable.expl1;
-			} else if (getExplAni() == 3) {
-				return R.drawable.expl2;
-			} else if (getExplAni() == 4) {
-				return R.drawable.expl3;
-			} else if (getExplAni() == 5) {
-				return R.drawable.expl4;
-			} else if (getExplAni() == 6) {
-				return R.drawable.expl5;
-			} else if (getExplAni() == 7) {
-				return R.drawable.expl5;
-			} else if (getExplAni() == 8) {
-				return R.drawable.expl4;
-			} else if (getExplAni() == 9) {
-				return R.drawable.expl3;
-			} else if (getExplAni() == 10) {
-				return R.drawable.expl2;
-			} else if (getExplAni() == 11) {
-				return R.drawable.expl1;
-			} else if (getExplAni() == 12) {
-				return R.drawable.expl1;
-			} 
+		if (mExploded == false) {
+			return R.drawable.snowball;
+		} else {
 			
+			if (mExplAnimation/mExplosionTime <= 1f/9f)
+				return R.drawable.expl1;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 2f/9f) 
+				return R.drawable.expl2;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 3f/9f) 
+				return R.drawable.expl3;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 4f/9f) 
+				return R.drawable.expl4;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 5f/9f) 
+				return R.drawable.expl5;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 6f/9f) 
+				return R.drawable.expl4;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 7f/9f) 
+				return R.drawable.expl3;
+			else if ((float)(mExplAnimation/mExplosionTime) <= 8f/9f) 
+				return R.drawable.expl2;
+			else 
+				return R.drawable.expl1;
+
 		}
-		return mImage;
+		
+//		if (true) {
+//			if (getExplAni() == 1) {
+//				return R.drawable.snowball;
+//			} else if (getExplAni() == 2) {
+//				return R.drawable.expl1;
+//			} else if (getExplAni() == 3) {
+//				return R.drawable.expl2;
+//			} else if (getExplAni() == 4) {
+//				return R.drawable.expl3;
+//			} else if (getExplAni() == 5) {
+//				return R.drawable.expl4;
+//			} else if (getExplAni() == 6) {
+//				return R.drawable.expl5;
+//			} else if (getExplAni() == 7) {
+//				return R.drawable.expl5;
+//			} else if (getExplAni() == 8) {
+//				return R.drawable.expl4;
+//			} else if (getExplAni() == 9) {
+//				return R.drawable.expl3;
+//			} else if (getExplAni() == 10) {
+//				return R.drawable.expl2;
+//			} else if (getExplAni() == 11) {
+//				return R.drawable.expl1;
+//			} else if (getExplAni() == 12) {
+//				return R.drawable.expl1;
+//			} 
+//			
+//		}
+//		return mImage;
 		
 	}
+
+	@Override
+	protected void updateAnimation(float timeDelta) {
+		// TODO Auto-generated method stub
+		if (mExploded) {
+			mExplAnimation = mExplAnimation + timeDelta;
+		}
+		
+	}
+
+	@Override
+	public float getExplosionTime() {
+		// TODO Auto-generated method stub
+		return mExplosionTime;
+	}
 	
-	public int getExplAni(){
-		return mExplAnimation;
-	}
-	   
-	public void incExplAni(){
-		mExplAnimation++;
-	}
 
 }

@@ -22,6 +22,7 @@ public abstract class Projectile extends Unit{
 	/** Projectile movement speed */
 	private float mSpeed;
 	
+	
 	/** Projectile type emun */
 	//public enum ProjectileType { NORMAL, SLOW, SPLASH }
 	
@@ -37,7 +38,9 @@ public abstract class Projectile extends Unit{
 	/** Projectile movement angle */
 	protected double mAngle;
 	
-	protected int mExplAnimation = 0;
+	public float mExplAnimation = 0f;
+	
+	public boolean mExploded = false;
 	
 	/**
      * Constructor.
@@ -135,11 +138,7 @@ public abstract class Projectile extends Unit{
 		mTower = pTower;
 	}
     
-	public int getProjImage(){
-		
-		
-		return R.drawable.snowball_small;
-	}
+	public abstract int getProjImage();
     
     /**
 	 * Update the position of the projectile. Currently this makes the projectile 
@@ -162,22 +161,16 @@ public abstract class Projectile extends Unit{
 	}
 
 	public void update(float timeDelta) {
-		this.updatePosition(timeDelta);
+		if(mExploded == false)
+			this.updatePosition(timeDelta);
+		
 		this.updateAnimation(timeDelta);
 		
 	}
 
-	private void updateAnimation(float timeDelta) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public int getExplAni(){
-		return mExplAnimation;
-	}
-	   
-	public void incExplAni(){
-		mExplAnimation++;
-	}
+	protected abstract void updateAnimation(float timeDelta);
+
+	public abstract float getExplosionTime();
+
 
 }
