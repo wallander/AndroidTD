@@ -6,6 +6,7 @@ import com.chalmers.game.td.Coordinate;
 import com.chalmers.game.td.GameModel;
 import com.chalmers.game.td.GameView;
 import com.chalmers.game.td.R;
+import com.chalmers.game.td.R.drawable;
 
 public class SplashProjectile extends Projectile {
 
@@ -13,6 +14,7 @@ public class SplashProjectile extends Projectile {
 	
 	private Coordinate mTargetCoordinate;
 	public int mSplashRadius;	
+
 
 	
 	private int mImage = R.drawable.snowball;
@@ -75,11 +77,13 @@ public class SplashProjectile extends Projectile {
 	   
 	public int getProjImage(){
 		
+
 		if (mExploded == false) {
 			return R.drawable.snowball;
 		} else {
 			
 			if (mExplAnimation/mExplosionTime <= 1f/9f)
+
 				return R.drawable.expl1;
 			else if ((float)(mExplAnimation/mExplosionTime) <= 2f/9f) 
 				return R.drawable.expl2;
@@ -97,39 +101,8 @@ public class SplashProjectile extends Projectile {
 				return R.drawable.expl2;
 			else 
 				return R.drawable.expl1;
-
 		}
-		
-//		if (true) {
-//			if (getExplAni() == 1) {
-//				return R.drawable.snowball;
-//			} else if (getExplAni() == 2) {
-//				return R.drawable.expl1;
-//			} else if (getExplAni() == 3) {
-//				return R.drawable.expl2;
-//			} else if (getExplAni() == 4) {
-//				return R.drawable.expl3;
-//			} else if (getExplAni() == 5) {
-//				return R.drawable.expl4;
-//			} else if (getExplAni() == 6) {
-//				return R.drawable.expl5;
-//			} else if (getExplAni() == 7) {
-//				return R.drawable.expl5;
-//			} else if (getExplAni() == 8) {
-//				return R.drawable.expl4;
-//			} else if (getExplAni() == 9) {
-//				return R.drawable.expl3;
-//			} else if (getExplAni() == 10) {
-//				return R.drawable.expl2;
-//			} else if (getExplAni() == 11) {
-//				return R.drawable.expl1;
-//			} else if (getExplAni() == 12) {
-//				return R.drawable.expl1;
-//			} 
-//			
-//		}
-//		return mImage;
-		
+
 	}
 
 	@Override

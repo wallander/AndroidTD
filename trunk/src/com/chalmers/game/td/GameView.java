@@ -7,6 +7,7 @@ import com.chalmers.game.td.units.Tower;
 import com.chalmers.game.td.R;
 
 import com.chalmers.game.td.units.AirTower;
+import com.chalmers.game.td.units.BasicProjectile;
 import com.chalmers.game.td.units.BasicTower;
 import com.chalmers.game.td.units.Mob;
 import com.chalmers.game.td.units.Projectile;
@@ -441,6 +442,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.expl4));
 		mBitMapCache.put(R.drawable.expl5, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.expl5));
+		mBitMapCache.put(R.drawable.nexpl1, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl1));
+		mBitMapCache.put(R.drawable.nexpl2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl2));
+		mBitMapCache.put(R.drawable.nexpl3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl3));
+		mBitMapCache.put(R.drawable.nexpl4, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl4));
+		mBitMapCache.put(R.drawable.blankexpl, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.blankexpl));
 	}
 
 	/**
@@ -912,9 +923,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		drawBackground(canvas);
 		drawSplashWater(canvas);
-		drawExplForProj(canvas);
 		drawTowers(canvas);
 		drawMobs(canvas);
+		drawExplForProj(canvas);
 		drawSnowballs(canvas);
 		drawProjectiles(canvas);
 		drawButtons(canvas);
@@ -1636,17 +1647,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void drawExplForProj(Canvas canvas){
 		for (int i = 0; i < GameModel.sShowExplForProj.size(); i++) {
 			Projectile p = GameModel.sShowExplForProj.get(i);
-			
-			// Den här funkar, ta bort kommentarer för att visa!
-			//canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
 
-			// jag testar med en annan grej här lite.... /fredrik
-			
+			// jag testar med en annan grej här lite....
+			// om det är splash så ritar den ut en cirkel som blir större och fadar ut
 			if (p instanceof SplashProjectile) {
 				
 				sMobPaint.setARGB((int)(255 - 255*p.mExplAnimation/p.getExplosionTime()), 255, 51, 0);
 			
 				canvas.drawCircle((float)p.getX(), (float)p.getY(), (((SplashProjectile)p).mSplashRadius)*(p.mExplAnimation/p.getExplosionTime()), sMobPaint);
+			} else if (p instanceof BasicProjectile) {
+				canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
+
 			}
 			
 			/*

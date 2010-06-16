@@ -42,6 +42,8 @@ public abstract class Projectile extends Unit{
 	
 	public boolean mExploded = false;
 	
+	protected Boolean startExpl = false;
+	
 	/**
      * Constructor.
      * 
@@ -168,9 +170,13 @@ public abstract class Projectile extends Unit{
 		
 	}
 
+
 	protected abstract void updateAnimation(float timeDelta);
 
 	public abstract float getExplosionTime();
+
+
+	
 
 
 }
