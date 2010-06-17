@@ -20,7 +20,8 @@ android:layout_marginLeft="2px" android:layout_marginTop="2px" android:backgroun
  android:layout_width="wrap_content"
  android:layout_height="wrap_content"
  android:text="Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! " android:textColor="@color/black" android:textSize="16px"/>
- </ScrollView>
+ 
+</ScrollView>
 
 
 </RelativeLayout>

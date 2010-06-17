@@ -5,14 +5,16 @@ import com.chalmers.game.td.R;
 public class AirProjectile extends Projectile {
 	
 	public static float mExplosionTime = 0.3f;
-	
-	private int mImage =  R.drawable.snowball_small;
+	private Mob mTarget;
+	//private int mImage =  R.drawable.snowball_small;
 
 	public AirProjectile(Mob pTarget, AirTower pTower) {
 		super(pTarget, pTower);
+		mTarget = pTarget;
 	}
 	public AirProjectile(Mob pTarget, Tower pTower) {
 		super(pTarget, pTower);
+		mTarget = pTarget;
 	}
 
 	/**
@@ -21,6 +23,8 @@ public class AirProjectile extends Projectile {
 	 */
 	public void inflictDmg() {
 		getTarget().takeDamage(getDamage());
+		setX(mTarget.getX() +15);
+		setY(mTarget.getY() +10);
 	}
 	
 public int getProjImage(){

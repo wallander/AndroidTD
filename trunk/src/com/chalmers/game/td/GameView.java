@@ -15,6 +15,7 @@ import com.chalmers.game.td.units.SlowTower;
 import com.chalmers.game.td.units.Snowball;
 import com.chalmers.game.td.units.SplashProjectile;
 import com.chalmers.game.td.units.SplashTower;
+import com.chalmers.game.td.units.SlowProjectile;
 
 import android.app.Activity;
 import android.content.Context;
@@ -1661,7 +1662,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				sMobPaint.setARGB((int)(255 - 255*p.mExplAnimation/p.getExplosionTime()), 255, 51, 0);
 			
 				canvas.drawCircle((float)p.getX(), (float)p.getY(), (((SplashProjectile)p).mSplashRadius)*(p.mExplAnimation/p.getExplosionTime()), sMobPaint);
-			} else if (p instanceof BasicProjectile) {
+			} else if(p instanceof SlowProjectile){
+
+				sMobPaint.setARGB((int)(255 - 255*p.mExplAnimation/p.getExplosionTime()), 0, 0, 200);
+			
+				canvas.drawCircle((float)p.getX(), (float)p.getY(), 25*(p.mExplAnimation/p.getExplosionTime()), sMobPaint);
+			
+		    } else {
 				canvas.drawBitmap(mBitMapCache.get(p.getProjImage()), (int) p.getX() -30, (int) p.getY() -30, null);
 
 			}
