@@ -4,7 +4,7 @@ import com.chalmers.game.td.R;
 
 public class AirProjectile extends Projectile {
 	
-	public static float mExplosionTime = 0.0f;
+	public static float mExplosionTime = 0.3f;
 	
 	private int mImage =  R.drawable.snowball_small;
 
@@ -23,9 +23,23 @@ public class AirProjectile extends Projectile {
 		getTarget().takeDamage(getDamage());
 	}
 	
-	public int getProjImage(){
+public int getProjImage(){
 		
-		return mImage;
+		if (mExploded) {
+
+			if (mExplAnimation/mExplosionTime <= 0.25f)
+				return R.drawable.nexpl1;
+			else if (mExplAnimation/mExplosionTime <= 0.5f)
+				return R.drawable.nexpl2;
+			else if (mExplAnimation/mExplosionTime <= 0.75f)
+				return R.drawable.nexpl3;
+			else
+				return R.drawable.nexpl4;
+
+		} else 
+			return R.drawable.snowball_small;
+		
+			
 	}
 	@Override
 	protected void updateAnimation(float timeDelta) {

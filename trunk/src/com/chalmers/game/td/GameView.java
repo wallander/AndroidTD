@@ -452,6 +452,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.nexpl4));
 		mBitMapCache.put(R.drawable.blankexpl, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.blankexpl));
+		mBitMapCache.put(R.drawable.sexpl1, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.sexpl1));
+		mBitMapCache.put(R.drawable.sexpl2, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.sexpl2));
+		mBitMapCache.put(R.drawable.sexpl3, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.sexpl3));
 	}
 
 	/**
@@ -1660,16 +1666,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 			}
 			
-			/*
-			canvas.drawText("DEAD!",
-					(int)p.getX() + 1,
-					(int)p.getY() - p.getExplAni()  - 1,
-					sMoneyAfterDeadBg);
-			canvas.drawText("DEAD!",
-					(int)p.getX(),
-					(int)p.getY() - p.getExplAni(),
-					sMoneyAfterDead);
-					*/
 
 		}
 	}
