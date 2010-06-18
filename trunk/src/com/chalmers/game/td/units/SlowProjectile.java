@@ -1,6 +1,8 @@
 package com.chalmers.game.td.units;
 
 
+import android.util.Log;
+
 import com.chalmers.game.td.R;
 
 public class SlowProjectile extends Projectile {
@@ -42,7 +44,7 @@ public class SlowProjectile extends Projectile {
 	public int getProjImage(){
 		
 		if (mExploded) {
-
+			Log.v("Exp","Success");
 			if (mExplAnimation/mExplosionTime <= 0.25f)
 				return R.drawable.sexpl1;
 			else if (mExplAnimation/mExplosionTime <= 0.5f)
