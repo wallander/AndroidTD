@@ -219,7 +219,7 @@ public class MobFactory {
 	 * Returns whether there are more waves after the current wave or not. 
 	 */
 	public boolean hasMoreWaves(){
-		return (mWaveIndex < mTrackWaves.size()-1);
+		return (mWaveIndex < mTrackWaves.size() -1);
 	}
 	
 	/**
