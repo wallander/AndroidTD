@@ -184,15 +184,15 @@ public class MobFactory {
 		//If current wave is not the last wave. 
 		if(hasMoreWaves()){
 			hasMoreMobs = true;
-			Log.v("hasMoreMobs","false du to hasMoreWaves");
+			Log.e("hasMoreMobs","false du to hasMoreWaves");
 		//If current wave IS the last wave, but the current mob is not the last mob
 		}else if(mMobIndex < mTrackWaves.get(mWaveIndex).size()-1){
 			hasMoreMobs = true;
-			Log.v("hasMoreMobs","true " + mMobIndex + " < " + (mTrackWaves.get(mWaveIndex).size()-1));
+			Log.e("hasMoreMobs","true " + mMobIndex + " < " + (mTrackWaves.get(mWaveIndex).size()-1));
 		//If the current mob IS the last mob in the last wave	
 		}else{
 			hasMoreMobs = false;
-			Log.v("hasMoreMobs","false due to mMobIndex");
+			Log.e("hasMoreMobs","false due to mMobIndex");
 		}
 		
 		return hasMoreMobs;
