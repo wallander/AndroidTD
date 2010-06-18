@@ -77,6 +77,7 @@ public class GameModel {
 	private static float mMobDelayI = 0;
 	
 	static boolean mSplash = false;
+	static boolean mCreatedLastWave = false; //Ahmed
 	
 	public static SensorEvent mLatestSensorEvent;
 	
@@ -330,12 +331,15 @@ public class GameModel {
 			Mob mNewMob = createMobs(timeDelta);
 			if (mNewMob != null) {
 				GameModel.sMobs.add(mNewMob);
+				if(mMobFactory.hasMoreWaves()){
+					mCreatedLastWave = true;
+				}
 //				Log.v("GAME MOBS", "Added new mob of type: "
 //						+ mNewMob.getType().toString());
 			}
 
 			// if the player has won (no more mobs and all mobs dead)
-			if (!mMobFactory.hasMoreMobs() && GameModel.sMobs.isEmpty()) {
+			if (mMobFactory.lastWaveHasEntered() && GameModel.sMobs.isEmpty() && mCreatedLastWave && mMobFactory.getLastMobSent()) {
 				mSelectedTower = null;
 				mCurrentSnowball = null;
 				mCurrentTower = null;

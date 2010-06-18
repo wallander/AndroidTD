@@ -242,7 +242,7 @@ public class MobFactory {
 				mLastMobSent = true;
 				
 			//else if there are more mobs, but mMob was the last mob in the current wave
-			else if (mMobIndex == mTrackWaves.get(mWaveIndex).size()-1){
+			else if (mMobIndex == mTrackWaves.get(mWaveIndex).size() -1){
 				if(mMob.getType()==Mob.HEALTHY)
 					mMaxWaveDelay = 20;
 				else
@@ -274,6 +274,11 @@ public class MobFactory {
 		mPath = Path.getInstance();
 		mPath.setContext(pContext);
 		initWaves();
+	}
+	
+	public boolean getLastMobSent(){
+		
+		return mLastMobSent;
 	}
 
 	/**
