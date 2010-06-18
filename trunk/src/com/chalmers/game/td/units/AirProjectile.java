@@ -30,7 +30,7 @@ public class AirProjectile extends Projectile {
 public int getProjImage(){
 		
 		if (mExploded) {
-
+			
 			if (mExplAnimation/mExplosionTime <= 0.25f)
 				return R.drawable.nexpl1;
 			else if (mExplAnimation/mExplosionTime <= 0.5f)
