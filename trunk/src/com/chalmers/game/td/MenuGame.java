@@ -53,6 +53,7 @@ public class MenuGame extends Activity {
     	super.onStop();
     	Log.i("MenuGame","onStop()");
     	
+    	GameModel.release();
     	SoundManager.releaseSounds();
     	finish();
     }

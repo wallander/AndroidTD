@@ -495,6 +495,20 @@ public class GameModel {
 		}
 	}
 
+	public static void release() {
 
+		// TODO Auto-generated method stub
+		
+	
+	sTowers = null;
+	sMobs = null;
+	sShowRewardForMob = null;
+	sShowExplForProj = null;
+	sProjectiles = null;
+	sSnowballs = null;
+	sPath = null;
+	sOccupiedTilePositions = null;
+	sCurrentPlayer = null;
+	}
 }
 
