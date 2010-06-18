@@ -64,40 +64,40 @@
     </array>
 
     <array name="mobs_track_3">
-        <item>NORMAL 20 40</item>
+        <item>NORMAL 20 30</item>
+        <item>AIR 20 30</item>
+        <item>NORMAL 20 50</item>
         <item>AIR 20 50</item>
-        <item>NORMAL 20 70</item>
-        <item>AIR 20 90</item>
-        <item>NORMAL 20 120</item>
+        <item>NORMAL 20 100</item>
         
-        <item>FAST 20 130</item>
+        <item>FAST 20 110</item>
+        <item>NORMAL 20 130</item>
         <item>NORMAL 20 150</item>
-        <item>NORMAL 20 180</item>
         <item>IMMUNE 20 170</item>
         <item>NORMAL 20 220</item>
         
-        <item>HEALTHY 1 5000</item>
+        <item>HEALTHY 1 4500</item>
 		<item>NORMAL 20 300</item>
-        <item>FAST 20 350</item>
-        <item>AIR 20 320</item>
-        <item>IMMUNE 20 400</item>
+        <item>FAST 20 370</item>
+        <item>AIR 20 340</item>
+        <item>IMMUNE 20 440</item>
         
-        <item>NORMAL 20 430</item>
-        <item>NORMAL 20 480</item>
-        <item>FAST 20 470</item>
-        <item>FAST 20 520</item>
-        <item>NORMAL 20 580</item>
+        <item>NORMAL 20 470</item>
+        <item>NORMAL 20 520</item>
+        <item>FAST 20 550</item>
+        <item>FAST 20 580</item>
+        <item>NORMAL 20 680</item>
         
-        <item>IMMUNE 20 580</item>
-        <item>AIR 20 550</item>
-        <item>NORMAL 20 660</item>
-        <item>NORMAL 20 790</item>
-        <item>HEALTHY 1 10000</item>
+        <item>IMMUNE 20 680</item>
+        <item>AIR 20 650</item>
+        <item>NORMAL 20 760</item>
+        <item>NORMAL 20 890</item>
+        <item>HEALTHY 1 9000</item>
     </array>
     
        <array name="mobs_track_4">
                 
-        <item>FAST 20 30</item>
+        <item>FAST 20 40</item>
         <item>FAST 20 50</item>
         <item>IMMUNE 20 65</item>
         <item>FAST 20 100</item>
@@ -130,9 +130,9 @@
     
        <array name="mobs_track_5">
                 
-        <item>FAST 20 30</item>
-        <item>NORMAL 20 60</item>
-        <item>NORMAL 20 90</item>
+        <item>FAST 20 40</item>
+        <item>NORMAL 20 65</item>
+        <item>NORMAL 20 95</item>
         <item>AIR 20 100</item>
         <item>NORMAL 20 140</item>
  
