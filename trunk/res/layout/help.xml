@@ -19,7 +19,10 @@ android:layout_marginLeft="2px" android:layout_marginTop="2px" android:backgroun
  <TextView android:id="@+id/TEXT_VIEW"
  android:layout_width="wrap_content"
  android:layout_height="wrap_content"
- android:text="Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! Massa text här ojojojo! " android:textColor="@color/black" android:textSize="16px"/>
+ android:textColor="@color/black" android:textSize="16px" android:text="The goal of the game is finish all the tracks on the progression map. To finish a track the player must survive several waves of mobs that try to escape land and jump into the ocean. Each time a mob reaches the ocean the player loses a life. If the player’s total life reaches zero, the track is lost. To prevent this from happening the player must build towers that shoot at the mobs. 
+ 	In Eskimo Tower Defense, the towers are graphically represented by two different Eskimos, a snowman and an igloo. 
+ 	Eskimo Tower Defense features the ability to create a snowball that is controlled by tilting the phone. When the snowball rolls over mobs on the game field, they take damage equal to 7% of their current health. Like a real-world snowball, the in-game snowball also melts. This happens slowly over time, and also when the snowball runs over mobs. The more it melts the smaller it gets, eventually disappearing completely.
+ 	 The player gains access to snowballs depending on his current score. Every time 4000 points have been added to the score, an additional snowball is available."/>
  
 </ScrollView>
 
