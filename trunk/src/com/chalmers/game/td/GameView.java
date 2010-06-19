@@ -549,7 +549,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					if(GameModel.mMovableTower != null) {
 
 						if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
-								mTx < mButtonBorder) {
+								mTx + 60 < mButtonBorder) {
 
 
 							// build the tower and remove money from player
