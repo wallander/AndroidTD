@@ -244,7 +244,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 								event.getY() > 200 && event.getY() < 200+70) {
 							
 							// Button for second level pressed
-							if (true || GameModel.sCurrentPlayer.getTrackScore(1) != 0) { //TODO:EDITar, se även nedan
+							if (GameModel.sCurrentPlayer.getTrackScore(1) != 0) { //TODO:EDITar, se även nedan
 								chosenTrack = 2;
 								trackName = "Ice Flow";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -260,7 +260,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 							
 							// Button for third level pressed
 							
-							if (true || GameModel.sCurrentPlayer.getTrackScore(2) != 0) {
+							if (GameModel.sCurrentPlayer.getTrackScore(2) != 0) {
 								chosenTrack = 3;
 								trackName = "I see green";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -275,7 +275,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 							
 							// Button for fourth level pressed
 
-							if (true || GameModel.sCurrentPlayer.getTrackScore(3) != 0) {
+							if (GameModel.sCurrentPlayer.getTrackScore(3) != 0) {
 								chosenTrack = 4;
 								trackName = "Almost there";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -290,7 +290,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 							
 							// Button for fifth level pressed
 							
-							if (true || GameModel.sCurrentPlayer.getTrackScore(4) != 0) {
+							if (GameModel.sCurrentPlayer.getTrackScore(4) != 0) {
 								chosenTrack = 5;
 								trackName = "The sun";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -381,7 +381,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 		
 		// draw buttons that shows the players progress TODO: EDITar
 		
-		/*if (GameModel.sCurrentPlayer.getTrackScore(1) == 0.0) {
+		if (GameModel.sCurrentPlayer.getTrackScore(1) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
@@ -411,13 +411,13 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 420, 140,null);
-		} else { */
+		} else { 
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 420, 140,null);
-		//}
+		}
 		
 		switch (STATE_PROGSTATE) {
 			case STATE_CHOOSETRACK:
