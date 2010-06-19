@@ -171,7 +171,7 @@ public class Highscore {
 					} else if(input[0].equals("Score")) {
 						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
 													
-						mSavedScore.add(track,Double.parseDouble(String.valueOf(input[1])));
+						mSavedScore.set(track-1,Double.parseDouble(String.valueOf(input[1])));
 						
 					}
 				}
@@ -187,6 +187,7 @@ public class Highscore {
 		} catch(FileNotFoundException fnf) {
 			
 			Log.v("HIGHSCORE CONSTRUCTOR", "File not yet created.");
+
 			
 			try {
 				

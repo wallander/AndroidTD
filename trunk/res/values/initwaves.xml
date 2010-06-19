@@ -15,7 +15,7 @@
         <item>IMMUNE 20 100</item>
         <item>NORMAL 20 160</item>
         
-        <item>HEALTHY 1 2300</item>
+        <item>HEALTHY 1 1800</item>
 		<item>NORMAL 20 200</item>
         <item>FAST 20 200</item>
         <item>AIR 20 150</item>
@@ -25,7 +25,7 @@
         <item>AIR 20 280</item>
         <item>NORMAL 20 400</item>
         <item>NORMAL 20 450</item>
-        <item>HEALTHY 1 5000</item>
+        <item>HEALTHY 1 2400</item>
 
 
     </array>
@@ -44,7 +44,7 @@
         <item>IMMUNE 20 100</item>
         <item>NORMAL 20 160</item>
         
-        <item>HEALTHY 1 3000</item>
+        <item>HEALTHY 1 2500</item>
 		<item>NORMAL 20 200</item>
         <item>FAST 20 200</item>
         <item>AIR 20 170</item>
