@@ -69,6 +69,7 @@ public class GameModel {
 	public static boolean mShowTooltip = false;
 	public static boolean mAllowBuild = false;
 	
+	
 	public static final int mSnowballTreshold = 4000;
 	public static int mUsedSnowballs;
 	

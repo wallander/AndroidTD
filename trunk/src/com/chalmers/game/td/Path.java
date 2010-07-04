@@ -88,7 +88,7 @@ public class Path {
 		try {
 			return mPath.get(index);
 		} catch(IndexOutOfBoundsException iobe) {
-			Log.v("GET COORDINATE FOR PATH", "Index out of bounds!");
+			//Log.v("GET COORDINATE FOR PATH", "Index out of bounds!");
 			return null;
 		}
 		
@@ -134,7 +134,7 @@ public class Path {
 					// Create a new Coordinate object and add it to a list of coordinates
 					mListCoordinates.add(new Coordinate(Double.parseDouble(mPathCoordinates[0]), Double.parseDouble(mPathCoordinates[1])));
 					
-					Log.v("INIT PATH", "Track: " + String.valueOf(i+1) + " X: " + mPathCoordinates[0] + " Y: " + mPathCoordinates[1]);
+					//Log.v("INIT PATH", "Track: " + String.valueOf(i+1) + " X: " + mPathCoordinates[0] + " Y: " + mPathCoordinates[1]);
 				}
 				
 
@@ -145,11 +145,11 @@ public class Path {
 				// If there are no more tracks, array elements in initpath.xml,
 				// there will be a NullPointerException or a NotFoundException thrown, they will be
 				// caught and the loop will break.
-				Log.v("INITIATION", "Path initiation complete."); 
+				//Log.v("INITIATION", "Path initiation complete."); 
 				break;
 
 			} catch (android.content.res.Resources.NotFoundException nfe) {
-				Log.v("INITIATION", "Path initiation complete."); 
+				//Log.v("INITIATION", "Path initiation complete."); 
 				break;
 
 			}

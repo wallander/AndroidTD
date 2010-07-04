@@ -16,7 +16,7 @@ public class SplashActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("GameActivity", "onCreate()");
+        //Log.i("GameActivity", "onCreate()");
         
         setContentView(R.layout.splash);
 
@@ -50,40 +50,40 @@ public class SplashActivity extends Activity {
 
     @Override
     public void onRestart() {
-    	Log.i("GameActivity","onRestart()");
+    	//Log.i("GameActivity","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.i("GameActivity","onStart()");
+    	//Log.i("GameActivity","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.i("GameActivity","onResume()");
+    	//Log.i("GameActivity","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.i("GameActivity","onPause()");
+    	//Log.i("GameActivity","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onStop() {
-    	Log.i("GameActivity","onStop()");
+    	//Log.i("GameActivity","onStop()");
     	super.onStop();
     	
     }
     
     @Override
     public void onDestroy() {
-       	Log.i("GameActivity","onDestroy()");
+       	//Log.i("GameActivity","onDestroy()");
     	super.onDestroy();
  
     }

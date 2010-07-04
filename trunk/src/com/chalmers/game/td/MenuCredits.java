@@ -14,7 +14,7 @@ public class MenuCredits extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("MenuCredits","onCreate()");
+        //Log.i("MenuCredits","onCreate()");
         
         setContentView(R.layout.credits);      
         
@@ -36,40 +36,40 @@ public class MenuCredits extends Activity {
     
     @Override
     public void onRestart() {
-    	Log.i("MenuCredits","onRestart()");
+    	//Log.i("MenuCredits","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.i("MenuCredits","onStart()");
+    	//Log.i("MenuCredits","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.i("MenuCredits","onResume()");
+    	//Log.i("MenuCredits","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.i("MenuCredits","onPause()");
+    	//Log.i("MenuCredits","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onStop() {
-    	Log.i("MenuCredits","onStop()");
+    	//Log.i("MenuCredits","onStop()");
     	super.onStop();
     	
     }
     
     @Override
     public void onDestroy() {
-       	Log.i("MenuCredits","onDestroy()");
+       	//Log.i("MenuCredits","onDestroy()");
     	super.onDestroy();
  
     }

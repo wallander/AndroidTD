@@ -44,7 +44,7 @@ public class SlowProjectile extends Projectile {
 	public int getProjImage(){
 		
 		if (mExploded) {
-			Log.v("Exp","Success");
+			//Log.v("Exp","Success");
 			if (mExplAnimation/mExplosionTime <= 0.25f)
 				return R.drawable.sexpl1;
 			else if (mExplAnimation/mExplosionTime <= 0.5f)

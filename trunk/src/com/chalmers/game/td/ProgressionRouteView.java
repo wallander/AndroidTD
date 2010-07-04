@@ -50,7 +50,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 	public ProgressionRouteView(Context context) {
 		super(context);			
 		
-		Log.v("ProgressionRoutePanel","Constructor");
+		//Log.v("ProgressionRoutePanel","Constructor");
 		
 		fillBitmapCache();		
 	
@@ -200,7 +200,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 				break; 
 			case MotionEvent.ACTION_UP:
 					
-					Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
+					//Log.v("PRESSED ON PROGRESSION ROUTE", "X: " + event.getX() + " Y: " + event.getY());
 					
 					switch (STATE_PROGSTATE) {
 					case STATE_CHOOSETRACK:
@@ -351,7 +351,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		Log.v("Progression","surfaceDestroyed");
+		//Log.v("Progression","surfaceDestroyed");
 		boolean retry = true;
 		thread.setRunning(false);
 		while (retry) {

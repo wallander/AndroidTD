@@ -184,15 +184,15 @@ public class MobFactory {
 		//If current wave is not the last wave. 
 		if(hasMoreWaves()){
 			hasMoreMobs = true;
-			Log.e("hasMoreMobs","false du to hasMoreWaves");
+			//Log.e("hasMoreMobs","false du to hasMoreWaves");
 		//If current wave IS the last wave, but the current mob is not the last mob
 		}else if(mMobIndex < mTrackWaves.get(mWaveIndex).size()-1){
 			hasMoreMobs = true;
-			Log.e("hasMoreMobs","true " + mMobIndex + " < " + (mTrackWaves.get(mWaveIndex).size()-1));
+			//Log.e("hasMoreMobs","true " + mMobIndex + " < " + (mTrackWaves.get(mWaveIndex).size()-1));
 		//If the current mob IS the last mob in the last wave	
 		}else{
 			hasMoreMobs = false;
-			Log.e("hasMoreMobs","false due to mMobIndex");
+			//Log.e("hasMoreMobs","false due to mMobIndex");
 		}
 		
 		return hasMoreMobs;
@@ -210,7 +210,7 @@ public class MobFactory {
 		//if there are no more waves after the current and the delay-counter
 
 		//is "ready", that means the last wave has started to enter. 
-		Log.i("LASTWAVE",""+!hasMoreWaves() + "&&" + mWaveDelayI +">="+ mMaxWaveDelay);
+		//Log.i("LASTWAVE",""+!hasMoreWaves() + "&&" + mWaveDelayI +">="+ mMaxWaveDelay);
 
 		return (!hasMoreWaves() && mWaveDelayI >= mMaxWaveDelay);
 	}
@@ -340,25 +340,25 @@ public class MobFactory {
 						mMobs.add(new Mob(iType, health));							
 					
 					mWaves.add(mMobs);
-					//Log.v("Mob","added to list" + waveIndex + " track: "+trackNr);
+					////Log.v("Mob","added to list" + waveIndex + " track: "+trackNr);
 					
 				}
 				
 				//if last track is reached
 				if(trackNr == GameModel.getTrack()) {
 					mTrackWaves = mWaves;
-					//Log.i("Finished","with wave initiation of "+trackNr);
-					//Log.i("Waves","Amount"+mWaves.size());
+					////Log.i("Finished","with wave initiation of "+trackNr);
+					////Log.i("Waves","Amount"+mWaves.size());
 				}
 			
 				
 			} catch(NullPointerException npe) {
-				//Log.i("INITIATION", "Mobs initiation complete.");
+				////Log.i("INITIATION", "Mobs initiation complete.");
 				// Reset mMobs so it will be able to be used at getNextMob()
 				mMobIndex = 0;
 				break;
 			} catch(NotFoundException nfe) {
-				//Log.i("INITIATION", "Mobs initiation complete. No more mobs to load.");
+				////Log.i("INITIATION", "Mobs initiation complete. No more mobs to load.");
 				// Reset mMobs so it will be able to be used at getNextMob()
 				mMobIndex = 0;
 				break;

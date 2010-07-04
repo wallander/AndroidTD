@@ -67,14 +67,14 @@ public class Highscore {
 					mWriter.write("Score " + String.valueOf((mSavedScore.get(i))));
 					mWriter.write("\n");
 					
-					Log.v("HIGHSCORE.saveScore", "Wrote to file:" + "Score " + String.valueOf(mSavedScore.get(i)));
+					//Log.v("HIGHSCORE.saveScore", "Wrote to file:" + "Score " + String.valueOf(mSavedScore.get(i)));
 				
 				}
 				
 				mWriter.close();			
 				
 			} catch(IOException ioe) {
-				Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
+				//Log.v("HIGHSCORE.saveScore", "Couldn't write to file");
 			}
 		}
 		
@@ -110,7 +110,7 @@ public class Highscore {
 		
 		if(root.canWrite()) {
 			
-			Log.v("HIGHSCORE CONSTRUCTOR", "File can write.");
+			//Log.v("HIGHSCORE CONSTRUCTOR", "File can write.");
 			
 			mFile = new File(root, "tddata.txt");
 			
@@ -120,7 +120,7 @@ public class Highscore {
 			
 			} catch (IOException e) {
 				e.printStackTrace();
-				Log.v("Highscore.getWriter", e.getMessage());
+				//Log.v("Highscore.getWriter", e.getMessage());
 			}
 		}
 					
@@ -145,7 +145,7 @@ public class Highscore {
 		// At first try to load data.score		
 		try {
 		
-			Log.v("HIGHSCORE CONSTRUCTOR", "Try to load file");
+			//Log.v("HIGHSCORE CONSTRUCTOR", "Try to load file");
 			
 			
 			mReader = getReader();
@@ -158,18 +158,18 @@ public class Highscore {
 				
 				while((readLine = mReader.readLine()) != null) {
 					
-					Log.v("Highscore.constructor", "Read line..." + readLine);
+					//Log.v("Highscore.constructor", "Read line..." + readLine);
 					
 					input = readLine.split(" ");
 					
-					Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] = " + input[1]);
+					//Log.v("Highscore.constructor", "input[0] = " + input[0] + " input[1] = " + input[1]);
 					
 					if(input[0].equals("Track")) {
-						Log.v("Highscore.constructor", "Read track... track is " + String.valueOf(input[1]));
+						//Log.v("Highscore.constructor", "Read track... track is " + String.valueOf(input[1]));
 						track = Integer.parseInt(input[1]);
 						
 					} else if(input[0].equals("Score")) {
-						Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
+						//Log.v("Highscore.constructor", "Read score... score is " + String.valueOf(input[1]));
 													
 						mSavedScore.set(track-1,Double.parseDouble(String.valueOf(input[1])));
 						
@@ -178,7 +178,7 @@ public class Highscore {
 
 			} catch (IOException e) {
 				
-				Log.v("Highscore.constructor", "IOEXCEPTION!!" + e.getMessage());
+				//Log.v("Highscore.constructor", "IOEXCEPTION!!" + e.getMessage());
 				e.printStackTrace();
 			}
 			
@@ -186,7 +186,7 @@ public class Highscore {
 		// If the file is not found, create it
 		} catch(FileNotFoundException fnf) {
 			
-			Log.v("HIGHSCORE CONSTRUCTOR", "File not yet created.");
+			//Log.v("HIGHSCORE CONSTRUCTOR", "File not yet created.");
 
 			
 			try {
@@ -200,11 +200,11 @@ public class Highscore {
 				mWriter.write("Track 5\n Score 0.0\n");
 				mWriter.close();
 				
-				Log.v("HIGHSCORE CONSTRUCTOR", "File created.");
+				//Log.v("HIGHSCORE CONSTRUCTOR", "File created.");
 			
 			
 			} catch(IOException ioe) {
-				Log.v("HIGHSCORE CONSTRUCTOR", "Creating file failed.");
+				//Log.v("HIGHSCORE CONSTRUCTOR", "Creating file failed.");
 			}
 		}
 	}

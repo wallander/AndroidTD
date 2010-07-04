@@ -36,7 +36,7 @@ import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
+//import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -277,17 +277,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 			switch (state){ 
 			case TelephonyManager.CALL_STATE_RINGING: 
-				Log.d("PhoneState", "ringing"); 
+				//Log.d("PhoneState", "ringing"); 
 				// handle incoming calls
 				GameModel.GAME_STATE = GameModel.STATE_PAUSED;
 				break; 
 
 			case TelephonyManager.CALL_STATE_IDLE: 
-				Log.d("PhoneState", "idle"); 
+				//Log.d("PhoneState", "idle"); 
 				break; 
 
 			case TelephonyManager.CALL_STATE_OFFHOOK : 
-				Log.d("PhoneState", "offhook"); 
+				//Log.d("PhoneState", "offhook"); 
 				break;
 			}
 		}
@@ -548,19 +548,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(GameModel.mMovableTower != null) {
 
-						if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
-								mTx + 60 < mButtonBorder) {
+						//Accept the current possition of the tower, if you want to place it there
+						
+							
+							if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
+									mTx + 60 < mButtonBorder) {
+	
+	
+								// build the tower and remove money from player
+								GameModel.buildTower(GameModel.mMovableTower.getTower(), 
+										(int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE,
+										(int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE);
+								GameModel.sCurrentPlayer.changeMoney(-GameModel.mMovableTower.getTower().getCost());
+	
+							}
+							GameModel.mMovableTower = null;
 
-
-							// build the tower and remove money from player
-							GameModel.buildTower(GameModel.mMovableTower.getTower(), 
-									(int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE,
-									(int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE);
-							GameModel.sCurrentPlayer.changeMoney(-GameModel.mMovableTower.getTower().getCost());
-
-						}
-						GameModel.mMovableTower = null;
-
+						
 					} else if (GameModel.mCurrentSnowball != null) {
 						// if a snowball is being placed
 						if (GameModel.mAllowBuild && event.getX() < mButtonBorder) {
@@ -782,7 +786,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		try {
 			Thread.sleep(16);
 		} catch (InterruptedException e) {
-			Log.v("App: ", "Error 2");
+			//Log.v("App: ", "Error 2");
 		}
 
 		return true;
@@ -1777,19 +1781,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * We try to finish the game loop thread here.
 	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		Log.v("GamePanel","surfaceDestroyed");
+		//Log.v("GamePanel","surfaceDestroyed");
 		boolean retry = true;
 		mGameThread.setRunning(false);
 		while (retry) {
 			try {
 				mGameThread.join();
-				Log.v("GamePanel","test");
+				//Log.v("GamePanel","test");
 				retry = false;
 			} catch (InterruptedException e) {
 				// we will try it again and again...
 			}
 		}
-		Log.i("thread", "Thread terminated...");
+		//Log.i("thread", "Thread terminated...");
 		// To prevent memory filled exception
 		mBitMapCache = new HashMap<Integer, Bitmap>();
 	}

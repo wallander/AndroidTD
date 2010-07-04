@@ -22,7 +22,7 @@ public class MenuOptions extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("MenuOptions","onCreate");
+        //Log.i("MenuOptions","onCreate");
         
         setContentView(R.layout.options);     
         
@@ -94,40 +94,40 @@ public class MenuOptions extends Activity {
 
         @Override
         public void onRestart() {
-        	Log.i("MenuOptions","onRestart()");
+        	//Log.i("MenuOptions","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.i("MenuOptions","onStart()");
+    	//Log.i("MenuOptions","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.i("MenuOptions","onResume()");
+    	//Log.i("MenuOptions","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.i("MenuOptionsy","onPause()");
+    	//Log.i("MenuOptionsy","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onStop() {
-    	Log.i("MenuOptions","onStop()");
+    	//Log.i("MenuOptions","onStop()");
     	super.onStop();
     	
     }
     
     @Override
     public void onDestroy() {
-       	Log.i("MenuOptions","onDestroy()");
+       	//Log.i("MenuOptions","onDestroy()");
     	super.onDestroy();
  
     }

@@ -43,7 +43,7 @@ public class Menu extends Activity implements OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	Log.i("Menu","onCreate()");
+    	//Log.i("Menu","onCreate()");
     	
         setContentView(R.layout.main);
         
@@ -74,39 +74,39 @@ public class Menu extends Activity implements OnClickListener{
     }
     @Override
     public void onRestart() {
-    	Log.i("Menu","onRestart()");
+    	//Log.i("Menu","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.i("Menu","onStart()");
+    	//Log.i("Menu","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.i("Menu","onResume()");
+    	//Log.i("Menu","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.i("Menu","onPause()");
+    	//Log.i("Menu","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onStop() {
-    	Log.i("Menu","onStop()");
+    	//Log.i("Menu","onStop()");
     	super.onStop();
     }
     
     @Override
     public void onDestroy() {
-       	Log.i("Menu","onDestroy()");
+       	//Log.i("Menu","onDestroy()");
     	super.onDestroy();
  
     }

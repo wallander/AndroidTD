@@ -51,7 +51,7 @@ public class MenuGame extends Activity {
     @Override
     public void onStop() {
     	super.onStop();
-    	Log.i("MenuGame","onStop()");
+    	//Log.i("MenuGame","onStop()");
     	
     	GameModel.release();
     	SoundManager.releaseSounds();
@@ -60,33 +60,33 @@ public class MenuGame extends Activity {
     
     @Override
     public void onRestart() {
-    	Log.i("MenuGame","onRestart()");
+    	//Log.i("MenuGame","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.i("MenuGame","onStart()");
+    	//Log.i("MenuGame","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.i("MenuGame","onResume()");
+    	//Log.i("MenuGame","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.i("MenuGame","onPause()");
+    	//Log.i("MenuGame","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onDestroy() {
-       	Log.i("MenuGame","onDestroy()");
+       	//Log.i("MenuGame","onDestroy()");
     	super.onDestroy();
  
     }

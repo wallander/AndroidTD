@@ -63,7 +63,7 @@ public class SplashProjectile extends Projectile {
 
 		double distance = Coordinate.getDistance(getCoordinates(), mTargetCoordinate);
 
-		Log.i("Collide=",distance +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
+		//Log.i("Collide=",distance +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
 		if (distance <= 6*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta){
 			setX(mTargetCoordinate.getX());
 			setY(mTargetCoordinate.getY());

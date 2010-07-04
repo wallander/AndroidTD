@@ -104,7 +104,7 @@ public abstract class Projectile extends Unit{
 
 		double sqrDist = Coordinate.getDistance(getCoordinates(), targetCoordinate);
 		
-		Log.w("Collide=",sqrDist +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
+		//Log.w("Collide=",sqrDist +"<"+ 4 +"*" + GameModel.getSpeedMultiplier() +"*"+getSpeed() +"*"+timeDelta +"="+ 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta);
 		//return true if the projectile has collided, else return false
 		if (sqrDist < 4*GameModel.getSpeedMultiplier()*getSpeed()*timeDelta) {
 			return true;

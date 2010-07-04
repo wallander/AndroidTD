@@ -14,7 +14,7 @@ public class MenuStart extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("MenuStart","onCreate()");
+        //Log.i("MenuStart","onCreate()");
         
         setContentView(R.layout.start);
     }
@@ -32,40 +32,40 @@ public class MenuStart extends Activity {
 
     @Override
     public void onRestart() {
-    	Log.i("MenuStart","onRestart()");
+    	//Log.i("MenuStart","onRestart()");
     	super.onRestart();
     }
     
     @Override
     public void onStart() {
-    	Log.i("MenuStart","onStart()");
+    	//Log.i("MenuStart","onStart()");
     	super.onStart();
     }
     
     @Override
     public void onResume() {
-    	Log.i("MenuStart","onResume()");
+    	//Log.i("MenuStart","onResume()");
     	super.onResume();
     
     }
     
     @Override
     public void onPause() {
-    	Log.i("MenuStart","onPause()");
+    	//Log.i("MenuStart","onPause()");
     	super.onPause();
     
     }
     
     @Override
     public void onStop() {
-    	Log.i("MenuStart","onStop()");
+    	//Log.i("MenuStart","onStop()");
     	super.onStop();
     	
     }
     
     @Override
     public void onDestroy() {
-       	Log.i("MenuStart","onDestroy()");
+       	//Log.i("MenuStart","onDestroy()");
     	super.onDestroy();
  
     }
