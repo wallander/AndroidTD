@@ -92,7 +92,7 @@
         <item>AIR 20 650</item>
         <item>NORMAL 20 760</item>
         <item>NORMAL 20 890</item>
-        <item>HEALTHY 1 5000</item>
+        <item>HEALTHY 1 6000</item>
     </array>
     
        <array name="mobs_track_4">
@@ -109,7 +109,7 @@
         <item>IMMUNE 20 180</item>
         <item>AIR 20 220</item>
  
-        <item>HEALTHY 1 2500</item>
+        <item>HEALTHY 1 3500</item>
 		<item>NORMAL 20 280</item>
         <item>FAST 20 330</item>
         <item>AIR 20 350</item>
