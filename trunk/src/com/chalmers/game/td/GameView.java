@@ -72,6 +72,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private int mTx;
 	/** Current y coordinate for the touched tower. */
 	private int mTy;
+	
 
 
 	private int mWateranimation = 0;
@@ -459,6 +460,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.sexpl2));
 		mBitMapCache.put(R.drawable.sexpl3, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.sexpl3));
+		mBitMapCache.put(R.drawable.accept, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.accept));
 	}
 
 	/**
@@ -499,30 +502,58 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			switch (GameModel.GAME_STATE) {
 			case GameModel.STATE_RUNNING:
 				// store the coordinates of the event, the x coordinate with an offset of -60 pixels
-				mTx = (int) event.getX() - 60;
-				mTy = (int) event.getY();
-
+				if(!GameModel.mWaitingToBuild){
+					mTx = (int) event.getX();//Ahmed - 60;
+					mTy = (int) event.getY();
+				}
 				switch (event.getAction()) {
 
 				case MotionEvent.ACTION_DOWN:
 
-					// If the user has selected a Tower and is touching the upgrade window
-					if (GameModel.mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
-
-						touchUpgradeWindowEvent(event);
-
-					} else { // if the user has NOT selected a tower, or if the user selected a tower but touched outside the upgrade window.
-
-						GameModel.mSelectedTower = null; //deselect any selected tower
-						GameModel.mAllowBuild = false;
-
-						// game field touched
+					if(GameModel.mWaitingToBuild){ //If a moveable tower is on the gamefield
 						if (event.getX() < mButtonBorder)
 							touchGameFieldEvent(event);
+						
+						//Accepts the build
+						if(event.getX() > 50 && event.getX() < 100 && event.getY() > 270 && event.getY() < 320){
+							if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
+									mTx < mButtonBorder) {
+	
+	
+								// build the tower and remove money from player
+								GameModel.buildTower(GameModel.mMovableTower.getTower(), 
+										(int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE,
+										(int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE);
+								GameModel.sCurrentPlayer.changeMoney(-GameModel.mMovableTower.getTower().getCost());
+	
+							}
+							GameModel.mMovableTower = null;
+						}
 
 						// The buttons on right side of the screen were touched
 						else 
+							GameModel.mWaitingToBuild = false;
 							touchRightButtonsEvent(event);
+						
+					} else {
+						// If the user has selected a Tower and is touching the upgrade window
+						if (GameModel.mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
+	
+							touchUpgradeWindowEvent(event);
+	
+						} else { // if the user has NOT selected a tower, or if the user selected a tower but touched outside the upgrade window.
+	
+							GameModel.mSelectedTower = null; //deselect any selected tower
+							GameModel.mAllowBuild = false;
+	
+							// game field touched
+							if (event.getX() < mButtonBorder)
+								touchGameFieldEvent(event);
+	
+							// The buttons on right side of the screen were touched
+							else 
+								touchRightButtonsEvent(event);
+						}
 					}
 					break;
 
@@ -530,6 +561,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 					GameModel.mShowTooltip =  event.getX() > mButtonBorder; //show tooltip if tower is on the button menu
 					// if a tower is being bought
+					
+					if(GameModel.mWaitingToBuild){
+	
+						mTx = (int) event.getX();//Ahmed - 60;
+						mTy = (int) event.getY();						
+						
+					}
 					
 					if (GameModel.mMovableTower != null) {
 						if (GameModel.mAllowBuild) {
@@ -542,15 +580,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 							GameModel.mCurrentSnowball.setY(mTy);
 						}
 					}
-										break;
+					break;
 
 				case MotionEvent.ACTION_UP:
 					//if a tower is placed on the game field
 					if(GameModel.mMovableTower != null) {
 
+						GameModel.mWaitingToBuild = true;
+						GameModel.mShowTooltip = false;
 						//Accept the current possition of the tower, if you want to place it there
 						
-							
+							/*
 							if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
 									mTx + 60 < mButtonBorder) {
 	
@@ -563,7 +603,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 							}
 							GameModel.mMovableTower = null;
-
+							*/
 						
 					} else if (GameModel.mCurrentSnowball != null) {
 						// if a snowball is being placed
@@ -840,12 +880,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// if pause button was touched, pause the game
 		if (event.getX() > 0 && event.getX() < 40 && event.getY() > 0 && event.getY() < 50){
 			GameModel.GAME_STATE = GameModel.STATE_PAUSED;
+			GameModel.mMovableTower = null;
 		}
 
 		// if fast forward was touched, toggle fast forward
-		if(event.getX() > 0 && event.getX() < 40 && event.getY() > 270 && event.getY() < 320){
+		if(event.getX() > 0 && event.getX() < 50 && event.getY() > 260 && event.getY() < 320){
 			GameModel.toggleFast();
+			GameModel.mMovableTower = null;
 		}
+		
+		GameModel.mWaitingToBuild = false;
+		
 	}
 
 	/**
@@ -960,6 +1005,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 							(int)GameModel.mCurrentSnowball.getY(),
 							GameModel.mCurrentSnowball.getRadius(),snowPaint);
 				}
+			}
+			if(GameModel.mWaitingToBuild){
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.accept),50,270,null);
 			}
 
 			// if a tower is selected for upgrades and such and such
@@ -1638,7 +1686,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			
 			canvas.drawText("" +m.getReward(),
 					(int)m.getX() + 1,
-					(int)m.getY() - m.getRewAni()  - 1,
+					(int)m.getY() - m.getRewAni()  + 1,
 					sMoneyAfterDeadBg);
 			canvas.drawText("" +m.getReward(),
 					(int)m.getX(),

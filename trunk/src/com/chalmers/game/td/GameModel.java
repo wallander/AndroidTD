@@ -68,6 +68,7 @@ public class GameModel {
 	
 	public static boolean mShowTooltip = false;
 	public static boolean mAllowBuild = false;
+	public static boolean mWaitingToBuild = false;
 	
 	
 	public static final int mSnowballTreshold = 4000;
@@ -133,15 +134,19 @@ public class GameModel {
 		sOccupiedTilePositions.add(new Point(1,1));
 		sOccupiedTilePositions.add(new Point(2,1));
 		sOccupiedTilePositions.add(new Point(3,1));
+		
+
 		sOccupiedTilePositions.add(new Point(0,19));
 		sOccupiedTilePositions.add(new Point(1,19));
 		sOccupiedTilePositions.add(new Point(2,19));
-		sOccupiedTilePositions.add(new Point(3,19));
 		sOccupiedTilePositions.add(new Point(0,18));
 		sOccupiedTilePositions.add(new Point(1,18));
 		sOccupiedTilePositions.add(new Point(2,18));
-		sOccupiedTilePositions.add(new Point(3,18));
-		
+		sOccupiedTilePositions.add(new Point(0,17));
+		sOccupiedTilePositions.add(new Point(1,17));
+		sOccupiedTilePositions.add(new Point(2,17));
+
+
 		
 		// calculate where towers can be placed depending on the Path
 		for (int i = 0; i < sPath.getSize()-1; i++) {
