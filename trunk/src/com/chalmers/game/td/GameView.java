@@ -462,6 +462,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				BitmapFactory.decodeResource(getResources(), R.drawable.sexpl3));
 		mBitMapCache.put(R.drawable.accept, 
 				BitmapFactory.decodeResource(getResources(), R.drawable.accept));
+		mBitMapCache.put(R.drawable.deny, 
+				BitmapFactory.decodeResource(getResources(), R.drawable.deny));
 	}
 
 	/**
@@ -502,10 +504,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			switch (GameModel.GAME_STATE) {
 			case GameModel.STATE_RUNNING:
 				// store the coordinates of the event, the x coordinate with an offset of -60 pixels
-				if(!GameModel.mWaitingToBuild){
-					mTx = (int) event.getX();//Ahmed - 60;
+				//if(!GameModel.mWaitingToBuild){
+					mTx = (int) event.getX() - 60;
 					mTy = (int) event.getY();
-				}
+				//}
 				switch (event.getAction()) {
 
 				case MotionEvent.ACTION_DOWN:
@@ -513,11 +515,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					if(GameModel.mWaitingToBuild){ //If a moveable tower is on the gamefield
 						if (event.getX() < mButtonBorder)
 							touchGameFieldEvent(event);
-						
-						//Accepts the build
+						// The buttons on right side of the screen were touched
+						else 
+							touchRightButtonsEvent(event);
+					
+					
+						// Accepts the build
 						if(event.getX() > 50 && event.getX() < 100 && event.getY() > 270 && event.getY() < 320){
 							if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
-									mTx < mButtonBorder) {
+									GameModel.mMovableTower.mXPos < mButtonBorder - 20) {
 	
 	
 								// build the tower and remove money from player
@@ -528,16 +534,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 							}
 							GameModel.mMovableTower = null;
+							
+						// Deny the build
+						} else if (event.getX() > 100 && event.getX() < 150 && event.getY() > 270 && event.getY() < 320){
+							GameModel.mMovableTower = null;
+							GameModel.mWaitingToBuild = false;
 						}
-
-						// The buttons on right side of the screen were touched
-						else 
+						// If the user has selected a Tower and is touching the upgrade window while trying to build
+						if(GameModel.mSelectedTower != null && sTransparentBox.contains(mTx, mTy)){
+							GameModel.mMovableTower = null;
 							GameModel.mWaitingToBuild = false;
 							touchRightButtonsEvent(event);
+						}
 						
 					} else {
 						// If the user has selected a Tower and is touching the upgrade window
 						if (GameModel.mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
+
 	
 							touchUpgradeWindowEvent(event);
 	
@@ -561,14 +574,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 					GameModel.mShowTooltip =  event.getX() > mButtonBorder; //show tooltip if tower is on the button menu
 					// if a tower is being bought
-					
+					/*
 					if(GameModel.mWaitingToBuild){
 	
-						mTx = (int) event.getX();//Ahmed - 60;
+						mTx = (int) event.getX() - 60;
 						mTy = (int) event.getY();						
 						
 					}
-					
+					*/
 					if (GameModel.mMovableTower != null) {
 						if (GameModel.mAllowBuild) {
 							GameModel.mMovableTower.mXPos = mTx;
@@ -995,9 +1008,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			// if a tower is being bought
 			// draw either the tooltip for it, or how it would be placed.
 			if (GameModel.mMovableTower != null || GameModel.mCurrentSnowball != null) {
-				if (GameModel.mShowTooltip)
+				if (GameModel.mShowTooltip){
 					drawTooltip(canvas);
-				else if (GameModel.mMovableTower != null && GameModel.mAllowBuild)
+					drawCurrentTower(canvas); //ahmed visa torn när man håller över
+				} else if (GameModel.mMovableTower != null && GameModel.mAllowBuild)
 					drawCurrentTower(canvas);
 				else if (GameModel.mCurrentSnowball != null && GameModel.mAllowBuild) {
 					canvas.drawCircle(
@@ -1006,8 +1020,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 							GameModel.mCurrentSnowball.getRadius(),snowPaint);
 				}
 			}
+			//accept or deny build
 			if(GameModel.mWaitingToBuild){
 				canvas.drawBitmap(mBitMapCache.get(R.drawable.accept),50,270,null);
+				canvas.drawBitmap(mBitMapCache.get(R.drawable.deny),100,270,null);
+
 			}
 
 			// if a tower is selected for upgrades and such and such
