@@ -39,7 +39,7 @@ public class MenuOptions extends Activity {
         	}
         });
         
-        CheckBox toggleMusic = (CheckBox)findViewById(R.id.MusicCheckBox);
+       /* CheckBox toggleMusic = (CheckBox)findViewById(R.id.MusicCheckBox);
         toggleMusic.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -49,7 +49,7 @@ public class MenuOptions extends Activity {
         
         toggleMusic.setChecked(GameModel.sMusicEnabled);
         toggleMusic.setText("Toggle Music");
-        
+        */
         CheckBox toggleCheat = (CheckBox)findViewById(R.id.CheatCheckBox);
         toggleCheat.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			

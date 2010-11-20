@@ -11,19 +11,19 @@ android:layout_height="wrap_content"
 android:layout_marginLeft="2px" android:layout_marginTop="2px" android:background="@drawable/back_button" android:id="@+id/GoBack">
 </Button>
 
-<CheckBox 
+<!-- CheckBox 
 android:layout_height="wrap_content"
 android:id="@+id/MusicCheckBox" 
 android:layout_width="wrap_content" 
 android:text="@+id/MusicCheckBox" android:layout_marginLeft="60pt" android:layout_marginTop="30pt">
-</CheckBox>
+</CheckBox -->
 
 <CheckBox 
 android:layout_height="wrap_content" 
 android:id="@+id/CheatCheckBox" 
 android:layout_width="wrap_content" 
 android:layout_below="@+id/MusicCheckBox" 
-android:text="@+id/CheckBox01" android:layout_marginLeft="60pt">
+android:text="@+id/CheckBox01" android:layout_marginLeft="60pt" android:layout_marginTop="40pt">
 </CheckBox>
 
 <Button 
