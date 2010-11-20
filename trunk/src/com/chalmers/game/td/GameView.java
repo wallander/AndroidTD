@@ -51,12 +51,11 @@ import android.view.SurfaceView;
  * In Android development, the "View" also handles user input, so this is where
  * we take care of all events that the user generates on the game field.
  * 
- * @author Fredrik Persson
+ * @author Fredrik Persson 
  * @author Jonas Andersson
  * @author Ahmed Chaban
  * @author Jonas Wallander
  * @author Disa Faith
- * @author Daniel Arvidsson
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -956,8 +955,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 			if (mAccelerometerSupported) {
 
-				if (GameModel.sCurrentPlayer.getCurrentTrackScore() 
-						>= mSnowballTreshold*(1+mUsedSnowballs))
+				if (GameModel.sCurrentPlayer.getCurrentTrackScore() >= mSnowballTreshold*(1+mUsedSnowballs))
 					GameModel.mAllowBuild = true;
 
 				if (GameModel.sCheatEnabled)
