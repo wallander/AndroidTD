@@ -68,7 +68,6 @@ public class GameModel {
 	
 	public static boolean mShowTooltip = false;
 	public static boolean mAllowBuild = false;
-	public static boolean mWaitingToBuild = false;
 	
 	
 	public static final int mSnowballTreshold = 4000;

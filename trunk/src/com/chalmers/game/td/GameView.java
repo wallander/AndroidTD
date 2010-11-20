@@ -510,43 +510,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				switch (event.getAction()) {
 
 				case MotionEvent.ACTION_DOWN:
-
-					if(GameModel.mWaitingToBuild){ //If a moveable tower is on the gamefield
-						if (event.getX() < mButtonBorder)
-							touchGameFieldEvent(event);
-						// The buttons on right side of the screen were touched
-						else 
-							touchRightButtonsEvent(event);
-					
-					
-						// Accepts the build
-						if(event.getX() > 50 && event.getX() < 100 && event.getY() > 270 && event.getY() < 320){
-							if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
-									GameModel.mMovableTower.mXPos < mButtonBorder - 20) {
-	
-	
-								// build the tower and remove money from player
-								GameModel.buildTower(GameModel.mMovableTower.getTower(), 
-										(int)GameModel.mMovableTower.getTower().getX() / GameModel.GAME_TILE_SIZE,
-										(int)GameModel.mMovableTower.getTower().getY() / GameModel.GAME_TILE_SIZE);
-								GameModel.sCurrentPlayer.changeMoney(-GameModel.mMovableTower.getTower().getCost());
-	
-							}
-							GameModel.mMovableTower = null;
-							
-						// Deny the build
-						} else if (event.getX() > 100 && event.getX() < 150 && event.getY() > 270 && event.getY() < 320){
-							GameModel.mMovableTower = null;
-							GameModel.mWaitingToBuild = false;
-						}
-						// If the user has selected a Tower and is touching the upgrade window while trying to build
-						if(GameModel.mSelectedTower != null && sTransparentBox.contains(mTx, mTy)){
-							GameModel.mMovableTower = null;
-							GameModel.mWaitingToBuild = false;
-							touchRightButtonsEvent(event);
-						}
-						
-					} else {
 						// If the user has selected a Tower and is touching the upgrade window
 						if (GameModel.mSelectedTower != null && sTransparentBox.contains(mTx, mTy)) {
 
@@ -566,7 +529,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 							else 
 								touchRightButtonsEvent(event);
 						}
-					}
+				
 					break;
 
 				case MotionEvent.ACTION_MOVE:
@@ -598,11 +561,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					//if a tower is placed on the game field
 					if(GameModel.mMovableTower != null) {
 
-						GameModel.mWaitingToBuild = true;
 						GameModel.mShowTooltip = false;
 						//Accept the current possition of the tower, if you want to place it there
 						
-							/*
+							
 							if (GameModel.canAddTower(GameModel.mMovableTower.getTower()) && GameModel.mAllowBuild && 
 									mTx + 60 < mButtonBorder) {
 	
@@ -615,7 +577,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 							}
 							GameModel.mMovableTower = null;
-							*/
+							
 						
 					} else if (GameModel.mCurrentSnowball != null) {
 						// if a snowball is being placed
@@ -900,8 +862,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			GameModel.toggleFast();
 			GameModel.mMovableTower = null;
 		}
-		
-		GameModel.mWaitingToBuild = false;
+	
 		
 	}
 
@@ -1008,7 +969,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (GameModel.mMovableTower != null || GameModel.mCurrentSnowball != null) {
 				if (GameModel.mShowTooltip){
 					drawTooltip(canvas);
-					drawCurrentTower(canvas); //ahmed visa torn nŠr man hŒller šver
 				} else if (GameModel.mMovableTower != null && GameModel.mAllowBuild)
 					drawCurrentTower(canvas);
 				else if (GameModel.mCurrentSnowball != null && GameModel.mAllowBuild) {
@@ -1018,12 +978,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 							GameModel.mCurrentSnowball.getRadius(),snowPaint);
 				}
 			}
-			//accept or deny build
-			if(GameModel.mWaitingToBuild){
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.accept),50,270,null);
-				canvas.drawBitmap(mBitMapCache.get(R.drawable.deny),100,270,null);
 
-			}
 
 			// if a tower is selected for upgrades and such and such
 			if(GameModel.mSelectedTower != null){	
