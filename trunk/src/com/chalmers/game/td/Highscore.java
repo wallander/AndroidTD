@@ -49,12 +49,12 @@ public class Highscore {
 		
 	}
 
-	public void saveScore() {
+	public void saveScore(GameModel gm) {
 		
-		if(mSavedScore.get(GameModel.getTrack() - 1) < mCurrentTrackScore) {
+		if(mSavedScore.get(gm.getTrack() - 1) < mCurrentTrackScore) {
 			
 
-			mSavedScore.set(GameModel.getTrack()-1, mCurrentTrackScore);
+			mSavedScore.set(gm.getTrack()-1, mCurrentTrackScore);
 
 			try {
 				

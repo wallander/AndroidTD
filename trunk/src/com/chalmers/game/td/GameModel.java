@@ -23,68 +23,70 @@ import com.chalmers.game.td.Path;
  * @author Disa Faith
  * @author Daniel Arvidsson
  */
-public class GameModel {
+public class GameModel  implements java.io.Serializable {
+	public static final long serialVersionUID = 1L;
+
 	
-	public static List<Tower> sTowers;
-	public static List<Mob> sMobs;
-	public static List<Mob> sShowRewardForMob;
-	public static List<Projectile> sShowExplForProj;
-	public static List<Projectile> sProjectiles;
-	public static List<Snowball> sSnowballs;
-	public static Path sPath;
-	public static HashSet<Point> sOccupiedTilePositions;
-	public static Player sCurrentPlayer;
-	public static int	sSelectedTrack = 1;
-	public static boolean sMusicEnabled = true;
-	public static boolean sCheatEnabled = false;
+	public List<Tower> sTowers;
+	public List<Mob> sMobs;
+	public List<Mob> sShowRewardForMob;
+	public List<Projectile> sShowExplForProj;
+	public List<Projectile> sProjectiles;
+	public List<Snowball> sSnowballs;
+	public Path sPath;
+	public HashSet<Point> sOccupiedTilePositions;
+	public Player sCurrentPlayer;
+	public int	sSelectedTrack = 1;
+	public boolean sMusicEnabled = true;
+	public boolean sCheatEnabled = false;
 	
 	/* Grejer från GameView.... */
 	
-	public static MobFactory mMobFactory = MobFactory.getInstance();
+	public MobFactory mMobFactory = MobFactory.getInstance();
 	
-	public static final int STATE_RUNNING = 1;
-	public static final int STATE_GAMEOVER = 2;
-	public static final int STATE_WIN = 3;
-	public static final int STATE_PAUSED = 4;
+	public final int STATE_RUNNING = 1;
+	public final int STATE_GAMEOVER = 2;
+	public final int STATE_WIN = 3;
+	public final int STATE_PAUSED = 4;
 
-	public static int GAME_STATE = STATE_RUNNING;
+	public int GAME_STATE = STATE_RUNNING;
 	
-	private static int GAME_SPEED_MULTIPLIER = 1;
+	private int GAME_SPEED_MULTIPLIER = 1;
 	
-	public static Tower mCurrentTower;
-	public static Snowball mCurrentSnowball;
+	public Tower mCurrentTower;
+	public Snowball mCurrentSnowball;
 	
-	public static MovableTower mMovableTower;
+	public MovableTower mMovableTower;
 	
-	public static Tower mSelectedTower;
+	public Tower mSelectedTower;
 	
 	/** Indicates if fast forward is activated or not. */
-	public static boolean mFast = false;
+	public boolean mFast = false;
 	
 	public Tower mTower1 = new BasicTower(0,0);
 	public Tower mTower2 = new SplashTower(0,0);
 	public Tower mTower3 = new SlowTower(0,0);
 	public Tower mTower4 = new AirTower(0,0);
 	
-	public static boolean mShowTooltip = false;
-	public static boolean mAllowBuild = false;
+	public boolean mShowTooltip = false;
+	public boolean mAllowBuild = false;
 	
 	
-	public static final int mSnowballTreshold = 4000;
-	public static int mUsedSnowballs;
+	public final int mSnowballTreshold = 4000;
+	public int mUsedSnowballs;
 	
 	/** Keeps track of the delay between creation of Mobs in waves */
-	public static final float MOB_DELAY_MAX = 1;
-	private static float mMobDelayI = 0;
+	public final float MOB_DELAY_MAX = 1;
+	private float mMobDelayI = 0;
 	
-	static boolean mSplash = false;
-	static boolean mCreatedLastWave = false; //Ahmed
+	boolean mSplash = false;
+	boolean mCreatedLastWave = false; //Ahmed
 	
-	public static SensorEvent mLatestSensorEvent;
+	public SensorEvent mLatestSensorEvent;
 	
 
 	/** Size of "game tiles" */
-    public static final int GAME_TILE_SIZE = 16;
+    public final int GAME_TILE_SIZE = 16;
 	
 	/**
 	 * Constructor
@@ -94,9 +96,9 @@ public class GameModel {
 	}
 	
 	/**
-	 * Initializes all variables of the GameModel.
+	 * Initializes all variables of the 
 	 */
-	public static void initialize(Context context) {
+	public void initialize(Context context) {
 		
 		
 		sTowers = new ArrayList<Tower>();
@@ -183,7 +185,7 @@ public class GameModel {
 	 * @param x Tile position on the X-axis
 	 * @param y Tile position on the Y-axis
 	 */
-	public static void buildTower(Tower tower, int x, int y){
+	public void buildTower(Tower tower, int x, int y){
 		
 		tower.setCoordinates(new Coordinate(x*GAME_TILE_SIZE , y*GAME_TILE_SIZE));
 		
@@ -203,7 +205,7 @@ public class GameModel {
 	/**
 	 * Returns whether a tower can be placed on the gamefield with it's current coordinates
 	 */
-	public static boolean canAddTower(Tower tower) {
+	public boolean canAddTower(Tower tower) {
 		
 		int tx = (int) (tower.getX() / GAME_TILE_SIZE);
 		int ty = (int) (tower.getY() / GAME_TILE_SIZE);
@@ -218,7 +220,7 @@ public class GameModel {
 		
 	}
 	
-	public static void removeTower(Tower t) {
+	public void removeTower(Tower t) {
 		sTowers.remove(t);
 		
 		int tx = (int) (t.getX() / GAME_TILE_SIZE);
@@ -234,19 +236,19 @@ public class GameModel {
 		
 	}
 	
-	public static void setTrack(int pTrack) {
+	public void setTrack(int pTrack) {
 		sSelectedTrack = pTrack;
 	}
 	
-	public static int getTrack() {
+	public int getTrack() {
 		return sSelectedTrack;
 	}
 
-	public static void setMusicEnabled(boolean isChecked) {
+	public void setMusicEnabled(boolean isChecked) {
 		sMusicEnabled = isChecked;
 	}
 
-	public static void setCheatEnabled(boolean isChecked) {
+	public void setCheatEnabled(boolean isChecked) {
 		sCheatEnabled = isChecked;
 	}
 
@@ -257,7 +259,7 @@ public class GameModel {
 	 * @param setFast True sets the game in fast forward mode, false sets the game to 
 	 * normal speed.
 	 */
-	public static void setFast(boolean setFast){
+	public void setFast(boolean setFast){
 		mFast = setFast;
 		
 		if (mFast)
@@ -271,16 +273,16 @@ public class GameModel {
 	 * multiplier to the opposite of what it was before.
 	 * 
 	 */
-	public static void toggleFast(){
+	public void toggleFast(){
 		mFast = !mFast;
 		setFast(mFast);
 	}
 	
-	public static int getSpeedMultiplier() {
+	public int getSpeedMultiplier() {
 		return GAME_SPEED_MULTIPLIER;
 	}
 
-	private static void setSpeedMultiplier(int i) {
+	private void setSpeedMultiplier(int i) {
 		GAME_SPEED_MULTIPLIER = i;
 	}
 	
@@ -290,9 +292,9 @@ public class GameModel {
 	 * Called from updateModel.
 	 * @param timeDelta 
 	 */
-	private static Mob createMobs(float timeDelta) {  	    	    	    	        	    	    	
+	private Mob createMobs(float timeDelta) {  	    	    	    	        	    	    	
 
-		int track = GameModel.getTrack();
+		int track = getTrack();
 		
 		if (mMobDelayI >= MOB_DELAY_MAX) { //if it's time to get next mob
 			mMobDelayI = 0;
@@ -315,7 +317,7 @@ public class GameModel {
 	 * It also handles projectile collisions with mobs dying and such.
 	 * @param timeDelta 
 	 */
-	public static void updateModel(float timeDelta) {
+	public void updateModel(float timeDelta) {
 
 		if (mMovableTower != null)
 			mMovableTower.update(timeDelta);
@@ -323,7 +325,7 @@ public class GameModel {
 		if (GAME_STATE == STATE_RUNNING) { //Only update if running
 
 			// If the player has 0 or less lives remaining, change game state
-			if (GameModel.sCurrentPlayer.getRemainingLives() <= 0) {
+			if (sCurrentPlayer.getRemainingLives() <= 0) {
 				mSelectedTower = null;
 				mCurrentSnowball = null;
 				mCurrentTower = null;
@@ -335,7 +337,7 @@ public class GameModel {
 			
 			Mob mNewMob = createMobs(timeDelta);
 			if (mNewMob != null) {
-				GameModel.sMobs.add(mNewMob);
+				sMobs.add(mNewMob);
 				if(mMobFactory.hasMoreWaves()){
 					mCreatedLastWave = true;
 				}
@@ -344,13 +346,13 @@ public class GameModel {
 			}
 
 			// if the player has won (no more mobs and all mobs dead)
-			if (mMobFactory.lastWaveHasEntered() && GameModel.sMobs.isEmpty() && mCreatedLastWave && mMobFactory.getLastMobSent()) {
+			if (mMobFactory.lastWaveHasEntered() && sMobs.isEmpty() && mCreatedLastWave && mMobFactory.getLastMobSent()) {
 				mSelectedTower = null;
 				mCurrentSnowball = null;
 				mCurrentTower = null;
 				mShowTooltip = false;
 				setFast(false);
-				GameModel.sCurrentPlayer.saveCurrentTrackScore();
+				sCurrentPlayer.saveCurrentTrackScore();
 				GAME_STATE = STATE_WIN;
 				return;
 			}
@@ -363,28 +365,28 @@ public class GameModel {
 			 * 
 			 * tryToShoot() returns null if the tower can't reach any mob or if the tower is on CD
 			 */
-			int size = GameModel.sTowers.size();
+			int size = sTowers.size();
 			for (int i = 0; i < size; ++i) {
-				Tower t = GameModel.sTowers.get(i);
+				Tower t = sTowers.get(i);
 				t.update(timeDelta);
 				Projectile newProjectile = null;
 
 				//if there are any mobs, try to shoot at them
-				if (GameModel.sMobs.isEmpty() == false)
+				if (sMobs.isEmpty() == false)
 					newProjectile = t.getNextProjectile();
 
 				//if a projectile was returned, add it to the game model
 				if (newProjectile != null)
-					GameModel.sProjectiles.add(newProjectile);
+					sProjectiles.add(newProjectile);
 				
 			}
 
 			// Check if any projectile has hit it's target
 			// Handle hit, remove projectile, calculate damage on mob, etc. etc.
-			size = GameModel.sProjectiles.size();
+			size = sProjectiles.size();
 			int removed = 0;
 			for (int i = 0; i < size - removed; ++i) {
-				Projectile p = GameModel.sProjectiles.get(i);								
+				Projectile p = sProjectiles.get(i);								
 				
 				// Update position for the projectiles
 				p.update(timeDelta);
@@ -393,15 +395,15 @@ public class GameModel {
 				if (p.hasCollided(timeDelta)) {					
 					p.inflictDmg();
 					p.mExploded = true;
-					GameModel.sShowExplForProj.add(p);
-					GameModel.sProjectiles.remove(p);
+					sShowExplForProj.add(p);
+					sProjectiles.remove(p);
 					++removed;
 				}
 
 				// if the projectile's target is dead, remove the projectile
 				// this is fulkod to keep projectiles that never reached their target from staying on the gamefield
 				if (p.getTarget().getHealth() <= 0) {					
-					GameModel.sProjectiles.remove(p);	
+					sProjectiles.remove(p);	
 					++removed;
 				}
 			}
@@ -409,14 +411,14 @@ public class GameModel {
 			
 			
 
-			for (int i = 0; i < GameModel.sShowExplForProj.size(); ++i) {
-				Projectile p = GameModel.sShowExplForProj.get(i);								
+			for (int i = 0; i < sShowExplForProj.size(); ++i) {
+				Projectile p = sShowExplForProj.get(i);								
 				
 				// Update position for the projectiles
 				p.update(timeDelta);
 
 				if (p.mExplAnimation > p.getExplosionTime())
-					GameModel.sShowExplForProj.remove(p);
+					sShowExplForProj.remove(p);
 				
 			}
 			
@@ -429,14 +431,14 @@ public class GameModel {
 			 * update position
 			 * do damage to any mob it hits
 			 */
-			for (int j = 0; j < GameModel.sSnowballs.size(); ++j) {
-				Snowball s = GameModel.sSnowballs.get(j);
+			for (int j = 0; j < sSnowballs.size(); ++j) {
+				Snowball s = sSnowballs.get(j);
 
 				// update position with accelerometer
 				s.update(timeDelta);
 
 				// read what mobs are hit
-				List<Mob> deadMobs = s.getCollidedMobs(GameModel.sMobs);
+				List<Mob> deadMobs = s.getCollidedMobs(sMobs);
 
 				// handle mobs that were hit
 				for (int k = 0; k < deadMobs.size(); k++) {
@@ -451,7 +453,7 @@ public class GameModel {
 
 				// if the snowball is out of charges, remove it
 				if (s.getCharges() <= 0) {
-					GameModel.sSnowballs.remove(s);
+					sSnowballs.remove(s);
 				}
 			}
 
@@ -460,10 +462,10 @@ public class GameModel {
 			 *  Update position
 			 *  If the mob has died, handle it
 			 */
-			size = GameModel.sMobs.size();
+			size = sMobs.size();
 			removed = 0;
 			for (int j = 0; j < size - removed; j++) {
-				Mob m = GameModel.sMobs.get(j);				
+				Mob m = sMobs.get(j);				
 
 				m.update(timeDelta);
 				
@@ -474,14 +476,14 @@ public class GameModel {
 
 						switch (m.getType()) {
 						case Mob.HEALTHY:
-							GameModel.sCurrentPlayer.removeLife(5);
+							sCurrentPlayer.removeLife(5);
 							break;
 						default:
-							GameModel.sCurrentPlayer.removeLife(1);
+							sCurrentPlayer.removeLife(1);
 							break;
 						}
 
-						GameModel.sMobs.remove(m);
+						sMobs.remove(m);
 						++removed;
 						// TODO fult, fixa
 						GameView.mVibrator.vibrate(50);
@@ -490,21 +492,21 @@ public class GameModel {
 				// handle mob death
 				if (m.isDead() && m.isEnabled()) {
 					m.mAnimation = m.mAnimationDeath;
-					GameModel.sCurrentPlayer.changeMoney(m.getReward());
-					GameModel.sCurrentPlayer.changeScore(m);					
-					GameModel.sShowRewardForMob.add(m);
+					sCurrentPlayer.changeMoney(m.getReward());
+					sCurrentPlayer.changeScore(m);					
+					sShowRewardForMob.add(m);
 					m.setEnabled(false);
 				}
 				
 				if (m.isDead() && m.mAnimation < 0) {
-					GameModel.sMobs.remove(m);
+					sMobs.remove(m);
 					++removed;
 				}
 			}
 		}
 	}
 
-	public static void release() {
+	public void release() {
 
 		// TODO Auto-generated method stub
 		

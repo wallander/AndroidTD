@@ -54,11 +54,11 @@ public class MenuOptions extends Activity {
         toggleCheat.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				GameModel.setCheatEnabled(isChecked);
+				//GameModel.setCheatEnabled(isChecked);
 			}
         });
 
-        toggleCheat.setChecked(GameModel.sCheatEnabled);
+//        toggleCheat.setChecked(GameModel.sCheatEnabled);
         toggleCheat.setText("Toggle Infinite Snowballs");
 
 

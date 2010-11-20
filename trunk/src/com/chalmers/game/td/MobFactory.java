@@ -26,7 +26,7 @@ import com.chalmers.game.td.units.Tower;
 public class MobFactory {
 
 	// Instance variables
-	private static final MobFactory		INSTANCE = new MobFactory();
+	//private static final MobFactory		INSTANCE = new MobFactory();
 	private int							mWaveDelayI;
 	
 	/**

@@ -34,11 +34,13 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 	private String trackName = "";
 	private int menuPic = 0;
 	private int chosenTrack;
+	private GameModel gm;
+	private int state;
 	
 	public void updateSound() {
 		
 		try {
-			if (GameModel.sMusicEnabled) {
+			if (gm.sMusicEnabled) {
 				
 				SoundManager.playMusic(SoundManager.getProgressionRouteMusic());				
 			}
@@ -47,8 +49,14 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 		}
 	}
 	
+	public void setGameModel(GameModel gm, int state) {
+		this.gm = gm;
+		this.state = state;
+	}
+	
 	public ProgressionRouteView(Context context) {
 		super(context);			
+		
 		
 		//Log.v("ProgressionRoutePanel","Constructor");
 		
@@ -244,7 +252,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 								event.getY() > 200 && event.getY() < 200+70) {
 							
 							// Button for second level pressed
-							if (GameModel.sCurrentPlayer.getTrackScore(1) != 0) { //TODO:EDITar, se även nedan
+							if (gm.sCurrentPlayer.getTrackScore(1) != 0) { //TODO:EDITar, se även nedan
 								chosenTrack = 2;
 								trackName = "Ice Flow";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -260,7 +268,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 							
 							// Button for third level pressed
 							
-							if (GameModel.sCurrentPlayer.getTrackScore(2) != 0) {
+							if (gm.sCurrentPlayer.getTrackScore(2) != 0) {
 								chosenTrack = 3;
 								trackName = "I see green";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -275,7 +283,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 							
 							// Button for fourth level pressed
 
-							if (GameModel.sCurrentPlayer.getTrackScore(3) != 0) {
+							if (gm.sCurrentPlayer.getTrackScore(3) != 0) {
 								chosenTrack = 4;
 								trackName = "Almost there";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -290,7 +298,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 							
 							// Button for fifth level pressed
 							
-							if (GameModel.sCurrentPlayer.getTrackScore(4) != 0) {
+							if (gm.sCurrentPlayer.getTrackScore(4) != 0) {
 								chosenTrack = 5;
 								trackName = "The sun";
 								STATE_PROGSTATE = STATE_STARTTRACK;
@@ -329,7 +337,7 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 	}
 	
 	public void beforeEnteringLevel(){
-		GameModel.setTrack(chosenTrack);
+		gm.setTrack(chosenTrack);
 		thread.setRunning(false);
 		getHolder().removeCallback(this);
 		mActivity.setContentView(new GameView(getContext()));
@@ -381,31 +389,31 @@ public class ProgressionRouteView extends SurfaceView implements SurfaceHolder.C
 		
 		// draw buttons that shows the players progress TODO: EDITar
 		
-		if (GameModel.sCurrentPlayer.getTrackScore(1) == 0.0) {
+		if (gm.sCurrentPlayer.getTrackScore(1) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.sCurrentPlayer.getTrackScore(2) == 0.0) {
+		} else if (gm.sCurrentPlayer.getTrackScore(2) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.sCurrentPlayer.getTrackScore(3) == 0.0) {
+		} else if (gm.sCurrentPlayer.getTrackScore(3) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.sCurrentPlayer.getTrackScore(4) == 0.0) {
+		} else if (gm.sCurrentPlayer.getTrackScore(4) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognext), 280, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.prognotdone), 420, 140,null);
-		} else if (GameModel.sCurrentPlayer.getTrackScore(5) == 0.0) {
+		} else if (gm.sCurrentPlayer.getTrackScore(5) == 0.0) {
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 90, 50,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 100, 180,null);
 			canvas.drawBitmap(mBitMapCache.get(R.drawable.progdone), 280, 180,null);

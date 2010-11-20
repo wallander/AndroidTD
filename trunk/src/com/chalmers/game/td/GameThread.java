@@ -18,16 +18,17 @@ class GameThread extends Thread {
 	private GameView mGamePanel;
 	private boolean mRunThread = false;
 	private long mLastTime;
+	private GameModel gm;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param panel View class on which we trigger the drawing.
 	 */
-	public GameThread(GameView panel) {
+	public GameThread(GameView panel, GameModel gm) {
 		mGamePanel = panel;
 		mLastTime = SystemClock.uptimeMillis();
-			
+			this.gm = gm;
 	}
 
 	/**
@@ -70,7 +71,7 @@ class GameThread extends Thread {
 				mLastTime = time;
 
 				// Do everything that needs a time delta!
-				GameModel.updateModel(secondsDelta);
+				gm.updateModel(secondsDelta);
 			}
 			
 			final long endTime = SystemClock.uptimeMillis();
