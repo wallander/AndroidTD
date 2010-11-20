@@ -17,12 +17,13 @@ public class SoundManager {
 								sTrackFiveMusic;
 	private static SoundPool	sSounds;
 	private static int			sWaterSplashSound;
+	private static boolean 		sEnableSounds;
 	
 	/**
 	 * Constructor
 	 */
 	public SoundManager() {
-		
+		sEnableSounds = false;
 	}
 	
 	/**
@@ -30,7 +31,7 @@ public class SoundManager {
 	 * @param pFile
 	 */
 	public static void playSound(int pFile) {
-		sSounds.play(pFile, 1, 1, 1, 0, 1);
+		//sSounds.play(pFile, 1, 1, 1, 0, 1);
 	}
 	
 	/**
@@ -38,11 +39,11 @@ public class SoundManager {
 	 * @param pFile
 	 */
 	public static void playMusic(MediaPlayer pFile) {
-		
-		if (!pFile.isPlaying()) {
+		/*
+		if (!pFile.isPlaying() && sEnableSounds==true) {
 		    pFile.seekTo(0);
 		    pFile.start();
-	    }
+	    }*/
 	}
 	
 	/**
@@ -50,14 +51,14 @@ public class SoundManager {
 	 * @param pFile
 	 */
 	public static void pauseMusic(MediaPlayer pFile) {
-		if (pFile.isPlaying()) pFile.pause();
+		//if (pFile.isPlaying()) pFile.pause();
 	}
 	
 	/**
 	 * 
 	 */
 	public static void releaseSounds() {
-		
+		/*
 		if (sSounds == null)
 			return;
 		
@@ -94,7 +95,7 @@ public class SoundManager {
 	    if(getMenuMusic().isPlaying() && getMenuMusic() != null) {
 	    	getMenuMusic().stop();
 	    	getMenuMusic().release();
-	    }
+	    }*/
 	}
 	
 	/**
@@ -102,7 +103,7 @@ public class SoundManager {
 	 * @param pContext
 	 */
 	public static void initializeSound(Context pContext) {
-		
+		/*
 		// Initialize the sound pool
 		sSounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 		
@@ -118,75 +119,76 @@ public class SoundManager {
 		setTrackThreeMusic(MediaPlayer.create(pContext, R.raw.track_3_music));
 		setTrackFourMusic(MediaPlayer.create(pContext, R.raw.track_4_music));
 		setTrackFiveMusic(MediaPlayer.create(pContext, R.raw.track_5_music));
-		
+		*/
 	}
 
-	public static void setWaterSplashSound(int pWaterSplashSound) {
-		SoundManager.sWaterSplashSound = pWaterSplashSound;
+	public static void setWaterSplashSound(int pWaterSplashSound) {/*
+		SoundManager.sWaterSplashSound = pWaterSplashSound;*/
 	}
 
 	public static int getWaterSplashSound() {
 		return sWaterSplashSound;
+		
 	}
 
-	public static void setTrackFiveMusic(MediaPlayer pTrackFiveMusic) {
-		SoundManager.sTrackFiveMusic = pTrackFiveMusic;
+	public static void setTrackFiveMusic(MediaPlayer pTrackFiveMusic) {/*
+		SoundManager.sTrackFiveMusic = pTrackFiveMusic;*/
 	}
 
 	public static MediaPlayer getTrackFiveMusic() {
 		return sTrackFiveMusic;
 	}
 
-	public static void setTrackFourMusic(MediaPlayer pTrackFourMusic) {
-		SoundManager.sTrackFourMusic = pTrackFourMusic;
+	public static void setTrackFourMusic(MediaPlayer pTrackFourMusic) {/*
+		SoundManager.sTrackFourMusic = pTrackFourMusic;*/
 	}
 
 	public static MediaPlayer getTrackFourMusic() {
 		return sTrackFourMusic;
 	}
 
-	public static void setTrackThreeMusic(MediaPlayer pTrackThreeMusic) {
-		SoundManager.sTrackThreeMusic = pTrackThreeMusic;
+	public static void setTrackThreeMusic(MediaPlayer pTrackThreeMusic) {/*
+		SoundManager.sTrackThreeMusic = pTrackThreeMusic;*/
 	}
 
 	public static MediaPlayer getTrackThreeMusic() {
 		return sTrackThreeMusic;
 	}
 
-	public static void setTrackTwoMusic(MediaPlayer pTrackTwoMusic) {
-		SoundManager.sTrackTwoMusic = pTrackTwoMusic;
+	public static void setTrackTwoMusic(MediaPlayer pTrackTwoMusic) {/*
+		SoundManager.sTrackTwoMusic = pTrackTwoMusic;*/
 	}
 
 	public static MediaPlayer getTrackTwoMusic() {
 		return sTrackTwoMusic;
 	}
 
-	public static void setTrackOneMusic(MediaPlayer pTrackOneMusic) {
-		SoundManager.sTrackOneMusic = pTrackOneMusic;
+	public static void setTrackOneMusic(MediaPlayer pTrackOneMusic) {/*
+		SoundManager.sTrackOneMusic = pTrackOneMusic;*/
 	}
 
 	public static MediaPlayer getTrackOneMusic() {
 		return sTrackOneMusic;
 	}
 
-	public static void setFastForwardMusic(MediaPlayer pFastForwardMusic) {
-		SoundManager.sFastForwardMusic = pFastForwardMusic;
+	public static void setFastForwardMusic(MediaPlayer pFastForwardMusic) {/*
+		SoundManager.sFastForwardMusic = pFastForwardMusic;*/
 	}
 
 	public static MediaPlayer getFastForwardMusic() {
 		return sFastForwardMusic;
 	}
 
-	public static void setProgressionRouteMusic(MediaPlayer pProgressionRouteMusic) {
-		SoundManager.sProgressionRouteMusic = pProgressionRouteMusic;
+	public static void setProgressionRouteMusic(MediaPlayer pProgressionRouteMusic) {/*
+		SoundManager.sProgressionRouteMusic = pProgressionRouteMusic;*/
 	}
 
 	public static MediaPlayer getProgressionRouteMusic() {
 		return sProgressionRouteMusic;
 	}
 
-	public static void setMenuMusic(MediaPlayer pMenuMusic) {
-		SoundManager.sMenuMusic = pMenuMusic;
+	public static void setMenuMusic(MediaPlayer pMenuMusic) {/*
+		SoundManager.sMenuMusic = pMenuMusic;*/
 	}
 
 	public static MediaPlayer getMenuMusic() {
