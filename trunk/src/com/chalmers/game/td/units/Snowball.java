@@ -110,9 +110,12 @@ public class Snowball extends Unit {
 	 * @param timeDelta 
 	 */
 	private void updatePosition(SensorEvent s, float timeDelta) {
-
-		double x = s.values[1];
-		double y = s.values[0];
+		double x = 0;
+		double y = 0;
+		if(s != null){
+			x = s.values[1];
+			y = s.values[0];
+		}
 		
 		setSpeedX(getSpeedX() + x);
 		setSpeedY(getSpeedY() + y);
